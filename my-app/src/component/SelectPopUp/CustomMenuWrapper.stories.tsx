@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import CustomMenu from "./CustomMenu";
+import CustomMenuWrapper from "./CustomMenuWrapper";
 
 const meta = {
-  component: CustomMenu,
+  component: CustomMenuWrapper,
   args: {
-    selector: ["SelectA", "SelectB", "SelectC"],
     onClick: () => {},
+    children: <>children</>,
     logic: {
       open: true,
       anchorEl: null,
@@ -15,7 +15,7 @@ const meta = {
       handleMouseLeave: () => {},
     },
   },
-} satisfies Meta<typeof CustomMenu>;
+} satisfies Meta<typeof CustomMenuWrapper>;
 
 export default meta;
 
