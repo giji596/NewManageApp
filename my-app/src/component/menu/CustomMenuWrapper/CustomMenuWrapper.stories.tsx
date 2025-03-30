@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-
-import CustomMenuWrapper from "../CustomMenuWrapper";
+import CustomMenuWrapper from "./CustomMenuWrapper";
 
 const meta = {
   component: CustomMenuWrapper,
   args: {
-    onClick: () => {},
     children: <>children</>,
     logic: {
       open: true,
