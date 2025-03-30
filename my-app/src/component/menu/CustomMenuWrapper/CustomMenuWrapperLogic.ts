@@ -21,14 +21,11 @@ export default function CustomMenuWrapperLogic() {
   }, []);
 
   // 一定時間後にメニューを開く関数
-  const openAfterTimeout = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      timeoutId.current = setTimeout(() => {
-        setAnchorEl(event.currentTarget);
-      }, timeOutSec);
-    },
-    []
-  );
+  const openAfterTimeout = useCallback((target: HTMLElement) => {
+    timeoutId.current = setTimeout(() => {
+      setAnchorEl(target);
+    }, timeOutSec);
+  }, []);
   // メニューの開閉のタイマーを初期化する関数
   const clearTimeoutTimer = useCallback(() => {
     if (timeoutId.current) {
@@ -49,7 +46,7 @@ export default function CustomMenuWrapperLogic() {
       // メニューが開いていない場合
       // 一定時間後にメニューを開く
     } else {
-      openAfterTimeout(event);
+      openAfterTimeout(event.currentTarget);
     }
   };
 
