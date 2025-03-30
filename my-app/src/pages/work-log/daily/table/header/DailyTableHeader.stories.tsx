@@ -7,8 +7,8 @@ const meta = {
   args: {
     isAsc: true,
     OnClickTitle: () => {},
-    OnHoverTitle: () => {},
-    OnLeaveHoverTitle: () => {},
+    onHoverTitle: () => {},
+    onLeaveHoverTitle: () => {},
   },
 } satisfies Meta<typeof DailyTableHeader>;
 
