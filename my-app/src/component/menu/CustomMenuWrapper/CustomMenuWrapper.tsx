@@ -1,4 +1,4 @@
-import { Menu } from "@mui/material";
+import { Fade, Paper, Popper } from "@mui/material";
 import CustomMenuWrapperLogic from "./CustomMenuWrapperLogic";
 import { ReactNode } from "react";
 
@@ -13,18 +13,18 @@ type Props = {
  * ホバー時/クリック時などで表示する選択のポップアップコンポーネント
  */
 export default function CustomMenuWrapper({ children, logic }: Props) {
-  const { open, anchorEl, handleClose, handleMouseEnter, handleMouseLeave } =
-    logic;
+  const { open, anchorEl, handleMouseEnter, handleMouseLeave } = logic;
   return (
-    <Menu
+    <Popper
       id="basic-menu"
       anchorEl={anchorEl}
       open={open}
-      onClose={handleClose}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {children}
-    </Menu>
+      <Fade in={open} timeout={500}>
+        <Paper>{children}</Paper>
+      </Fade>
+    </Popper>
   );
 }
