@@ -5,8 +5,6 @@ import { ReactNode } from "react";
 type Props = {
   /** 選択肢の配列 */
   children: ReactNode;
-  /** メニューアイテムをクリックした際のイベントハンドラ */
-  onClick: (select: string) => void;
   /** 基本ロジック部分 */
   logic: ReturnType<typeof CustomMenuWrapperLogic>;
 };
