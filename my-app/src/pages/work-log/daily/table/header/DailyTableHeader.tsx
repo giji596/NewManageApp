@@ -37,7 +37,7 @@ export default function DailyTableHeader({
       <TableRow>
         {Object.entries(headerColumnDisplay).map(([title, type]) => (
           // 共通設定(パディングやサイズなど)
-          <TableCell key={title} sx={{ padding: "16px 24px", minWidth: 150 }}>
+          <TableCell key={title}>
             {/** メニューを表示しない場合(日付・合計稼働時間) */}
             {type == "none" && (
               <ButtonBase
