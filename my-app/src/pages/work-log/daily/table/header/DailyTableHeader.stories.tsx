@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import DailyTableHeader from "./DailyTableHeader";
+import { Table } from "@mui/material";
 
 const meta = {
   component: DailyTableHeader,
@@ -10,6 +11,13 @@ const meta = {
     onHoverTitle: () => {},
     onLeaveHoverTitle: () => {},
   },
+  decorators: [
+    (StoryComponent) => (
+      <Table>
+        <StoryComponent />
+      </Table>
+    ),
+  ],
 } satisfies Meta<typeof DailyTableHeader>;
 
 export default meta;
