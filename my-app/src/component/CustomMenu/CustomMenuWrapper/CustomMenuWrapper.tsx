@@ -1,19 +1,20 @@
-import { Menu, MenuItem } from "@mui/material";
-import CustomMenuLogic from "./CustomMenuLogic";
+import { Menu } from "@mui/material";
+import CustomMenuWrapperLogic from "./CustomMenuWrapperLogic";
+import { ReactNode } from "react";
 
 type Props = {
   /** 選択肢の配列 */
-  selector: string[];
+  children: ReactNode;
   /** メニューアイテムをクリックした際のイベントハンドラ */
   onClick: (select: string) => void;
   /** 基本ロジック部分 */
-  logic: ReturnType<typeof CustomMenuLogic>;
+  logic: ReturnType<typeof CustomMenuWrapperLogic>;
 };
 
 /**
  * ホバー時/クリック時などで表示する選択のポップアップコンポーネント
  */
-export default function CustomMenu({ selector, onClick, logic }: Props) {
+export default function CustomMenuWrapper({ children, logic }: Props) {
   const { open, anchorEl, handleClose, handleMouseEnter, handleMouseLeave } =
     logic;
   return (
@@ -25,12 +26,7 @@ export default function CustomMenu({ selector, onClick, logic }: Props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {selector.map((select) => (
-        // TODO:クリックした際の動作を考えてなんとかする！
-        <MenuItem key={select} onClick={() => onClick(select)}>
-          {select}
-        </MenuItem>
-      ))}
+      {children}
     </Menu>
   );
 }

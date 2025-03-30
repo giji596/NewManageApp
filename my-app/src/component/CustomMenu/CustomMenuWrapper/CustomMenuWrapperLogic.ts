@@ -6,7 +6,7 @@ const timeOutSec = 500;
 /**
  * 選択賜を含むポップアップのコンポーネントのロジック部分
  */
-export default function CustomMenuLogic() {
+export default function CustomMenuWrapperLogic() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null); // useRefでタイマーを管理
   const open = Boolean(anchorEl);
