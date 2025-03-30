@@ -4,6 +4,7 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  Typography,
 } from "@mui/material";
 import { DailyTableHeaderLogic } from "./logic";
 
@@ -14,51 +15,62 @@ type Props = {
   isSelected: (title: string) => boolean;
   /** 表題をクリックした際のハンドラー */
   OnClickTitle: (title: string) => void;
-  /** 表題にホバーした際のハンドラー */
-  OnHoverTitle: (title: string) => void;
-  /** 表題のホバーを解除した際のハンドラー */
-  OnLeaveHoverTitle: (title: string) => void;
+  /** セルにホバー時のハンドラー */
+  onHoverTitle: (event: React.MouseEvent<HTMLElement>, title: string) => void;
+  /** セルにホバー解除時のハンドラー */
+  onLeaveHoverTitle: (title: string) => void;
 };
 
 /** 日ごとの一覧ページのテーブルコンポーネントのヘッダー部分 */
 export default function DailyTableHeader({
   isAsc,
+  onHoverTitle,
+  onLeaveHoverTitle,
   isSelected,
   OnClickTitle,
-  OnHoverTitle,
-  OnLeaveHoverTitle,
 }: Props) {
-  const { tableTitles } = DailyTableHeaderLogic();
+  const { headerColumnDisplay, getButtonDesign } = DailyTableHeaderLogic({
+    isSelected,
+  });
   return (
     <TableHead>
       <TableRow>
-        {tableTitles.map((title) => (
+        {Object.entries(headerColumnDisplay).map(([title, type]) => (
+          // 共通設定(パディングやサイズなど)
           <TableCell key={title} sx={{ padding: "16px 24px", minWidth: 150 }}>
-            <ButtonBase
-              onClick={() => OnClickTitle(title)}
-              onMouseEnter={() => OnHoverTitle(title)}
-              onMouseLeave={() => OnLeaveHoverTitle(title)}
-              sx={{
-                display: "inline-flex", // ラベルの大きさに合わせる
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "16px", // 楕円っぽい形
-                padding: "4px 12px",
-                transition: "background-color 0.2s",
-                backgroundColor: isSelected(title)
-                  ? "rgba(0, 0, 0, 0.07)"
-                  : "transparent",
-                "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" }, // ホバー時にグレー
-                "&:active": { backgroundColor: "rgba(0, 0, 0, 0.2)" }, // クリック時に濃いグレー
-              }}
-            >
-              <TableSortLabel
-                active={isSelected(title)}
-                direction={isSelected(title) && !isAsc ? "desc" : "asc"}
+            {/** メニューを表示しない場合(日付・合計稼働時間) */}
+            {type == "none" && (
+              <ButtonBase
+                onClick={() => OnClickTitle(title)}
+                sx={getButtonDesign(title)}
               >
-                {title}
-              </TableSortLabel>
-            </ButtonBase>
+                <TableSortLabel
+                  active={isSelected(title)}
+                  direction={isSelected(title) && !isAsc ? "desc" : "asc"}
+                >
+                  {title}
+                </TableSortLabel>
+              </ButtonBase>
+            )}
+
+            {/** チェックボックスメニューを表示する場合(カテゴリ・タスク) */}
+            {type == "checkbox" && (
+              <ButtonBase
+                onClick={() => OnClickTitle(title)}
+                onMouseEnter={(event) => onHoverTitle(event, title)}
+                onMouseLeave={() => onLeaveHoverTitle(title)}
+                sx={getButtonDesign(title)}
+              >
+                <TableSortLabel
+                  active={isSelected(title)}
+                  direction={isSelected(title) && !isAsc ? "desc" : "asc"}
+                >
+                  {title}
+                </TableSortLabel>
+              </ButtonBase>
+            )}
+            {/** メニュー表示もソートもできない(メモ) */}
+            {type == "title" && <Typography>{title}</Typography>}
           </TableCell>
         ))}
       </TableRow>
