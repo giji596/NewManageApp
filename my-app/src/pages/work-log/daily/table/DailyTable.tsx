@@ -19,11 +19,13 @@ import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenu
 type Props = {
   /** アイテム */
   itemList: DateSummary[];
+  /** rowをクリックした際のページナビゲーションのハンドラー */
+  onClickRow: (id: number) => void;
 };
 /**
  * 日付ページのテーブルコンポーネント
  */
-export default function DailyTable({ itemList }: Props) {
+export default function DailyTable({ itemList, onClickRow }: Props) {
   const {
     isAsc,
     taskFilterList,
@@ -57,7 +59,7 @@ export default function DailyTable({ itemList }: Props) {
                 <TableRow
                   key={item.id}
                   hover
-                  onClick={() => {}}
+                  onClick={() => onClickRow(item.id)}
                   sx={{
                     cursor: "pointer",
                   }}
