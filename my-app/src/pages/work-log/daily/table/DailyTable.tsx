@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
+import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenuTitle";
 
 type Props = {
   /** アイテム */
@@ -23,9 +24,19 @@ type Props = {
  * 日付ページのテーブルコンポーネント
  */
 export default function DailyTable({ itemList }: Props) {
-  const { isAsc, isSelected, handleSetSortTarget, doSortByTitle } =
-    DailyTableLogic();
-  const { handleMouseEnter, handleMouseLeave, ...prev } =
+  const {
+    isAsc,
+    taskFilterList,
+    categoryFilterList,
+    isSelected,
+    handleSetSortTarget,
+    doSortByTitle,
+    getMemoTitleArrayById,
+    toggleCategoryFilterCheckBox,
+    toggleTaskFilterCheckBox,
+    doFilterByFilterList,
+  } = DailyTableLogic({ itemList });
+  const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   return (
     <>
@@ -40,6 +51,7 @@ export default function DailyTable({ itemList }: Props) {
           />
           <TableBody>
             {itemList
+              .filter((item) => doFilterByFilterList(item))
               .sort((a, b) => doSortByTitle(a, b))
               .map((item) => (
                 <TableRow
@@ -136,13 +148,28 @@ export default function DailyTable({ itemList }: Props) {
       </TableContainer>
       {/** カスタムメニューの面々   TODO: 条件分岐させる(メモのやつかどっちか) */}
       <CustomMenuWrapper
-        logic={{ handleMouseEnter, handleMouseLeave, ...prev }}
+        logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
       >
-        <CustomMenuCheckBox
-          checkList={{ aaa: false, bbb: false }}
-          onClickSelect={() => {}}
-        />
-        {/* <CustomMenuTitle titleList={["メモタイトル1", "メモタイトル2"]} /> */}
+        {/** カテゴリメニューの場合 */}
+        {openTargetIdRef.current === 10000 && (
+          <CustomMenuCheckBox
+            checkList={categoryFilterList}
+            onClickSelect={toggleCategoryFilterCheckBox}
+          />
+        )}
+        {/** タスクメニューの場合 */}
+        {openTargetIdRef.current === 10001 && (
+          <CustomMenuCheckBox
+            checkList={taskFilterList}
+            onClickSelect={toggleTaskFilterCheckBox}
+          />
+        )}
+        {/** メモの場合 */}
+        {![10000, 10001].includes(openTargetIdRef.current) && (
+          <CustomMenuTitle
+            titleList={getMemoTitleArrayById(openTargetIdRef.current)}
+          />
+        )}
       </CustomMenuWrapper>
     </>
   );
