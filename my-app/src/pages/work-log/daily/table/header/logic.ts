@@ -37,10 +37,20 @@ export const DailyTableHeaderLogic = ({ isSelected }: Props) => {
     [isSelected]
   );
 
+  const getPopperIdRef = useCallback(
+    (title: string) => (title == "メインカテゴリ" ? 10000 : 10001),
+    []
+  );
+
   return {
     /** key:テーブルのタイトル名 value:ホバー時のメニュー表示の設定 のオブジェクト */
     headerColumnDisplay,
     /** ボタンのデザイン情報を取得する関数 */
     getButtonDesign,
+    /** ポッパー用のidRefを取得する関数
+     * メインカテゴリ:10000
+     * メインタスク:10001
+     */
+    getPopperIdRef,
   };
 };

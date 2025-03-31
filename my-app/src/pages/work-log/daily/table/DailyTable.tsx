@@ -93,8 +93,8 @@ export default function DailyTable({ itemList }: Props) {
                     transition: "background 0.5s",
                     "&:hover": { backgroundColor: "rgba(31, 158, 255, 0.37)" },
                   }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={(e) => handleMouseEnter(item.id, e)}
+                  onMouseLeave={() => handleMouseLeave(item.id)}
                 >
                   <Typography
                     sx={{

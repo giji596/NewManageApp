@@ -16,9 +16,9 @@ type Props = {
   /** 表題をクリックした際のハンドラー */
   OnClickTitle: (title: string) => void;
   /** セルにホバー時のハンドラー */
-  onHoverTitle: (event: React.MouseEvent<HTMLElement>, title: string) => void;
+  onHoverTitle: (id: number, event: React.MouseEvent<HTMLElement>) => void;
   /** セルにホバー解除時のハンドラー */
-  onLeaveHoverTitle: (title: string) => void;
+  onLeaveHoverTitle: (id: number) => void;
 };
 
 /** 日ごとの一覧ページのテーブルコンポーネントのヘッダー部分 */
@@ -29,9 +29,10 @@ export default function DailyTableHeader({
   isSelected,
   OnClickTitle,
 }: Props) {
-  const { headerColumnDisplay, getButtonDesign } = DailyTableHeaderLogic({
-    isSelected,
-  });
+  const { headerColumnDisplay, getButtonDesign, getPopperIdRef } =
+    DailyTableHeaderLogic({
+      isSelected,
+    });
   return (
     <TableHead>
       <TableRow>
@@ -57,8 +58,10 @@ export default function DailyTableHeader({
             {type == "checkbox" && (
               <ButtonBase
                 onClick={() => OnClickTitle(title)}
-                onMouseEnter={(event) => onHoverTitle(event, title)}
-                onMouseLeave={() => onLeaveHoverTitle(title)}
+                onMouseEnter={(event) =>
+                  onHoverTitle(getPopperIdRef(title), event)
+                }
+                onMouseLeave={() => onLeaveHoverTitle(getPopperIdRef(title))}
                 sx={getButtonDesign(title)}
               >
                 <TableSortLabel
