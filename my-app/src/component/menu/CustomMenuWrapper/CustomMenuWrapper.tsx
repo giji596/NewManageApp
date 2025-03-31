@@ -13,14 +13,20 @@ type Props = {
  * ホバー時/クリック時などで表示する選択のポップアップコンポーネント
  */
 export default function CustomMenuWrapper({ children, logic }: Props) {
-  const { open, anchorEl, handleMouseEnter, handleMouseLeave } = logic;
+  const {
+    open,
+    anchorEl,
+    openTargetIdRef,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = logic;
   return (
     <Popper
       id="basic-menu"
       anchorEl={anchorEl}
       open={open}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={(e) => handleMouseEnter(openTargetIdRef.current, e)}
+      onMouseLeave={() => handleMouseLeave(openTargetIdRef.current)}
     >
       <Fade in={open} timeout={500}>
         <Paper>{children}</Paper>
