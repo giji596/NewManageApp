@@ -24,14 +24,28 @@ type Props = {
   }[];
   /** メモのタイトル一覧 */
   memoList: { id: number; title: string }[];
-  /** ダイアログの固有ロジック群 */
+  /** このダイアログの固有ロジック群 */
   logic: ReturnType<typeof DataDialogLogic>;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
 export default function DateDialog({ categoryList, memoList, logic }: Props) {
-  const { open, radioSelect, onClose, onChangeRadioSelect } = logic;
+  const {
+    open,
+    radioSelect,
+    selectYear,
+    selectMonth,
+    selectDay,
+    selectableYearArray,
+    selectableMonthArray,
+    selectableDayArray,
+    onClose,
+    onChangeRadioSelect,
+    onSelectYear,
+    onSelectMonth,
+    onSelectDay,
+  } = logic;
   return (
     <Dialog open={open} onClose={onClose}>
       <Stack width="500px" height="300px" p={3} spacing={7}>
@@ -60,15 +74,48 @@ export default function DateDialog({ categoryList, memoList, logic }: Props) {
           </FormControl>
           {/** 日付フォーム */}
           <Stack direction="row" spacing={2}>
-            {["年", "月", "日"].map((v) => (
-              <FormControl key={v} variant="standard" sx={{ minWidth: 90 }}>
-                <InputLabel>{v}</InputLabel>
-                <Select value="仮データ" label={v}>
-                  {v === "年"}
-                  <MenuItem value="仮データ">{v}</MenuItem>
-                </Select>
-              </FormControl>
-            ))}
+            <FormControl variant="standard" sx={{ minWidth: 90 }}>
+              <InputLabel>年</InputLabel>
+              <Select
+                onChange={onSelectYear}
+                value={String(selectYear)}
+                label="年"
+              >
+                {selectableYearArray.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{ minWidth: 90 }}>
+              <InputLabel>月</InputLabel>
+              <Select
+                onChange={onSelectMonth}
+                value={String(selectMonth)}
+                label="年"
+              >
+                {selectableMonthArray.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{ minWidth: 90 }}>
+              <InputLabel>日</InputLabel>
+              <Select
+                onChange={onSelectDay}
+                value={String(selectDay)}
+                label="年"
+              >
+                {selectableDayArray.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
         </Stack>
         {/** 下半分 */}
