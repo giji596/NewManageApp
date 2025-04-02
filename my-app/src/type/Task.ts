@@ -47,3 +47,14 @@ export type TaskDetails = {
 };
 
 export type TaskWithPercentage = { id: number; name: string; percent: string };
+
+export type DailyDetailTaskTableType = {
+  /** 識別用(タスクの) */
+  id: number;
+  /** タスク名 */
+  name: string;
+  /** カテゴリ名 */
+  categoryName: string;
+  /** 稼働時間 */
+  dailyHours: number;
+};
