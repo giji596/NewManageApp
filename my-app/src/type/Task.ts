@@ -46,14 +46,4 @@ export type TaskDetails = {
   memo: MemoSummary[];
 };
 
-/** １日のタスクの実績の型定義 */
-export type TaskLog = {
-  /** 識別用のid */
-  id: number;
-  /** タスク名 */
-  name: string;
-  /** タスクの稼働時間 */
-  workHours: number;
-  /** タスクのメモ */
-  memo: MemoSummary;
-};
+export type TaskWithPercentage = { id: number; name: string; percent: string };

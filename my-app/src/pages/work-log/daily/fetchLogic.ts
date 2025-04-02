@@ -5,6 +5,7 @@ import {
 } from "@/dummy/daily-page";
 import { useCallback, useRef } from "react";
 import { yesterdayDate, yesterdayMonth, yesterdayYear } from "./dialog/params";
+import { DateDetail } from "@/type/Date";
 
 /**
  * DailyPageのフェッチ関連のロジック
@@ -16,9 +17,10 @@ export default function DailyPageFetchLogic() {
   // TODO:SWRで取得
   const itemList = DUMMY_DAILY_SUMMARY_DATA;
   const isLoadingItemList = false;
-  const detailData = {
+  const detailData: DateDetail = {
     /** ここのidは元データのid(ナビゲート時に使用するため必須) */
     id: 0,
+    date: new Date(),
     categoryList: DUMMY_DAILY_CATEGORY_LIST,
     memoList: DUMMY_MEMO_LIST,
   };

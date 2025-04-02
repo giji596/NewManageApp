@@ -14,21 +14,11 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
+import { DateDetail } from "@/type/Date";
 
 type Props = {
   /** 特定の日付詳細データのダイアログ用データ */
-  dateDetails: {
-    id: number;
-    /** タスクの概要の配列 */
-    categoryList: {
-      id: number;
-      name: string;
-      taskList: { id: number; name: string; percent: string }[];
-      percent: string;
-    }[];
-    /** メモのタイトル一覧 */
-    memoList: { id: number; title: string }[];
-  };
+  dateDetails: DateDetail;
   /** このダイアログの固有ロジック群 */
   logic: ReturnType<typeof DataDialogLogic>;
   /** ロード状態か */
