@@ -16,28 +16,34 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
 
 type Props = {
-  /** タスクの概要の配列 */
-  categoryList: {
+  /** 特定の日付詳細データのダイアログ用データ */
+  dateDetails: {
     id: number;
-    name: string;
-    taskList: { id: number; name: string; percent: string }[];
-    percent: string;
-  }[];
-  /** メモのタイトル一覧 */
-  memoList: { id: number; title: string }[];
+    /** タスクの概要の配列 */
+    categoryList: {
+      id: number;
+      name: string;
+      taskList: { id: number; name: string; percent: string }[];
+      percent: string;
+    }[];
+    /** メモのタイトル一覧 */
+    memoList: { id: number; title: string }[];
+  };
   /** このダイアログの固有ロジック群 */
   logic: ReturnType<typeof DataDialogLogic>;
   /** ロード状態か */
   isLoading: boolean;
+  /** ページを移動する関数 */
+  navigatePage: (id: number) => void;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
 export default function DateDialog({
-  categoryList,
-  memoList,
+  dateDetails,
   logic,
   isLoading,
+  navigatePage,
 }: Props) {
   const {
     open,
@@ -149,7 +155,7 @@ export default function DateDialog({
             )}
             {/** カテゴリ+タスクごとの塊 */}
             {!isLoading &&
-              categoryList.map((item) => (
+              dateDetails.categoryList.map((item) => (
                 <Stack key={item.id} pb={0.5}>
                   {/* カテゴリタイトル */}
                   <Stack
@@ -203,7 +209,7 @@ export default function DateDialog({
               )}
               {!isLoading && <Typography variant="subtitle1">メモ</Typography>}
               {!isLoading &&
-                memoList.map((item) => (
+                dateDetails.memoList.map((item) => (
                   <Typography key={item.id} pl={4} variant="caption">
                     {item.title}
                   </Typography>
@@ -213,7 +219,7 @@ export default function DateDialog({
               <Button
                 onClick={() => {
                   onClose();
-                  // TODO:ナビゲーション関連の関数もいる！
+                  navigatePage(dateDetails.id);
                 }}
                 startIcon={<ArrowCircleRightIcon />}
               >
