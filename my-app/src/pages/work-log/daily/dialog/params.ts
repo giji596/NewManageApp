@@ -1,5 +1,8 @@
 import { getDate, getDaysInMonth, getMonth, getYear, subDays } from "date-fns";
 
+// 今日
+const today = new Date();
+
 /** 今年 */
 export const currentYear = getYear(new Date());
 
@@ -10,6 +13,18 @@ export const currentMonth = getMonth(new Date()) + 1;
 export const currentDate = getDate(new Date()); // 例: 31
 /** 昨日 */
 export const yesterday = getDate(subDays(new Date(), 1)); // 例: 31
+
+/** 昨日 */
+const yesterdayFullDate = subDays(today, 1);
+export const yesterdayYear = getYear(yesterdayFullDate);
+export const yesterdayMonth = getMonth(yesterdayFullDate) + 1; // 0-based month, so +1
+export const yesterdayDate = getDate(yesterdayFullDate);
+
+/** 一昨日 */
+const dayBeforeYesterdayFullDate = subDays(today, 2);
+export const dayBeforeYesterdayYear = getYear(dayBeforeYesterdayFullDate);
+export const dayBeforeYesterdayMonth = getMonth(dayBeforeYesterdayFullDate) + 1; // 0-based month, so +1
+export const dayBeforeYesterdayDate = getDate(dayBeforeYesterdayFullDate);
 
 /** 年の選択肢の配列(2015年~今の年)を取得する関数 */
 export const getYearSelectArray = () => {

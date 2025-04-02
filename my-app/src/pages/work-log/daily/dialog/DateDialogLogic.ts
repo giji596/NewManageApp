@@ -1,12 +1,15 @@
-import { SelectChangeEvent } from "@mui/material";
+import { debounce, SelectChangeEvent } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import {
-  currentMonth,
-  currentYear,
+  dayBeforeYesterdayDate,
+  dayBeforeYesterdayMonth,
+  dayBeforeYesterdayYear,
   getDaySelectArray,
   getMonthSelectArray,
   getYearSelectArray,
-  yesterday,
+  yesterdayDate,
+  yesterdayMonth,
+  yesterdayYear,
 } from "./params";
 
 /**
@@ -19,15 +22,30 @@ const RadioSelectSet = ["昨日", "一昨日", "指定する"] as const;
  */
 type RadioSelect = (typeof RadioSelectSet)[number];
 
+type Props = {
+  /** データフェッチする関数 */
+  onFetchData: (params: {
+    year?: number;
+    month?: number;
+    day?: number;
+  }) => void;
+};
 /**
  * 日付ダイアログコンポーネントのロジック
  */
-export default function DataDialogLogic() {
+export default function DataDialogLogic({ onFetchData }: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [radioSelect, setRadioSelect] = useState<RadioSelect>("昨日");
-  const [selectYear, setSelectYear] = useState<number>(currentYear);
-  const [selectMonth, setSelectMonth] = useState<number>(currentMonth);
-  const [selectDay, setSelectDay] = useState<number>(yesterday);
+  const [selectYear, setSelectYear] = useState<number>(yesterdayYear);
+  const [selectMonth, setSelectMonth] = useState<number>(yesterdayMonth);
+  const [selectDay, setSelectDay] = useState<number>(yesterdayDate);
+
+  const debouncedFetch = debounce(
+    (params: { year?: number; month?: number; day?: number }) => {
+      onFetchData(params);
+    },
+    1000
+  );
 
   const selectableYearArray = useMemo(() => getYearSelectArray(), []);
   const selectableMonthArray = useMemo(
@@ -51,27 +69,65 @@ export default function DataDialogLogic() {
       const target = e.target.value;
       if ((RadioSelectSet as readonly string[]).includes(target)) {
         setRadioSelect(target as RadioSelect);
+        // 値によって、データフェッチを行う
+        switch (target) {
+          case "昨日":
+            onFetchData({
+              year: yesterdayYear,
+              month: yesterdayMonth,
+              day: yesterdayDate,
+            });
+            break;
+          case "一昨日":
+            onFetchData({
+              year: dayBeforeYesterdayYear,
+              month: dayBeforeYesterdayMonth,
+              day: dayBeforeYesterdayDate,
+            });
+            break;
+          case "指定する":
+            onFetchData({
+              year: selectYear,
+              month: selectMonth,
+              day: selectDay,
+            });
+            break;
+          default:
+            console.log("ターゲット外なので、どっかおかしい?");
+        }
       } else {
         console.log("ラジオボタンに型定義外の値が与えられとる"); // FIXME:リリース時には削除
       }
     },
-    []
+    [onFetchData, selectDay, selectMonth, selectYear]
   );
 
-  const onSelectYear = useCallback((e: SelectChangeEvent) => {
-    const target = e.target.value;
-    setSelectYear(Number(target));
-  }, []);
+  const onSelectYear = useCallback(
+    (e: SelectChangeEvent) => {
+      const target = e.target.value;
+      setSelectYear(Number(target));
+      debouncedFetch({ year: Number(target) });
+    },
+    [debouncedFetch]
+  );
 
-  const onSelectMonth = useCallback((e: SelectChangeEvent) => {
-    const target = e.target.value;
-    setSelectMonth(Number(target));
-  }, []);
+  const onSelectMonth = useCallback(
+    (e: SelectChangeEvent) => {
+      const target = e.target.value;
+      setSelectMonth(Number(target));
+      debouncedFetch({ month: Number(target) });
+    },
+    [debouncedFetch]
+  );
 
-  const onSelectDay = useCallback((e: SelectChangeEvent) => {
-    const target = e.target.value;
-    setSelectDay(Number(target));
-  }, []);
+  const onSelectDay = useCallback(
+    (e: SelectChangeEvent) => {
+      const target = e.target.value;
+      setSelectDay(Number(target));
+      debouncedFetch({ day: Number(target) });
+    },
+    [debouncedFetch]
+  );
 
   return {
     /** 開閉状態 */
