@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import DataDialogLogic from "./DateDialogLogic";
 
 type Props = {
   /** タスクの概要の配列 */
@@ -23,13 +24,16 @@ type Props = {
   }[];
   /** メモのタイトル一覧 */
   memoList: { id: number; title: string }[];
+  /** ダイアログの固有ロジック群 */
+  logic: typeof DataDialogLogic;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
-export default function DateDialog({ categoryList, memoList }: Props) {
+export default function DateDialog({ categoryList, memoList, logic }: Props) {
+  const { open, onClose } = logic();
   return (
-    <Dialog open={true}>
+    <Dialog open={open} onClose={onClose}>
       <Stack width="500px" height="300px" p={3} spacing={7}>
         {/** 上半分 */}
         <Stack height="25%">
@@ -125,7 +129,15 @@ export default function DateDialog({ categoryList, memoList }: Props) {
               ))}
             </Stack>
             <Stack width="50%" alignSelf={"center"}>
-              <Button startIcon={<ArrowCircleRightIcon />}>移動</Button>
+              <Button
+                onClick={() => {
+                  onClose();
+                  // TODO:ナビゲーション関連の関数もいる！
+                }}
+                startIcon={<ArrowCircleRightIcon />}
+              >
+                移動
+              </Button>
             </Stack>
           </Stack>
         </Stack>
