@@ -2,48 +2,51 @@ import { Stack } from "@mui/material";
 import DailyHeader from "./header/DailyHeader";
 import DailyTable from "./table/DailyTable";
 import DateDialog from "./dialog/DateDialog";
-import { DUMMY_DAILY_SUMMARY_DATA } from "@/dummy/daily-page";
+import DataDialogLogic from "./dialog/DateDialogLogic";
+import DailyPageFetchLogic from "./fetchLogic";
+import DailyPageNavigationLogic from "./navigationLogic";
 
 /**
  * DailyPage
  */
 export default function DailyPage() {
+  const { onOpen, ...prevDialogLogic } = DataDialogLogic();
+  const { itemList, isLoadingItemList, detailData, isLoadingDetail } =
+    DailyPageFetchLogic();
+  const {
+    displayYear,
+    displayMonth,
+    handlePrevMonth,
+    handleNextMonth,
+    handleChangeYear,
+    handleChangeMonth,
+    handleNavigateToday,
+    handleNavigateSelectedDay,
+  } = DailyPageNavigationLogic();
   return (
     <>
       <Stack spacing={2}>
         <DailyHeader
-          displayYear=""
-          displayMonth=""
-          isLoading={false}
-          handlePrev={() => {}}
-          handleNext={() => {}}
-          handleYearChange={() => {}}
-          handleMonthChange={() => {}}
-          onClickEditToday={() => {}}
-          onClickEditSelectDate={() => {}}
+          displayYear={displayYear}
+          displayMonth={displayMonth}
+          isLoading={isLoadingItemList}
+          handlePrev={handlePrevMonth}
+          handleNext={handleNextMonth}
+          handleYearChange={handleChangeYear}
+          handleMonthChange={handleChangeMonth}
+          onClickEditToday={handleNavigateToday}
+          onClickEditSelectDate={onOpen}
         />
-        <DailyTable itemList={DUMMY_DAILY_SUMMARY_DATA} onClickRow={() => {}} />
+        <DailyTable
+          itemList={itemList}
+          onClickRow={handleNavigateSelectedDay}
+        />
       </Stack>
       <DateDialog
-        categoryList={[]}
-        memoList={[]}
-        logic={{
-          open: false,
-          radioSelect: "一昨日",
-          selectYear: 2025,
-          selectMonth: 4,
-          selectDay: 1,
-          selectableYearArray: [],
-          selectableMonthArray: [],
-          selectableDayArray: [],
-          onClose: () => {},
-          onOpen: () => {},
-          onChangeRadioSelect: () => {},
-          onSelectYear: () => {},
-          onSelectMonth: () => {},
-          onSelectDay: () => {},
-        }}
-        isLoading={false}
+        categoryList={detailData.categoryList}
+        memoList={detailData.memoList}
+        logic={{ onOpen, ...prevDialogLogic }}
+        isLoading={isLoadingDetail}
       />
     </>
   );
