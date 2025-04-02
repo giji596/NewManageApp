@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -19,13 +20,15 @@ import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenu
 type Props = {
   /** アイテム */
   itemList: DateSummary[];
+  /** ロード状態か */
+  isLoading: boolean;
   /** rowをクリックした際のページナビゲーションのハンドラー */
   onClickRow: (id: number) => void;
 };
 /**
  * 日付ページのテーブルコンポーネント
  */
-export default function DailyTable({ itemList, onClickRow }: Props) {
+export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
   const {
     isAsc,
     taskFilterList,
@@ -52,99 +55,145 @@ export default function DailyTable({ itemList, onClickRow }: Props) {
             onLeaveHoverTitle={handleMouseLeave}
           />
           <TableBody>
-            {itemList
-              .filter((item) => doFilterByFilterList(item))
-              .sort((a, b) => doSortByTitle(a, b))
-              .map((item) => (
-                <TableRow
-                  key={item.id}
-                  hover
-                  onClick={() => onClickRow(item.id)}
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                >
-                  {/** 日付 */}
+            {isLoading && (
+              <>
+                <TableRow>
                   <TableCell
-                    sx={{
-                      maxWidth: "150px", // 幅
-                      width: "150px", // 幅
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                    }}
+                    colSpan={5}
+                    sx={{ height: "200px" }}
+                    align="center"
                   >
-                    <Typography>{format(item.date, "yyyy-MM-dd")}</Typography>
+                    <CircularProgress />
                   </TableCell>
-                  {/** メインカテゴリ */}
+                </TableRow>
+                {/* カラムの幅を維持するための透明なダミー行 */}
+                <TableRow style={{ border: "none", height: 0 }}>
+                  {[...Array(5)].map((_, index) => (
+                    <TableCell
+                      key={index}
+                      sx={{ width: "20%", border: "none" }}
+                    />
+                  ))}
+                </TableRow>
+              </>
+            )}
+            {!isLoading && itemList.length === 0 && (
+              <>
+                <TableRow>
                   <TableCell
-                    sx={{
-                      maxWidth: "150px", // 幅
-                      width: "150px", // 幅
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                    }}
+                    colSpan={5}
+                    align="center"
+                    sx={{ height: "200px" }}
                   >
-                    {item.categoryName}
+                    データがありません
                   </TableCell>
-                  {/** メインタスク */}
-                  <TableCell
+                </TableRow>
+                {/* カラムの幅を維持するための透明なダミー行 */}
+                <TableRow style={{ border: "none", height: 0 }}>
+                  {[...Array(5)].map((_, index) => (
+                    <TableCell
+                      key={index}
+                      sx={{ width: "20%", border: "none" }}
+                    />
+                  ))}
+                </TableRow>
+              </>
+            )}
+            {!isLoading &&
+              itemList.length > 0 &&
+              itemList
+                .filter((item) => doFilterByFilterList(item))
+                .sort((a, b) => doSortByTitle(a, b))
+                .map((item) => (
+                  <TableRow
+                    key={item.id}
+                    hover
+                    onClick={() => onClickRow(item.id)}
                     sx={{
-                      maxWidth: "150px", // 幅
-                      width: "150px", // 幅
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
+                      cursor: "pointer",
                     }}
                   >
-                    {item.taskName}
-                  </TableCell>
-                  {/** メモ(0番目のめもを表示)  TODO:展開できるようにする*/}
-                  <TableCell
-                    sx={{
-                      maxWidth: "150px", // 幅
-                      width: "150px", // 幅
-                      gap: 2,
-                      borderRadius: "4px",
-                      transition: "background 0.5s",
-                      "&:hover": {
-                        backgroundColor: "rgba(31, 158, 255, 0.37)",
-                      },
-                    }}
-                    onMouseEnter={(e) => handleMouseEnter(item.id, e)}
-                    onMouseLeave={() => handleMouseLeave(item.id)}
-                  >
-                    <Typography
+                    {/** 日付 */}
+                    <TableCell
                       sx={{
+                        maxWidth: "20%", // 幅
+                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.memo[0].title}
-                    </Typography>
-                    <KeyboardArrowDownIcon
+                      <Typography>{format(item.date, "yyyy-MM-dd")}</Typography>
+                    </TableCell>
+                    {/** メインカテゴリ */}
+                    <TableCell
                       sx={{
-                        opacity: 0.6,
-                        fontSize: 20,
+                        maxWidth: "20%", // 幅
+                        width: "20%", // 幅
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
                       }}
-                    />
-                  </TableCell>
-                  {/** 稼働合計 */}
-                  <TableCell
-                    sx={{
-                      maxWidth: "150px", // 幅
-                      width: "150px", // 幅
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <Typography>{item.dailyHours}</Typography>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    >
+                      {item.categoryName}
+                    </TableCell>
+                    {/** メインタスク */}
+                    <TableCell
+                      sx={{
+                        maxWidth: "20%", // 幅
+                        width: "20%", // 幅
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {item.taskName}
+                    </TableCell>
+                    {/** メモ(0番目のめもを表示)  TODO:展開できるようにする*/}
+                    <TableCell
+                      sx={{
+                        maxWidth: "20%", // 幅
+                        width: "20%", // 幅
+                        gap: 2,
+                        borderRadius: "4px",
+                        transition: "background 0.5s",
+                        "&:hover": {
+                          backgroundColor: "rgba(31, 158, 255, 0.37)",
+                        },
+                      }}
+                      onMouseEnter={(e) => handleMouseEnter(item.id, e)}
+                      onMouseLeave={() => handleMouseLeave(item.id)}
+                    >
+                      <Typography
+                        sx={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item.memo[0].title}
+                      </Typography>
+                      <KeyboardArrowDownIcon
+                        sx={{
+                          opacity: 0.6,
+                          fontSize: 20,
+                        }}
+                      />
+                    </TableCell>
+                    {/** 稼働合計 */}
+                    <TableCell
+                      sx={{
+                        maxWidth: "20%", // 幅
+                        width: "20%", // 幅
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      <Typography>{item.dailyHours}</Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>

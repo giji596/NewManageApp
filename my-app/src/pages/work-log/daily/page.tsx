@@ -40,6 +40,7 @@ export default function DailyPage() {
         <DailyTable
           itemList={itemList}
           onClickRow={handleNavigateSelectedDay}
+          isLoading={isLoadingItemList}
         />
       </Stack>
       <DateDialog
