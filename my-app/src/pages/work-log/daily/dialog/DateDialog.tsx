@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Dialog,
   FormControl,
   FormControlLabel,
@@ -26,11 +27,18 @@ type Props = {
   memoList: { id: number; title: string }[];
   /** このダイアログの固有ロジック群 */
   logic: ReturnType<typeof DataDialogLogic>;
+  /** ロード状態か */
+  isLoading: boolean;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
-export default function DateDialog({ categoryList, memoList, logic }: Props) {
+export default function DateDialog({
+  categoryList,
+  memoList,
+  logic,
+  isLoading,
+}: Props) {
   const {
     open,
     radioSelect,
@@ -74,7 +82,11 @@ export default function DateDialog({ categoryList, memoList, logic }: Props) {
           </FormControl>
           {/** 日付フォーム */}
           <Stack direction="row" spacing={2}>
-            <FormControl variant="standard" sx={{ minWidth: 90 }}>
+            <FormControl
+              disabled={!(radioSelect == "指定する")}
+              variant="standard"
+              sx={{ minWidth: 90 }}
+            >
               <InputLabel>年</InputLabel>
               <Select
                 onChange={onSelectYear}
@@ -88,7 +100,11 @@ export default function DateDialog({ categoryList, memoList, logic }: Props) {
                 ))}
               </Select>
             </FormControl>
-            <FormControl variant="standard" sx={{ minWidth: 90 }}>
+            <FormControl
+              disabled={!(radioSelect == "指定する")}
+              variant="standard"
+              sx={{ minWidth: 90 }}
+            >
               <InputLabel>月</InputLabel>
               <Select
                 onChange={onSelectMonth}
@@ -102,7 +118,11 @@ export default function DateDialog({ categoryList, memoList, logic }: Props) {
                 ))}
               </Select>
             </FormControl>
-            <FormControl variant="standard" sx={{ minWidth: 90 }}>
+            <FormControl
+              disabled={!(radioSelect == "指定する")}
+              variant="standard"
+              sx={{ minWidth: 90 }}
+            >
               <InputLabel>日</InputLabel>
               <Select
                 onChange={onSelectDay}
@@ -122,60 +142,72 @@ export default function DateDialog({ categoryList, memoList, logic }: Props) {
         <Stack height="55%" direction="row">
           {/** 左下 */}
           <Stack width="50%" overflow={"auto"} spacing={1}>
+            {isLoading && (
+              <Stack alignItems={"center"} pt={5}>
+                <CircularProgress />
+              </Stack>
+            )}
             {/** カテゴリ+タスクごとの塊 */}
-            {categoryList.map((item) => (
-              <Stack key={item.id} pb={0.5}>
-                {/* カテゴリタイトル */}
-                <Stack
-                  direction={"row"}
-                  justifyContent={"space-between"}
-                  pr={5}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    textOverflow={"ellipsis"}
-                    whiteSpace={"nowrap"}
-                    maxWidth={"70%"}
-                    overflow={"hidden"}
-                  >
-                    {item.name}
-                  </Typography>
-                  <Typography variant="subtitle2">{item.percent}</Typography>
-                </Stack>
-                {/* タスクタイトル */}
-                {item.taskList.map((task) => (
+            {!isLoading &&
+              categoryList.map((item) => (
+                <Stack key={item.id} pb={0.5}>
+                  {/* カテゴリタイトル */}
                   <Stack
-                    key={task.id}
                     direction={"row"}
                     justifyContent={"space-between"}
                     pr={5}
                   >
                     <Typography
-                      pl={5}
-                      variant="caption"
+                      variant="subtitle2"
                       textOverflow={"ellipsis"}
                       whiteSpace={"nowrap"}
                       maxWidth={"70%"}
                       overflow={"hidden"}
                     >
-                      {task.name}
+                      {item.name}
                     </Typography>
-                    <Typography variant="caption">{task.percent}</Typography>
+                    <Typography variant="subtitle2">{item.percent}</Typography>
                   </Stack>
-                ))}
-              </Stack>
-            ))}
+                  {/* タスクタイトル */}
+                  {item.taskList.map((task) => (
+                    <Stack
+                      key={task.id}
+                      direction={"row"}
+                      justifyContent={"space-between"}
+                      pr={5}
+                    >
+                      <Typography
+                        pl={5}
+                        variant="caption"
+                        textOverflow={"ellipsis"}
+                        whiteSpace={"nowrap"}
+                        maxWidth={"70%"}
+                        overflow={"hidden"}
+                      >
+                        {task.name}
+                      </Typography>
+                      <Typography variant="caption">{task.percent}</Typography>
+                    </Stack>
+                  ))}
+                </Stack>
+              ))}
           </Stack>
           {/** 右下 */}
           <Stack width="50%" justifyContent={"space-between"}>
             {/** メモのところ */}
             <Stack height="70%" overflow="auto" pl={2}>
-              <Typography variant="subtitle1">メモ</Typography>
-              {memoList.map((item) => (
-                <Typography key={item.id} pl={4} variant="caption">
-                  {item.title}
-                </Typography>
-              ))}
+              {isLoading && (
+                <Stack alignItems={"center"} pt={2}>
+                  <CircularProgress />
+                </Stack>
+              )}
+              {!isLoading && <Typography variant="subtitle1">メモ</Typography>}
+              {!isLoading &&
+                memoList.map((item) => (
+                  <Typography key={item.id} pl={4} variant="caption">
+                    {item.title}
+                  </Typography>
+                ))}
             </Stack>
             <Stack width="50%" alignSelf={"center"}>
               <Button
