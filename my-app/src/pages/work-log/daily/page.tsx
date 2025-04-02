@@ -10,9 +10,13 @@ import DailyPageNavigationLogic from "./navigationLogic";
  * DailyPage
  */
 export default function DailyPage() {
-  const { onOpen, ...prevDialogLogic } = DataDialogLogic();
-  const { itemList, isLoadingItemList, detailData, isLoadingDetail } =
-    DailyPageFetchLogic();
+  const {
+    itemList,
+    isLoadingItemList,
+    detailData,
+    isLoadingDetail,
+    onFetchDetails,
+  } = DailyPageFetchLogic();
   const {
     displayYear,
     displayMonth,
@@ -23,6 +27,9 @@ export default function DailyPage() {
     handleNavigateToday,
     handleNavigateSelectedDay,
   } = DailyPageNavigationLogic();
+  const { onOpen, ...prevDialogLogic } = DataDialogLogic({
+    onFetchData: onFetchDetails,
+  });
   return (
     <>
       <Stack spacing={2}>
