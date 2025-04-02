@@ -25,13 +25,13 @@ type Props = {
   /** メモのタイトル一覧 */
   memoList: { id: number; title: string }[];
   /** ダイアログの固有ロジック群 */
-  logic: typeof DataDialogLogic;
+  logic: ReturnType<typeof DataDialogLogic>;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
 export default function DateDialog({ categoryList, memoList, logic }: Props) {
-  const { open, onClose } = logic();
+  const { open, radioSelect, onClose, onChangeRadioSelect } = logic;
   return (
     <Dialog open={open} onClose={onClose}>
       <Stack width="500px" height="300px" p={3} spacing={7}>
@@ -40,6 +40,8 @@ export default function DateDialog({ categoryList, memoList, logic }: Props) {
           <FormControl>
             {/** ラジオボタン */}
             <RadioGroup
+              value={radioSelect}
+              onChange={onChangeRadioSelect}
               sx={{ transform: "scale(0.7)", transformOrigin: "left top" }}
               row
             >

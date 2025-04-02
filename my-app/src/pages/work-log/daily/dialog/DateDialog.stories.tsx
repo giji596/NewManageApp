@@ -45,6 +45,13 @@ const meta = {
       { id: 7, title: "メモ8" },
       { id: 8, title: "メモ9" },
     ],
+    logic: {
+      open: true,
+      onClose: () => {},
+      onOpen: () => {},
+      radioSelect: "昨日",
+      onChangeRadioSelect: () => {},
+    },
   },
 } satisfies Meta<typeof DateDialog>;
 
