@@ -44,10 +44,10 @@ export default function DailyPage() {
         />
       </Stack>
       <DateDialog
-        categoryList={detailData.categoryList}
-        memoList={detailData.memoList}
+        dateDetails={detailData}
         logic={{ onOpen, ...prevDialogLogic }}
         isLoading={isLoadingDetail}
+        navigatePage={handleNavigateSelectedDay}
       />
     </>
   );
