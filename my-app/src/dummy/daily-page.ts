@@ -71,3 +71,51 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
     dailyHours: 8,
   },
 ];
+
+export const DUMMY_DAILY_CATEGORY_LIST = [
+  {
+    id: 0,
+    name: "カテゴリ1",
+    taskList: [
+      {
+        id: 0,
+        name: "タスク1",
+        percent: "50%",
+      },
+      {
+        id: 1,
+        name: "タスク1",
+        percent: "30%",
+      },
+      {
+        id: 2,
+        name: "タスク1",
+        percent: "20%",
+      },
+    ],
+    percent: "70%",
+  },
+  {
+    id: 1,
+    name: "カテゴリ2",
+    taskList: [
+      {
+        id: 0,
+        name: "タスク4",
+        percent: "50%",
+      },
+      {
+        id: 1,
+        name: "タスク5",
+        percent: "50%",
+      },
+    ],
+    percent: "30%",
+  },
+];
+
+export const DUMMY_MEMO_LIST = [
+  { id: 0, title: "メモ1" },
+  { id: 1, title: "メモ2" },
+  { id: 2, title: "メモ3" },
+];
