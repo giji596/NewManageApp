@@ -1,4 +1,4 @@
-import { debounce, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import {
   dayBeforeYesterdayDate,
@@ -39,13 +39,6 @@ export default function DataDialogLogic({ onFetchData }: Props) {
   const [selectYear, setSelectYear] = useState<number>(yesterdayYear);
   const [selectMonth, setSelectMonth] = useState<number>(yesterdayMonth);
   const [selectDay, setSelectDay] = useState<number>(yesterdayDate);
-
-  const debouncedFetch = debounce(
-    (params: { year?: number; month?: number; day?: number }) => {
-      onFetchData(params);
-    },
-    1000
-  );
 
   const selectableYearArray = useMemo(() => getYearSelectArray(), []);
   const selectableMonthArray = useMemo(
@@ -106,27 +99,27 @@ export default function DataDialogLogic({ onFetchData }: Props) {
     (e: SelectChangeEvent) => {
       const target = e.target.value;
       setSelectYear(Number(target));
-      debouncedFetch({ year: Number(target) });
+      onFetchData({ year: Number(target) });
     },
-    [debouncedFetch]
+    [onFetchData]
   );
 
   const onSelectMonth = useCallback(
     (e: SelectChangeEvent) => {
       const target = e.target.value;
       setSelectMonth(Number(target));
-      debouncedFetch({ month: Number(target) });
+      onFetchData({ month: Number(target) });
     },
-    [debouncedFetch]
+    [onFetchData]
   );
 
   const onSelectDay = useCallback(
     (e: SelectChangeEvent) => {
       const target = e.target.value;
       setSelectDay(Number(target));
-      debouncedFetch({ day: Number(target) });
+      onFetchData({ day: Number(target) });
     },
-    [debouncedFetch]
+    [onFetchData]
   );
 
   return {
