@@ -1,12 +1,7 @@
-import {
-  ButtonBase,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-  Typography,
-} from "@mui/material";
+import { TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { DailyTableHeaderLogic } from "./logic";
+import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
+import CustomHeaderSortCheckLabel from "@/component/table/header/CustomHeaderSortCheckLabel/CustomHeaderSortCheckLabel";
 
 type Props = {
   /** 昇順かどうか */
@@ -29,10 +24,7 @@ export default function DailyTableHeader({
   isSelected,
   OnClickTitle,
 }: Props) {
-  const { headerColumnDisplay, getButtonDesign, getPopperIdRef } =
-    DailyTableHeaderLogic({
-      isSelected,
-    });
+  const { headerColumnDisplay, getPopperIdRef } = DailyTableHeaderLogic();
   return (
     <TableHead>
       <TableRow>
@@ -41,36 +33,24 @@ export default function DailyTableHeader({
           <TableCell key={title}>
             {/** メニューを表示しない場合(日付・合計稼働時間) */}
             {type == "none" && (
-              <ButtonBase
-                onClick={() => OnClickTitle(title)}
-                sx={getButtonDesign(title)}
-              >
-                <TableSortLabel
-                  active={isSelected(title)}
-                  direction={isSelected(title) && !isAsc ? "desc" : "asc"}
-                >
-                  {title}
-                </TableSortLabel>
-              </ButtonBase>
+              <CustomHeaderSortLabel
+                title={title}
+                isSelected={isSelected(title)}
+                isAsc={isAsc}
+                onClickTitle={OnClickTitle}
+              />
             )}
-
             {/** チェックボックスメニューを表示する場合(カテゴリ・タスク) */}
             {type == "checkbox" && (
-              <ButtonBase
-                onClick={() => OnClickTitle(title)}
-                onMouseEnter={(event) =>
-                  onHoverTitle(getPopperIdRef(title), event)
-                }
-                onMouseLeave={() => onLeaveHoverTitle(getPopperIdRef(title))}
-                sx={getButtonDesign(title)}
-              >
-                <TableSortLabel
-                  active={isSelected(title)}
-                  direction={isSelected(title) && !isAsc ? "desc" : "asc"}
-                >
-                  {title}
-                </TableSortLabel>
-              </ButtonBase>
+              <CustomHeaderSortCheckLabel
+                title={title}
+                isSelected={isSelected(title)}
+                isAsc={isAsc}
+                refId={getPopperIdRef(title)}
+                onClickTitle={OnClickTitle}
+                onHoverTitle={onHoverTitle}
+                onLeaveTitle={onLeaveHoverTitle}
+              />
             )}
             {/** メニュー表示もソートもできない(メモ) */}
             {type == "title" && <Typography>{title}</Typography>}
