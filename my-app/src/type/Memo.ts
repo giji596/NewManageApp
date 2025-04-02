@@ -1,3 +1,11 @@
+/** タイトルとidだけのメモのデータ型 */
+export type MemoTitleList = {
+  /** 識別用のid */
+  id: number;
+  /** メモのタイトル */
+  title: string;
+};
+
 /** メモの一覧データ型 */
 export type MemoSummary = {
   /** 識別用のid */

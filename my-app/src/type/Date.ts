@@ -1,5 +1,5 @@
-import { MemoSummary } from "./Memo";
-import { TaskLog } from "./Task";
+import { CategoryWithPercentage } from "./Category";
+import { MemoSummary, MemoTitleList } from "./Memo";
 
 /** 日付の一覧データ型 */
 export type DateSummary = {
@@ -18,11 +18,13 @@ export type DateSummary = {
 };
 
 /** 日付の詳細データ型 */
-export type DataDetail = {
+export type DateDetail = {
   /** 識別用のid */
   id: number;
   /** 日付 */
   date: Date;
-  /** その日のタスクの一覧 */
-  dailyTask: TaskLog[];
+  /** 割合つきのカテゴリリスト */
+  categoryList: CategoryWithPercentage[];
+  /** メモのタイトルとidだけのリスト */
+  memoList: MemoTitleList[];
 };

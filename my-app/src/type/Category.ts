@@ -1,4 +1,4 @@
-import { TaskSummary } from "./Task";
+import { TaskSummary, TaskWithPercentage } from "./Task";
 
 /** カテゴリーの選択賜の型定義 */
 export type CategoryOption = {
@@ -16,4 +16,11 @@ export type CategorySummary = {
   name: string;
   /** タスクの一覧データ */
   TaskData: TaskSummary;
+};
+
+export type CategoryWithPercentage = {
+  id: number;
+  name: string;
+  taskList: TaskWithPercentage[];
+  percent: string;
 };

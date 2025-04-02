@@ -1,4 +1,5 @@
 import { DateSummary } from "@/type/Date";
+import { MemoTitleList } from "@/type/Memo";
 
 /**
  * 日付ページ一覧ページ用のダミーデータ
@@ -114,7 +115,7 @@ export const DUMMY_DAILY_CATEGORY_LIST = [
   },
 ];
 
-export const DUMMY_MEMO_LIST = [
+export const DUMMY_MEMO_LIST: MemoTitleList[] = [
   { id: 0, title: "メモ1" },
   { id: 1, title: "メモ2" },
   { id: 2, title: "メモ3" },
