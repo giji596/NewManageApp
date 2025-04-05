@@ -16,9 +16,9 @@ export default function TaskTableHeaderLogic() {
   );
 
   const getWidth = useCallback((title: string) => {
-    if (title == "タスク名") return "40%";
+    if (title == "タスク名") return "45%";
     if (title == "カテゴリ名") return "35%";
-    if (title == "稼働時間") return "25%";
+    if (title == "稼働時間") return "20%";
   }, []);
   return {
     /** key:ヘッダーのタイトル,value:タイトルの種類(ソートの可否・フィルターの可否) */
