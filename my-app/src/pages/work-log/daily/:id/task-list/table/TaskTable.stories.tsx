@@ -9,6 +9,7 @@ const meta = {
     taskList: DUMMY_TASK_TABLE_LIST,
     isLoading: false,
     onClickRow: () => {},
+    selectedItemId: null,
   },
 } satisfies Meta<typeof TaskTable>;
 
@@ -19,3 +20,4 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Loading: Story = { args: { isLoading: true } };
 export const NoItem: Story = { args: { taskList: [] } };
+export const ItemSelected: Story = { args: { selectedItemId: 1 } };
