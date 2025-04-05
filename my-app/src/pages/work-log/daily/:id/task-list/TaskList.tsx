@@ -2,6 +2,7 @@ import { Stack } from "@mui/material";
 import TaskTable from "./table/TaskTable";
 import TaskMenu from "./task-menu/TaskMenu";
 import { DailyDetailTaskTableType } from "@/type/Task";
+import TaskListLogic from "./TaskListLogic";
 
 type Props = {
   /** タスクの一覧 */
@@ -23,11 +24,12 @@ export default function TaskList({
   navigateTaskPage,
   navigateCategoryPage,
 }: Props) {
+  const { selectedItemId, isItemSelected, handleClickRow } = TaskListLogic();
   return (
     <>
       <Stack>
         <TaskMenu
-          isActive={true}
+          isActive={isItemSelected}
           onClickEdit={() => {}} // TODO:ダイアログ作ったら修正
           onClickNavigateTask={() => navigateTaskPage(0)} // TODO:後でパラメータ修正
           onClickNavigateCategory={() => navigateCategoryPage(0)} // TODO:後でパラメータ修正
@@ -35,7 +37,8 @@ export default function TaskList({
         <TaskTable
           taskList={taskList}
           isLoading={isLoading}
-          onClickRow={() => {}} // TODO:ろじっくつくるとき
+          onClickRow={handleClickRow}
+          selectedItemId={selectedItemId}
         />
       </Stack>
       {/** TODO:　ここに編集用のダイアログ */}
