@@ -3,6 +3,8 @@ import TaskTable from "./table/TaskTable";
 import TaskMenu from "./task-menu/TaskMenu";
 import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskListLogic from "./TaskListLogic";
+import TaskEditDialog from "./dialog/TaskEditDialog/TaskEditDialog";
+import useDialog from "@/hook/useDialog";
 
 type Props = {
   /** タスクの一覧 */
@@ -33,12 +35,13 @@ export default function TaskList({
   } = TaskListLogic({
     taskList,
   });
+  const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <Stack>
         <TaskMenu
           isActive={isItemSelected}
-          onClickEdit={() => {}} // TODO:ダイアログ作ったら修正
+          onClickEdit={onOpen}
           onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
           onClickNavigateCategory={() =>
             navigateCategoryPage(selectedItemCategoryId)
@@ -51,7 +54,17 @@ export default function TaskList({
           selectedItemId={selectedItemId}
         />
       </Stack>
-      {/** TODO:　ここに編集用のダイアログ */}
+      {open &&
+        selectedItemId !== null && ( // open=> アンマウントさせて開くたびに初期値を取得させるため
+          // selectedItemId => 親ではnull許容 子ではしていないので nullチェック
+          <TaskEditDialog
+            itemId={selectedItemId}
+            initialCategoryId={selectedItemCategoryId}
+            initialTaskId={selectedItemTaskId}
+            open={open}
+            onClose={onClose}
+          />
+        )}
     </>
   );
 }

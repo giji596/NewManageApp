@@ -35,6 +35,9 @@ export default function TaskEditDialogLogic({
     { id: 1, name: "タスク1" },
     { id: 2, name: "タスク2" },
     { id: 3, name: "タスク3" },
+    { id: 4, name: "タスク4" },
+    { id: 5, name: "タスク5" },
+    { id: 6, name: "タスク6" },
   ];
   const onChangeSelectCategory = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
