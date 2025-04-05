@@ -1,3 +1,4 @@
+import { CategoryOption } from "./Category";
 import { MemoSummary } from "./Memo";
 
 /** タスクの選択欄の型定義 */
@@ -51,10 +52,10 @@ export type TaskWithPercentage = { id: number; name: string; percent: string };
 export type DailyDetailTaskTableType = {
   /** 識別用(タスクの) */
   id: number;
-  /** タスク名 */
-  name: string;
-  /** カテゴリ名 */
-  categoryName: string;
+  /** タスク*/
+  task: TaskOption;
+  /** カテゴリ */
+  category: CategoryOption;
   /** 稼働時間 */
   dailyHours: number;
 };
