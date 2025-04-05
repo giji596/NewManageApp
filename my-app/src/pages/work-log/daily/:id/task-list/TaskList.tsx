@@ -24,15 +24,25 @@ export default function TaskList({
   navigateTaskPage,
   navigateCategoryPage,
 }: Props) {
-  const { selectedItemId, isItemSelected, handleClickRow } = TaskListLogic();
+  const {
+    selectedItemId,
+    isItemSelected,
+    selectedItemTaskId,
+    selectedItemCategoryId,
+    handleClickRow,
+  } = TaskListLogic({
+    taskList,
+  });
   return (
     <>
       <Stack>
         <TaskMenu
           isActive={isItemSelected}
           onClickEdit={() => {}} // TODO:ダイアログ作ったら修正
-          onClickNavigateTask={() => navigateTaskPage(0)} // TODO:後でパラメータ修正
-          onClickNavigateCategory={() => navigateCategoryPage(0)} // TODO:後でパラメータ修正
+          onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
+          onClickNavigateCategory={() =>
+            navigateCategoryPage(selectedItemCategoryId)
+          }
         />
         <TaskTable
           taskList={taskList}
