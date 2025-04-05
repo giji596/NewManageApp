@@ -24,7 +24,14 @@ export default function ConfirmSaveDialog({ open, onClose, onAccept }: Props) {
       <DialogContent>
         <DialogContentText>保存してもよろしいですか？</DialogContentText>
         <DialogActions>
-          <Button onClick={onAccept}>はい</Button>
+          <Button
+            onClick={() => {
+              onAccept();
+              onClose();
+            }}
+          >
+            はい
+          </Button>
           <Button color="error" onClick={onClose}>
             いいえ
           </Button>

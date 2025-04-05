@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
  * ダイアログの基本構成
  */
 export default function useDialog() {
-  const [open, setOpen] = useState<boolean>();
+  const [open, setOpen] = useState<boolean>(false);
 
   const onClose = useCallback(() => setOpen(false), []);
   const onOpen = useCallback(() => setOpen(true), []);
