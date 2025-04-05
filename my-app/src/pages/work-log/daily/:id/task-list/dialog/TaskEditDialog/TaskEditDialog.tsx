@@ -87,7 +87,6 @@ export default function TaskEditDialog({
           <Button
             startIcon={<DeleteIcon />}
             color="error"
-            disabled={unSelected}
             onClick={handleDelete} // TODO:実際はダイアログを開かせる
           >
             削除
