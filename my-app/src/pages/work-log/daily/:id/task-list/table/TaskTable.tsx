@@ -89,7 +89,7 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item.name}
+                      {item.task.name}
                     </TableCell>
                     {/** カテゴリ */}
                     <TableCell
@@ -99,7 +99,7 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item.categoryName}
+                      {item.category.name}
                     </TableCell>
                     {/** 稼働時間*/}
                     <TableCell

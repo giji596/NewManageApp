@@ -13,7 +13,7 @@ export default function TaskTableLogic({ taskList }: Props) {
   // itemリストに存在するタスク一覧
   const defaultTaskFilterList = taskList.reduce(
     (a: Record<string, boolean>, b) => {
-      const taskName = b.name;
+      const taskName = b.task.name;
       if (!(taskName in a)) {
         a[taskName] = false;
       }
@@ -25,7 +25,7 @@ export default function TaskTableLogic({ taskList }: Props) {
   // itemリストに存在するカテゴリ一覧
   const defaultCategoryFilterList = taskList.reduce(
     (a: Record<string, boolean>, b) => {
-      const categoryName = b.categoryName;
+      const categoryName = b.category.name;
       if (!(categoryName in a)) {
         a[categoryName] = false;
       }
@@ -68,12 +68,12 @@ export default function TaskTableLogic({ taskList }: Props) {
       switch (selected) {
         case "タスク名":
           return isAsc
-            ? a.name.localeCompare(b.name)
-            : b.name.localeCompare(a.name);
+            ? a.task.name.localeCompare(b.task.name)
+            : b.task.name.localeCompare(a.task.name);
         case "カテゴリ名":
           return isAsc
-            ? a.categoryName.localeCompare(b.categoryName)
-            : b.categoryName.localeCompare(a.categoryName);
+            ? a.category.name.localeCompare(b.category.name)
+            : b.category.name.localeCompare(a.category.name);
         case "稼働時間":
           return isAsc
             ? a.dailyHours - b.dailyHours
@@ -120,14 +120,14 @@ export default function TaskTableLogic({ taskList }: Props) {
       // カテゴリとタスクについてフィルターが存在する場合にカット対象か検証して、対象であれば早期にfalseでreturnする
       // カテゴリーについて
       if (!isNoCategoryFilter) {
-        const isCutByCategory = !categoryFilterList[item.categoryName];
+        const isCutByCategory = !categoryFilterList[item.category.name];
         if (isCutByCategory) {
           return false;
         }
       }
       // タスクについて
       if (!isNoTaskFilter) {
-        const isCutByTask = !taskFilterList[item.name];
+        const isCutByTask = !taskFilterList[item.task.name];
         if (isCutByTask) {
           return false;
         }
