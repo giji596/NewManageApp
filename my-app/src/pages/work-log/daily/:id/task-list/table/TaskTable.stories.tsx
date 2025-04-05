@@ -14,8 +14,8 @@ const meta = {
       { id: 5, name: "タスク6", categoryName: "カテゴリー3", dailyHours: 4 },
       {
         id: 6,
-        name: "タスク1904",
-        categoryName: "カテゴリー11daw21",
+        name: "タスク19qwdqwfqfqfqqwdqwdwqwqsqwqdqdsadadadadasdasdadasdasdadasdassad04",
+        categoryName: "カテゴリー11sdwqqwdwdwqdwqdqwdqwdqdqwqddqwqddaw21",
         dailyHours: 8,
       },
     ],

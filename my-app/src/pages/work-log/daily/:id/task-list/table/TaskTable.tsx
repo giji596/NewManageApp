@@ -42,7 +42,9 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
   return (
     <>
       <TableContainer>
-        <Table sx={{ width: "100%", padding: "16px 24px" }}>
+        <Table
+          sx={{ tableLayout: "fixed", width: "100%", padding: "16px 24px" }}
+        >
           <TaskTableHeader
             isAsc={isAsc}
             isSelected={isSelected}
@@ -82,8 +84,6 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
                     {/** タスク名 */}
                     <TableCell
                       sx={{
-                        width: "45%",
-                        maxWidth: "45%",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -94,8 +94,6 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
                     {/** カテゴリ */}
                     <TableCell
                       sx={{
-                        width: "35%",
-                        maxWidth: "35%",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -106,8 +104,6 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
                     {/** 稼働時間*/}
                     <TableCell
                       sx={{
-                        width: "25%",
-                        maxWidth: "25%",
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",

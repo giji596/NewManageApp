@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import TaskTableHeader from './TaskTableHeader';
+import TaskTableHeader from "./TaskTableHeader";
 
 const meta = {
   component: TaskTableHeader,
@@ -13,9 +13,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     isAsc: true,
-    isSelected: () => {},
+    isSelected: () => false,
     OnClickTitle: () => {},
     onHoverTitle: () => {},
-    onLeaveHoverTitle: () => {}
-  }
+    onLeaveHoverTitle: () => {},
+  },
 };
