@@ -20,12 +20,19 @@ type Props = {
   isLoading: boolean;
   /** rowをクリックした際のハンドラー */
   onClickRow: (id: number) => void;
+  /** 選択状態のアイテムid */
+  selectedItemId: number | null;
 };
 
 /**
  * 日付詳細ページのタスクテーブルのコンポーネント
  */
-export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
+export default function TaskTable({
+  taskList,
+  isLoading,
+  onClickRow,
+  selectedItemId,
+}: Props) {
   const {
     isAsc,
     taskFilterList,
@@ -77,6 +84,7 @@ export default function TaskTable({ taskList, isLoading, onClickRow }: Props) {
                     key={item.id}
                     hover
                     onClick={() => onClickRow(item.id)}
+                    selected={item.id === selectedItemId}
                     sx={{
                       cursor: "pointer",
                     }}

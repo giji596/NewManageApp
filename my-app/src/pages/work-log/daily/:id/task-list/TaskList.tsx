@@ -36,6 +36,7 @@ export default function TaskList({
           taskList={taskList}
           isLoading={isLoading}
           onClickRow={() => {}} // TODO:ろじっくつくるとき
+          selectedItemId={null}
         />
       </Stack>
       {/** TODO:　ここに編集用のダイアログ */}
