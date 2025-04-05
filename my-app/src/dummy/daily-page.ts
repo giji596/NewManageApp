@@ -123,16 +123,52 @@ export const DUMMY_MEMO_LIST: MemoTitleList[] = [
 ];
 
 export const DUMMY_TASK_TABLE_LIST: DailyDetailTaskTableType[] = [
-  { id: 0, name: "タスク1", categoryName: "カテゴリー1", dailyHours: 8 },
-  { id: 1, name: "タスク2", categoryName: "カテゴリー1", dailyHours: 6 },
-  { id: 2, name: "タスク3", categoryName: "カテゴリー2", dailyHours: 8 },
-  { id: 3, name: "タスク4", categoryName: "カテゴリー2", dailyHours: 5 },
-  { id: 4, name: "タスク5", categoryName: "カテゴリー3", dailyHours: 3 },
-  { id: 5, name: "タスク6", categoryName: "カテゴリー3", dailyHours: 4 },
+  {
+    id: 0,
+    task: { id: 0, name: "タスク1" },
+    category: { id: 0, name: "カテゴリー1" },
+    dailyHours: 8,
+  },
+  {
+    id: 1,
+    task: { id: 1, name: "タスク2" },
+    category: { id: 0, name: "カテゴリー1" },
+    dailyHours: 6,
+  },
+  {
+    id: 2,
+    task: { id: 2, name: "タスク3" },
+    category: { id: 1, name: "カテゴリー2" },
+    dailyHours: 8,
+  },
+  {
+    id: 3,
+    task: { id: 3, name: "タスク4" },
+    category: { id: 1, name: "カテゴリー2" },
+    dailyHours: 5,
+  },
+  {
+    id: 4,
+    task: { id: 4, name: "タスク5" },
+    category: { id: 2, name: "カテゴリー3" },
+    dailyHours: 3,
+  },
+  {
+    id: 5,
+    task: { id: 5, name: "タスク6" },
+    category: { id: 2, name: "カテゴリー3" },
+    dailyHours: 4,
+  },
   {
     id: 6,
-    name: "タスク19qwdqwfqfqfqqwdqwdwqwqsqwqdqdsadadadadasdasdadasdasdadasdassad04",
-    categoryName: "カテゴリー11sdwqqwdwdwqdwqdqwdqwdqdqwqddqwqddaw21",
+    task: {
+      id: 2231312,
+      name: "タスク19qwdqwfqfqfqqwdqwdwqwqsqwqdqdsadadadadasdasdadasdasdadasdassad04",
+    },
+    category: {
+      id: 31251124124,
+      name: "カテゴリー11sdwqqwdwdwqdwqdqwdqwdqdqwqddqwqddaw21",
+    },
     dailyHours: 8,
   },
 ];
