@@ -24,6 +24,8 @@ type Props = {
   initialTaskId: number;
   /** ダイアログの開閉状態 */
   open: boolean;
+  /** 稼働時間の初期選択の値 */
+  initialHours: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
 };
@@ -32,23 +34,27 @@ export default function TaskEditDialog({
   itemId,
   initialCategoryId,
   initialTaskId,
+  initialHours,
   open,
   onClose,
 }: Props) {
   const {
     categoryId,
     taskId,
+    dailyHours,
     unSelected,
     taskList,
     categoryList,
     onChangeSelectCategory,
     onChangeSelectTask,
+    onChangeSelectHours,
     handleSave,
     handleDelete,
   } = TaskEditDialogLogic({
     itemId,
     initialCategoryId,
     initialTaskId,
+    initialHours,
   });
   const {
     open: openDelete,
@@ -100,8 +106,8 @@ export default function TaskEditDialog({
             <FormControl sx={{ width: "30%" }}>
               <InputLabel>稼働時間(hour)</InputLabel>
               <Select
-                value={"8"} // TODO:しゅうせいすりゅ！
-                onChange={() => {}} // TODO:しゅーせい！
+                value={String(dailyHours)}
+                onChange={onChangeSelectHours}
                 label="稼働時間(hour)"
               >
                 {[...Array(41)].map((_, i) => (

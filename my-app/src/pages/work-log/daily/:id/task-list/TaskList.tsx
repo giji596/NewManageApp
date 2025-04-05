@@ -31,6 +31,7 @@ export default function TaskList({
     isItemSelected,
     selectedItemTaskId,
     selectedItemCategoryId,
+    selectedItemHours,
     handleClickRow,
   } = TaskListLogic({
     taskList,
@@ -61,6 +62,7 @@ export default function TaskList({
             itemId={selectedItemId}
             initialCategoryId={selectedItemCategoryId}
             initialTaskId={selectedItemTaskId}
+            initialHours={selectedItemHours}
             open={open}
             onClose={onClose}
           />
