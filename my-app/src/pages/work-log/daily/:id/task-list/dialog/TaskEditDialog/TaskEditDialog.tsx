@@ -97,6 +97,20 @@ export default function TaskEditDialog({
                 ))}
               </Select>
             </FormControl>
+            <FormControl sx={{ width: "30%" }}>
+              <InputLabel>稼働時間(hour)</InputLabel>
+              <Select
+                value={"8"} // TODO:しゅうせいすりゅ！
+                onChange={() => {}} // TODO:しゅーせい！
+                label="稼働時間(hour)"
+              >
+                {[...Array(41)].map((_, i) => (
+                  <MenuItem key={i} value={i * 0.25}>
+                    {i * 0.25}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
         </DialogContent>
 
