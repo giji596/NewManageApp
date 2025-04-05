@@ -10,6 +10,8 @@ type Props = {
   initialCategoryId: number;
   /** タスクidの初期選択の値 */
   initialTaskId: number;
+  /** 稼働時間の初期選択の値 */
+  initialHours: number;
 };
 
 /**
@@ -19,9 +21,11 @@ export default function TaskEditDialogLogic({
   itemId,
   initialCategoryId,
   initialTaskId,
+  initialHours,
 }: Props) {
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
   const [taskId, setTaskId] = useState<number>(initialTaskId);
+  const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
 
   // TODO:データフェッチ行う
@@ -50,6 +54,11 @@ export default function TaskEditDialogLogic({
     setTaskId(Number(target));
   }, []);
 
+  const onChangeSelectHours = useCallback((e: SelectChangeEvent) => {
+    const target = e.target.value;
+    setDailyHours(Number(target));
+  }, []);
+
   // TODO:バックエンドに送信
   const handleSave = useCallback(() => {
     console.log("せーぶ！ id:", itemId);
@@ -62,6 +71,8 @@ export default function TaskEditDialogLogic({
     categoryId,
     /** 選択中のタスクのid */
     taskId,
+    /** 洗濯中の稼働時間 */
+    dailyHours,
     /** 対象を選択していない状態 */
     unSelected,
     /** カテゴリ一覧 */
@@ -72,6 +83,8 @@ export default function TaskEditDialogLogic({
     onChangeSelectCategory,
     /** 選択したタスクに変更するハンドラー */
     onChangeSelectTask,
+    /** 選択した稼働時間に変更するハンドラー */
+    onChangeSelectHours,
     /** 編集を保存するハンドラー */
     handleSave,
     /** デリートのイベント */

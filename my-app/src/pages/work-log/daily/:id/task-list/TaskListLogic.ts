@@ -26,6 +26,12 @@ export default function TaskListLogic({ taskList }: Props) {
     return ERROR_PAGE_ID;
   }, [selectedItemId, taskList]);
 
+  const selectedItemHours = useMemo(() => {
+    const target = taskList.find((item) => item.id === selectedItemId);
+    if (target) return target.dailyHours;
+    return 0;
+  }, [selectedItemId, taskList]);
+
   // ローカル--------------------------------------------------
   const doSelectItem = useCallback((id: number) => {
     setSelectedItemId(id);
@@ -61,6 +67,8 @@ export default function TaskListLogic({ taskList }: Props) {
     selectedItemTaskId,
     /** 選択中のアイテムのカテゴリーid */
     selectedItemCategoryId,
+    /** 選択中のアイテムの稼働時間 */
+    selectedItemHours,
     /** アイテムの行をクリックした際のハンドラー
      * アイテムを選択しているかどうかで選択/選択解除を行う
      */

@@ -8,6 +8,7 @@ const meta = {
     itemId: 0,
     initialTaskId: 1,
     initialCategoryId: 1,
+    initialHours: 8,
     open: true,
     onClose: () => {},
   },
