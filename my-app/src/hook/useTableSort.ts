@@ -1,3 +1,4 @@
+import { TableSortTargetType } from "@/type/Table";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -33,7 +34,7 @@ export default function useTableSort({ initialTarget }: Props) {
 
   // ソート関数
   const doSort = useCallback(
-    (a: string | number | Date, b: string | number | Date) => {
+    (a: TableSortTargetType, b: TableSortTargetType) => {
       switch (typeof a) {
         // 各タイプの同定を行ったのちにソートする
         case "string":
