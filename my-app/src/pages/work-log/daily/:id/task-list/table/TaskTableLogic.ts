@@ -1,3 +1,5 @@
+import useTableSort from "@/hook/useTableSort";
+import { TableSortTargetType } from "@/type/Table";
 import { DailyDetailTaskTableType } from "@/type/Task";
 import { useCallback, useState } from "react";
 
@@ -33,9 +35,8 @@ export default function TaskTableLogic({ taskList }: Props) {
     },
     {}
   );
-
-  const [selected, setSelected] = useState<string>("日付");
-  const [isAsc, setIsAsc] = useState<boolean>(true);
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: "日付" });
   const [taskFilterList, setTaskFilterList] = useState<Record<string, boolean>>(
     defaultTaskFilterList
   );
@@ -43,46 +44,24 @@ export default function TaskTableLogic({ taskList }: Props) {
     Record<string, boolean>
   >(defaultCategoryFilterList);
 
-  // 該当するタイトルが選択中か調べる
-  const isSelected = useCallback(
-    (title: string): boolean => title == selected,
-    [selected]
-  );
-  // プロパティをソート設定する関数
-  const handleSetSortTarget = useCallback(
-    (title: string): void => {
-      // 選択中の場合:ascとdescを入れ替える
-      if (isSelected(title)) {
-        setIsAsc(!isAsc);
-      } else {
-        setSelected(title);
-        setIsAsc(true);
-      }
-    },
-    [isAsc, isSelected]
-  );
-
   // ソート関数
-  const doSortByTitle = useCallback(
-    (a: DailyDetailTaskTableType, b: DailyDetailTaskTableType) => {
-      switch (selected) {
+  const getSortTarget = useCallback(
+    (
+      a: DailyDetailTaskTableType,
+      b: DailyDetailTaskTableType
+    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      switch (target) {
         case "タスク名":
-          return isAsc
-            ? a.task.name.localeCompare(b.task.name)
-            : b.task.name.localeCompare(a.task.name);
+          return { a: a.task.name, b: b.task.name };
         case "カテゴリ名":
-          return isAsc
-            ? a.category.name.localeCompare(b.category.name)
-            : b.category.name.localeCompare(a.category.name);
+          return { a: a.category.name, b: b.category.name };
         case "稼働時間":
-          return isAsc
-            ? a.dailyHours - b.dailyHours
-            : b.dailyHours - a.dailyHours;
+          return { a: a.dailyHours, b: b.dailyHours };
         default:
-          return 0;
+          return { a: a.id, b: b.id };
       }
     },
-    [isAsc, selected]
+    [target]
   );
 
   // カテゴリーフィルターリストのチェックのOnOffを切り替える関数
@@ -145,10 +124,12 @@ export default function TaskTableLogic({ taskList }: Props) {
     categoryFilterList,
     /** 選択中かどうか調べる関数 */
     isSelected,
-    /** ソート対象を関数 */
-    handleSetSortTarget,
+    /** ソートラベルをクリックした際のハンドラー */
+    handleClickSortLabel,
     /** ソートする関数 */
-    doSortByTitle,
+    doSort,
+    /** ソート対象を取得する関数 */
+    getSortTarget,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */
