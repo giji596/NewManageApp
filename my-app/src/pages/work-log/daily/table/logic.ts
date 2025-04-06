@@ -1,7 +1,8 @@
+import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { DateSummary } from "@/type/Date";
 import { TableSortTargetType } from "@/type/Table";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 type Props = {
   /** アイテム */
@@ -38,12 +39,16 @@ export default function DailyTableLogic({ itemList }: Props) {
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
     useTableSort({ initialTarget: "日付" });
-  const [taskFilterList, setTaskFilterList] = useState<Record<string, boolean>>(
-    defaultTaskFilterList
-  );
-  const [categoryFilterList, setCategoryFilterList] = useState<
-    Record<string, boolean>
-  >(defaultCategoryFilterList);
+  const {
+    filterList: taskFilterList,
+    toggleFilterCheckBox: toggleTaskFilterCheckBox,
+    doFilterByFilterList: doFilterByTaskFilterList,
+  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
+  const {
+    filterList: categoryFilterList,
+    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
+    doFilterByFilterList: doFilterByCategoryFilterList,
+  } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
 
   // ソート関数
   const getSortTarget = useCallback(
@@ -80,56 +85,20 @@ export default function DailyTableLogic({ itemList }: Props) {
     [itemList]
   );
 
-  // カテゴリーフィルターリストのチェックのOnOffを切り替える関数
-  const toggleCategoryFilterCheckBox = useCallback(
-    (name: string) => {
-      const newValue = !categoryFilterList[name];
-      console.log(newValue);
-      setCategoryFilterList((prev) => ({ ...prev, [name]: newValue }));
-    },
-    [categoryFilterList]
-  );
-
-  // タスクフィルターリストのチェックのOnOffを切り替える関数
-  const toggleTaskFilterCheckBox = useCallback(
-    (name: string) => {
-      const newValue = !taskFilterList[name];
-      setTaskFilterList((prev) => ({ ...prev, [name]: newValue }));
-    },
-    [, taskFilterList]
-  );
-
-  // 選択されている内容に応じてフィルターする関数
   const doFilterByFilterList = useCallback(
-    (item: DateSummary): boolean => {
-      // フィルターがセットされていない場合、trueを返してフィルターしない
-      const isNoCategoryFilter = Object.values(categoryFilterList).every(
-        (value) => value === false
-      );
-      const isNoTaskFilter = Object.values(taskFilterList).every(
-        (value) => value === false
-      );
-      if (isNoCategoryFilter && isNoTaskFilter) {
-        return true;
+    (item: DateSummary) => {
+      // フィルター結果を変数で保持
+      let result: boolean;
+      // カテゴリーでのフィルター
+      result = doFilterByCategoryFilterList(item.categoryName);
+      // カテゴリーフィルター対象外(trueの場合)ならタスクフィルターを検証
+      if (result) {
+        result = doFilterByTaskFilterList(item.taskName);
       }
-      // カテゴリとタスクについてフィルターが存在する場合にカット対象か検証して、対象であれば早期にfalseでreturnする
-      // カテゴリーについて
-      if (!isNoCategoryFilter) {
-        const isCutByCategory = !categoryFilterList[item.categoryName];
-        if (isCutByCategory) {
-          return false;
-        }
-      }
-      // タスクについて
-      if (!isNoTaskFilter) {
-        const isCutByTask = !taskFilterList[item.taskName];
-        if (isCutByTask) {
-          return false;
-        }
-      }
-      return true;
+      // 両方のフィルターでカットされていない場合だけ表示
+      return result;
     },
-    [categoryFilterList, taskFilterList]
+    [doFilterByCategoryFilterList, doFilterByTaskFilterList]
   );
 
   return {
