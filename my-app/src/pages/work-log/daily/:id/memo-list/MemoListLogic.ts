@@ -1,4 +1,6 @@
+import useTableSort from "@/hook/useTableSort";
 import { MemoDailyTask } from "@/type/Memo";
+import { TableSortTargetType } from "@/type/Table";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -22,10 +24,8 @@ export default function MemoListLogic({ memoItemList }: Props) {
     {}
   );
 
-  const [selectedHeaderTitle, setSelectedHeaderTitle] = useState<string | null>(
-    null
-  );
-  const [isAsc, setIsAsc] = useState<boolean>(true);
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: null });
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
   const [taskFilterList, setTaskFilterList] = useState<Record<string, boolean>>(
     defaultTaskFilterList
@@ -46,25 +46,6 @@ export default function MemoListLogic({ memoItemList }: Props) {
     },
     [selectedRowId]
   );
-
-  const isSelectedTitle = useCallback(
-    (title: string) => selectedHeaderTitle === title,
-    [selectedHeaderTitle]
-  );
-
-  // プロパティをソート設定する関数
-  const handleSetSortTarget = useCallback(
-    (title: string): void => {
-      // 選択中の場合:ascとdescを入れ替える
-      if (isSelectedTitle(title)) {
-        setIsAsc(!isAsc);
-      } else {
-        setSelectedHeaderTitle(title);
-        setIsAsc(true);
-      }
-    },
-    [isAsc, isSelectedTitle]
-  );
   // タスクフィルターリストのチェックのOnOffを切り替える関数
   const toggleTaskFilterCheckBox = useCallback(
     (name: string) => {
@@ -75,22 +56,21 @@ export default function MemoListLogic({ memoItemList }: Props) {
   );
 
   // ソート関数
-  const doSortByTitle = useCallback(
-    (a: MemoDailyTask, b: MemoDailyTask) => {
-      switch (selectedHeaderTitle) {
+  const getSortTarget = useCallback(
+    (
+      a: MemoDailyTask,
+      b: MemoDailyTask
+    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      switch (target) {
         case "タイトル":
-          return isAsc
-            ? a.title.localeCompare(b.title)
-            : b.title.localeCompare(a.title);
+          return { a: a.title, b: b.title };
         case "タスク名":
-          return isAsc
-            ? a.task.name.localeCompare(b.task.name)
-            : b.task.name.localeCompare(a.task.name);
+          return { a: a.task.name, b: b.task.name };
         default:
-          return 0;
+          return { a: a.id, b: b.id };
       }
     },
-    [isAsc, selectedHeaderTitle]
+    [target]
   );
 
   // 選択されている内容に応じてフィルターする関数
@@ -124,11 +104,13 @@ export default function MemoListLogic({ memoItemList }: Props) {
     /** ソートが昇順か降順か */
     isAsc,
     /** ソート対象に選択されているかどうかを調べる */
-    isSelectedTitle,
+    isSelected,
     /** ソート対象に選択するハンドラー */
-    handleSetSortTarget,
+    handleClickSortLabel,
     /** ソートする関数 */
-    doSortByTitle,
+    doSort,
+    /** ソート対象を取得する関数 */
+    getSortTarget,
     /** タスクのフィルター対象の一覧(key:value=string:booleanのオブジェクト) */
     taskFilterList,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */

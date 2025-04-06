@@ -23,9 +23,10 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
     isActiveRow,
     handleClickRow,
     isAsc,
-    isSelectedTitle,
-    handleSetSortTarget,
-    doSortByTitle,
+    isSelected,
+    handleClickSortLabel,
+    doSort,
+    getSortTarget,
     taskFilterList,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
@@ -36,8 +37,8 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
         <Table sx={{ tableLayout: "fixed " }}>
           <CustomTableHeader
             isAsc={isAsc}
-            isSelected={isSelectedTitle}
-            onClickTitle={handleSetSortTarget}
+            isSelected={isSelected}
+            onClickTitle={handleClickSortLabel}
             onHoverTitle={handleMouseEnter}
             onLeaveHoverTitle={handleMouseLeave}
           />
@@ -49,7 +50,7 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
             {!isLoading &&
               memoItemList.length !== 0 &&
               memoItemList
-                .sort(doSortByTitle)
+                .sort((a, b) => doSort(getSortTarget(a, b)))
                 .filter(doFilterByFilterList)
                 .map((item) => (
                   <CustomTableBody
