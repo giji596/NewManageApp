@@ -1,5 +1,4 @@
 import {
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -9,6 +8,7 @@ import {
 import CustomTableHeader from "./table-header/CustomTableHeader";
 import { MemoDailyTask } from "@/type/Memo";
 import CustomTableBody from "./table-body/CustomTableBody";
+import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 
 type Props = {
   /** メモのアイテム一覧 */
@@ -29,13 +29,7 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
           onLeaveHoverTitle={() => {}}
         />
         <TableBody>
-          {isLoading && (
-            <TableRow>
-              <TableCell colSpan={2} sx={{ height: "200px" }} align="center">
-                <CircularProgress />
-              </TableCell>
-            </TableRow>
-          )}
+          {isLoading && <TableBodyLoading colCount={2} />}
           {!isLoading && memoItemList.length === 0 && (
             <TableRow>
               <TableCell colSpan={2} align="center" sx={{ height: "200px" }}>
