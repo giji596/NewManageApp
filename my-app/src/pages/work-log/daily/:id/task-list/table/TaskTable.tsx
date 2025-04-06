@@ -12,6 +12,7 @@ import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskTableLogic from "./TaskTableLogic";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
+import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
 type Props = {
   /** タスク一覧 */
@@ -62,11 +63,7 @@ export default function TaskTable({
           <TableBody>
             {isLoading && <TableBodyLoading colCount={5} />}
             {!isLoading && taskList.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={5} align="center" sx={{ height: "200px" }}>
-                  データがありません
-                </TableCell>
-              </TableRow>
+              <TableBodyNoItem colCount={5} />
             )}
             {!isLoading &&
               taskList.length > 0 &&

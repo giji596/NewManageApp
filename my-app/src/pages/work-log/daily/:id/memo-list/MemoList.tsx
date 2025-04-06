@@ -1,14 +1,9 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from "@mui/material";
+import { Table, TableBody, TableContainer } from "@mui/material";
 import CustomTableHeader from "./table-header/CustomTableHeader";
 import { MemoDailyTask } from "@/type/Memo";
 import CustomTableBody from "./table-body/CustomTableBody";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
+import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
 type Props = {
   /** メモのアイテム一覧 */
@@ -31,11 +26,7 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
         <TableBody>
           {isLoading && <TableBodyLoading colCount={2} />}
           {!isLoading && memoItemList.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={2} align="center" sx={{ height: "200px" }}>
-                データがありません
-              </TableCell>
-            </TableRow>
+            <TableBodyNoItem colCount={2} />
           )}
           {!isLoading &&
             memoItemList.length !== 0 &&

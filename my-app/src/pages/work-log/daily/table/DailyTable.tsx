@@ -16,6 +16,7 @@ import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/Cust
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenuTitle";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
+import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
 type Props = {
   /** アイテム */
@@ -57,26 +58,7 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
           <TableBody>
             {isLoading && <TableBodyLoading colCount={5} />}
             {!isLoading && itemList.length === 0 && (
-              <>
-                <TableRow>
-                  <TableCell
-                    colSpan={5}
-                    align="center"
-                    sx={{ height: "200px" }}
-                  >
-                    データがありません
-                  </TableCell>
-                </TableRow>
-                {/* カラムの幅を維持するための透明なダミー行 */}
-                <TableRow style={{ border: "none", height: 0 }}>
-                  {[...Array(5)].map((_, index) => (
-                    <TableCell
-                      key={index}
-                      sx={{ width: "20%", border: "none" }}
-                    />
-                  ))}
-                </TableRow>
-              </>
+              <TableBodyNoItem colCount={5} />
             )}
             {!isLoading &&
               itemList.length > 0 &&
