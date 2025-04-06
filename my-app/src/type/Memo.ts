@@ -1,3 +1,5 @@
+import { TaskOption } from "./Task";
+
 /** タイトルとidだけのメモのデータ型 */
 export type MemoTitleList = {
   /** 識別用のid */
@@ -34,4 +36,16 @@ export type MemoDetail = {
   tag?: string;
   /** メモの本文 */
   text: string;
+};
+
+/** 日付タスクに付随するメモ */
+export type MemoDailyTask = {
+  /** 識別用のid */
+  id: number;
+  /** メモのタイトル */
+  title: string;
+  /** メモの本文の頭の方だけ */
+  summary: string;
+  /** 関連する日付のタスク */
+  task: TaskOption;
 };
