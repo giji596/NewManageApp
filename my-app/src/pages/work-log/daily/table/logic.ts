@@ -1,4 +1,6 @@
+import useTableSort from "@/hook/useTableSort";
 import { DateSummary } from "@/type/Date";
+import { TableSortTargetType } from "@/type/Table";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -34,8 +36,8 @@ export default function DailyTableLogic({ itemList }: Props) {
     {}
   );
 
-  const [selected, setSelected] = useState<string>("日付");
-  const [isAsc, setIsAsc] = useState<boolean>(true);
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: "日付" });
   const [taskFilterList, setTaskFilterList] = useState<Record<string, boolean>>(
     defaultTaskFilterList
   );
@@ -43,51 +45,26 @@ export default function DailyTableLogic({ itemList }: Props) {
     Record<string, boolean>
   >(defaultCategoryFilterList);
 
-  // 該当するタイトルが選択中か調べる
-  const isSelected = useCallback(
-    (title: string): boolean => title == selected,
-    [selected]
-  );
-
-  // プロパティをソート設定する関数
-  const handleSetSortTarget = useCallback(
-    (title: string): void => {
-      // 選択中の場合:ascとdescを入れ替える
-      if (isSelected(title)) {
-        setIsAsc(!isAsc);
-      } else {
-        setSelected(title);
-        setIsAsc(true);
-      }
-    },
-    [isAsc, isSelected]
-  );
-
   // ソート関数
-  const doSortByTitle = useCallback(
-    (a: DateSummary, b: DateSummary) => {
-      switch (selected) {
+  const getSortTarget = useCallback(
+    (
+      a: DateSummary,
+      b: DateSummary
+    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      switch (target) {
         case "メインカテゴリ":
-          return isAsc
-            ? a.categoryName.localeCompare(b.categoryName)
-            : b.categoryName.localeCompare(a.categoryName);
+          return { a: a.categoryName, b: b.categoryName };
         case "メインタスク":
-          return isAsc
-            ? a.taskName.localeCompare(b.taskName)
-            : b.taskName.localeCompare(a.taskName);
+          return { a: a.taskName, b: b.taskName };
         case "合計稼働時間":
-          return isAsc
-            ? a.dailyHours - b.dailyHours
-            : b.dailyHours - a.dailyHours;
+          return { a: a.dailyHours, b: b.dailyHours };
         case "日付":
-          return isAsc
-            ? a.date.getTime() - b.date.getTime()
-            : b.date.getTime() - a.date.getTime();
+          return { a: a.date, b: b.date };
         default:
-          return 0;
+          return { a: a.id, b: b.id };
       }
     },
-    [isAsc, selected]
+    [target]
   );
 
   // idからメモのタイトル一覧を取得する関数
@@ -164,10 +141,12 @@ export default function DailyTableLogic({ itemList }: Props) {
     categoryFilterList,
     /** 選択中かどうか調べる関数 */
     isSelected,
-    /** ソート対象を関数 */
-    handleSetSortTarget,
+    /** ソートラベルをクリックした際のハンドラー */
+    handleClickSortLabel,
     /** ソートする関数 */
-    doSortByTitle,
+    doSort,
+    /** オブジェクトからソート対象の値を取得する関数 */
+    getSortTarget,
     /** 該当するidのデータのメモのタイトルの配列を取得する関数 */
     getMemoTitleArrayById,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
