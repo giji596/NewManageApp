@@ -1,3 +1,4 @@
+import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { MemoDailyTask } from "@/type/Memo";
 import { TableSortTargetType } from "@/type/Table";
@@ -26,10 +27,12 @@ export default function MemoListLogic({ memoItemList }: Props) {
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
     useTableSort({ initialTarget: null });
+  const {
+    filterList: taskFilterList,
+    toggleFilterCheckBox: toggleTaskFilterCheckBox,
+    doFilterByFilterList: doFilterByTaskFilterList,
+  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
-  const [taskFilterList, setTaskFilterList] = useState<Record<string, boolean>>(
-    defaultTaskFilterList
-  );
 
   const isActiveRow = useCallback(
     (id: number) => selectedRowId === id,
@@ -45,14 +48,6 @@ export default function MemoListLogic({ memoItemList }: Props) {
       }
     },
     [selectedRowId]
-  );
-  // タスクフィルターリストのチェックのOnOffを切り替える関数
-  const toggleTaskFilterCheckBox = useCallback(
-    (name: string) => {
-      const newValue = !taskFilterList[name];
-      setTaskFilterList((prev) => ({ ...prev, [name]: newValue }));
-    },
-    [, taskFilterList]
   );
 
   // ソート関数
@@ -73,24 +68,9 @@ export default function MemoListLogic({ memoItemList }: Props) {
     [target]
   );
 
-  // 選択されている内容に応じてフィルターする関数
   const doFilterByFilterList = useCallback(
-    (item: MemoDailyTask): boolean => {
-      // フィルターがセットされていない場合、trueを返してフィルターしない
-      const isNoTaskFilter = Object.values(taskFilterList).every(
-        (value) => value === false
-      );
-      if (isNoTaskFilter) {
-        return true;
-      }
-      // フィルターが存在する場合にカット対象か検証して、対象であれば早期にfalseでreturnする
-      const isCutByTask = !taskFilterList[item.task.name];
-      if (isCutByTask) {
-        return false;
-      }
-      return true;
-    },
-    [taskFilterList]
+    (item: MemoDailyTask) => doFilterByTaskFilterList(item.task.name),
+    [doFilterByTaskFilterList]
   );
 
   return {
