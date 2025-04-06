@@ -39,8 +39,9 @@ export default function TaskTable({
     taskFilterList,
     categoryFilterList,
     isSelected,
-    handleSetSortTarget,
-    doSortByTitle,
+    handleClickSortLabel,
+    doSort,
+    getSortTarget,
     toggleCategoryFilterCheckBox,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
@@ -56,7 +57,7 @@ export default function TaskTable({
           <TaskTableHeader
             isAsc={isAsc}
             isSelected={isSelected}
-            OnClickTitle={handleSetSortTarget}
+            OnClickTitle={handleClickSortLabel}
             onHoverTitle={handleMouseEnter}
             onLeaveHoverTitle={handleMouseLeave}
           />
@@ -69,7 +70,7 @@ export default function TaskTable({
               taskList.length > 0 &&
               taskList
                 .filter((item) => doFilterByFilterList(item))
-                .sort((a, b) => doSortByTitle(a, b))
+                .sort((a, b) => doSort(getSortTarget(a, b)))
                 .map((item) => (
                   <TableRow
                     key={item.id}
