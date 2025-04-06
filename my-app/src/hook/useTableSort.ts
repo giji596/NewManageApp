@@ -26,15 +26,15 @@ export default function useTableSort({ initialTarget }: Props) {
       } else {
         // 非選択の場合:新たなターゲットをセットする
         setTarget(title);
+        setIsAsc(true);
       }
-      setIsAsc(true);
     },
     [isAsc, isSelected]
   );
 
   // ソート関数
   const doSort = useCallback(
-    (a: TableSortTargetType, b: TableSortTargetType) => {
+    ({ a, b }: { a: TableSortTargetType; b: TableSortTargetType }) => {
       switch (typeof a) {
         // 各タイプの同定を行ったのちにソートする
         case "string":
