@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import TableBody from "./TableBody";
+import CustomTableBody from "./CustomTableBody";
 
 const meta = {
-  component: TableBody,
+  component: CustomTableBody,
   args: {
     memoItem: {
       id: 0,
@@ -14,7 +14,7 @@ const meta = {
     isActive: false,
     onClickRow: () => {},
   },
-} satisfies Meta<typeof TableBody>;
+} satisfies Meta<typeof CustomTableBody>;
 
 export default meta;
 

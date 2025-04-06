@@ -13,7 +13,11 @@ type Props = {
 /**
  * 日次詳細 - メモリストのテーブルボディコンポーネント
  */
-export default function TableBody({ memoItem, isActive, onClickRow }: Props) {
+export default function CustomTableBody({
+  memoItem,
+  isActive,
+  onClickRow,
+}: Props) {
   return (
     <>
       <TableRow

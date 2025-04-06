@@ -18,7 +18,7 @@ type Props = {
 /**
  * 日付詳細 - メモリストのテーブルヘッダー
  */
-export default function TableHeader({
+export default function CustomTableHeader({
   isAsc,
   onHoverTitle,
   onLeaveHoverTitle,
