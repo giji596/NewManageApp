@@ -6,12 +6,12 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  CircularProgress,
 } from "@mui/material";
 import TaskTableHeader from "./DailyDetailTaskTableHeader/TaskTableHeader";
 import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskTableLogic from "./TaskTableLogic";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
+import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 
 type Props = {
   /** タスク一覧 */
@@ -60,13 +60,7 @@ export default function TaskTable({
             onLeaveHoverTitle={handleMouseLeave}
           />
           <TableBody>
-            {isLoading && (
-              <TableRow>
-                <TableCell colSpan={5} sx={{ height: "200px" }} align="center">
-                  <CircularProgress />
-                </TableCell>
-              </TableRow>
-            )}
+            {isLoading && <TableBodyLoading colCount={5} />}
             {!isLoading && taskList.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} align="center" sx={{ height: "200px" }}>
