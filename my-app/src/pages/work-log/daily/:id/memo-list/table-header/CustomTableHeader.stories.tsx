@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import TableHeader from "./TableHeader";
+import CustomTableHeader from "./CustomTableHeader";
 
 const meta = {
-  component: TableHeader,
+  component: CustomTableHeader,
   args: {
     isAsc: true,
     onClickTitle: () => {},
     onHoverTitle: () => {},
     onLeaveHoverTitle: () => {},
   },
-} satisfies Meta<typeof TableHeader>;
+} satisfies Meta<typeof CustomTableHeader>;
 
 export default meta;
 
