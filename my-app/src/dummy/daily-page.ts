@@ -1,5 +1,5 @@
 import { DateSummary } from "@/type/Date";
-import { MemoTitleList } from "@/type/Memo";
+import { MemoDailyTask, MemoTitleList } from "@/type/Memo";
 import { DailyDetailTaskTableType } from "@/type/Task";
 
 /**
@@ -171,4 +171,19 @@ export const DUMMY_TASK_TABLE_LIST: DailyDetailTaskTableType[] = [
     },
     dailyHours: 8,
   },
+];
+
+export const DUMMY_MEMO_LIST_ITEM: MemoDailyTask[] = [
+  {
+    id: 1,
+    title: "メモaafdasfaffsafdafdfdaffafa3931saddadasdasdasdssaddasdadas",
+    summary: "本文",
+    task: { id: 1, name: "タスク1" },
+  },
+  { id: 2, title: "メモ2", summary: "本文", task: { id: 1, name: "タスク1" } },
+  { id: 3, title: "メモ3", summary: "本文", task: { id: 2, name: "タスク2" } },
+  { id: 4, title: "メモ4", summary: "本文", task: { id: 2, name: "タスク2" } },
+  { id: 5, title: "メモ5", summary: "本文", task: { id: 3, name: "タスク3" } },
+  { id: 6, title: "メモ6", summary: "本文", task: { id: 3, name: "タスク3" } },
+  { id: 7, title: "メモ7", summary: "本文", task: { id: 3, name: "タスク3" } },
 ];
