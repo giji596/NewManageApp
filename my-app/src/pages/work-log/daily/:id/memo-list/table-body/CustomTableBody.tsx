@@ -45,7 +45,7 @@ export default function CustomTableBody({
           {memoItem.task.name}
         </TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={2}>
           <Collapse in={isActive} timeout="auto" unmountOnExit>
             <Box margin={1}>{memoItem.summary}</Box>
