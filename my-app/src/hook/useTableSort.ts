@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 
 type Props = {
   /** 初期選択項目 */
-  initialTarget: string;
+  initialTarget: string | null;
 };
 
 /**
@@ -12,7 +12,7 @@ type Props = {
  */
 export default function useTableSort({ initialTarget }: Props) {
   const [isAsc, setIsAsc] = useState<boolean>(true);
-  const [target, setTarget] = useState<string | null>(() => initialTarget);
+  const [target, setTarget] = useState<string | null>(initialTarget);
 
   // タイトルが選択状態かどうかを調べる関数
   const isSelected = useCallback((title: string) => target === title, [target]);
