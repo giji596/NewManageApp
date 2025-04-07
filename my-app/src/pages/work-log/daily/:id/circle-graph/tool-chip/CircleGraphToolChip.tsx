@@ -15,12 +15,13 @@ export default function CircleGraphToolChip({
       <Paper sx={{ px: 5, py: 1 }}>
         {dataItem.task.map((item: TaskWithPercentage) => (
           <Stack
-            mb={1}
+            m={0.5}
             key={item.id}
             direction="row"
             justifyContent={"space-between"}
           >
             <Typography>{item.name}</Typography>
+            <Typography>：</Typography>
             <Typography>{item.percent}</Typography>
           </Stack>
         ))}

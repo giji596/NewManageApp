@@ -1,5 +1,6 @@
 import { TaskWithPercentage } from "@/type/Task";
 import { PieChart, Pie, Tooltip } from "recharts";
+import CircleGraphToolChip from "./tool-chip/CircleGraphToolChip";
 
 type DailyCategoryCircleGraph = {
   /** 名称 */
@@ -32,8 +33,7 @@ export default function CircleGraph({ data }: Props) {
           `${name} (${(percent * 100).toFixed(1)}%)`
         }
       />
-      {/** TODO:Tooltipをいじってタスクパーセントを表示させる */}
-      <Tooltip />
+      <Tooltip content={<CircleGraphToolChip />} />
     </PieChart>
   );
 }
