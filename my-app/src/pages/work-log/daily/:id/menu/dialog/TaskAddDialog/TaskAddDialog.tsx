@@ -1,5 +1,3 @@
-import { CategoryOption } from "@/type/Category";
-import { TaskOption } from "@/type/Task";
 import {
   Button,
   CircularProgress,
@@ -15,14 +13,9 @@ import {
 } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import TaskAddDialogLogic from "./TaskAddDialogLogic";
 
 type Props = {
-  /** カテゴリ一覧 */
-  categoryList: CategoryOption[];
-  /** タスク一覧 */
-  taskList: TaskOption[];
-  /** ロード状態(カテゴリーを変えた時に再度タスク一覧を取得する場合) */
-  isLoading: boolean;
   /** ダイアログの開閉状態 */
   open: boolean;
   /** ダイアログを閉じる関数 */
@@ -32,13 +25,17 @@ type Props = {
 /**
  * 日付詳細 - タスクを追加するダイアログのコンポーネント
  */
-export default function TaskAddDialog({
-  categoryList,
-  taskList,
-  isLoading,
-  open,
-  onClose,
-}: Props) {
+export default function TaskAddDialog({ open, onClose }: Props) {
+  const {
+    categoryList,
+    taskList,
+    isLoading,
+    selectedCategoryId,
+    selectedTaskId,
+    onChangeSelectedCategory,
+    onChangeSelectedTask,
+    handleAddDailyTask,
+  } = TaskAddDialogLogic();
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>タスクを追加する</DialogTitle>
@@ -49,7 +46,11 @@ export default function TaskAddDialog({
           {/** セレクト*/}
           <FormControl fullWidth>
             <InputLabel>カテゴリ名</InputLabel>
-            <Select label="カテゴリ名" defaultValue={categoryList[0].id}>
+            <Select
+              label="カテゴリ名"
+              value={String(selectedCategoryId)}
+              onChange={onChangeSelectedCategory}
+            >
               {categoryList.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.name}
@@ -68,19 +69,23 @@ export default function TaskAddDialog({
           <FormControl fullWidth>
             <InputLabel>タスク名</InputLabel>
             {isLoading && (
-              <Select disabled label="タスク名" defaultValue={0}>
+              <Select disabled label="タスク名" value={0}>
                 <MenuItem value={0}>
                   <CircularProgress size={22} />
                 </MenuItem>
               </Select>
             )}
             {!isLoading && taskList.length === 0 && (
-              <Select disabled label="タスク名" defaultValue={0}>
+              <Select disabled label="タスク名" value={0}>
                 <MenuItem value={0}>タスクがありません</MenuItem>
               </Select>
             )}
             {!isLoading && taskList.length > 0 && (
-              <Select label="タスク名" defaultValue={taskList[0].id}>
+              <Select
+                label="タスク名"
+                value={String(selectedTaskId)}
+                onChange={onChangeSelectedTask}
+              >
                 {taskList.map((task) => (
                   <MenuItem key={task.id} value={task.id}>
                     {task.name}
@@ -97,8 +102,15 @@ export default function TaskAddDialog({
       </Stack>
       {/** ボタン */}
       <DialogActions>
-        <Button color="error">キャンセル</Button>
-        <Button variant="contained" startIcon={<AddTaskIcon />}>
+        <Button color="error" onClick={onClose}>
+          キャンセル
+        </Button>
+        <Button
+          disabled={isLoading}
+          variant="contained"
+          startIcon={<AddTaskIcon />}
+          onClick={handleAddDailyTask}
+        >
           追加
         </Button>
       </DialogActions>
