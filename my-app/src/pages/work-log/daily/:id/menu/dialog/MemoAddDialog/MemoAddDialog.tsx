@@ -13,6 +13,8 @@ import {
   TextField,
 } from "@mui/material";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import MemoAddDialogLogic from "./MemoAddDialogLogic";
+import { Controller } from "react-hook-form";
 
 type Props = {
   /** タスクの一覧 */
@@ -37,51 +39,96 @@ export default function MemoAddDialog({
   isTaskSelected,
   onClose,
 }: Props) {
+  const { onSubmit, control, isValid } = MemoAddDialogLogic({
+    taskList,
+    tagList,
+    onClose,
+  });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>メモを追加</DialogTitle>
       {/** タスクの選択フォーム */}
-      <Stack spacing={1} px={2}>
-        <FormControl fullWidth>
-          <InputLabel>タスクを選ぶ</InputLabel>
-          {!isTaskSelected && (
-            <Select label="タスクを選ぶ" defaultValue={taskList[0].id}>
-              {taskList.map((task) => (
-                <MenuItem key={task.id} value={task.id}>
-                  {task.name}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-          {isTaskSelected && (
-            <Select disabled label="タスクを選ぶ" defaultValue={taskList[0].id}>
-              <MenuItem value={taskList[0].id}>{taskList[0].name}</MenuItem>
-            </Select>
-          )}
-        </FormControl>
-        {/** タイトル/タグ */}
-        <Stack direction="row" spacing={1}>
-          <TextField label="タイトル" sx={{ width: "80%" }} />
-          <FormControl sx={{ width: "20%" }}>
-            <InputLabel>タグ</InputLabel>
-            <Select label="タグ" defaultValue={tagList[0].id}>
-              {tagList.map((tag) => (
-                <MenuItem key={tag.id} value={tag.id}>
-                  {tag.name}
-                </MenuItem>
-              ))}
-            </Select>
+      <form onSubmit={onSubmit}>
+        <Stack spacing={1} px={2}>
+          <FormControl fullWidth>
+            <InputLabel>タスクを選ぶ</InputLabel>
+            {!isTaskSelected && (
+              <Controller
+                name="taskId"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Select {...field} label="タスクを選ぶ">
+                    {taskList.map((task) => (
+                      <MenuItem key={task.id} value={task.id}>
+                        {task.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+            )}
+            {isTaskSelected && (
+              <Select
+                disabled
+                label="タスクを選ぶ"
+                defaultValue={taskList[0].id}
+              >
+                <MenuItem value={taskList[0].id}>{taskList[0].name}</MenuItem>
+              </Select>
+            )}
           </FormControl>
+          {/** タイトル/タグ */}
+          <Stack direction="row" spacing={1}>
+            <Controller
+              name="title"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField {...field} label="タイトル" sx={{ width: "80%" }} />
+              )}
+            />
+            <FormControl sx={{ width: "20%" }}>
+              <InputLabel>タグ</InputLabel>
+              <Controller
+                name="tagId"
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} label="タグ">
+                    {tagList.map((tag) => (
+                      <MenuItem key={tag.id} value={tag.id}>
+                        {tag.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+          </Stack>
+          {/**　本文 */}
+          <Controller
+            name="text"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField {...field} label="本文" multiline rows={4} />
+            )}
+          />
         </Stack>
-        {/**　本文 */}
-        <TextField label="本文" multiline rows={4} />
-      </Stack>
-      <DialogActions>
-        <Button color="error">キャンセル</Button>
-        <Button variant="contained" startIcon={<NoteAddIcon />}>
-          追加
-        </Button>
-      </DialogActions>
+        <DialogActions>
+          <Button onClick={onClose} color="error">
+            キャンセル
+          </Button>
+          <Button
+            disabled={!isValid}
+            type="submit"
+            variant="contained"
+            startIcon={<NoteAddIcon />}
+          >
+            追加
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 }
