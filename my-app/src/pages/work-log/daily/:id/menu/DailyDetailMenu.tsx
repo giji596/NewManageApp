@@ -1,11 +1,22 @@
 import { Button, Stack, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCommentIcon from "@mui/icons-material/AddComment";
+import useDialog from "@/hook/useDialog";
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネント
  */
 export default function DailyDetailMenu() {
+  const {
+    open: openTask,
+    onClose: onCloseTask,
+    onOpen: onOpenTask,
+  } = useDialog();
+  const {
+    open: openMemo,
+    onClose: onCloseMemo,
+    onOpen: onOpenMemo,
+  } = useDialog();
   return (
     <>
       <Stack spacing={2}>
