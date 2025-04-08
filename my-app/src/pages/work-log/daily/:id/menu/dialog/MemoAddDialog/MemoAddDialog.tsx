@@ -1,5 +1,3 @@
-import { TagOption } from "@/type/Tag";
-import { TaskOption } from "@/type/Task";
 import {
   Button,
   Dialog,
@@ -17,10 +15,6 @@ import MemoAddDialogLogic from "./MemoAddDialogLogic";
 import { Controller } from "react-hook-form";
 
 type Props = {
-  /** タスクの一覧 */
-  taskList: TaskOption[];
-  /** タグの一覧 */
-  tagList: TagOption[];
   /** ダイアログ開閉状態 */
   open: boolean;
   /** タスクを指定しているかどうか */
@@ -33,15 +27,11 @@ type Props = {
  * 日付詳細 メモを追加するためのダイアログ
  */
 export default function MemoAddDialog({
-  taskList,
-  tagList,
   open,
   isTaskSelected,
   onClose,
 }: Props) {
-  const { onSubmit, control, isValid } = MemoAddDialogLogic({
-    taskList,
-    tagList,
+  const { taskList, tagList, onSubmit, control, isValid } = MemoAddDialogLogic({
     onClose,
   });
   return (
