@@ -4,11 +4,19 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
 import useDialog from "@/hook/useDialog";
 import TaskAddDialog from "./dialog/TaskAddDialog/TaskAddDialog";
 import MemoAddDialog from "./dialog/MemoAddDialog/MemoAddDialog";
+import DailyDetailMenuLogic from "./DailyDetailMenuLogic";
+
+type Props = {
+  /** 対象の日付データ */
+  date: Date;
+  /** 稼働時間 */
+  dailyHours: number;
+};
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネント
  */
-export default function DailyDetailMenu() {
+export default function DailyDetailMenu({ date, dailyHours }: Props) {
   const {
     open: openTask,
     onClose: onCloseTask,
@@ -19,16 +27,18 @@ export default function DailyDetailMenu() {
     onClose: onCloseMemo,
     onOpen: onOpenMemo,
   } = useDialog();
+  const { dateString, dailyHourCoverGraphLength } = DailyDetailMenuLogic({
+    date,
+    dailyHours,
+  });
   return (
     <>
       <Stack spacing={2}>
         {/** 日付と時間 */}
         <Stack spacing={1}>
-          {/** TODO:ひづけを受け取る */}
-          <Typography>(ひづけ)</Typography>
+          <Typography>{dateString}</Typography>
           <Stack direction="row">
-            {/** TODO:時間を受け取る */}
-            <Typography>稼働時間： X(h)</Typography>
+            <Typography>稼働時間： {dailyHours}(h)</Typography>
             <Stack
               direction="row-reverse"
               sx={{
@@ -48,7 +58,7 @@ export default function DailyDetailMenu() {
                   "@keyframes grow": {
                     "0%": { width: "100%" },
                     "100%": {
-                      width: `${20}%`, // TODO:稼働時間から計算して渡す (10-稼働時間)/10*100
+                      width: `${dailyHourCoverGraphLength}%`,
                     },
                   },
                 }}
