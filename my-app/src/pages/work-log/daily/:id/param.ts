@@ -1,8 +1,6 @@
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
+import { DailyDetailTaskTableType } from "@/type/Task";
 import { useMemo } from "react";
-
-// percent("XX%" string)=>value(XX0 number)への変換
-const percentToValue = (percent: string) => Number(percent.slice(0, -1) + "0");
 
 /**
  * 日付詳細ページのパラメータ関連
@@ -12,35 +10,48 @@ export default function DailyDetailPageParams() {
   const params: DateDetailPage = {
     id: 1,
     date: new Date(),
-    dailyHours: 8,
-    categoryList: [
+    taskList: [
       {
         id: 1,
-        name: "カテゴリ1",
-        taskList: [
-          { id: 1, name: "タスク1", percent: "50%" },
-          { id: 2, name: "タスク2", percent: "30%" },
-          { id: 3, name: "タスク3", percent: "20%" },
-        ],
-        percent: "60%",
+        task: { id: 1, name: "タスク1" },
+        category: { id: 1, name: "カテゴリー1" },
+        dailyHours: 3,
       },
       {
         id: 2,
-        name: "カテゴリ2",
-        taskList: [
-          { id: 4, name: "タスク4", percent: "80%" },
-          { id: 5, name: "タスク5", percent: "20%" },
-        ],
-        percent: "25%",
+        task: { id: 2, name: "タスク2" },
+        category: { id: 1, name: "カテゴリー1" },
+        dailyHours: 1,
       },
       {
         id: 3,
-        name: "カテゴリ3",
-        taskList: [
-          { id: 6, name: "タスク6", percent: "50%" },
-          { id: 7, name: "タスク7", percent: "50%" },
-        ],
-        percent: "15%",
+        task: { id: 3, name: "タスク3" },
+        category: { id: 1, name: "カテゴリー1" },
+        dailyHours: 0.8,
+      },
+      {
+        id: 4,
+        task: { id: 4, name: "タスク4" },
+        category: { id: 2, name: "カテゴリー2" },
+        dailyHours: 1.2,
+      },
+      {
+        id: 5,
+        task: { id: 5, name: "タスク5" },
+        category: { id: 2, name: "カテゴリー2" },
+        dailyHours: 0.6,
+      },
+      {
+        id: 6,
+        task: { id: 6, name: "タスク6" },
+        category: { id: 3, name: "カテゴリー3" },
+        dailyHours: 1,
+      },
+      {
+        id: 7,
+        task: { id: 7, name: "タスク7" },
+        category: { id: 3, name: "カテゴリー3" },
+        dailyHours: 0.4,
       },
     ],
     memoList: [
@@ -74,22 +85,58 @@ export default function DailyDetailPageParams() {
   const isLoading = false;
 
   const date = params.date;
-  const dailyHours = params.dailyHours;
-  const memoList = params.memoList;
-  const circleDataList: DailyCategoryCircleGraph[] = useMemo(
-    () =>
-      params.categoryList.reduce<DailyCategoryCircleGraph[]>((a, b) => {
-        const circleData: DailyCategoryCircleGraph = {
-          name: b.name,
-          value: percentToValue(b.percent),
-          task: b.taskList,
-        };
-        a.push(circleData);
-        return a;
-      }, []),
-    [params.categoryList]
+  const dailyHours = useMemo(
+    () => params.taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
+    [params.taskList]
   );
+  const taskList = params.taskList;
+  const memoList = params.memoList;
+  const circleDataList: DailyCategoryCircleGraph[] = useMemo(() => {
+    const data = params.taskList;
+    const totalHours = data.reduce((sum, item) => sum + item.dailyHours, 0);
 
+    // カテゴリごとにグループ化
+    const groupedByCategory = data.reduce((acc, item) => {
+      const key = item.category.name;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    }, {} as Record<string, DailyDetailTaskTableType[]>);
+
+    return Object.entries(groupedByCategory).map(([name, items]) => {
+      const categoryTotal = items.reduce(
+        (sum, item) => sum + item.dailyHours,
+        0
+      );
+
+      // タスクごとに集計（idとnameも残す）
+      const taskMap = items.reduce((acc, item) => {
+        const key = item.task.name; // nameでまとめる前提（idでまとめたければkey変えて）
+        if (!acc[key]) {
+          acc[key] = {
+            id: item.task.id,
+            name: item.task.name,
+            hours: 0,
+          };
+        }
+        acc[key].hours += item.dailyHours;
+        return acc;
+      }, {} as Record<string, { id: number; name: string; hours: number }>);
+
+      // パーセント変換
+      const task = Object.values(taskMap).map(({ id, name, hours }) => ({
+        id,
+        name,
+        percent: ((hours / categoryTotal) * 100).toFixed(0) + "%",
+      }));
+
+      return {
+        name,
+        value: Math.round((categoryTotal / totalHours) * 1000),
+        task,
+      };
+    });
+  }, [params.taskList]);
   return {
     /** ロード状態 */
     isLoading,
@@ -97,6 +144,8 @@ export default function DailyDetailPageParams() {
     date,
     /** 稼働時間 */
     dailyHours,
+    /** タスク一覧 */
+    taskList,
     /** メモ一覧 */
     memoList,
     /** 円グラフのデータ */

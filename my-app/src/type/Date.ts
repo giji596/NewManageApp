@@ -1,6 +1,6 @@
 import { CategoryWithPercentage } from "./Category";
 import { MemoDailyTask, MemoSummary, MemoTitleList } from "./Memo";
-import { TaskWithPercentage } from "./Task";
+import { DailyDetailTaskTableType, TaskWithPercentage } from "./Task";
 
 /** 日付の一覧データ型 */
 export type DateSummary = {
@@ -36,10 +36,8 @@ export type DateDetailPage = {
   id: number;
   /** 日付 */
   date: Date;
-  /** 稼働時間 */
-  dailyHours: number;
-  /** 割合つきのカテゴリリスト */
-  categoryList: CategoryWithPercentage[];
+  /** タスクの一覧 */
+  taskList: DailyDetailTaskTableType[];
   /** メモのタイトルと本文の一部と関連するタスクのリスト */
   memoList: MemoDailyTask[];
 };
