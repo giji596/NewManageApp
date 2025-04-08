@@ -80,8 +80,6 @@ export default function DailyDetailMenu() {
       {openTask && <TaskAddDialog open={openTask} onClose={onCloseTask} />}
       {openMemo && (
         <MemoAddDialog
-          taskList={[]} // TODO:ちょい後で修正
-          tagList={[]} // TODO: 多分この二つはダイアログ内でやらせるのがいい
           open={openMemo}
           onClose={onCloseMemo}
           isTaskSelected={false}

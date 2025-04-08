@@ -15,21 +15,27 @@ type SubmitData = {
 };
 
 type Props = {
-  /** タスクの一覧 */
-  taskList: TaskOption[];
-  /** タグの一覧 */
-  tagList: TagOption[];
   /** ダイアログを閉じる関数 */
   onClose: () => void;
 };
 /**
  * メモ追加ダイアログコンポーネントのロジック
  */
-export default function MemoAddDialogLogic({
-  taskList,
-  tagList,
-  onClose,
-}: Props) {
+export default function MemoAddDialogLogic({ onClose }: Props) {
+  // TODO:でーたふぇっちする
+  const taskList: TaskOption[] = [
+    { id: 1, name: "タスク1" },
+    { id: 2, name: "タスク2" },
+    { id: 3, name: "タスク3" },
+    { id: 4, name: "タスク4" },
+    { id: 5, name: "タスク5" },
+  ];
+  const tagList: TagOption[] = [
+    { id: 0, name: "なし" },
+    { id: 1, name: "タグ1" },
+    { id: 2, name: "タグ2" },
+    { id: 3, name: "タグ3" },
+  ];
   const {
     control,
     handleSubmit,
@@ -55,6 +61,10 @@ export default function MemoAddDialogLogic({
     [onClose]
   );
   return {
+    /** タスクの一覧 */
+    taskList,
+    /** タグの一覧 */
+    tagList,
     /** データ送信する関数 */
     onSubmit: handleSubmit(onSubmit),
     /** RHFのコントロールオブジェクト(MUIのコンポーネント制御のため必須) */
