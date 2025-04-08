@@ -1,15 +1,6 @@
-import { TaskWithPercentage } from "@/type/Task";
 import { PieChart, Pie, Tooltip } from "recharts";
 import CircleGraphToolChip from "./tool-chip/CircleGraphToolChip";
-
-type DailyCategoryCircleGraph = {
-  /** 名称 */
-  name: string;
-  /** 値(% * 10) */
-  value: number;
-  /** タスク */
-  task: TaskWithPercentage[];
-};
+import { DailyCategoryCircleGraph } from "@/type/Date";
 
 type Props = {
   /** データ */
