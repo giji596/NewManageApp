@@ -14,6 +14,8 @@ import {
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TaskAddDialogLogic from "./TaskAddDialogLogic";
+import useDialog from "@/hook/useDialog";
+import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -36,6 +38,16 @@ export default function TaskAddDialog({ open, onClose }: Props) {
     onChangeSelectedTask,
     handleAddDailyTask,
   } = TaskAddDialogLogic();
+  const {
+    open: openCreateTask,
+    onOpen: onOpenCreateTask,
+    onClose: onCloseCreateTask,
+  } = useDialog();
+  const {
+    open: openCreateCategory,
+    onOpen: onOpenCreateCategory,
+    onClose: onCloseCreateCategory,
+  } = useDialog();
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth>
