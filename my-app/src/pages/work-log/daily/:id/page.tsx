@@ -1,23 +1,43 @@
 import { Stack } from "@mui/material";
+import DailyDetailMenu from "./menu/DailyDetailMenu";
+import DailyDetailPageParams from "./param";
+import TaskList from "./task-list/TaskList";
+import CircleGraph from "./circle-graph/CircleGraph";
+import MemoList from "./memo-list/MemoList";
 /**
  * 日付詳細ページ
  */
 export default function DailyDetailPage() {
+  const { isLoading, date, dailyHours, memoList, circleDataList } =
+    DailyDetailPageParams();
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" height="100%" spacing={1} mx={2} pb={2}>
       {/**　左半分(メニュー/タスク) */}
       <Stack width="50%" spacing={1}>
         {/** メニュー */}
-        <Stack height="40%">めにゅー</Stack>
+        <Stack height="188px" pt={7} width="85%">
+          <DailyDetailMenu date={date} dailyHours={dailyHours} />
+        </Stack>
         {/** タスク */}
-        <Stack height="60%">たすく</Stack>
+        <Stack height="390px">
+          <TaskList
+            taskList={[]} //TODO:はやめに修正
+            isLoading={isLoading}
+            navigateTaskPage={() => {}} // TODO:ナビゲーション関連つくるとき
+            navigateCategoryPage={() => {}} // TODO:ナビゲーション関連つくるとき
+          />
+        </Stack>
       </Stack>
       {/** 右半分(グラフ/メモ) */}
       <Stack width="50%" spacing={1}>
         {/** グラフ */}
-        <Stack height="60%">ぐらふ</Stack>
+        <Stack height="300px" alignItems={"center"}>
+          <CircleGraph data={circleDataList} />
+        </Stack>
         {/** メモ */}
-        <Stack height="40%">めも</Stack>
+        <Stack height="350px">
+          <MemoList memoItemList={memoList} isLoading={isLoading} />
+        </Stack>
       </Stack>
     </Stack>
   );
