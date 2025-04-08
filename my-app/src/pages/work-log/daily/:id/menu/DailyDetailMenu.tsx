@@ -2,6 +2,8 @@ import { Button, Stack, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import useDialog from "@/hook/useDialog";
+import TaskAddDialog from "./dialog/TaskAddDialog/TaskAddDialog";
+import MemoAddDialog from "./dialog/MemoAddDialog/MemoAddDialog";
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネント
@@ -56,11 +58,11 @@ export default function DailyDetailMenu() {
         </Stack>
         {/** ナビゲーションボタン */}
         <Stack p={2} spacing={0.5}>
-          {/** TODO:クリック時のイベントつけーる */}
           <Button
             variant="outlined"
             startIcon={<AddTaskIcon />}
             sx={{ width: "50%" }}
+            onClick={onOpenTask}
           >
             タスクを追加する
           </Button>
@@ -68,11 +70,23 @@ export default function DailyDetailMenu() {
             variant="outlined"
             startIcon={<AddCommentIcon />}
             sx={{ width: "50%" }}
+            onClick={onOpenMemo}
           >
             メモを追加する
           </Button>
         </Stack>
       </Stack>
+      {/** ダイアログ */}
+      {openTask && <TaskAddDialog open={openTask} onClose={onCloseTask} />}
+      {openMemo && (
+        <MemoAddDialog
+          taskList={[]} // TODO:ちょい後で修正
+          tagList={[]} // TODO: 多分この二つはダイアログ内でやらせるのがいい
+          open={openMemo}
+          onClose={onCloseMemo}
+          isTaskSelected={false}
+        />
+      )}
     </>
   );
 }
