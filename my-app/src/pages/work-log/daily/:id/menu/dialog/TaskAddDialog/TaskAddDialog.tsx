@@ -16,6 +16,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TaskAddDialogLogic from "./TaskAddDialogLogic";
 import useDialog from "@/hook/useDialog";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
+import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -72,7 +73,10 @@ export default function TaskAddDialog({ open, onClose }: Props) {
               </Select>
             </FormControl>
             {/** 追加ボタン */}
-            <IconButton sx={{ width: 50, height: 50 }}>
+            <IconButton
+              onClick={onOpenCreateCategory}
+              sx={{ width: 50, height: 50 }}
+            >
               <AddCircleOutlineIcon />
             </IconButton>
           </Stack>
@@ -108,7 +112,10 @@ export default function TaskAddDialog({ open, onClose }: Props) {
               )}
             </FormControl>
             {/** アイコンボタン */}
-            <IconButton sx={{ width: 50, height: 50 }}>
+            <IconButton
+              onClick={onOpenCreateTask}
+              sx={{ width: 50, height: 50 }}
+            >
               <AddCircleOutlineIcon />
             </IconButton>
           </Stack>
@@ -128,6 +135,19 @@ export default function TaskAddDialog({ open, onClose }: Props) {
           </Button>
         </DialogActions>
       </Dialog>
+      {openCreateCategory && (
+        <CreateCategoryDialog
+          open={openCreateCategory}
+          onClose={onCloseCreateCategory}
+        />
+      )}
+      {openCreateTask && (
+        <CreateTaskDialog
+          initialCategoryId={selectedCategoryId}
+          open={openCreateTask}
+          onClose={onCloseCreateTask}
+        />
+      )}
     </>
   );
 }
