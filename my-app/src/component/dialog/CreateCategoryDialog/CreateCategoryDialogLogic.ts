@@ -6,30 +6,40 @@ type SubmitData = {
   name: string;
 };
 
+type Props = {
+  /** ダイアログを閉じる関数 */
+  onClose: () => void;
+};
 /**
  * 新規カテゴリを作成するダイアログのロジック
  */
-export default function CreateCategoryDialogLogic() {
+export default function CreateCategoryDialogLogic({ onClose }: Props) {
   const {
     control,
     handleSubmit,
     formState: { isValid },
   } = useForm<SubmitData>({ defaultValues: { name: "" } });
-  const [duplicateError, setDuplicateError] = useState<boolean>();
+  const [duplicateError, setDuplicateError] = useState<boolean>(false);
 
-  const onSubmit = useCallback(async (data: SubmitData) => {
-    try {
-      // TODO:BEにリクエストを送る
-      console.log("新規カテゴリ", data);
-      // TODO:ここでレスポンスを検証して、必要であればエラーをthrowする
-    } catch (error) {
-      console.log("カテゴリ作成エラー", error);
-      // TODO:重複時に想定しているエラーと合致していた場合、フラグをonにする
-      if (error) {
-        setDuplicateError(true);
+  const onSubmit = useCallback(
+    async (data: SubmitData) => {
+      try {
+        // TODO:BEにリクエストを送る
+        console.log("新規カテゴリ", data);
+        // TODO:ここでレスポンスを検証して、必要であればエラーをthrowする
+        if (true) {
+          onClose();
+        }
+      } catch (error) {
+        console.log("カテゴリ作成エラー", error);
+        // TODO:重複時に想定しているエラーと合致していた場合、フラグをonにする
+        if (error) {
+          setDuplicateError(true);
+        }
       }
-    }
-  }, []);
+    },
+    [onClose]
+  );
 
   return {
     /** RHFのコントロールオブジェクト(MUIコンポーネント管理に必須) */
