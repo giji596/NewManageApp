@@ -4,7 +4,13 @@ import MemoDetailDialog from "./MemoDetailDialog";
 
 const meta = {
   component: MemoDetailDialog,
-  args: { open: true, onClose: () => {} },
+  args: {
+    id: 1,
+    title: "タイトル",
+    taskName: "タスク1",
+    open: true,
+    onClose: () => {},
+  },
 } satisfies Meta<typeof MemoDetailDialog>;
 
 export default meta;
