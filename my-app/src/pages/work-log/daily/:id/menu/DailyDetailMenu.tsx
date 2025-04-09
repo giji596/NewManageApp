@@ -5,18 +5,21 @@ import useDialog from "@/hook/useDialog";
 import TaskAddDialog from "./dialog/TaskAddDialog/TaskAddDialog";
 import MemoAddDialog from "./dialog/MemoAddDialog/MemoAddDialog";
 import DailyDetailMenuLogic from "./DailyDetailMenuLogic";
+import { TaskOption } from "@/type/Task";
 
 type Props = {
   /** 対象の日付データ */
   date: Date;
   /** 稼働時間 */
   dailyHours: number;
+  /** タスクの一覧(メモで使う) */
+  taskList: TaskOption[];
 };
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネント
  */
-export default function DailyDetailMenu({ date, dailyHours }: Props) {
+export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
   const {
     open: openTask,
     onClose: onCloseTask,
@@ -90,6 +93,7 @@ export default function DailyDetailMenu({ date, dailyHours }: Props) {
       {openTask && <TaskAddDialog open={openTask} onClose={onCloseTask} />}
       {openMemo && (
         <MemoAddDialog
+          taskList={taskList}
           open={openMemo}
           onClose={onCloseMemo}
           isTaskSelected={false}

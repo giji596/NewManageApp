@@ -9,8 +9,15 @@ import DailyDetailPageNavLogic from "./navLogic";
  * 日付詳細ページ
  */
 export default function DailyDetailPage() {
-  const { isLoading, date, dailyHours, memoList, taskList, circleDataList } =
-    DailyDetailPageParams();
+  const {
+    isLoading,
+    date,
+    dailyHours,
+    memoList,
+    taskList,
+    taskOptions,
+    circleDataList,
+  } = DailyDetailPageParams();
   const { navigateToCategoryDetail, navigateToTaskDetail } =
     DailyDetailPageNavLogic();
   return (
@@ -19,7 +26,11 @@ export default function DailyDetailPage() {
       <Stack width="50%" spacing={1}>
         {/** メニュー */}
         <Stack height="188px" pt={7} width="85%">
-          <DailyDetailMenu date={date} dailyHours={dailyHours} />
+          <DailyDetailMenu
+            date={date}
+            dailyHours={dailyHours}
+            taskList={taskOptions}
+          />
         </Stack>
         {/** タスク */}
         <Stack height="390px">

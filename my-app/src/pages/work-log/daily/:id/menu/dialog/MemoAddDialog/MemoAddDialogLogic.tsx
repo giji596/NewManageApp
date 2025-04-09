@@ -15,21 +15,17 @@ type SubmitData = {
 };
 
 type Props = {
+  /** タスクの一覧 */
+  taskList: TaskOption[];
   /** ダイアログを閉じる関数 */
   onClose: () => void;
 };
 /**
  * メモ追加ダイアログコンポーネントのロジック
  */
-export default function MemoAddDialogLogic({ onClose }: Props) {
+export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
   // TODO:でーたふぇっちする
-  const taskList: TaskOption[] = [
-    { id: 1, name: "タスク1" },
-    { id: 2, name: "タスク2" },
-    { id: 3, name: "タスク3" },
-    { id: 4, name: "タスク4" },
-    { id: 5, name: "タスク5" },
-  ];
+
   const tagList: TagOption[] = [
     { id: 0, name: "なし" },
     { id: 1, name: "タグ1" },
