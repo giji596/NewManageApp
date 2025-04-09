@@ -7,6 +7,7 @@ import {
   FormControl,
   InputLabel,
   Stack,
+  IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -14,6 +15,9 @@ import TaskEditDialogLogic from "./TaskEditDialogLogic";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import ConfirmSaveDialog from "@/component/dialog/ConfirmSaveDialog/ConfirmSaveDialog";
 import useDialog from "@/hook/useDialog";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
+import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -66,43 +70,75 @@ export default function TaskEditDialog({
     onClose: onCloseSave,
     onOpen: onOpenSave,
   } = useDialog();
+  const {
+    open: openCreateTask,
+    onOpen: onOpenCreateTask,
+    onClose: onCloseCreateTask,
+  } = useDialog();
+  const {
+    open: openCreateCategory,
+    onOpen: onOpenCreateCategory,
+    onClose: onCloseCreateCategory,
+  } = useDialog();
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
         <DialogContent>
           <Stack spacing={3} mt={1}>
-            <FormControl fullWidth>
-              <InputLabel>カテゴリ</InputLabel>
-              <Select
-                value={String(categoryId)}
-                onChange={onChangeSelectCategory}
-                label="カテゴリ"
+            {/** カテゴリ */}
+            <Stack direction="row" spacing={1}>
+              <FormControl fullWidth>
+                <InputLabel>カテゴリ</InputLabel>
+                <Select
+                  value={String(categoryId)}
+                  onChange={onChangeSelectCategory}
+                  label="カテゴリ"
+                >
+                  {categoryList.map((cat) => (
+                    <MenuItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/** アイコンボタン */}
+              <IconButton
+                onClick={onOpenCreateCategory}
+                sx={{ width: 50, height: 50 }}
               >
-                {categoryList.map((cat) => (
-                  <MenuItem key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl fullWidth>
-              <InputLabel>タスク</InputLabel>
-              <Select
-                value={String(taskId)}
-                onChange={onChangeSelectTask}
-                label="タスク"
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </Stack>
+            {/** タスク */}
+            <Stack direction="row" spacing={1}>
+              {/** セレクト */}
+              <FormControl fullWidth>
+                <InputLabel>タスク</InputLabel>
+                <Select
+                  value={String(taskId)}
+                  onChange={onChangeSelectTask}
+                  label="タスク"
+                >
+                  {taskList.map((task) => (
+                    <MenuItem
+                      key={task.id}
+                      value={task.id}
+                      disabled={task.id == 0}
+                    >
+                      {task.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/** アイコンボタン */}
+              <IconButton
+                onClick={onOpenCreateTask}
+                sx={{ width: 50, height: 50 }}
               >
-                {taskList.map((task) => (
-                  <MenuItem
-                    key={task.id}
-                    value={task.id}
-                    disabled={task.id == 0}
-                  >
-                    {task.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </Stack>
+            {/** 稼働時間 */}
             <FormControl sx={{ width: "30%" }}>
               <InputLabel>稼働時間(hour)</InputLabel>
               <Select
@@ -154,6 +190,19 @@ export default function TaskEditDialog({
         onClose={onCloseSave}
         onAccept={handleSave}
       />
+      {openCreateCategory && (
+        <CreateCategoryDialog
+          open={openCreateCategory}
+          onClose={onCloseCreateCategory}
+        />
+      )}
+      {openCreateTask && (
+        <CreateTaskDialog
+          initialCategoryId={categoryId}
+          open={openCreateTask}
+          onClose={onCloseCreateTask}
+        />
+      )}
     </>
   );
 }
