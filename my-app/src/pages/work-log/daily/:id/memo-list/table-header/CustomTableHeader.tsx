@@ -29,7 +29,7 @@ export default function CustomTableHeader({
     <>
       <TableHead>
         <TableRow>
-          <TableCell width="60%">
+          <TableCell width="50%">
             <CustomHeaderSortLabel
               title={"タイトル"}
               isSelected={isSelected("タイトル")}
@@ -37,7 +37,7 @@ export default function CustomTableHeader({
               onClickTitle={onClickTitle}
             />
           </TableCell>
-          <TableCell width="40%">
+          <TableCell width="35%">
             <CustomHeaderSortCheckLabel
               title={"タスク名"}
               isSelected={isSelected("タスク名")}
@@ -48,6 +48,7 @@ export default function CustomTableHeader({
               onLeaveTitle={onLeaveHoverTitle}
             />
           </TableCell>
+          <TableCell width="15%">{/** ボタン用の空白 */}</TableCell>
         </TableRow>
       </TableHead>
     </>
