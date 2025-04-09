@@ -14,15 +14,19 @@ export type TaskSummary = {
   /** 識別用のid */
   id: number;
   /** タスク名 */
-  name: string;
-  /** ピン付の有無 */
-  isPinned: boolean;
+  taskName: string;
+  /** おきにかどうか */
+  isFavorite: boolean;
   /** カテゴリー名 */
-  category: string;
+  categoryName: string;
   /** 進捗率 */
   progress: number;
   /** 稼働合計時間 */
   totalHours: number;
+  /** 稼働開始日 */
+  startDate: Date;
+  /** 最終稼働日 */
+  lastDate: Date;
 };
 
 /** タスクの詳細データの型定義 */
