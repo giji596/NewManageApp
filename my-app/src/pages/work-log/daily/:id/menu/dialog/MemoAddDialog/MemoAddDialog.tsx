@@ -13,8 +13,11 @@ import {
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import MemoAddDialogLogic from "./MemoAddDialogLogic";
 import { Controller } from "react-hook-form";
+import { TaskOption } from "@/type/Task";
 
 type Props = {
+  /** タスクの一覧 */
+  taskList: TaskOption[];
   /** ダイアログ開閉状態 */
   open: boolean;
   /** タスクを指定しているかどうか */
@@ -27,12 +30,14 @@ type Props = {
  * 日付詳細 メモを追加するためのダイアログ
  */
 export default function MemoAddDialog({
+  taskList,
   open,
   isTaskSelected,
   onClose,
 }: Props) {
-  const { taskList, tagList, onSubmit, control, isValid } = MemoAddDialogLogic({
+  const { tagList, onSubmit, control, isValid } = MemoAddDialogLogic({
     onClose,
+    taskList,
   });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>

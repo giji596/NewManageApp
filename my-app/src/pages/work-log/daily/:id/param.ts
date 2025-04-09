@@ -1,5 +1,5 @@
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
-import { DailyDetailTaskTableType } from "@/type/Task";
+import { DailyDetailTaskTableType, TaskOption } from "@/type/Task";
 import { useMemo } from "react";
 
 /**
@@ -90,6 +90,11 @@ export default function DailyDetailPageParams() {
     [params.taskList]
   );
   const taskList = params.taskList;
+  const taskOptions = taskList.reduce<TaskOption[]>((a, b) => {
+    const taskData: TaskOption = { id: b.task.id, name: b.task.name };
+    a.push(taskData);
+    return a;
+  }, []);
   const memoList = params.memoList;
   const circleDataList: DailyCategoryCircleGraph[] = useMemo(() => {
     const data = params.taskList;
@@ -146,6 +151,8 @@ export default function DailyDetailPageParams() {
     dailyHours,
     /** タスク一覧 */
     taskList,
+    /** タスク一覧(タイトルのみ) */
+    taskOptions,
     /** メモ一覧 */
     memoList,
     /** 円グラフのデータ */
