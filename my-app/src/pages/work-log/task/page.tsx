@@ -16,7 +16,9 @@ export default function TaskSummaryPage() {
         onClickReset={() => {}}
         onClickNavigateDetail={() => {}}
       />
-      {!isLoading && <TaskSummaryTable taskList={taskSummaryData} />}
+      {!isLoading && (
+        <TaskSummaryTable taskList={taskSummaryData} onDirtyChange={() => {}} />
+      )}
     </>
   );
 }

@@ -15,6 +15,7 @@ const meta = {
       startDate: new Date("2025-03-24"),
       lastDate: new Date("2025-04-10"),
     },
+    onDirtyChange: () => {},
   },
 } satisfies Meta<typeof TaskSummaryTableBody>;
 

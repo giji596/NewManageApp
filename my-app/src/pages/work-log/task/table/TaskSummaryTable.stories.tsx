@@ -7,6 +7,7 @@ const meta = {
   component: TaskSummaryTable,
   args: {
     taskList: DUMMY_TASK_SUMMARY_DATA,
+    onDirtyChange: () => {},
   },
 } satisfies Meta<typeof TaskSummaryTable>;
 
