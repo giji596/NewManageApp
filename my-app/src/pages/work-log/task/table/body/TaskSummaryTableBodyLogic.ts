@@ -49,6 +49,11 @@ export default function TaskSummaryTableBodyLogic({ taskItem }: Props) {
     [getValues, isDirty]
   );
 
+  const backGroundColor = useMemo(
+    () => (isDirty ? "rgb(255, 238, 238)" : "rgb(255, 255, 255)"),
+    [isDirty]
+  );
+
   return {
     /** 開始日のstring */
     startDateString,
@@ -56,6 +61,8 @@ export default function TaskSummaryTableBodyLogic({ taskItem }: Props) {
     lastDateString,
     /** 進捗の選択賜 */
     progressSelects,
+    /** 背景色(isDirtyの値で分岐) */
+    backGroundColor,
     /** RHFのコントロールオブジェクト(MUIコンポーネントに必須) */
     control,
     /** フォームの変更の有無 */
