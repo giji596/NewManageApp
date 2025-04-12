@@ -22,16 +22,10 @@ type Props = {
  * タスク一覧ページのテーブルボディコンポーネント
  */
 export default function TaskSummaryTableBody({ taskItem }: Props) {
-  const {
-    startDateString,
-    lastDateString,
-    progressSelects,
-    control,
-    isDirty,
-    getData,
-  } = TaskSummaryTableBodyLogic({
-    taskItem,
-  });
+  const { startDateString, lastDateString, progressSelects, control, isDirty } =
+    TaskSummaryTableBodyLogic({
+      taskItem,
+    });
   return (
     <form>
       <TableRow>
