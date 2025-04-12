@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import TaskSummaryTableBody from "./TaskSummaryTableBody";
+import { TaskSummaryTableBodyHandle } from "./TaskSummaryTableBodyLogic";
+import { useRef } from "react";
 
 const meta = {
   component: TaskSummaryTableBody,
@@ -21,9 +23,15 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TaskSummaryTableBody>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  render: function Render(args) {
+    const rowRef = useRef<TaskSummaryTableBodyHandle>(null);
+
+    return <TaskSummaryTableBody {...args} ref={rowRef} />;
+  },
+};
 export const Favorite: Story = {
   args: {
     taskItem: {
@@ -36,5 +44,10 @@ export const Favorite: Story = {
       startDate: new Date("2025-03-24"),
       lastDate: new Date("2025-04-10"),
     },
+  },
+  render: function Render(args) {
+    const rowRef = useRef<TaskSummaryTableBodyHandle>(null);
+
+    return <TaskSummaryTableBody {...args} ref={rowRef} />;
   },
 };

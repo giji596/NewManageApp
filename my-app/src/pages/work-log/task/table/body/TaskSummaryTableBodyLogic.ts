@@ -1,6 +1,6 @@
 import { TaskSummary } from "@/type/Task";
 import { format } from "date-fns";
-import { useCallback, useEffect, useMemo } from "react";
+import { Ref, useEffect, useImperativeHandle, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 type SubmitData = {
@@ -10,9 +10,15 @@ type SubmitData = {
   progress: number;
 };
 
+export type TaskSummaryTableBodyHandle = {
+  getFormData: () => SubmitData;
+  resetFormData: () => void;
+};
 type Props = {
   /** タスクの一覧データ */
   taskItem: TaskSummary;
+  /** ref値(親で関数を使えるように) */
+  ref: Ref<TaskSummaryTableBodyHandle>;
   /** isDirtyの変化の通知を受け取る関数 */
   onDirtyChange: (targetId: number, isDirty: boolean) => void;
 };
@@ -22,6 +28,7 @@ type Props = {
  */
 export default function TaskSummaryTableBodyLogic({
   taskItem,
+  ref,
   onDirtyChange,
 }: Props) {
   // メモ化
@@ -41,6 +48,7 @@ export default function TaskSummaryTableBodyLogic({
   const {
     control,
     getValues,
+    reset,
     formState: { isDirty },
   } = useForm<SubmitData>({
     defaultValues: {
@@ -49,10 +57,11 @@ export default function TaskSummaryTableBodyLogic({
     },
   });
 
-  const getData = useCallback(
-    () => (isDirty ? getValues() : null),
-    [getValues, isDirty]
-  );
+  // 親に渡すメソッド
+  useImperativeHandle(ref, () => ({
+    getFormData: () => getValues(), // RHFのデータ取得
+    resetFormData: () => reset(), // RHFのデータを戻すメソッド
+  }));
 
   const backGroundColor = useMemo(
     () => (isDirty ? "rgb(255, 238, 238)" : "rgb(255, 255, 255)"),
@@ -78,7 +87,5 @@ export default function TaskSummaryTableBodyLogic({
     control,
     /** フォームの変更の有無 */
     isDirty,
-    /** フォームのデータを取得する関数(isDirty=falseの場合はnullを返す) */
-    getData,
   };
 }
