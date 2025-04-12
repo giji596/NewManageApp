@@ -4,7 +4,7 @@ import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMen
 import CustomHeaderSortCheckLabel from "@/component/table/header/CustomHeaderSortCheckLabel/CustomHeaderSortCheckLabel";
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 import HeaderFavoriteLabel from "@/component/table/header/HeaderFavoriteLabel/HeaderFavoriteLabel";
-import { TableCell, TableHead } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 
 type Props = {
   /** おきにのチェック状態 */
@@ -45,7 +45,7 @@ export default function TaskSummaryTableHeader({
     CustomMenuWrapperLogic();
   return (
     <>
-      <TableHead>
+      <TableRow>
         {/** おきに */}
         <TableCell width={"5%"}>
           <HeaderFavoriteLabel
@@ -113,7 +113,7 @@ export default function TaskSummaryTableHeader({
             onClickTitle={onClickTitle}
           />
         </TableCell>
-      </TableHead>
+      </TableRow>
       {/** タスク用のメニュー */}
       {openTargetIdRef.current === 10001 && (
         <CustomMenuWrapper
