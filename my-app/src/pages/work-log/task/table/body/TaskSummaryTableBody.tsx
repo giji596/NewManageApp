@@ -8,14 +8,19 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
-import TaskSummaryTableBodyLogic from "./TaskSummaryTableBodyLogic";
+import TaskSummaryTableBodyLogic, {
+  TaskSummaryTableBodyHandle,
+} from "./TaskSummaryTableBodyLogic";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Controller } from "react-hook-form";
+import { Ref } from "react";
 
 type Props = {
   /** タスクの一覧データ */
   taskItem: TaskSummary;
+  /** ref値(親で関数を使えるように) */
+  ref: Ref<TaskSummaryTableBodyHandle | null>;
   /** isDirtyの変化の通知を受け取る関数 */
   onDirtyChange: (targetId: number, isDirty: boolean) => void;
 };
@@ -25,6 +30,7 @@ type Props = {
  */
 export default function TaskSummaryTableBody({
   taskItem,
+  ref,
   onDirtyChange,
 }: Props) {
   const {
@@ -35,6 +41,7 @@ export default function TaskSummaryTableBody({
     control,
   } = TaskSummaryTableBodyLogic({
     taskItem,
+    ref,
     onDirtyChange,
   });
   return (
