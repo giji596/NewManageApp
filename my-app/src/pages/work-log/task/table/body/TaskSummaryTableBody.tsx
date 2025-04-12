@@ -11,6 +11,7 @@ import {
 import TaskSummaryTableBodyLogic from "./TaskSummaryTableBodyLogic";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
+import { Controller } from "react-hook-form";
 
 type Props = {
   /** タスクの一覧データ */
@@ -21,16 +22,32 @@ type Props = {
  * タスク一覧ページのテーブルボディコンポーネント
  */
 export default function TaskSummaryTableBody({ taskItem }: Props) {
-  const { startDateString, lastDateString, progressSelects } =
-    TaskSummaryTableBodyLogic({
-      taskItem,
-    });
+  const {
+    startDateString,
+    lastDateString,
+    progressSelects,
+    control,
+    isDirty,
+    getData,
+  } = TaskSummaryTableBodyLogic({
+    taskItem,
+  });
   return (
     <form>
       <TableRow>
         {/** おきにいり(チェックボックス) TODO:RHFでコントロールさせる */}
         <TableCell>
-          <Checkbox icon={<StarBorderIcon />} checkedIcon={<StarIcon />} />
+          <Controller
+            name="isFavorite"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                {...field}
+                icon={<StarBorderIcon />}
+                checkedIcon={<StarIcon />}
+              />
+            )}
+          />
         </TableCell>
         {/** タスク名(固定) */}
         <TableCell>{taskItem.taskName}</TableCell>
@@ -40,13 +57,19 @@ export default function TaskSummaryTableBody({ taskItem }: Props) {
         <TableCell>
           <FormControl fullWidth>
             <InputLabel>進捗</InputLabel>
-            <Select label={"進捗"}>
-              {progressSelects.map((v) => (
-                <MenuItem key={v} value={v}>
-                  {v}%
-                </MenuItem>
-              ))}
-            </Select>
+            <Controller
+              name="progress"
+              control={control}
+              render={({ field }) => (
+                <Select {...field} label={"進捗"}>
+                  {progressSelects.map((v) => (
+                    <MenuItem key={v} value={v}>
+                      {v}%
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            />
           </FormControl>
         </TableCell>
         {/** 稼働合計(固定) */}
