@@ -13,17 +13,6 @@ type Props = {
  * タスク一覧ページのテーブルのロジック
  */
 export default function TaskSummaryTableLogic({ taskList }: Props) {
-  // タスクのフィルター値
-  const defaultTaskFilterList = taskList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const taskName = b.taskName;
-      if (!(taskName in a)) {
-        a[taskName] = false;
-      }
-      return a;
-    },
-    {}
-  );
   // カテゴリのフィルター値
   const defaultCategoryFilterList = taskList.reduce(
     (a: Record<string, boolean>, b) => {
@@ -35,11 +24,6 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     },
     {}
   );
-  const {
-    filterList: taskFilterList,
-    toggleFilterCheckBox: toggleTaskFilterCheckBox,
-    doFilterByFilterList: doFilterByTaskFilterList,
-  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
   const {
     filterList: categoryFilterList,
     toggleFilterCheckBox: toggleCategoryFilterCheckBox,
@@ -97,24 +81,14 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
 
   const doFilterByFilterList = useCallback(
     (item: TaskSummary) => {
-      // フィルター結果を変数で保持
-      let result: boolean;
-      // カテゴリーでのフィルター
-      result = doFilterByCategoryFilterList(item.categoryName);
-      // カテゴリーフィルター対象外(trueの場合)ならタスクフィルターを検証
-      if (result) {
-        result = doFilterByTaskFilterList(item.taskName);
-      }
-      // 両方のフィルターでカットされていない場合だけ表示
+      const result = doFilterByCategoryFilterList(item.categoryName);
       return result;
     },
-    [doFilterByCategoryFilterList, doFilterByTaskFilterList]
+    [doFilterByCategoryFilterList]
   );
   return {
     /** ソートの昇順/降順 */
     isAsc,
-    /** タスクのフィルターリスト */
-    taskFilterList,
     /** カテゴリのフィルターリスト */
     categoryFilterList,
     /** お気に入りのチェック状態 */
@@ -129,8 +103,6 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     sortFunction,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
-    /** タスクのフィルターリストのチェックボックスを切り替える関数 */
-    toggleTaskFilterCheckBox,
     /** フィルターリストに応じてフィルターする関数 */
     doFilterByFilterList,
   };
