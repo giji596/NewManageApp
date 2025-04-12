@@ -22,14 +22,19 @@ type Props = {
  * タスク一覧ページのテーブルボディコンポーネント
  */
 export default function TaskSummaryTableBody({ taskItem }: Props) {
-  const { startDateString, lastDateString, progressSelects, control, isDirty } =
-    TaskSummaryTableBodyLogic({
-      taskItem,
-    });
+  const {
+    startDateString,
+    lastDateString,
+    progressSelects,
+    backGroundColor,
+    control,
+  } = TaskSummaryTableBodyLogic({
+    taskItem,
+  });
   return (
     <form>
-      <TableRow>
-        {/** おきにいり(チェックボックス) TODO:RHFでコントロールさせる */}
+      <TableRow sx={{ backgroundColor: backGroundColor }}>
+        {/** おきにいり(チェックボックス) */}
         <TableCell>
           <Controller
             name="isFavorite"
@@ -47,7 +52,7 @@ export default function TaskSummaryTableBody({ taskItem }: Props) {
         <TableCell>{taskItem.taskName}</TableCell>
         {/** カテゴリ名(固定) */}
         <TableCell>{taskItem.categoryName}</TableCell>
-        {/** 進捗{セレクト} TODO:RHFでコントロールさせる */}
+        {/** 進捗{セレクト} */}
         <TableCell>
           <FormControl fullWidth>
             <InputLabel>進捗</InputLabel>
