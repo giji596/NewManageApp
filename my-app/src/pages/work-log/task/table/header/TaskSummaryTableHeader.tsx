@@ -54,7 +54,7 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
         {/** タスク名 */}
-        <TableCell>
+        <TableCell width={"27.5%"}>
           <CustomHeaderSortCheckLabel
             title={"タスク名"}
             isSelected={isSelected("タスク名")}
@@ -66,7 +66,7 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
         {/** カテゴリ名 */}
-        <TableCell width={"30%"}>
+        <TableCell width={"20%"}>
           <CustomHeaderSortCheckLabel
             title={"カテゴリ名"}
             isSelected={isSelected("カテゴリ名")}
@@ -78,7 +78,7 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
         {/** 進捗*/}
-        <TableCell width={"20%"}>
+        <TableCell width={"10%"}>
           <CustomHeaderSortLabel
             title={"進捗"}
             isSelected={isSelected("進捗")}
@@ -87,7 +87,7 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
         {/** 稼働合計 */}
-        <TableCell width={"10%"}>
+        <TableCell width={"12.5%"}>
           <CustomHeaderSortLabel
             title={"稼働合計"}
             isSelected={isSelected("稼働合計")}
