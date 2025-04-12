@@ -41,6 +41,7 @@ export default function TaskSummaryTableBody({ taskItem }: Props) {
           render={({ field }) => (
             <Checkbox
               {...field}
+              checked={field.value} // 初期値のセットに明示する必要あり
               icon={<StarBorderIcon />}
               checkedIcon={<StarIcon />}
             />

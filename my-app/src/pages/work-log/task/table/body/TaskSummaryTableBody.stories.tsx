@@ -23,3 +23,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const Favorite: Story = {
+  args: {
+    taskItem: {
+      id: 1,
+      isFavorite: true,
+      taskName: "タスク1",
+      categoryName: "カテゴリ1",
+      progress: 50,
+      totalHours: 20,
+      startDate: new Date("2025-03-24"),
+      lastDate: new Date("2025-04-10"),
+    },
+  },
+};
