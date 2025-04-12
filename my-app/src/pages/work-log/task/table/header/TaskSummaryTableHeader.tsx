@@ -11,8 +11,6 @@ type Props = {
   isFavoriteChecked: boolean;
   /** 昇順かどうか */
   isAsc: boolean;
-  /** タスクのチェック一覧(key:タスク名 value:チェック状況) */
-  taskCheckList: Record<string, boolean>;
   /** カテゴリのチェック一覧(key:カテゴリ名 value:チェック状況) */
   categoryCheckList: Record<string, boolean>;
   /** おきにのチェックを押した時のハンドラー */
@@ -21,8 +19,6 @@ type Props = {
   isSelected: (title: string) => boolean;
   /** 表題をクリックした際のハンドラー */
   onClickTitle: (title: string) => void;
-  /** タスクのチェックボックスをクリックした際のハンドラー */
-  onClickSelectTask: (item: string) => void;
   /** カテゴリのチェックボックスをクリックした際のハンドラー */
   onClickSelectCategory: (item: string) => void;
 };
@@ -33,12 +29,10 @@ type Props = {
 export default function TaskSummaryTableHeader({
   isFavoriteChecked,
   isAsc,
-  taskCheckList,
   categoryCheckList,
   onClickFavorite,
   isSelected,
   onClickTitle,
-  onClickSelectTask,
   onClickSelectCategory,
 }: Props) {
   const { openTargetIdRef, handleMouseEnter, handleMouseLeave, ...prev } =
@@ -55,14 +49,11 @@ export default function TaskSummaryTableHeader({
         </TableCell>
         {/** タスク名 */}
         <TableCell width={"27.5%"}>
-          <CustomHeaderSortCheckLabel
+          <CustomHeaderSortLabel
             title={"タスク名"}
             isSelected={isSelected("タスク名")}
             isAsc={isAsc}
-            refId={10001}
             onClickTitle={onClickTitle}
-            onHoverTitle={handleMouseEnter}
-            onLeaveTitle={handleMouseLeave}
           />
         </TableCell>
         {/** カテゴリ名 */}
@@ -114,22 +105,6 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
       </TableRow>
-      {/** タスク用のメニュー */}
-      {openTargetIdRef.current === 10001 && (
-        <CustomMenuWrapper
-          logic={{
-            openTargetIdRef,
-            handleMouseEnter,
-            handleMouseLeave,
-            ...prev,
-          }}
-        >
-          <CustomMenuCheckBox
-            checkList={taskCheckList}
-            onClickSelect={onClickSelectTask}
-          />
-        </CustomMenuWrapper>
-      )}
       {/** カテゴリ用のメニュー */}
       {openTargetIdRef.current === 10002 && (
         <CustomMenuWrapper

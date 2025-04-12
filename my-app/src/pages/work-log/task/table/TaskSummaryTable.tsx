@@ -15,7 +15,6 @@ type Props = {
 export default function TaskSummaryTable({ taskList }: Props) {
   const {
     isAsc,
-    taskFilterList,
     categoryFilterList,
     isFavoriteChecked,
     toggleFavoriteCheck,
@@ -23,7 +22,6 @@ export default function TaskSummaryTable({ taskList }: Props) {
     handleClickSortLabel,
     sortFunction,
     toggleCategoryFilterCheckBox,
-    toggleTaskFilterCheckBox,
     doFilterByFilterList,
   } = TaskSummaryTableLogic({ taskList });
   return (
@@ -33,12 +31,10 @@ export default function TaskSummaryTable({ taskList }: Props) {
           <TaskSummaryTableHeader
             isFavoriteChecked={isFavoriteChecked}
             isAsc={isAsc}
-            taskCheckList={taskFilterList}
             categoryCheckList={categoryFilterList}
             onClickFavorite={toggleFavoriteCheck}
             isSelected={isSelected}
             onClickTitle={handleClickSortLabel}
-            onClickSelectTask={toggleTaskFilterCheckBox}
             onClickSelectCategory={toggleCategoryFilterCheckBox}
           />
         </TableHead>
