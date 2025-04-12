@@ -16,12 +16,17 @@ import { Controller } from "react-hook-form";
 type Props = {
   /** タスクの一覧データ */
   taskItem: TaskSummary;
+  /** isDirtyの変化の通知を受け取る関数 */
+  onDirtyChange: (targetId: number, isDirty: boolean) => void;
 };
 
 /**
  * タスク一覧ページのテーブルボディコンポーネント
  */
-export default function TaskSummaryTableBody({ taskItem }: Props) {
+export default function TaskSummaryTableBody({
+  taskItem,
+  onDirtyChange,
+}: Props) {
   const {
     startDateString,
     lastDateString,
@@ -30,6 +35,7 @@ export default function TaskSummaryTableBody({ taskItem }: Props) {
     control,
   } = TaskSummaryTableBodyLogic({
     taskItem,
+    onDirtyChange,
   });
   return (
     <TableRow sx={{ backgroundColor: backGroundColor }}>

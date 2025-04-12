@@ -6,17 +6,23 @@ import TaskSummaryTable from "./table/TaskSummaryTable";
  * タスク一覧ページ
  */
 export default function TaskSummaryPage() {
-  const { taskSummaryData, isLoading } = TaskSummaryPageParams();
+  const { taskSummaryData, isLoading, onDirtyChange, isDirty } =
+    TaskSummaryPageParams();
   return (
     <>
       <TaskSummaryHeader
-        isDirty={false}
+        isDirty={isDirty}
         isSelected={false}
         onClickSave={() => {}}
         onClickReset={() => {}}
         onClickNavigateDetail={() => {}}
       />
-      {!isLoading && <TaskSummaryTable taskList={taskSummaryData} />}
+      {!isLoading && (
+        <TaskSummaryTable
+          taskList={taskSummaryData}
+          onDirtyChange={onDirtyChange}
+        />
+      )}
     </>
   );
 }

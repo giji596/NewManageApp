@@ -1,6 +1,6 @@
 import { TaskSummary } from "@/type/Task";
 import { format } from "date-fns";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 type SubmitData = {
@@ -13,12 +13,17 @@ type SubmitData = {
 type Props = {
   /** タスクの一覧データ */
   taskItem: TaskSummary;
+  /** isDirtyの変化の通知を受け取る関数 */
+  onDirtyChange: (targetId: number, isDirty: boolean) => void;
 };
 
 /**
  * タスク一覧ページのテーブルボディコンポーネントのロジック部分
  */
-export default function TaskSummaryTableBodyLogic({ taskItem }: Props) {
+export default function TaskSummaryTableBodyLogic({
+  taskItem,
+  onDirtyChange,
+}: Props) {
   // メモ化
   const startDateString = useMemo(
     () => format(taskItem.startDate, "yyyy/MM/dd"),
@@ -53,6 +58,12 @@ export default function TaskSummaryTableBodyLogic({ taskItem }: Props) {
     () => (isDirty ? "rgb(255, 238, 238)" : "rgb(255, 255, 255)"),
     [isDirty]
   );
+
+  // isDirtyが変わった際の通知(taskItem.idは固定/onDirtyChangeはcallbackであるため、isDirtyの値が変わった時だけ走る、予定)
+  // (onDirtyChangeでset関数を使う場合はprevを必ず使うこと(レンダー時に再生成すると不都合なので))
+  useEffect(() => {
+    onDirtyChange(taskItem.id, isDirty);
+  }, [isDirty, onDirtyChange, taskItem.id]);
 
   return {
     /** 開始日のstring */
