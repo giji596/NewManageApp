@@ -1,5 +1,5 @@
 import TaskSummaryHeader from "./header/TaskSummaryHeader";
-import TaskSummaryPageParams from "./params";
+import useTaskSummaryPage from "./useTaskSummaryPage";
 import TaskSummaryTable from "./table/TaskSummaryTable";
 
 /**
@@ -18,7 +18,7 @@ export default function TaskSummaryPage() {
     handleSelectItem,
     isAnyItemSelected,
     navigateToDetail,
-  } = TaskSummaryPageParams();
+  } = useTaskSummaryPage();
   return (
     <>
       <TaskSummaryHeader
