@@ -22,8 +22,8 @@ type Props = {
   id: number;
   /** メモタイトル */
   title: string;
-  /* タグid */
-  tagId: number;
+  /* タグ名 */
+  tagName: string;
   /** ダイアログ開閉状態 */
   open: boolean;
   /** ダイアログを閉じる関数 */
@@ -36,7 +36,7 @@ type Props = {
 export default function MemoListDialog({
   id,
   title,
-  tagId,
+  tagName,
   open,
   onClose,
 }: Props) {
@@ -52,7 +52,7 @@ export default function MemoListDialog({
   } = MemoListDialogLogic({
     id,
     title,
-    tagId,
+    tagName,
     onClose,
   });
   const {

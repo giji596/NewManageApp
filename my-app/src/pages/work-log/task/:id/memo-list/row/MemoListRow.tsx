@@ -76,13 +76,11 @@ export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
           </Collapse>
         </TableCell>
       </TableRow>
-      {/** TODO:ここで詳細のダイアログ */}
+      {/** 詳細のダイアログ */}
       <MemoListDialog
         id={memoItem.id}
         title={memoItem.title}
-        tagId={
-          1 /** TODO:後で修正(ダイアログがname受け取ってそこから検索するように変更) */
-        }
+        tagName={memoItem.tag}
         open={open}
         onClose={onClose}
       />

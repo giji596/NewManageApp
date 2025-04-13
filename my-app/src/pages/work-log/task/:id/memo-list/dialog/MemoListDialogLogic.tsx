@@ -14,8 +14,8 @@ type SubmitData = {
 type Props = {
   /** メモのid */
   id: number;
-  /* タグid */
-  tagId: number;
+  /* タグ名 */
+  tagName: string;
   /** メモのタイトル */
   title: string;
   /** ダイアログを閉じる関数 */
@@ -27,7 +27,7 @@ type Props = {
  */
 export default function MemoListDialogLogic({
   id,
-  tagId,
+  tagName,
   title,
   onClose,
 }: Props) {
@@ -42,6 +42,9 @@ export default function MemoListDialogLogic({
     { id: 2, name: "タグ2" },
     { id: 3, name: "タグ3" },
   ];
+
+  // タグ名から検索してidを取得する
+  const tagId = tagList.find((tagItem) => tagItem.name === tagName)?.id;
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
