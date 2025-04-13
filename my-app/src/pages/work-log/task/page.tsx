@@ -17,6 +17,7 @@ export default function TaskSummaryPage() {
     selectedItemId,
     handleSelectItem,
     isAnyItemSelected,
+    navigateToDetail,
   } = TaskSummaryPageParams();
   return (
     <>
@@ -25,7 +26,7 @@ export default function TaskSummaryPage() {
         isSelected={isAnyItemSelected}
         onClickSave={handleSaveAll}
         onClickReset={handleResetAll}
-        onClickNavigateDetail={() => {}}
+        onClickNavigateDetail={navigateToDetail}
       />
       {!isLoading && (
         <TaskSummaryTable

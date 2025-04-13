@@ -28,7 +28,6 @@ export default function TaskSummaryPageParams() {
     () => !Object.values(isDirtyRecord).every((value) => value === false),
     [isDirtyRecord]
   );
-  console.log(isDirtyRecord);
 
   const initialRef = taskSummaryData.reduce<
     Record<number, RefObject<TaskSummaryTableBodyHandle | null>>
@@ -84,6 +83,11 @@ export default function TaskSummaryPageParams() {
   }, []);
   const isAnyItemSelected = !!selectedItemId;
 
+  // なびげーしょん
+  const navigateToDetail = useCallback(
+    () => console.log("移動先のid", selectedItemId),
+    [selectedItemId]
+  );
   return {
     /** タスク一覧 */
     taskSummaryData,
@@ -105,5 +109,7 @@ export default function TaskSummaryPageParams() {
     handleSelectItem,
     /** いずれかのアイテムが選択されているか */
     isAnyItemSelected,
+    /** 詳細ページへのナビゲーション */
+    navigateToDetail,
   };
 }
