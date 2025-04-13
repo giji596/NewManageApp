@@ -13,6 +13,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import TaskEditDialogLogic from "./TaskEditDialogLogic";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -25,7 +26,7 @@ type Props = {
  * タスク詳細ページでタスクを編集するダイアログ
  */
 export default function TaskEditDialog({ open, onClose }: Props) {
-  const isLoading = false; // TODO:ロジック作成時に移動(カテゴリ一覧のフェッチのロード状態)
+  const { categoryList, isLoading } = TaskEditDialogLogic();
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       {/** タイトル */}
@@ -53,9 +54,9 @@ export default function TaskEditDialog({ open, onClose }: Props) {
               defaultValue={1}
               sx={{ pl: 1.5 }}
             >
-              {[1, 2, 3].map((item) => (
-                <MenuItem key={item} value={item}>
-                  {item}
+              {categoryList.map((item) => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.name}
                 </MenuItem>
               ))}
             </Select>
