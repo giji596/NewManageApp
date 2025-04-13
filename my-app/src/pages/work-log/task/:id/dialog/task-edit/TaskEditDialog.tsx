@@ -20,13 +20,30 @@ type Props = {
   open: boolean;
   /** ダイアログ閉じるハンドラー */
   onClose: () => void;
+  /** タスク名の初期値 */
+  initialTaskName: string;
+  /** カテゴリidの初期値 */
+  initialCategoryId: number;
+  /** お気に入りの初期値 */
+  initialIsFavorite: boolean;
 };
 
 /**
  * タスク詳細ページでタスクを編集するダイアログ
  */
-export default function TaskEditDialog({ open, onClose }: Props) {
-  const { categoryList, isLoading } = TaskEditDialogLogic();
+export default function TaskEditDialog({
+  open,
+  onClose,
+  initialTaskName,
+  initialCategoryId,
+  initialIsFavorite,
+}: Props) {
+  const { categoryList, isLoading } = TaskEditDialogLogic({
+    initialTaskName,
+    initialCategoryId,
+    initialIsFavorite,
+    onClose,
+  });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       {/** タイトル */}
