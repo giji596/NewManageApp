@@ -23,14 +23,14 @@ export default function ActionButtons({
   return (
     <Stack spacing={1.5} alignItems={"center"}>
       <Button
-        sx={{ width: "30%" }}
+        sx={{ width: "50%" }}
         startIcon={<EditIcon />}
         onClick={onClickEdit}
       >
         編集する
       </Button>
       <Button
-        sx={{ width: "30%" }}
+        sx={{ width: "50%" }}
         color="success"
         startIcon={<DoneIcon />}
         onClick={onClickComplete}
@@ -38,7 +38,7 @@ export default function ActionButtons({
         完了状態にする
       </Button>
       <Button
-        sx={{ width: "30%" }}
+        sx={{ width: "50%" }}
         color="error"
         startIcon={<DeleteForeverIcon />}
         onClick={onClickDelete}
