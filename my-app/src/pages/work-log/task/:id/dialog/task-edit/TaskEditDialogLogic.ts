@@ -11,10 +11,22 @@ type SubmitData = {
   isFavorite: boolean;
 };
 
+type Props = {
+  /** タスク名の初期値 */
+  initialTaskName: string;
+  /** カテゴリidの初期値 */
+  initialCategoryId: number;
+  /** お気に入りの初期値 */
+  initialIsFavorite: boolean;
+};
 /**
  * タスク詳細ページでタスクを編集するダイアログのロジック
  */
-export default function TaskEditDialogLogic() {
+export default function TaskEditDialogLogic({
+  initialTaskName,
+  initialCategoryId,
+  initialIsFavorite,
+}: Props) {
   // TODO:ここでデータフェッチ
   const categoryList: CategoryOption[] = [
     { id: 1, name: "カテゴリ1" },
@@ -29,7 +41,11 @@ export default function TaskEditDialogLogic() {
     handleSubmit,
     formState: { isValid },
   } = useForm<SubmitData>({
-    defaultValues: { taskName: "", categoryId: 1, isFavorite: false }, // TODO: 初期値が必要
+    defaultValues: {
+      taskName: initialTaskName,
+      categoryId: initialCategoryId,
+      isFavorite: initialIsFavorite,
+    }, // TODO: 初期値が必要
   });
 
   const onSubmit = useCallback(async (data: SubmitData) => {
