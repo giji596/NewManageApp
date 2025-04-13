@@ -49,3 +49,16 @@ export type MemoDailyTask = {
   /** 関連する日付のタスク */
   task: TaskOption;
 };
+
+export type MemoTaskDetail = {
+  /** 識別用のid */
+  id: number;
+  /** 書いた日付 */
+  date: Date;
+  /** メモのタイトル */
+  title: string;
+  /** タグ(任意) */
+  tag: string;
+  /** メモの本文の頭の方だけ */
+  summary: string;
+};
