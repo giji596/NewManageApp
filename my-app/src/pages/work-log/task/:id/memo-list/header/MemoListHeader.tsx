@@ -32,7 +32,6 @@ export default function MemoListHeader({
     CustomMenuWrapperLogic();
   return (
     <>
-      {" "}
       <TableRow>
         {/** 日付 */}
         <TableCell width="30%">
