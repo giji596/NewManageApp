@@ -9,7 +9,7 @@ const meta = {
       id: 1,
       date: new Date(),
       title: "メモのタイトル",
-      tag: "何かしらのタグ",
+      tag: "タグ2",
       summary: "ほんぶんの一部分、頭の部分を抜粋して表示している",
     },
     isActive: false,
