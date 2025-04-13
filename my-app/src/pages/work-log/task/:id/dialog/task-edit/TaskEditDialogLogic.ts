@@ -1,5 +1,14 @@
 import { CategoryOption } from "@/type/Category";
 
+type SubmitData = {
+  /** タスク名 */
+  taskName: string;
+  /** カテゴリid */
+  categoryId: number;
+  /** お気に入りか */
+  isFavorite: boolean;
+};
+
 /**
  * タスク詳細ページでタスクを編集するダイアログのロジック
  */
