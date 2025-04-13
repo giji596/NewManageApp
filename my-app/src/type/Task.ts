@@ -1,5 +1,5 @@
 import { CategoryOption } from "./Category";
-import { MemoSummary } from "./Memo";
+import { MemoTaskDetail } from "./Memo";
 
 /** タスクの選択欄の型定義 */
 export type TaskOption = {
@@ -30,15 +30,15 @@ export type TaskSummary = {
 };
 
 /** タスクの詳細データの型定義 */
-export type TaskDetails = {
+export type TaskDetail = {
   /** 識別用のid */
   id: number;
   /** タスク名 */
   name: string;
   /** ピン付の有無 */
-  isPinned: boolean;
-  /** カテゴリー名 */
-  category: string;
+  isFavorite: boolean;
+  /** カテゴリー(navigation用のidつき) */
+  category: CategoryOption;
   /** 進捗率 */
   progress: number;
   /** タスクの稼働合計時間 */
@@ -48,7 +48,7 @@ export type TaskDetails = {
   /** タスクの最終更新日 */
   lastDate: Date;
   /** タスクのメモ */
-  memo: MemoSummary[];
+  memo: MemoTaskDetail[];
 };
 
 export type TaskWithPercentage = { id: number; name: string; percent: string };
