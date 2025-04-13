@@ -42,6 +42,7 @@ export default function TaskEditDialog({
     initialTaskName,
     initialCategoryId,
     initialIsFavorite,
+    onClose,
   });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>

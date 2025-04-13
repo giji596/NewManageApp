@@ -18,6 +18,8 @@ type Props = {
   initialCategoryId: number;
   /** お気に入りの初期値 */
   initialIsFavorite: boolean;
+  /** 閉じるハンドラー */
+  onClose: () => void;
 };
 /**
  * タスク詳細ページでタスクを編集するダイアログのロジック
@@ -26,6 +28,7 @@ export default function TaskEditDialogLogic({
   initialTaskName,
   initialCategoryId,
   initialIsFavorite,
+  onClose,
 }: Props) {
   // TODO:ここでデータフェッチ
   const categoryList: CategoryOption[] = [
@@ -48,10 +51,14 @@ export default function TaskEditDialogLogic({
     }, // TODO: 初期値が必要
   });
 
-  const onSubmit = useCallback(async (data: SubmitData) => {
-    // TODO:ここで送信
-    console.log("送信でーた", data);
-  }, []);
+  const onSubmit = useCallback(
+    async (data: SubmitData) => {
+      // TODO:ここで送信
+      console.log("送信でーた", data);
+      onClose();
+    },
+    [onClose]
+  );
   return {
     /** カテゴリの一覧 */
     categoryList,
