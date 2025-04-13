@@ -72,6 +72,18 @@ export default function TaskSummaryPageParams() {
     }
   }, [getTargetKeys]);
 
+  // 選択状態について
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const handleSelectItem = useCallback((id: number) => {
+    setSelectedItemId((prev) => {
+      // 選択中のアイテムを再度クリックした場合は選択を解除(null)
+      if (prev === id) return null;
+      // 上記を除いた全ての場合洗濯中のアイテムにそのidを設定する
+      return id;
+    });
+  }, []);
+  const isAnyItemSelected = !!selectedItemId;
+
   return {
     /** タスク一覧 */
     taskSummaryData,
@@ -87,5 +99,11 @@ export default function TaskSummaryPageParams() {
     handleSaveAll,
     /** まとめてリセットを行う関数 */
     handleResetAll,
+    /** 選択中のアイテムid */
+    selectedItemId,
+    /** アイテム選択時のハンドラー */
+    handleSelectItem,
+    /** いずれかのアイテムが選択されているか */
+    isAnyItemSelected,
   };
 }
