@@ -28,6 +28,8 @@ export default function TaskSummaryPage() {
         <TaskSummaryTable
           taskList={taskSummaryData}
           ref={rowRefs.current}
+          selectedItemId={0} // TODO
+          onClickItemRow={() => {}} // TODO
           onDirtyChange={onDirtyChange}
         />
       )}

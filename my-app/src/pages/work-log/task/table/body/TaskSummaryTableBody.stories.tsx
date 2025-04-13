@@ -18,6 +18,8 @@ const meta = {
       lastDate: new Date("2025-04-10"),
     },
     onDirtyChange: () => {},
+    isSelected: false,
+    onClickRow: () => {},
   },
 } satisfies Meta<typeof TaskSummaryTableBody>;
 
@@ -45,6 +47,14 @@ export const Favorite: Story = {
       lastDate: new Date("2025-04-10"),
     },
   },
+  render: function Render(args) {
+    const rowRef = useRef<TaskSummaryTableBodyHandle>(null);
+
+    return <TaskSummaryTableBody {...args} ref={rowRef} />;
+  },
+};
+export const Selected: Story = {
+  args: { isSelected: true },
   render: function Render(args) {
     const rowRef = useRef<TaskSummaryTableBodyHandle>(null);
 

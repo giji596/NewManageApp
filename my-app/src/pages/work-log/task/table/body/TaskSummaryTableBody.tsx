@@ -19,8 +19,12 @@ import { Ref } from "react";
 type Props = {
   /** タスクの一覧データ */
   taskItem: TaskSummary;
+  /** 行の選択状態 */
+  isSelected: boolean;
   /** ref値(親で関数を使えるように) */
   ref: Ref<TaskSummaryTableBodyHandle | null>;
+  /** 行をクリックした際のハンドラー */
+  onClickRow: (rowId: number) => void;
   /** isDirtyの変化の通知を受け取る関数 */
   onDirtyChange: (targetId: number, isDirty: boolean) => void;
 };
@@ -30,7 +34,9 @@ type Props = {
  */
 export default function TaskSummaryTableBody({
   taskItem,
+  isSelected,
   ref,
+  onClickRow,
   onDirtyChange,
 }: Props) {
   const {
@@ -38,6 +44,7 @@ export default function TaskSummaryTableBody({
     lastDateString,
     progressSelects,
     backGroundColor,
+    backGroundColorHover,
     control,
   } = TaskSummaryTableBodyLogic({
     taskItem,
@@ -45,7 +52,17 @@ export default function TaskSummaryTableBody({
     onDirtyChange,
   });
   return (
-    <TableRow sx={{ backgroundColor: backGroundColor }}>
+    <TableRow
+      selected={isSelected}
+      onClick={() => onClickRow(taskItem.id)}
+      sx={{
+        backgroundColor: backGroundColor,
+        "&:hover": {
+          cursor: "pointer",
+          backgroundColor: backGroundColorHover,
+        },
+      }}
+    >
       {/** おきにいり(チェックボックス) */}
       <TableCell>
         <Controller
