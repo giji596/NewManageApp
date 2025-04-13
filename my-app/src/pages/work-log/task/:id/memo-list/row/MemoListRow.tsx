@@ -2,6 +2,8 @@ import { TableCell, TableRow, Collapse, Box, IconButton } from "@mui/material";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import { MemoTaskDetail } from "@/type/Memo";
 import MemoListRowLogic from "./MemoListRowLogic";
+import MemoListDialog from "../dialog/MemoListDialog";
+import useDialog from "@/hook/useDialog";
 
 type Props = {
   /** メモ */
@@ -16,6 +18,7 @@ type Props = {
  */
 export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
   const { dateString } = MemoListRowLogic({ memoItem });
+  const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <TableRow
@@ -59,6 +62,7 @@ export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
           <IconButton
             onClick={(e) => {
               e.stopPropagation(); // rowのイベント(文章の頭を展開する)を行わせない
+              onOpen();
             }}
           >
             <AspectRatioIcon />
@@ -73,6 +77,15 @@ export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
         </TableCell>
       </TableRow>
       {/** TODO:ここで詳細のダイアログ */}
+      <MemoListDialog
+        id={memoItem.id}
+        title={memoItem.title}
+        tagId={
+          1 /** TODO:後で修正(ダイアログがname受け取ってそこから検索するように変更) */
+        }
+        open={open}
+        onClose={onClose}
+      />
     </>
   );
 }
