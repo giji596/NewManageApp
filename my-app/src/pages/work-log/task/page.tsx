@@ -14,12 +14,15 @@ export default function TaskSummaryPage() {
     handleResetAll,
     onDirtyChange,
     isDirty,
+    selectedItemId,
+    handleSelectItem,
+    isAnyItemSelected,
   } = TaskSummaryPageParams();
   return (
     <>
       <TaskSummaryHeader
         isDirty={isDirty}
-        isSelected={false}
+        isSelected={isAnyItemSelected}
         onClickSave={handleSaveAll}
         onClickReset={handleResetAll}
         onClickNavigateDetail={() => {}}
@@ -28,8 +31,8 @@ export default function TaskSummaryPage() {
         <TaskSummaryTable
           taskList={taskSummaryData}
           ref={rowRefs.current}
-          selectedItemId={0} // TODO
-          onClickItemRow={() => {}} // TODO
+          selectedItemId={selectedItemId}
+          onClickItemRow={handleSelectItem}
           onDirtyChange={onDirtyChange}
         />
       )}
