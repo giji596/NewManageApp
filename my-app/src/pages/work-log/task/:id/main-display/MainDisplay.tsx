@@ -1,0 +1,98 @@
+import { IconButton, Stack, Typography } from "@mui/material";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import MainDisplayLogic from "./MainDisplayLogic";
+
+type Props = {
+  /** タスク名 */
+  taskName: string;
+  /** お気に入りかどうか */
+  isFavorite: boolean;
+  /** カテゴリ名 */
+  categoryName: string;
+  /** 進捗 */
+  progress: number;
+  /** 稼働合計時間 */
+  totalHours: number;
+  /** カテゴリページに飛ぶボタンを押した際のハンドラー */
+  onClickNavigateCategoryPage: () => void;
+};
+
+/**
+ * タスク詳細ページのメイン部分の表示
+ */
+export default function MainDisplay({
+  taskName,
+  isFavorite,
+  categoryName,
+  progress,
+  totalHours,
+  onClickNavigateCategoryPage,
+}: Props) {
+  const { progressGrayBarWidth } = MainDisplayLogic({ progress });
+  return (
+    <Stack spacing={0.5}>
+      {/** タスク/ おきにいり */}
+      <Stack direction="row" justifyContent={"space-between"}>
+        <Stack direction="row" spacing={1.5}>
+          <Typography width={125} textAlign={"right"}>
+            タスク名:
+          </Typography>
+          <Typography>{taskName}</Typography>
+        </Stack>
+        {isFavorite && <StarIcon color="primary" />}
+        {!isFavorite && <StarBorderIcon />}
+      </Stack>
+      {/** カテゴリ */}
+      <Stack direction="row" alignItems={"center"} spacing={1.5}>
+        <Typography width={125} textAlign={"right"}>
+          カテゴリ名:
+        </Typography>
+        <Typography>{categoryName}</Typography>
+        <IconButton size="small" onClick={onClickNavigateCategoryPage}>
+          <ArrowCircleRightIcon />
+        </IconButton>
+      </Stack>
+      {/** 進捗 */}
+      <Stack direction="row" spacing={1.5}>
+        <Typography width={125} textAlign={"right"}>
+          進捗:
+        </Typography>
+        <Stack
+          direction="row-reverse"
+          sx={{
+            width: "70%",
+            height: 20,
+            background:
+              "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
+            borderRadius: 1,
+          }}
+        >
+          <Stack
+            sx={{
+              height: "100%",
+              width: "0%",
+              backgroundColor: "#eee",
+              animation: "grow 1s ease-out forwards",
+              "@keyframes grow": {
+                "0%": { width: "100%" },
+                "100%": {
+                  width: `${progressGrayBarWidth}%`,
+                },
+              },
+            }}
+          />
+        </Stack>
+        <Typography>{progress}%</Typography>
+      </Stack>
+      {/** 稼働合計 */}
+      <Stack direction="row" spacing={1.5}>
+        <Typography width={125} textAlign={"right"}>
+          稼働合計時間:
+        </Typography>
+        <Typography>{totalHours}(h)</Typography>
+      </Stack>
+    </Stack>
+  );
+}
