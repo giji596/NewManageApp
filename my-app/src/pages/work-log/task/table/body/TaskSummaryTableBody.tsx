@@ -71,6 +71,7 @@ export default function TaskSummaryTableBody({
           render={({ field }) => (
             <Checkbox
               {...field}
+              onClick={(e) => e.stopPropagation()}
               checked={field.value} // 初期値のセットに明示する必要あり
               icon={<StarBorderIcon />}
               checkedIcon={<StarIcon />}
@@ -90,7 +91,11 @@ export default function TaskSummaryTableBody({
             name="progress"
             control={control}
             render={({ field }) => (
-              <Select {...field} label={"進捗"}>
+              <Select
+                {...field}
+                onClick={(e) => e.stopPropagation()}
+                label={"進捗"}
+              >
                 {progressSelects.map((v) => (
                   <MenuItem key={v} value={v}>
                     {v}%
