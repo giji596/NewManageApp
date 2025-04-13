@@ -12,7 +12,7 @@ import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLog
 /**
  * タスク一覧ページのパラメータ関連
  */
-export default function TaskSummaryPageParams() {
+export default function useTaskSummaryPage() {
   // TODO:データフェッチさせる
   const taskSummaryData = DUMMY_TASK_SUMMARY_DATA;
   const isLoading = false;
