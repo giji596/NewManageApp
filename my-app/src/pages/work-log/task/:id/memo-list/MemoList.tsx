@@ -14,6 +14,8 @@ type Props = {
  */
 export default function MemoList({ memoItemList }: Props) {
   const {
+    activeRowId,
+    handleClickRow,
     isAsc,
     isSelected,
     handleClickSortLabel,
@@ -44,8 +46,8 @@ export default function MemoList({ memoItemList }: Props) {
               <MemoListRow
                 key={item.id}
                 memoItem={item}
-                isActive={false}
-                onClickRow={() => {}}
+                isActive={activeRowId === item.id}
+                onClickRow={handleClickRow}
               />
             ))}
         </TableBody>
