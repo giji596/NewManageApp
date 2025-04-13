@@ -2,7 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { MemoTaskDetail } from "@/type/Memo";
 import { TableSortTargetType } from "@/type/Table";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** メモアイテムリスト */
@@ -13,6 +13,13 @@ type Props = {
  * タスク詳細　メモリストのコンポーネント
  */
 export default function MemoList({ memoItemList }: Props) {
+  const [activeRowId, setActiveRowId] = useState<number | null>(null);
+  const handleClickRow = useCallback((id: number) => {
+    setActiveRowId((prev) => {
+      if (prev === id) return null; // 選択済みならnullを返して選択を解除
+      return id; // それ以外は新たなidをセットさせる
+    });
+  }, []);
   // タグのフィルターリスト
   const tagFilterList = useMemo(
     () =>
@@ -49,6 +56,10 @@ export default function MemoList({ memoItemList }: Props) {
   );
 
   return {
+    /** 現在アクティブな行のid */
+    activeRowId,
+    /** 行をクリックした際のハンドラー(アクティブな行の設定/解除) */
+    handleClickRow,
     /** 昇順かどうか */
     isAsc,
     /** タイトルが選択中かどうかを調べる関数 */
