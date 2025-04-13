@@ -8,6 +8,8 @@ const meta = {
   args: {
     taskList: DUMMY_TASK_SUMMARY_DATA,
     ref: {},
+    selectedItemId: 2,
+    onClickItemRow: () => {},
     onDirtyChange: () => {},
   },
 } satisfies Meta<typeof TaskSummaryTable>;

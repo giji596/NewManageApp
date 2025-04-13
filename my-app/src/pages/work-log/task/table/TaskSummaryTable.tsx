@@ -9,6 +9,10 @@ import { TaskSummaryTableBodyHandle } from "./body/TaskSummaryTableBodyLogic";
 type Props = {
   /** タスク一覧データ */
   taskList: TaskSummary[];
+  /** 選択中のアイテムid */
+  selectedItemId: number | null;
+  /** アイテム行をクリックした際のハンドラー */
+  onClickItemRow: (id: number) => void;
   /** ref値(親で関数を使えるように) */
   ref: Record<number, RefObject<TaskSummaryTableBodyHandle | null>>;
   /** isDirtyの変化の通知を受け取る関数 */
@@ -20,6 +24,8 @@ type Props = {
  */
 export default function TaskSummaryTable({
   taskList,
+  selectedItemId,
+  onClickItemRow,
   ref,
   onDirtyChange,
 }: Props) {
@@ -57,6 +63,8 @@ export default function TaskSummaryTable({
                 key={taskItem.id}
                 taskItem={taskItem}
                 ref={ref[taskItem.id]}
+                isSelected={selectedItemId === taskItem.id}
+                onClickRow={onClickItemRow}
                 onDirtyChange={onDirtyChange}
               />
             ))}

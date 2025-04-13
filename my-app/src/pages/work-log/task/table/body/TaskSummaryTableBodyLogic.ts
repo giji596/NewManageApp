@@ -68,6 +68,11 @@ export default function TaskSummaryTableBodyLogic({
     [isDirty]
   );
 
+  const backGroundColorHover = useMemo(
+    () => (isDirty ? "rgb(255, 230, 230)" : "rgb(249, 252, 255)"),
+    [isDirty]
+  );
+
   // isDirtyが変わった際の通知(taskItem.idは固定/onDirtyChangeはcallbackであるため、isDirtyの値が変わった時だけ走る、予定)
   // (onDirtyChangeでset関数を使う場合はprevを必ず使うこと(レンダー時に再生成すると不都合なので))
   useEffect(() => {
@@ -83,6 +88,8 @@ export default function TaskSummaryTableBodyLogic({
     progressSelects,
     /** 背景色(isDirtyの値で分岐) */
     backGroundColor,
+    /** ホバー時の背景色(isDirtyの値で分岐) */
+    backGroundColorHover,
     /** RHFのコントロールオブジェクト(MUIコンポーネントに必須) */
     control,
     /** フォームの変更の有無 */
