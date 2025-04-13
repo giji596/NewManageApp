@@ -28,7 +28,7 @@ export default function MemoList({ memoItemList }: Props) {
   });
   return (
     <TableContainer>
-      <Table sx={{ tableLayout: "fixed" }}>
+      <Table sx={{ tableLayout: "fixed" }} stickyHeader>
         <TableHead>
           <MemoListHeader
             isAsc={isAsc}

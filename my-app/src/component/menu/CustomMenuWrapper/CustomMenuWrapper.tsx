@@ -27,6 +27,7 @@ export default function CustomMenuWrapper({ children, logic }: Props) {
       open={open}
       onMouseEnter={(e) => handleMouseEnter(openTargetIdRef.current, e)}
       onMouseLeave={() => handleMouseLeave(openTargetIdRef.current)}
+      sx={{ zIndex: 20 }}
     >
       <Fade in={open} timeout={500}>
         <Paper>{children}</Paper>
