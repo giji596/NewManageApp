@@ -35,7 +35,7 @@ export type TaskDetail = {
   id: number;
   /** タスク名 */
   name: string;
-  /** ピン付の有無 */
+  /** お気に入りかどうか */
   isFavorite: boolean;
   /** カテゴリー(navigation用のidつき) */
   category: CategoryOption;
@@ -47,7 +47,7 @@ export type TaskDetail = {
   startDate: Date;
   /** タスクの最終更新日 */
   lastDate: Date;
-  /** タスクのメモ */
+  /** タスクの詳細ページのメモ */
   memo: MemoTaskDetail[];
 };
 
