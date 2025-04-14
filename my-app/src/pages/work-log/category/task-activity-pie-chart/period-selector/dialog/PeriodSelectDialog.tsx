@@ -22,7 +22,7 @@ export default function PeriodSelectDialog({ open, onClose }: Props) {
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>
-      <Stack direction="row" px={3} py={1.5} spacing={1} alignItems="center">
+      <Stack direction="row" px={3} py={1.5} spacing={2} alignItems="center">
         <Stack>
           <Typography variant="caption">開始期間</Typography>
           <PeriodSelectMenuButton
