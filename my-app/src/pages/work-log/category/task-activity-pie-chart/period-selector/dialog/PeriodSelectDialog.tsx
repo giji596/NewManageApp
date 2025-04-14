@@ -42,7 +42,7 @@ export default function PeriodSelectDialog({ open, onClose }: Props) {
       </Stack>
       <DialogActions>
         <Button color="error">キャンセル</Button>
-        <Button>移動</Button>
+        <Button>選択</Button>
       </DialogActions>
     </Dialog>
   );
