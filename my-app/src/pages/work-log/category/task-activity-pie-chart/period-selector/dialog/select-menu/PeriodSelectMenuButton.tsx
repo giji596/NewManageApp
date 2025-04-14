@@ -8,14 +8,18 @@ import {
   Stack,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import PeriodSelectMenuButtonLogic from "./PeriodSelectMenuButtonLogic";
 
 /**
  * 期間選択のメニューボタン
  */
 export default function PeriodSelectMenuButton() {
+  const { open, anchorEl, handleOpen, handleClose } =
+    PeriodSelectMenuButtonLogic();
   return (
     <>
       <Button
+        onClick={handleOpen}
         endIcon={<ArrowDropDownIcon />}
         sx={{
           textTransform: "none",
@@ -40,7 +44,7 @@ export default function PeriodSelectMenuButton() {
       >
         2025/04/22
       </Button>
-      <Menu open={true}>
+      <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <Stack direction={"row"} spacing={1} px={2} py={0.5}>
           <FormControl>
             <InputLabel>年</InputLabel>
