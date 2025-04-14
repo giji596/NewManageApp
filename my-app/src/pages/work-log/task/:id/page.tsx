@@ -26,6 +26,7 @@ export default function TaskDetailPage() {
     memoList,
     handleComplete,
     handleDelete,
+    navigateCategoryPage,
   } = useTaskDetailPage();
   const {
     open: openEdit,
@@ -67,7 +68,7 @@ export default function TaskDetailPage() {
                 categoryName={categoryName}
                 progress={progress}
                 totalHours={totalHours}
-                onClickNavigateCategoryPage={() => {}}
+                onClickNavigateCategoryPage={navigateCategoryPage}
               />
             </Stack>
             {/** テーブル */}
