@@ -7,6 +7,7 @@ import useTaskDetailPage from "./useTaskDetailPage";
 import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompleteConfirmDialog from "./dialog/complete-confirm/CompleteConfirmDialog";
+import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 
 /**
  * タスク詳細ページ
@@ -33,6 +34,11 @@ export default function TaskDetailPage() {
     open: openComplete,
     onClose: onCloseComplete,
     onOpen: onOpenComplete,
+  } = useDialog();
+  const {
+    open: openDelete,
+    onClose: onCloseDelete,
+    onOpen: onOpenDelete,
   } = useDialog();
   return (
     <>
@@ -81,7 +87,7 @@ export default function TaskDetailPage() {
               <ActionButtons
                 onClickEdit={onOpenEdit}
                 onClickComplete={onOpenComplete}
-                onClickDelete={() => {}}
+                onClickDelete={onOpenDelete}
               />
             </Stack>
           </Stack>
@@ -100,6 +106,13 @@ export default function TaskDetailPage() {
         <CompleteConfirmDialog
           open={openComplete}
           onClose={onCloseComplete}
+          onAccept={() => {}} // TODO:動作を設定
+        />
+      )}
+      {openDelete && (
+        <ConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
           onAccept={() => {}} // TODO:動作を設定
         />
       )}
