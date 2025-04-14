@@ -111,7 +111,9 @@ export default function TaskEditDialog({
         </Stack>
         {/** ボタン */}
         <DialogActions>
-          <Button color="error">キャンセル</Button>
+          <Button color="error" onClick={onClose}>
+            キャンセル
+          </Button>
           <Button disabled={!isValid} type={"submit"}>
             保存
           </Button>
