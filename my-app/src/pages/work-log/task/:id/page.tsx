@@ -24,6 +24,8 @@ export default function TaskDetailPage() {
     startDateString,
     lastDateString,
     memoList,
+    handleComplete,
+    handleDelete,
   } = useTaskDetailPage();
   const {
     open: openEdit,
@@ -109,14 +111,14 @@ export default function TaskDetailPage() {
         <CompleteConfirmDialog
           open={openComplete}
           onClose={onCloseComplete}
-          onAccept={() => {}} // TODO:動作を設定
+          onAccept={handleComplete} // TODO:動作を設定
         />
       )}
       {openDelete && (
         <ConfirmDeleteDialog
           open={openDelete}
           onClose={onCloseDelete}
-          onAccept={() => {}} // TODO:動作を設定
+          onAccept={handleDelete} // TODO:動作を設定
         />
       )}
     </>
