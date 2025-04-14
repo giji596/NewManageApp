@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import TaskEditDialogLogic from "./TaskEditDialogLogic";
+import { Controller } from "react-hook-form";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -38,7 +39,7 @@ export default function TaskEditDialog({
   initialCategoryId,
   initialIsFavorite,
 }: Props) {
-  const { categoryList, isLoading } = TaskEditDialogLogic({
+  const { categoryList, isLoading, control } = TaskEditDialogLogic({
     initialTaskName,
     initialCategoryId,
     initialIsFavorite,
@@ -51,11 +52,18 @@ export default function TaskEditDialog({
         <DialogTitle>タスクを編集</DialogTitle>
         <Stack py={2} px={3.5} spacing={2}>
           {/** タスク名 */}
-          <TextField
-            label={"タスク名"}
-            variant="standard"
-            sx={{ "& input": { pl: 1.5 } }}
-            slotProps={{ inputLabel: { sx: { pl: 3 } } }}
+          <Controller
+            name={"taskName"}
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label={"タスク名"}
+                variant="standard"
+                sx={{ "& input": { pl: 1.5 } }}
+                slotProps={{ inputLabel: { sx: { pl: 3 } } }}
+              />
+            )}
           />
           {/** カテゴリ */}
           {isLoading && (
@@ -66,22 +74,38 @@ export default function TaskEditDialog({
           {!isLoading && (
             <FormControl fullWidth>
               <InputLabel>カテゴリ名</InputLabel>
-              <Select
-                label="カテゴリ名"
-                variant="standard"
-                defaultValue={1}
-                sx={{ pl: 1.5 }}
-              >
-                {categoryList.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Controller
+                name={"categoryId"}
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    label="カテゴリ名"
+                    variant="standard"
+                    defaultValue={1}
+                    sx={{ pl: 1.5 }}
+                  >
+                    {categoryList.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
             </FormControl>
           )}
           {/** お気に入り */}
-          <FormControlLabel control={<Checkbox />} label="お気に入り" />
+          <FormControlLabel
+            control={
+              <Controller
+                name={"isFavorite"}
+                control={control}
+                render={({ field }) => <Checkbox {...field} />}
+              />
+            }
+            label="お気に入り"
+          />
         </Stack>
         {/** ボタン */}
         <DialogActions>
