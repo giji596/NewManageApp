@@ -37,8 +37,16 @@ export default function PeriodSelectMenuButton({
   onChangeMonth,
   onChangeDay,
 }: Props) {
-  const { open, anchorEl, handleOpen, handleClose, buttonText } =
-    PeriodSelectMenuButtonLogic({ year, month, day });
+  const {
+    open,
+    anchorEl,
+    handleOpen,
+    handleClose,
+    buttonText,
+    yearSelect,
+    monthSelect,
+    daySelect,
+  } = PeriodSelectMenuButtonLogic({ year, month, day });
   return (
     <>
       <Button
@@ -77,7 +85,11 @@ export default function PeriodSelectMenuButton({
               onChange={onChangeYear}
               sx={{ width: 125 }}
             >
-              <MenuItem value={2025}>{year}年</MenuItem>
+              {yearSelect.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {v}年
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -88,7 +100,11 @@ export default function PeriodSelectMenuButton({
               onChange={onChangeMonth}
               sx={{ width: 100 }}
             >
-              <MenuItem value={4}>{month}月</MenuItem>
+              {monthSelect.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {v}月
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -99,7 +115,11 @@ export default function PeriodSelectMenuButton({
               onChange={onChangeDay}
               sx={{ width: 100 }}
             >
-              <MenuItem value={22}>{day}日</MenuItem>
+              {daySelect.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {v}日
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Stack>
