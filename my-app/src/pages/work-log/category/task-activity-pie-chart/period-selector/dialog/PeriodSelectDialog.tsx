@@ -3,13 +3,10 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
   Typography,
 } from "@mui/material";
+import PeriodSelectMenuButton from "./select-menu/PeriodSelectMenuButton";
 
 type Props = {
   /** ダイアログ開閉状態 */
@@ -26,19 +23,23 @@ export default function PeriodSelectDialog({ open, onClose }: Props) {
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>
       <Stack direction="row" px={3} py={1.5} spacing={1} alignItems="center">
-        <FormControl fullWidth>
-          <InputLabel>開始期間</InputLabel>
-          <Select variant="standard" label="開始期間">
-            <MenuItem>開始期間</MenuItem>
-          </Select>
-        </FormControl>
+        <PeriodSelectMenuButton
+          year={2025}
+          month={4}
+          day={4}
+          onChangeYear={() => {}}
+          onChangeMonth={() => {}}
+          onChangeDay={() => {}}
+        />
         <Typography variant="h5">〜</Typography>
-        <FormControl fullWidth>
-          <InputLabel>終了期間</InputLabel>
-          <Select variant="standard" label="終了期間">
-            <MenuItem>終了期間</MenuItem>
-          </Select>
-        </FormControl>
+        <PeriodSelectMenuButton
+          year={2025}
+          month={4}
+          day={4}
+          onChangeYear={() => {}}
+          onChangeMonth={() => {}}
+          onChangeDay={() => {}}
+        />
       </Stack>
       <DialogActions>
         <Button color="error">キャンセル</Button>
