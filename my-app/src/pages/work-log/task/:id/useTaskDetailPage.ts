@@ -1,7 +1,7 @@
 import { DUMMY_TASK_DETAIL_MEMO } from "@/dummy/task-page";
 import { TaskDetail } from "@/type/Task";
 import { format } from "date-fns";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * タスク詳細ページのカスタムフック
@@ -35,6 +35,15 @@ export default function useTaskDetailPage() {
     [data.lastDate]
   );
   const memoList = useMemo(() => data.memo, [data.memo]); // タスク名の更新時の再フェッチ時に更新しないように設定
+
+  const handleComplete = useCallback(async () => {
+    // TODO: データ更新させる(進捗を100%にする？)
+    console.log("完了処理 対象id:", data.id);
+  }, [data.id]);
+  const handleDelete = useCallback(async () => {
+    // TODO:データの削除と一覧ページへのナビゲーションを行う
+    console.log("削除処理 対象id:", data.id);
+  }, [data.id]);
   return {
     /** ロード状態 */
     isLoading,
@@ -56,5 +65,9 @@ export default function useTaskDetailPage() {
     lastDateString,
     /** メモリスト */
     memoList,
+    /** 完了処理を行うハンドラー */
+    handleComplete,
+    /** 削除処理を行うハンドラー */
+    handleDelete,
   };
 }
