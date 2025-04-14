@@ -19,19 +19,19 @@ export default function PeriodSelectMenuButton() {
         <Stack direction={"row"}>
           <FormControl>
             <InputLabel>年</InputLabel>
-            <Select label="年" value={"2025年"}>
+            <Select label="年" value={"2025年"} sx={{ width: 125 }}>
               <MenuItem value={"2025年"}>2025年</MenuItem>
             </Select>
           </FormControl>
           <FormControl>
             <InputLabel>月</InputLabel>
-            <Select label="月" value={"4月"}>
+            <Select label="月" value={"4月"} sx={{ width: 100 }}>
               <MenuItem value={"4月"}>4月</MenuItem>
             </Select>
           </FormControl>
           <FormControl>
             <InputLabel>日</InputLabel>
-            <Select label="日" value={"22日"}>
+            <Select label="日" value={"22日"} sx={{ width: 100 }}>
               <MenuItem value={"22日"}>22日</MenuItem>
             </Select>
           </FormControl>
