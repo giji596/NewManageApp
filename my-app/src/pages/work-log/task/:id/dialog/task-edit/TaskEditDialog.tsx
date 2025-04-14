@@ -39,7 +39,7 @@ export default function TaskEditDialog({
   initialCategoryId,
   initialIsFavorite,
 }: Props) {
-  const { categoryList, isLoading, control } = TaskEditDialogLogic({
+  const { categoryList, isLoading, control, onSubmit } = TaskEditDialogLogic({
     initialTaskName,
     initialCategoryId,
     initialIsFavorite,
@@ -47,7 +47,7 @@ export default function TaskEditDialog({
   });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
-      <form>
+      <form onSubmit={onSubmit}>
         {/** タイトル */}
         <DialogTitle>タスクを編集</DialogTitle>
         <Stack py={2} px={3.5} spacing={2}>
@@ -110,7 +110,7 @@ export default function TaskEditDialog({
         {/** ボタン */}
         <DialogActions>
           <Button color="error">キャンセル</Button>
-          <Button>保存</Button>
+          <Button type={"submit"}>保存</Button>
         </DialogActions>
       </form>
     </Dialog>
