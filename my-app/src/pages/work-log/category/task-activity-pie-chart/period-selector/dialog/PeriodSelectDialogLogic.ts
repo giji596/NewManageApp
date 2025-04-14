@@ -16,6 +16,58 @@ type Props = {
   initialEndDate: Date;
 };
 
+const today = new Date();
+const todayYear = getYear(today);
+const todayMonth = getMonth(today) + 1;
+const todayDay = getDate(today);
+
+/** 年を変える際に変更後の日付を取得する関数(選択範囲(今日の日付)を超えないようにするために使用)
+ * @param 変更前の日付(initialDate)と変更後の年の値(v)
+ * @return 変更後の日付(Date)
+ */
+const getDateOnChangeYear = (initialDate: Date, v: number) => {
+  const newDate = setYear(initialDate, v);
+  // 変更先のyearが今年の場合
+  if (v === todayYear) {
+    // initialDateの月が今月以降かを調べる
+    const month = getMonth(initialDate) + 1;
+    if (todayMonth < month) {
+      // 以降であれば選択範囲を超えないように月を変更する
+      newDate.setMonth(todayMonth - 1);
+    }
+    // 月と同様に日についても調べる
+    const day = getDate(initialDate);
+    if (todayDay < day) {
+      // 以降であれば選択範囲を超えないように日を変更する
+      newDate.setDate(todayDay);
+    }
+  }
+  // 日付を返す(年が一致しない場合は年のみ変更、一致する場合は月または日を必要に応じて変換)
+  return newDate;
+};
+
+/** 月を変える際に変更後の日付を取得する関数(選択範囲(今日の日付)を超えないようにするために使用)
+ * @param 変更前の日付(initialDate)と変更後の年の値(v)
+ * @return 変更後の日付(Date)
+ */
+const getDateOnChangeMonth = (initialDate: Date, v: number) => {
+  const newDate = setMonth(initialDate, v - 1);
+  // 変更先のmonthが現在の月と一緒の場合
+  if (v === todayMonth) {
+    // 年についても一緒か調べる
+    const year = getYear(initialDate);
+    if (year === todayYear) {
+      // 年と月が一致する場合、日が今日以降か調べる
+      const day = getDate(initialDate);
+      if (todayDay < day) {
+        // 今日以降であれば、選択範囲を超えないように日を変更する
+        newDate.setDate(todayDay);
+      }
+    }
+  }
+  return newDate;
+};
+
 /**
  * 表示期間を選択するダイアログのロジック
  */
@@ -30,13 +82,13 @@ export default function PeriodSelectDialogLogic({
   const startDay = useMemo(() => getDate(startDate), [startDate]);
   const handleChangeStartYear = useCallback((e: SelectChangeEvent) => {
     setStartDate((prev) => {
-      const newDate = setYear(prev, Number(e.target.value));
+      const newDate = getDateOnChangeYear(prev, Number(e.target.value));
       return newDate;
     });
   }, []);
   const handleChangeStartMonth = useCallback((e: SelectChangeEvent) => {
     setStartDate((prev) => {
-      const newDate = setMonth(prev, Number(e.target.value));
+      const newDate = getDateOnChangeMonth(prev, Number(e.target.value));
       return newDate;
     });
   }, []);
@@ -54,13 +106,13 @@ export default function PeriodSelectDialogLogic({
   const endDay = useMemo(() => getDate(endDate), [endDate]);
   const handleChangeEndYear = useCallback((e: SelectChangeEvent) => {
     setEndDate((prev) => {
-      const newDate = setYear(prev, Number(e.target.value));
+      const newDate = getDateOnChangeYear(prev, Number(e.target.value));
       return newDate;
     });
   }, []);
   const handleChangeEndMonth = useCallback((e: SelectChangeEvent) => {
     setEndDate((prev) => {
-      const newDate = setMonth(prev, Number(e.target.value));
+      const newDate = getDateOnChangeMonth(prev, Number(e.target.value));
       return newDate;
     });
   }, []);
