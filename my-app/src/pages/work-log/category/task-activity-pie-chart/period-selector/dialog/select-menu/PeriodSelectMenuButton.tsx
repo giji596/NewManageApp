@@ -16,7 +16,7 @@ export default function PeriodSelectMenuButton() {
     <>
       <Button>2025/04/22</Button>
       <Menu open={true}>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} spacing={1} px={2} py={0.5}>
           <FormControl>
             <InputLabel>年</InputLabel>
             <Select label="年" value={"2025年"} sx={{ width: 125 }}>
