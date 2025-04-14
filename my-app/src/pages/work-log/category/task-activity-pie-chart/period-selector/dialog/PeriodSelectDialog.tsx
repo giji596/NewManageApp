@@ -23,23 +23,29 @@ export default function PeriodSelectDialog({ open, onClose }: Props) {
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>
       <Stack direction="row" px={3} py={1.5} spacing={1} alignItems="center">
-        <PeriodSelectMenuButton
-          year={2025}
-          month={4}
-          day={4}
-          onChangeYear={() => {}}
-          onChangeMonth={() => {}}
-          onChangeDay={() => {}}
-        />
-        <Typography variant="h5">〜</Typography>
-        <PeriodSelectMenuButton
-          year={2025}
-          month={4}
-          day={4}
-          onChangeYear={() => {}}
-          onChangeMonth={() => {}}
-          onChangeDay={() => {}}
-        />
+        <Stack>
+          <Typography variant="caption">開始期間</Typography>
+          <PeriodSelectMenuButton
+            year={2025}
+            month={4}
+            day={4}
+            onChangeYear={() => {}}
+            onChangeMonth={() => {}}
+            onChangeDay={() => {}}
+          />
+        </Stack>
+        <Typography variant="h6">〜</Typography>
+        <Stack>
+          <Typography variant="caption">終了期間</Typography>
+          <PeriodSelectMenuButton
+            year={2025}
+            month={4}
+            day={4}
+            onChangeYear={() => {}}
+            onChangeMonth={() => {}}
+            onChangeDay={() => {}}
+          />
+        </Stack>
       </Stack>
       <DialogActions>
         <Button color="error">キャンセル</Button>
