@@ -4,6 +4,10 @@ import MemoList from "./memo-list/MemoList";
 import DateDisplay from "./date-display/DateDisplay";
 import ActionButtons from "./action-buttons/ActionButtons";
 import useTaskDetailPage from "./useTaskDetailPage";
+import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
+import useDialog from "@/hook/useDialog";
+import CompleteConfirmDialog from "./dialog/complete-confirm/CompleteConfirmDialog";
+import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 
 /**
  * タスク詳細ページ
@@ -12,6 +16,7 @@ export default function TaskDetailPage() {
   const {
     isLoading,
     taskName,
+    categoryId,
     categoryName,
     isFavorite,
     progress,
@@ -20,6 +25,21 @@ export default function TaskDetailPage() {
     lastDateString,
     memoList,
   } = useTaskDetailPage();
+  const {
+    open: openEdit,
+    onClose: onCloseEdit,
+    onOpen: onOpenEdit,
+  } = useDialog();
+  const {
+    open: openComplete,
+    onClose: onCloseComplete,
+    onOpen: onOpenComplete,
+  } = useDialog();
+  const {
+    open: openDelete,
+    onClose: onCloseDelete,
+    onOpen: onOpenDelete,
+  } = useDialog();
   return (
     <>
       {isLoading && (
@@ -65,13 +85,36 @@ export default function TaskDetailPage() {
             {/** アクションボタン */}
             <Stack>
               <ActionButtons
-                onClickEdit={() => {}}
-                onClickComplete={() => {}}
-                onClickDelete={() => {}}
+                onClickEdit={onOpenEdit}
+                onClickComplete={onOpenComplete}
+                onClickDelete={onOpenDelete}
               />
             </Stack>
           </Stack>
         </Stack>
+      )}
+      {openEdit && (
+        <TaskEditDialog
+          open={openEdit}
+          onClose={onCloseEdit}
+          initialTaskName={taskName}
+          initialCategoryId={categoryId}
+          initialIsFavorite={isFavorite}
+        />
+      )}
+      {openComplete && (
+        <CompleteConfirmDialog
+          open={openComplete}
+          onClose={onCloseComplete}
+          onAccept={() => {}} // TODO:動作を設定
+        />
+      )}
+      {openDelete && (
+        <ConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
+          onAccept={() => {}} // TODO:動作を設定
+        />
       )}
     </>
   );
