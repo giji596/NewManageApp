@@ -5,15 +5,38 @@ import {
   Menu,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Stack,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PeriodSelectMenuButtonLogic from "./PeriodSelectMenuButtonLogic";
 
+type Props = {
+  /** 年 */
+  year: number;
+  /** 月 */
+  month: number;
+  /** 日 */
+  day: number;
+  /** 年のセレクトを変えた時のハンドラー */
+  onChangeYear: (e: SelectChangeEvent) => void;
+  /** 月のセレクトを変えた時のハンドラー */
+  onChangeMonth: (e: SelectChangeEvent) => void;
+  /** 日のセレクトを変えた時のハンドラー */
+  onChangeDay: (e: SelectChangeEvent) => void;
+};
+
 /**
  * 期間選択のメニューボタン
  */
-export default function PeriodSelectMenuButton() {
+export default function PeriodSelectMenuButton({
+  year,
+  month,
+  day,
+  onChangeYear,
+  onChangeMonth,
+  onChangeDay,
+}: Props) {
   const { open, anchorEl, handleOpen, handleClose } =
     PeriodSelectMenuButtonLogic();
   return (
@@ -48,20 +71,35 @@ export default function PeriodSelectMenuButton() {
         <Stack direction={"row"} spacing={1} px={2} py={0.5}>
           <FormControl>
             <InputLabel>年</InputLabel>
-            <Select label="年" value={"2025年"} sx={{ width: 125 }}>
-              <MenuItem value={"2025年"}>2025年</MenuItem>
+            <Select
+              label="年"
+              value={String(year)}
+              onChange={onChangeYear}
+              sx={{ width: 125 }}
+            >
+              <MenuItem value={2025}>{year}年</MenuItem>
             </Select>
           </FormControl>
           <FormControl>
             <InputLabel>月</InputLabel>
-            <Select label="月" value={"4月"} sx={{ width: 100 }}>
-              <MenuItem value={"4月"}>4月</MenuItem>
+            <Select
+              label="月"
+              value={String(month)}
+              onChange={onChangeMonth}
+              sx={{ width: 100 }}
+            >
+              <MenuItem value={4}>{month}月</MenuItem>
             </Select>
           </FormControl>
           <FormControl>
             <InputLabel>日</InputLabel>
-            <Select label="日" value={"22日"} sx={{ width: 100 }}>
-              <MenuItem value={"22日"}>22日</MenuItem>
+            <Select
+              label="日"
+              value={String(day)}
+              onChange={onChangeDay}
+              sx={{ width: 100 }}
+            >
+              <MenuItem value={22}>{day}日</MenuItem>
             </Select>
           </FormControl>
         </Stack>
