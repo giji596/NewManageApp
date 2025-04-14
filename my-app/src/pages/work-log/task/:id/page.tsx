@@ -1,4 +1,4 @@
-import { CircularProgress, Stack } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import MainDisplay from "./main-display/MainDisplay";
 import MemoList from "./memo-list/MemoList";
 import DateDisplay from "./date-display/DateDisplay";
@@ -70,6 +70,9 @@ export default function TaskDetailPage() {
             </Stack>
             {/** テーブル */}
             <Stack height={400} overflow="auto">
+              <Typography variant="subtitle1" paddingLeft={3}>
+                メモ一覧
+              </Typography>
               <MemoList memoItemList={memoList} />
             </Stack>
           </Stack>
