@@ -21,6 +21,7 @@ export default function useTaskDetailPage() {
   };
   const isLoading = false;
   const taskName = data.name;
+  const categoryId = data.category.id;
   const categoryName = data.category.name;
   const isFavorite = data.isFavorite;
   const progress = data.progress;
@@ -39,6 +40,8 @@ export default function useTaskDetailPage() {
     isLoading,
     /** タスク名 */
     taskName,
+    /** カテゴリid */
+    categoryId,
     /** カテゴリ名 */
     categoryName,
     /** お気に入りか */

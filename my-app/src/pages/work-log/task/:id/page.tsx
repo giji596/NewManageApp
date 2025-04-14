@@ -4,6 +4,8 @@ import MemoList from "./memo-list/MemoList";
 import DateDisplay from "./date-display/DateDisplay";
 import ActionButtons from "./action-buttons/ActionButtons";
 import useTaskDetailPage from "./useTaskDetailPage";
+import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
+import useDialog from "@/hook/useDialog";
 
 /**
  * タスク詳細ページ
@@ -12,6 +14,7 @@ export default function TaskDetailPage() {
   const {
     isLoading,
     taskName,
+    categoryId,
     categoryName,
     isFavorite,
     progress,
@@ -20,6 +23,11 @@ export default function TaskDetailPage() {
     lastDateString,
     memoList,
   } = useTaskDetailPage();
+  const {
+    open: openEdit,
+    onClose: onCloseEdit,
+    onOpen: onOpenEdit,
+  } = useDialog();
   return (
     <>
       {isLoading && (
@@ -65,13 +73,22 @@ export default function TaskDetailPage() {
             {/** アクションボタン */}
             <Stack>
               <ActionButtons
-                onClickEdit={() => {}}
+                onClickEdit={onOpenEdit}
                 onClickComplete={() => {}}
                 onClickDelete={() => {}}
               />
             </Stack>
           </Stack>
         </Stack>
+      )}
+      {openEdit && (
+        <TaskEditDialog
+          open={openEdit}
+          onClose={onCloseEdit}
+          initialTaskName={taskName}
+          initialCategoryId={categoryId}
+          initialIsFavorite={isFavorite}
+        />
       )}
     </>
   );
