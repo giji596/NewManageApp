@@ -44,6 +44,11 @@ export default function useTaskDetailPage() {
     // TODO:データの削除と一覧ページへのナビゲーションを行う
     console.log("削除処理 対象id:", data.id);
   }, [data.id]);
+
+  const navigateCategoryPage = useCallback(() => {
+    // TODO:ナビゲートさせる
+    console.log("カテゴリページへ移動 id:", categoryId);
+  }, [categoryId]);
   return {
     /** ロード状態 */
     isLoading,
@@ -69,5 +74,7 @@ export default function useTaskDetailPage() {
     handleComplete,
     /** 削除処理を行うハンドラー */
     handleDelete,
+    /** カテゴリページへ移動するハンドラー */
+    navigateCategoryPage,
   };
 }
