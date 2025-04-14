@@ -39,12 +39,13 @@ export default function TaskEditDialog({
   initialCategoryId,
   initialIsFavorite,
 }: Props) {
-  const { categoryList, isLoading, control, onSubmit } = TaskEditDialogLogic({
-    initialTaskName,
-    initialCategoryId,
-    initialIsFavorite,
-    onClose,
-  });
+  const { categoryList, isLoading, control, isValid, onSubmit } =
+    TaskEditDialogLogic({
+      initialTaskName,
+      initialCategoryId,
+      initialIsFavorite,
+      onClose,
+    });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <form onSubmit={onSubmit}>
@@ -55,6 +56,7 @@ export default function TaskEditDialog({
           <Controller
             name={"taskName"}
             control={control}
+            rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -110,7 +112,9 @@ export default function TaskEditDialog({
         {/** ボタン */}
         <DialogActions>
           <Button color="error">キャンセル</Button>
-          <Button type={"submit"}>保存</Button>
+          <Button disabled={!isValid} type={"submit"}>
+            保存
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
