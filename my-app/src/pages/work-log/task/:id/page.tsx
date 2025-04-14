@@ -6,6 +6,7 @@ import ActionButtons from "./action-buttons/ActionButtons";
 import useTaskDetailPage from "./useTaskDetailPage";
 import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
+import CompleteConfirmDialog from "./dialog/complete-confirm/CompleteConfirmDialog";
 
 /**
  * タスク詳細ページ
@@ -27,6 +28,11 @@ export default function TaskDetailPage() {
     open: openEdit,
     onClose: onCloseEdit,
     onOpen: onOpenEdit,
+  } = useDialog();
+  const {
+    open: openComplete,
+    onClose: onCloseComplete,
+    onOpen: onOpenComplete,
   } = useDialog();
   return (
     <>
@@ -74,7 +80,7 @@ export default function TaskDetailPage() {
             <Stack>
               <ActionButtons
                 onClickEdit={onOpenEdit}
-                onClickComplete={() => {}}
+                onClickComplete={onOpenComplete}
                 onClickDelete={() => {}}
               />
             </Stack>
@@ -88,6 +94,13 @@ export default function TaskDetailPage() {
           initialTaskName={taskName}
           initialCategoryId={categoryId}
           initialIsFavorite={isFavorite}
+        />
+      )}
+      {openComplete && (
+        <CompleteConfirmDialog
+          open={openComplete}
+          onClose={onCloseComplete}
+          onAccept={() => {}} // TODO:動作を設定
         />
       )}
     </>
