@@ -37,8 +37,8 @@ export default function PeriodSelectMenuButton({
   onChangeMonth,
   onChangeDay,
 }: Props) {
-  const { open, anchorEl, handleOpen, handleClose } =
-    PeriodSelectMenuButtonLogic();
+  const { open, anchorEl, handleOpen, handleClose, buttonText } =
+    PeriodSelectMenuButtonLogic({ year, month, day });
   return (
     <>
       <Button
@@ -65,7 +65,7 @@ export default function PeriodSelectMenuButton({
         }}
         disableRipple
       >
-        2025/04/22
+        {buttonText}
       </Button>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <Stack direction={"row"} spacing={1} px={2} py={0.5}>
