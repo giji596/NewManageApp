@@ -1,5 +1,10 @@
 import { CategoryTaskActivity } from "@/type/Task";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import {
+  Formatter,
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
 type Props = {
   /** データ */
@@ -23,11 +28,25 @@ export default function TaskActivityGraphLogic({ data }: Props) {
       },
       []
     );
-    return formattedData;
+    // 識別用にindexを追加(フォーマット時に利用)
+    const formattedDataWithIndex = formattedData.map((v, i) => {
+      return { ...v, index: i };
+    });
+    return formattedDataWithIndex;
   }, [data]);
+
+  const toolChipFormatter: Formatter<ValueType, NameType> = useCallback(
+    (_, name, props) => {
+      const index = props.payload.index;
+      return [`${data[index].totalHours}時間`, name];
+    },
+    [data]
+  );
 
   return {
     /** データを円グラフように変換したもの */
     pieData,
+    /** ToolChipの表示のフォーマット用関数(稼働時間を表示させる) */
+    toolChipFormatter,
   };
 }
