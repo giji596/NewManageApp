@@ -8,13 +8,13 @@ const CategoryTaskTableHeader = memo(function CategoryTaskTableHeader() {
   return (
     <TableRow>
       {/** お気に入り */}
-      <TableCell>お気に入り</TableCell>
+      <TableCell sx={{ width: "10%" }}>お気に入り</TableCell>
       {/** タスク名 */}
-      <TableCell>タスク名</TableCell>
+      <TableCell sx={{ width: "60%" }}>タスク名</TableCell>
       {/** 進捗 */}
-      <TableCell>進捗</TableCell>
+      <TableCell sx={{ width: "20%" }}>進捗</TableCell>
       {/** (移動ボタン用の空枠) */}
-      <TableCell></TableCell>
+      <TableCell sx={{ width: "10%" }}></TableCell>
     </TableRow>
   );
 });
