@@ -17,7 +17,7 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
 }: Props) {
   return (
     <TableContainer>
-      <Table>
+      <Table sx={{ tableLayout: "fixed" }} stickyHeader>
         <TableHead>
           <CategoryTaskTableHeader
             isSortTarget={() => false}
