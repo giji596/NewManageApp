@@ -1,7 +1,7 @@
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
-import { IconButton, TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import { memo } from "react";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import HeaderFavoriteLabel from "@/component/table/header/HeaderFavoriteLabel/HeaderFavoriteLabel";
 
 /**
  * カテゴリページのタスク一覧のテーブルヘッダー
@@ -11,9 +11,7 @@ const CategoryTaskTableHeader = memo(function CategoryTaskTableHeader() {
     <TableRow>
       {/** お気に入り */}
       <TableCell sx={{ width: "10%" }}>
-        <IconButton>
-          <StarBorderIcon />
-        </IconButton>
+        <HeaderFavoriteLabel isChecked={false} onClick={() => {}} />
       </TableCell>
       {/** タスク名 */}
       <TableCell sx={{ width: "60%" }}>
