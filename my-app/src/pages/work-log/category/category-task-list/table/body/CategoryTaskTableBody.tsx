@@ -35,7 +35,16 @@ const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
         {isFavorite && <StarIcon color="primary" />}
       </TableCell>
       {/** タスク名 */}
-      <TableCell sx={{ pl: 3 }}>{taskName}</TableCell>
+      <TableCell
+        sx={{
+          pl: 3,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {taskName}
+      </TableCell>
       {/** 進捗 */}
       <TableCell sx={{ pl: 3 }}>{progress}%</TableCell>
       {/** 詳細へ移動するボタン */}
