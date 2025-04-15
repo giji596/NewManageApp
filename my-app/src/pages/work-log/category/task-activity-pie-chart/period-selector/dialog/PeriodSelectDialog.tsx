@@ -18,6 +18,8 @@ type Props = {
   initialStartDate: Date;
   /** 初期値(終了) */
   initialEndDate: Date;
+  /** 選択した範囲のデータを取得する関数 */
+  getDataSelectRange: (start: Date, end: Date) => void;
 };
 
 /**
@@ -28,6 +30,7 @@ export default function PeriodSelectDialog({
   onClose,
   initialStartDate,
   initialEndDate,
+  getDataSelectRange,
 }: Props) {
   const {
     startYear,
@@ -42,7 +45,13 @@ export default function PeriodSelectDialog({
     handleChangeEndYear,
     handleChangeEndMonth,
     handleChangeEndDay,
-  } = PeriodSelectDialogLogic({ onClose, initialStartDate, initialEndDate });
+    onClickSelect,
+  } = PeriodSelectDialogLogic({
+    onClose,
+    initialStartDate,
+    initialEndDate,
+    getDataSelectRange,
+  });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>
@@ -72,8 +81,10 @@ export default function PeriodSelectDialog({
         </Stack>
       </Stack>
       <DialogActions>
-        <Button color="error">キャンセル</Button>
-        <Button>選択</Button>
+        <Button onClick={onClose} color="error">
+          キャンセル
+        </Button>
+        <Button onClick={onClickSelect}>選択</Button>
       </DialogActions>
     </Dialog>
   );

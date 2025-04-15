@@ -11,6 +11,7 @@ const meta = {
     initialStartDate: new Date("2025-03-14"),
     /** 初期値(終了) */
     initialEndDate: new Date(),
+    getDataSelectRange: () => {},
   },
 } satisfies Meta<typeof PeriodSelectDialog>;
 
