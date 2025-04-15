@@ -63,3 +63,11 @@ export type DailyDetailTaskTableType = {
   /** 稼働時間 */
   dailyHours: number;
 };
+
+/** カテゴリの(特定期間内の)タスクの稼働状況の型定義 */
+export type CategoryTaskActivity = {
+  /** タスク名 */
+  taskName: string;
+  /** (期間内の)稼働時間 */
+  totalHours: number;
+};
