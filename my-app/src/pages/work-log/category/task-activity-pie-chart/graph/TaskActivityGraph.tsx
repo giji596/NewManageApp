@@ -14,7 +14,7 @@ type Props = {
 const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
   const { pieData, toolChipFormatter } = TaskActivityGraphLogic({ data });
   return (
-    <PieChart width={300} height={300}>
+    <PieChart width={400} height={350}>
       <Pie
         data={pieData}
         dataKey="value"
