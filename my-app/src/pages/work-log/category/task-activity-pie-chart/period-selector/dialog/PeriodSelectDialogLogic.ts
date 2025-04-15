@@ -138,7 +138,7 @@ export default function PeriodSelectDialogLogic({
     [getDataSelectRange, onClose]
   );
 
-  const isValid = startDate < endDate; // ここダイアログ操作中はどっちかは変化し続けるのでメモ化しない
+  const isValid = startDate <= endDate; // ここダイアログ操作中はどっちかは変化し続けるのでメモ化しない
   return {
     /** 開始年 */
     startYear,
