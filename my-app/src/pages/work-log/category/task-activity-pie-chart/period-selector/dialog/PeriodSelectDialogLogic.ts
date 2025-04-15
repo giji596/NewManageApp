@@ -10,10 +10,14 @@ import {
 import { useCallback, useMemo, useState } from "react";
 
 type Props = {
+  /** ダイアログ閉じる関数 */
+  onClose: () => void;
   /** 開始期間の初期値 */
   initialStartDate: Date;
   /** 終了期間の初期値 */
   initialEndDate: Date;
+  /** 選択した範囲のデータを取得する関数 */
+  getDataSelectRange: (start: Date, end: Date) => void;
 };
 
 const today = new Date();
@@ -72,8 +76,10 @@ const getDateOnChangeMonth = (initialDate: Date, v: number) => {
  * 表示期間を選択するダイアログのロジック
  */
 export default function PeriodSelectDialogLogic({
+  onClose,
   initialStartDate,
   initialEndDate,
+  getDataSelectRange,
 }: Props) {
   // 開始期間
   const [startDate, setStartDate] = useState<Date>(initialStartDate);
@@ -122,6 +128,15 @@ export default function PeriodSelectDialogLogic({
       return newDate;
     });
   }, []);
+  const onClickSelect = useCallback(
+    // 依存値から外すために引数に(startDateとendDateは受け渡し時に)
+    async (start: Date, end: Date) => {
+      await getDataSelectRange(start, end);
+      console.log("送信！", start, end); // FIXME:親のできるまでのチェック用
+      onClose();
+    },
+    [getDataSelectRange, onClose]
+  );
   return {
     /** 開始年 */
     startYear,
@@ -147,5 +162,7 @@ export default function PeriodSelectDialogLogic({
     handleChangeEndMonth,
     /** 終了日を変更するハンドラー */
     handleChangeEndDay,
+    /** 「選択」ボタンを押した際のハンドラー */
+    onClickSelect: () => onClickSelect(startDate, endDate),
   };
 }
