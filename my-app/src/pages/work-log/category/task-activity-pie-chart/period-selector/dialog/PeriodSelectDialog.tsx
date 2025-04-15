@@ -42,7 +42,7 @@ export default function PeriodSelectDialog({
     handleChangeEndYear,
     handleChangeEndMonth,
     handleChangeEndDay,
-  } = PeriodSelectDialogLogic({ initialStartDate, initialEndDate });
+  } = PeriodSelectDialogLogic({ onClose, initialStartDate, initialEndDate });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>

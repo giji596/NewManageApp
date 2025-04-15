@@ -10,6 +10,8 @@ import {
 import { useCallback, useMemo, useState } from "react";
 
 type Props = {
+  /** ダイアログ閉じる関数 */
+  onClose: () => void;
   /** 開始期間の初期値 */
   initialStartDate: Date;
   /** 終了期間の初期値 */
@@ -72,6 +74,7 @@ const getDateOnChangeMonth = (initialDate: Date, v: number) => {
  * 表示期間を選択するダイアログのロジック
  */
 export default function PeriodSelectDialogLogic({
+  onClose,
   initialStartDate,
   initialEndDate,
 }: Props) {
