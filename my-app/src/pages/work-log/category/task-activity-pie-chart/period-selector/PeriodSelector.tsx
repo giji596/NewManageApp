@@ -74,13 +74,15 @@ export default function PeriodSelector({
           </RadioGroup>
         </FormControl>
       </Stack>
-      <PeriodSelectDialog
-        open={open}
-        onClose={onClose}
-        initialStartDate={startDate}
-        initialEndDate={endDate}
-        getDataSelectRange={getDataSelectRange}
-      />
+      {open && (
+        <PeriodSelectDialog
+          open={open}
+          onClose={onClose}
+          initialStartDate={startDate}
+          initialEndDate={endDate}
+          getDataSelectRange={getDataSelectRange}
+        />
+      )}
     </>
   );
 }
