@@ -1,4 +1,3 @@
-import { Stack } from "@mui/material";
 import TaskActivityGraph from "./graph/TaskActivityGraph";
 import PeriodSelector from "./period-selector/PeriodSelector";
 import { DUMMY_TASK_ACTIVITY_DATA } from "@/dummy/category-page";
@@ -8,7 +7,7 @@ import { DUMMY_TASK_ACTIVITY_DATA } from "@/dummy/category-page";
  */
 export default function TaskActivityPieChart() {
   return (
-    <Stack>
+    <>
       <PeriodSelector
         selectRange={"last-month"}
         onChangeSelectRange={() => {}}
@@ -17,6 +16,6 @@ export default function TaskActivityPieChart() {
         getDataSelectRange={() => {}}
       />
       <TaskActivityGraph data={DUMMY_TASK_ACTIVITY_DATA} />
-    </Stack>
+    </>
   );
 }
