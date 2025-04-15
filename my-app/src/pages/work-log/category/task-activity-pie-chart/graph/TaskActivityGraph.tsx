@@ -14,13 +14,13 @@ type Props = {
 const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
   const { pieData, toolChipFormatter } = TaskActivityGraphLogic({ data });
   return (
-    <PieChart width={200} height={200}>
+    <PieChart width={400} height={350}>
       <Pie
         data={pieData}
         dataKey="value"
         cx="50%"
         cy="50%"
-        outerRadius={90}
+        outerRadius={150}
         fill="#8884d8"
       />
       <Tooltip formatter={toolChipFormatter} />
