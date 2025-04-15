@@ -11,17 +11,32 @@ import {
 import PeriodSelectDialog from "./dialog/PeriodSelectDialog";
 import useDialog from "@/hook/useDialog";
 
+type Props = {
+  /** 選択中の範囲 */
+  selectRange: "last-month" | "all" | "select";
+  /** 選択中の範囲を変更するハンドラー */
+  onChangeSelectRange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
 /**
  * カテゴリ内のタスクの稼働を表示するグラフの期間を選択するラジオグループ
  */
-export default function PeriodSelector() {
+export default function PeriodSelector({
+  selectRange,
+  onChangeSelectRange,
+}: Props) {
   const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <Stack direction="row">
         <FormControl>
           <FormLabel>表示期間</FormLabel>
-          <RadioGroup row sx={{ gap: 2 }}>
+          <RadioGroup
+            row
+            sx={{ gap: 2 }}
+            value={selectRange}
+            onChange={onChangeSelectRange}
+          >
             <FormControlLabel
               value="last-month"
               control={<Radio />}
