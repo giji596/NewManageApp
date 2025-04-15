@@ -137,6 +137,8 @@ export default function PeriodSelectDialogLogic({
     },
     [getDataSelectRange, onClose]
   );
+
+  const isValid = startDate < endDate; // ここダイアログ操作中はどっちかは変化し続けるのでメモ化しない
   return {
     /** 開始年 */
     startYear,
@@ -164,5 +166,7 @@ export default function PeriodSelectDialogLogic({
     handleChangeEndDay,
     /** 「選択」ボタンを押した際のハンドラー */
     onClickSelect: () => onClickSelect(startDate, endDate),
+    /** ばりでーしょん(終了>開始になっているか？) */
+    isValid,
   };
 }
