@@ -71,3 +71,15 @@ export type CategoryTaskActivity = {
   /** (期間内の)稼働時間 */
   totalHours: number;
 };
+
+/** カテゴリのタスク一覧をテーブルで表示する時のデータの型定義 */
+export type CategoryTaskList = {
+  /** 識別id(詳細ページ移動に利用) */
+  id: number;
+  /** タスク名(表示用) */
+  name: string;
+  /** 進捗(%) */
+  progress: number;
+  /** お気に入りかどうか */
+  isFavorite: boolean;
+};
