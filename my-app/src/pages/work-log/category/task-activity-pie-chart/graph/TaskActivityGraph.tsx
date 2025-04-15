@@ -1,6 +1,7 @@
 import { CategoryTaskActivity } from "@/type/Task";
 import { memo } from "react";
 import { Pie, PieChart, Tooltip } from "recharts";
+import TaskActivityGraphLogic from "./TaskActivityGraphLogic";
 
 type Props = {
   /** データ */
@@ -11,10 +12,11 @@ type Props = {
  * 特定の期間のタスク稼働を表現するグラフ
  */
 const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
+  const { pieData } = TaskActivityGraphLogic({ data });
   return (
     <PieChart width={200} height={200}>
       <Pie
-        data={[]}
+        data={pieData}
         dataKey="value"
         cx="50%"
         cy="50%"
