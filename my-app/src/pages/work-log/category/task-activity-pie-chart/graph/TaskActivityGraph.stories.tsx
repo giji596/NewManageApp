@@ -13,10 +13,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     data: [
-      { name: "タスク1", value: 600 },
-      { name: "タスク2", value: 200 },
-      { name: "タスク3", value: 150 },
-      { name: "タスク4", value: 50 },
+      { taskName: "タスク1", totalHours: 80 },
+      { taskName: "タスク2", totalHours: 20 },
+      { taskName: "タスク3", totalHours: 5 },
+      { taskName: "タスク4", totalHours: 2.5 },
     ],
   },
 };
