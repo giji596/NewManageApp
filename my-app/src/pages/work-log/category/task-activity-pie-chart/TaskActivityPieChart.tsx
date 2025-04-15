@@ -1,3 +1,4 @@
+import { memo } from "react";
 import TaskActivityGraph from "./graph/TaskActivityGraph";
 import PeriodSelector from "./period-selector/PeriodSelector";
 import { DUMMY_TASK_ACTIVITY_DATA } from "@/dummy/category-page";
@@ -5,7 +6,7 @@ import { DUMMY_TASK_ACTIVITY_DATA } from "@/dummy/category-page";
 /**
  * 設定した期間のタスク稼働率を円グラフで表示するコンポーネント
  */
-export default function TaskActivityPieChart() {
+const TaskActivityPieChart = memo(function TaskActivityPieChart() {
   return (
     <>
       <PeriodSelector
@@ -18,4 +19,5 @@ export default function TaskActivityPieChart() {
       <TaskActivityGraph data={DUMMY_TASK_ACTIVITY_DATA} />
     </>
   );
-}
+});
+export default TaskActivityPieChart;
