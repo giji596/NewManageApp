@@ -31,10 +31,7 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
           {taskItemList.map((item) => (
             <CategoryTaskTableBody
               key={item.id}
-              isFavorite={item.isFavorite}
-              taskName={item.name}
-              progress={item.progress}
-              taskId={item.id}
+              item={item}
               onClickNavigate={() => {}}
             />
           ))}

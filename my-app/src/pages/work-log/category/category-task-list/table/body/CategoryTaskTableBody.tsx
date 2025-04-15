@@ -3,16 +3,11 @@ import { memo } from "react";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import StarIcon from "@mui/icons-material/Star";
+import { CategoryTaskList } from "@/type/Task";
 
 type Props = {
-  /** お気に入りかどうか */
-  isFavorite: boolean;
-  /** タスク名 */
-  taskName: string;
-  /** 進捗率 */
-  progress: number;
-  /** タスクのid(移動用) */
-  taskId: number;
+  /** タスクアイテム */
+  item: CategoryTaskList;
   /** 移動ボタンを押した際のハンドラー */
   onClickNavigate: (id: number) => void;
 };
@@ -21,18 +16,15 @@ type Props = {
  * カテゴリページのタスク一覧のテーブルボディ
  */
 const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
-  isFavorite,
-  taskName,
-  progress,
-  taskId,
+  item,
   onClickNavigate,
 }: Props) {
   return (
     <TableRow>
       {/** お気に入り */}
       <TableCell sx={{ pl: 3 }}>
-        {!isFavorite && <StarBorderIcon />}
-        {isFavorite && <StarIcon color="primary" />}
+        {!item.isFavorite && <StarBorderIcon />}
+        {item.isFavorite && <StarIcon color="primary" />}
       </TableCell>
       {/** タスク名 */}
       <TableCell
@@ -43,13 +35,13 @@ const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
           whiteSpace: "nowrap",
         }}
       >
-        {taskName}
+        {item.name}
       </TableCell>
       {/** 進捗 */}
-      <TableCell sx={{ pl: 3 }}>{progress}%</TableCell>
+      <TableCell sx={{ pl: 3 }}>{item.progress}%</TableCell>
       {/** 詳細へ移動するボタン */}
       <TableCell>
-        <IconButton onClick={() => onClickNavigate(taskId)}>
+        <IconButton onClick={() => onClickNavigate(item.id)}>
           <DoubleArrowIcon />
         </IconButton>
       </TableCell>
