@@ -7,6 +7,9 @@ const meta = {
   args: {
     selectRange: "last-month",
     onChangeSelectRange: () => {},
+    startDate: new Date("2025-03-14"),
+    endDate: new Date("2025-04-14"),
+    getDataSelectRange: () => {},
   },
 } satisfies Meta<typeof PeriodSelector>;
 
