@@ -6,13 +6,23 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 
+type Props = {
+  /** 選択中の値 */
+  selectedValue: "in-progress" | "all" | "completed";
+  /** 値を変更するハンドラー */
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
 /**
  * カテゴリページのタスクリストのヘッダー
  */
-const CategoryTaskListHeader = memo(function CategoryTaskListHeader() {
+const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
+  selectedValue,
+  onChange,
+}: Props) {
   return (
     <FormControl>
-      <RadioGroup row>
+      <RadioGroup row value={selectedValue} onChange={onChange}>
         <FormControlLabel
           value="in-progress"
           control={<Radio />}
