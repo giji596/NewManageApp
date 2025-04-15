@@ -5,10 +5,12 @@ import CategoryTaskTableBody from "./CategoryTaskTableBody";
 const meta = {
   component: CategoryTaskTableBody,
   args: {
-    isFavorite: false,
-    taskName: "タスク1",
-    progress: 80,
-    taskId: 1,
+    item: {
+      id: 1,
+      name: "タスク1",
+      progress: 80,
+      isFavorite: false,
+    },
     onClickNavigate: () => {},
   },
 } satisfies Meta<typeof CategoryTaskTableBody>;
@@ -18,4 +20,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Favorite: Story = { args: { isFavorite: true } };
+export const Favorite: Story = {
+  args: { item: { id: 1, name: "タスク1", progress: 80, isFavorite: true } },
+};
