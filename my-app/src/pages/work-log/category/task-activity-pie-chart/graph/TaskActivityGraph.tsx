@@ -1,9 +1,10 @@
+import { CategoryTaskActivity } from "@/type/Task";
 import { memo } from "react";
 import { Pie, PieChart, Tooltip } from "recharts";
 
 type Props = {
-  /** データ(仮) */
-  data: { name: string; value: number }[];
+  /** データ */
+  data: CategoryTaskActivity[];
 };
 
 /**
@@ -13,7 +14,7 @@ const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
   return (
     <PieChart width={200} height={200}>
       <Pie
-        data={data}
+        data={[]}
         dataKey="value"
         cx="50%"
         cy="50%"
