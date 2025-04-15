@@ -16,6 +16,12 @@ type Props = {
   selectRange: "last-month" | "all" | "select";
   /** 選択中の範囲を変更するハンドラー */
   onChangeSelectRange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  /** selectRange:"select"時の開始範囲 */
+  startDate: Date;
+  /** selectRange:"select"時の終了範囲 */
+  endDate: Date;
+  /** selectRange:"select"時に範囲内のデータを取得する関数*/
+  getDataSelectRange: (start: Date, end: Date) => void;
 };
 
 /**
@@ -24,6 +30,9 @@ type Props = {
 export default function PeriodSelector({
   selectRange,
   onChangeSelectRange,
+  startDate,
+  endDate,
+  getDataSelectRange,
 }: Props) {
   const { open, onClose, onOpen } = useDialog();
   return (
