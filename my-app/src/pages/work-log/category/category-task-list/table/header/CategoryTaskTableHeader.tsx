@@ -10,6 +10,10 @@ type Props = {
   isAsc: boolean;
   /** ソート対象をクリックした際のハンドラー */
   onClickSortLabel: (title: string) => void;
+  /** お気に入りのチェック状況 */
+  isFavoriteChecked: boolean;
+  /** お気に入りのラベルクリックした際のハンドラー */
+  onClickFavoriteLabel: () => void;
 };
 
 /**
@@ -19,12 +23,17 @@ const CategoryTaskTableHeader = memo(function CategoryTaskTableHeader({
   isSortTarget,
   isAsc,
   onClickSortLabel,
+  isFavoriteChecked,
+  onClickFavoriteLabel,
 }: Props) {
   return (
     <TableRow>
       {/** お気に入り */}
       <TableCell sx={{ width: "10%" }}>
-        <HeaderFavoriteLabel isChecked={false} onClick={() => {}} />
+        <HeaderFavoriteLabel
+          isChecked={isFavoriteChecked}
+          onClick={onClickFavoriteLabel}
+        />
       </TableCell>
       {/** タスク名 */}
       <TableCell sx={{ width: "60%" }}>
