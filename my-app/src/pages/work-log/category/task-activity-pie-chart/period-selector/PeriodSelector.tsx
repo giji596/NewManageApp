@@ -10,12 +10,19 @@ import {
 } from "@mui/material";
 import PeriodSelectDialog from "./dialog/PeriodSelectDialog";
 import useDialog from "@/hook/useDialog";
+import PeriodSelectorLogic from "./PeriodSelectorLogic";
 
 type Props = {
   /** 選択中の範囲 */
   selectRange: "last-month" | "all" | "select";
   /** 選択中の範囲を変更するハンドラー */
   onChangeSelectRange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  /** selectRange:"select"時の開始範囲 */
+  startDate: Date;
+  /** selectRange:"select"時の終了範囲 */
+  endDate: Date;
+  /** selectRange:"select"時に範囲内のデータを取得する関数*/
+  getDataSelectRange: (start: Date, end: Date) => void;
 };
 
 /**
@@ -24,8 +31,12 @@ type Props = {
 export default function PeriodSelector({
   selectRange,
   onChangeSelectRange,
+  startDate,
+  endDate,
+  getDataSelectRange,
 }: Props) {
   const { open, onClose, onOpen } = useDialog();
+  const { selectDateString } = PeriodSelectorLogic({ startDate, endDate });
   return (
     <>
       <Stack direction="row">
@@ -55,8 +66,7 @@ export default function PeriodSelector({
                     sx={{ paddingY: 0, paddingX: 1 }}
                     onClick={onOpen}
                   >
-                    {/** TODO:ここで表示する期間は設定した期間 */}
-                    2024/12/30 〜 2025/02/22
+                    {selectDateString}
                   </Button>
                 </Stack>
               }
@@ -67,9 +77,9 @@ export default function PeriodSelector({
       <PeriodSelectDialog
         open={open}
         onClose={onClose}
-        initialStartDate={new Date()}
-        initialEndDate={new Date()}
-        getDataSelectRange={() => {}}
+        initialStartDate={startDate}
+        initialEndDate={endDate}
+        getDataSelectRange={getDataSelectRange}
       />
     </>
   );
