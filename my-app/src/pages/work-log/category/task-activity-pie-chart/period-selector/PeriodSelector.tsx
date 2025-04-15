@@ -44,19 +44,44 @@ export default function PeriodSelector({
           <FormLabel>表示期間</FormLabel>
           <RadioGroup
             row
-            sx={{ gap: 2 }}
+            sx={{ gap: 0.5 }}
             value={selectRange}
             onChange={onChangeSelectRange}
           >
             <FormControlLabel
               value="last-month"
-              control={<Radio />}
+              control={
+                <Radio
+                  sx={{
+                    transform: "scale(0.5)",
+                    padding: 0,
+                  }}
+                />
+              }
               label="過去一ヶ月"
             />
-            <FormControlLabel value="all" control={<Radio />} label="全期間" />
+            <FormControlLabel
+              value="all"
+              control={
+                <Radio
+                  sx={{
+                    transform: "scale(0.5)",
+                    padding: 0,
+                  }}
+                />
+              }
+              label="全期間"
+            />
             <FormControlLabel
               value="select"
-              control={<Radio />}
+              control={
+                <Radio
+                  sx={{
+                    transform: "scale(0.5)",
+                    padding: 0,
+                  }}
+                />
+              }
               label={
                 <Stack direction={"row"} alignItems={"center"} spacing={0.5}>
                   <Typography>期間を選択する</Typography>
