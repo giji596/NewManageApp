@@ -8,11 +8,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import PeriodSelectDialog from "./dialog/PeriodSelectDialog";
+import useDialog from "@/hook/useDialog";
 
 /**
  * カテゴリ内のタスクの稼働を表示するグラフの期間を選択するラジオグループ
  */
 export default function PeriodSelector() {
+  const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <Stack direction="row">
@@ -35,9 +38,7 @@ export default function PeriodSelector() {
                     variant="contained"
                     color={"secondary"}
                     sx={{ paddingY: 0, paddingX: 1 }}
-                    onClick={() => {
-                      console.log("ダイアログを開く"); // TODO:
-                    }}
+                    onClick={onOpen}
                   >
                     {/** TODO:ここで表示する期間は設定した期間 */}
                     2024/12/30 〜 2025/02/22
@@ -48,7 +49,13 @@ export default function PeriodSelector() {
           </RadioGroup>
         </FormControl>
       </Stack>
-      {/**　TODO:ここで期間選択するダイアログ開く */}
+      <PeriodSelectDialog
+        open={open}
+        onClose={onClose}
+        initialStartDate={new Date()}
+        initialEndDate={new Date()}
+        getDataSelectRange={() => {}}
+      />
     </>
   );
 }
