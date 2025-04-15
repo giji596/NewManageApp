@@ -2,8 +2,11 @@ import { IconButton, TableCell, TableRow } from "@mui/material";
 import { memo } from "react";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import StarIcon from "@mui/icons-material/Star";
 
 type Props = {
+  /** お気に入りかどうか */
+  isFavorite: boolean;
   /** タスク名 */
   taskName: string;
   /** 進捗率 */
@@ -14,6 +17,7 @@ type Props = {
  * カテゴリページのタスク一覧のテーブルボディ
  */
 const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
+  isFavorite,
   taskName,
   progress,
 }: Props) {
@@ -21,7 +25,8 @@ const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
     <TableRow>
       {/** お気に入り */}
       <TableCell>
-        <StarBorderIcon />
+        {!isFavorite && <StarBorderIcon />}
+        {isFavorite && <StarIcon color="primary" />}
       </TableCell>
       {/** タスク名 */}
       <TableCell>{taskName}</TableCell>
