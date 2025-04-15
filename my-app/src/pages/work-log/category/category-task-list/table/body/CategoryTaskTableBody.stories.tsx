@@ -4,7 +4,13 @@ import CategoryTaskTableBody from "./CategoryTaskTableBody";
 
 const meta = {
   component: CategoryTaskTableBody,
-  args: { isFavorite: false, taskName: "タスク1", progress: 80 },
+  args: {
+    isFavorite: false,
+    taskName: "タスク1",
+    progress: 80,
+    taskId: 1,
+    onClickNavigate: () => {},
+  },
 } satisfies Meta<typeof CategoryTaskTableBody>;
 
 export default meta;

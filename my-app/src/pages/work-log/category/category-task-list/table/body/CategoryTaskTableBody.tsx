@@ -11,6 +11,10 @@ type Props = {
   taskName: string;
   /** 進捗率 */
   progress: number;
+  /** タスクのid(移動用) */
+  taskId: number;
+  /** 移動ボタンを押した際のハンドラー */
+  onClickNavigate: (id: number) => void;
 };
 
 /**
@@ -20,6 +24,8 @@ const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
   isFavorite,
   taskName,
   progress,
+  taskId,
+  onClickNavigate,
 }: Props) {
   return (
     <TableRow>
@@ -34,7 +40,7 @@ const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
       <TableCell>{progress}%</TableCell>
       {/** 詳細へ移動するボタン */}
       <TableCell>
-        <IconButton>
+        <IconButton onClick={() => onClickNavigate(taskId)}>
           <DoubleArrowIcon />
         </IconButton>
       </TableCell>
