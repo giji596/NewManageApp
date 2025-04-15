@@ -12,7 +12,7 @@ type Props = {
  * 特定の期間のタスク稼働を表現するグラフ
  */
 const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
-  const { pieData } = TaskActivityGraphLogic({ data });
+  const { pieData, toolChipFormatter } = TaskActivityGraphLogic({ data });
   return (
     <PieChart width={200} height={200}>
       <Pie
@@ -23,7 +23,7 @@ const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
         outerRadius={90}
         fill="#8884d8"
       />
-      <Tooltip />
+      <Tooltip formatter={toolChipFormatter} />
     </PieChart>
   );
 });
