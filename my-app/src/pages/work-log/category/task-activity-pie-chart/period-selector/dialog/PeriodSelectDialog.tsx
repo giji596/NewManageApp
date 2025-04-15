@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  FormHelperText,
   Stack,
   Typography,
 } from "@mui/material";
@@ -46,6 +47,7 @@ export default function PeriodSelectDialog({
     handleChangeEndMonth,
     handleChangeEndDay,
     onClickSelect,
+    isValid,
   } = PeriodSelectDialogLogic({
     onClose,
     initialStartDate,
@@ -55,6 +57,13 @@ export default function PeriodSelectDialog({
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>
+      <Stack height={10} pl={3} pb={1}>
+        {!isValid && (
+          <FormHelperText error>
+            *開始期間が終了期間を上回っています。
+          </FormHelperText>
+        )}
+      </Stack>
       <Stack direction="row" px={3} py={1.5} spacing={2} alignItems="center">
         <Stack>
           <Typography variant="caption">開始期間</Typography>
@@ -84,7 +93,9 @@ export default function PeriodSelectDialog({
         <Button onClick={onClose} color="error">
           キャンセル
         </Button>
-        <Button onClick={onClickSelect}>選択</Button>
+        <Button disabled={!isValid} onClick={onClickSelect}>
+          選択
+        </Button>
       </DialogActions>
     </Dialog>
   );
