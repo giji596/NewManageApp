@@ -30,14 +30,23 @@ const CategoryTaskTableBody = memo(function CategoryTaskTableBody({
   return (
     <TableRow>
       {/** お気に入り */}
-      <TableCell>
+      <TableCell sx={{ pl: 3 }}>
         {!isFavorite && <StarBorderIcon />}
         {isFavorite && <StarIcon color="primary" />}
       </TableCell>
       {/** タスク名 */}
-      <TableCell>{taskName}</TableCell>
+      <TableCell
+        sx={{
+          pl: 3,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {taskName}
+      </TableCell>
       {/** 進捗 */}
-      <TableCell>{progress}%</TableCell>
+      <TableCell sx={{ pl: 3 }}>{progress}%</TableCell>
       {/** 詳細へ移動するボタン */}
       <TableCell>
         <IconButton onClick={() => onClickNavigate(taskId)}>
