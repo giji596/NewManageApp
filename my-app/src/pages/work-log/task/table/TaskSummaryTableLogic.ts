@@ -2,7 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
 import { TaskSummary } from "@/type/Task";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 type Props = {
   /** タスク一覧データ */
@@ -57,31 +57,17 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     []
   );
 
-  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+  const {
+    isAsc,
+    isSelected,
+    handleClickSortLabel,
+    doSort,
+    isFavoriteChecked,
+    toggleFavoriteCheck,
+  } = useTableSort({
     initialTarget: "タスク名",
     getSortTarget,
   });
-
-  const [isFavoriteChecked, setIsFavoriteChecked] = useState<boolean>(false);
-  const toggleFavoriteCheck = useCallback(
-    () => setIsFavoriteChecked((prev) => !prev),
-    []
-  );
-
-  const sortFunction = useCallback(
-    (a: TaskSummary, b: TaskSummary) => {
-      const result = doSort(a, b);
-      if (isFavoriteChecked) {
-        // 前後でisFavoriteが違う場合のみソート(通常のソートと併用しつつ、isFavoriteを優先させるため)
-        if (a.isFavorite !== b.isFavorite) {
-          return Number(b.isFavorite) - Number(a.isFavorite);
-        }
-      }
-      // 通常のソート
-      return result;
-    },
-    [doSort, isFavoriteChecked]
-  );
 
   const doFilterByFilterList = useCallback(
     (item: TaskSummary) => {
@@ -104,7 +90,7 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     /** ソートラベルをクリックした際のハンドラー(ソート対象の切り替え) */
     handleClickSortLabel,
     /** ソートする関数 */
-    sortFunction,
+    doSort,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
     /** フィルターリストに応じてフィルターする関数 */

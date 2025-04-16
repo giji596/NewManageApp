@@ -36,7 +36,7 @@ export default function TaskSummaryTable({
     toggleFavoriteCheck,
     isSelected,
     handleClickSortLabel,
-    sortFunction,
+    doSort,
     toggleCategoryFilterCheckBox,
     doFilterByFilterList,
   } = TaskSummaryTableLogic({ taskList });
@@ -57,7 +57,7 @@ export default function TaskSummaryTable({
         <TableBody>
           {taskList
             .filter(doFilterByFilterList)
-            .sort((a, b) => sortFunction(a, b))
+            .sort(doSort)
             .map((taskItem) => (
               <TaskSummaryTableBody
                 key={taskItem.id}
