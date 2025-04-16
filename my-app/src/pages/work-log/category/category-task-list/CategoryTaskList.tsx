@@ -1,19 +1,25 @@
 import { memo } from "react";
 import CategoryTaskTable from "./table/CategoryTaskTable";
 import CategoryTaskListHeader from "./header/CategoryTaskListHeader";
-import { DUMMY_CATEGORY_TASK_LIST } from "@/dummy/category-page";
+import CategoryTaskListLogic from "./CategoryTaskListLogic";
+
+type Props = {
+  /** カテゴリid */
+  categoryId: number;
+};
 
 /**
  * カテゴリのタスク一覧表示コンポーネント
  */
-const CategoryTaskList = memo(function CategoryTaskList() {
+const CategoryTaskList = memo(function CategoryTaskList({ categoryId }: Props) {
+  const { data } = CategoryTaskListLogic({ categoryId });
   return (
     <>
       <CategoryTaskListHeader
         selectedValue={"in-progress"}
         onChange={() => {}}
       />
-      <CategoryTaskTable taskItemList={DUMMY_CATEGORY_TASK_LIST} />
+      <CategoryTaskTable taskItemList={data} />
     </>
   );
 });
