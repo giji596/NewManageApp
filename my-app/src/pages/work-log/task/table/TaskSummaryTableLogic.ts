@@ -68,7 +68,7 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
 
   const sortFunction = useCallback(
     (a: TaskSummary, b: TaskSummary) => {
-      const result = doSort(getSortTarget(a, b));
+      const result = doSort({ a, b });
       if (isFavoriteChecked) {
         // 前後でisFavoriteが違う場合のみソート(通常のソートと併用しつつ、isFavoriteを優先させるため)
         if (a.isFavorite !== b.isFavorite) {
@@ -78,7 +78,7 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
       // 通常のソート
       return result;
     },
-    [doSort, getSortTarget, isFavoriteChecked]
+    [doSort, isFavoriteChecked]
   );
 
   const doFilterByFilterList = useCallback(

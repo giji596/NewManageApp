@@ -45,7 +45,7 @@ export default function MemoListLogic({ memoItemList }: Props) {
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: null });
+    useTableSort({ initialTarget: null, getSortTarget });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,
@@ -90,8 +90,6 @@ export default function MemoListLogic({ memoItemList }: Props) {
     handleClickSortLabel,
     /** ソートする関数 */
     doSort,
-    /** ソート対象を取得する関数 */
-    getSortTarget,
     /** タスクのフィルター対象の一覧(key:value=string:booleanのオブジェクト) */
     taskFilterList,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */

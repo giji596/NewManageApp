@@ -34,7 +34,7 @@ export default function MemoList({ memoItemList }: Props) {
   const { filterList, toggleFilterCheckBox, doFilterByFilterList } =
     useTableFilter({ initialFilterList: tagFilterList });
 
-  const getSortTargetValue = useCallback(
+  const getSortTarget = useCallback(
     (
       a: MemoTaskDetail,
       b: MemoTaskDetail,
@@ -55,7 +55,7 @@ export default function MemoList({ memoItemList }: Props) {
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付" });
+    useTableSort({ initialTarget: "日付", getSortTarget });
 
   return {
     /** 現在アクティブな行のid */
@@ -69,8 +69,7 @@ export default function MemoList({ memoItemList }: Props) {
     /** タイトルラベルをクリックした際のソートのハンドラー */
     handleClickSortLabel,
     /** ソートする関数 */
-    doSort: (a: MemoTaskDetail, b: MemoTaskDetail) =>
-      doSort(getSortTargetValue(a, b)),
+    doSort,
     /** フィルターリスト */
     filterList,
     /** フィルターのチェックボックスを切り替える関数 */

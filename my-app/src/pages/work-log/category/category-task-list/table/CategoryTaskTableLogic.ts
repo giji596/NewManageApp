@@ -26,7 +26,7 @@ export default function CategoryTaskTableLogic() {
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "progress" });
+    useTableSort({ initialTarget: "progress", getSortTarget });
 
   return {
     /** 昇順かどうか */
@@ -36,6 +36,6 @@ export default function CategoryTaskTableLogic() {
     /** ソート対象のラベルをクリックした際のハンドラー(ソート対象に指定 or 対象であれば昇順降順の切り替え) */
     handleClickSortLabel,
     /** ソートする関数 */
-    doSort: (a: CategoryTaskList, b: CategoryTaskList) => doSort(getSort),
+    doSort,
   };
 }

@@ -59,7 +59,7 @@ export default function TaskTableLogic({ taskList }: Props) {
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付" });
+    useTableSort({ initialTarget: "日付", getSortTarget });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,
@@ -99,8 +99,6 @@ export default function TaskTableLogic({ taskList }: Props) {
     handleClickSortLabel,
     /** ソートする関数 */
     doSort,
-    /** ソート対象を取得する関数 */
-    getSortTarget,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */
