@@ -54,8 +54,10 @@ export default function MemoList({ memoItemList }: Props) {
     []
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付", getSortTarget });
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "日付",
+    getSortTarget,
+  });
 
   return {
     /** 現在アクティブな行のid */

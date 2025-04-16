@@ -25,8 +25,10 @@ export default function CategoryTaskTableLogic() {
     []
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "progress", getSortTarget });
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "progress",
+    getSortTarget,
+  });
 
   return {
     /** 昇順かどうか */

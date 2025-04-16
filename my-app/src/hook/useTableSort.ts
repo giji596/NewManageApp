@@ -65,8 +65,6 @@ export default function useTableSort<T>({
     [getSortTarget, isAsc, target]
   );
   return {
-    /** 現在のソート対象に選択されている値の名称 */
-    target,
     /** ソートが昇順か降順か */
     isAsc,
     /** ソート対象に選択されているかどうかを調べる */

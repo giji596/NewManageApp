@@ -44,8 +44,10 @@ export default function MemoListLogic({ memoItemList }: Props) {
     []
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: null, getSortTarget });
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: null,
+    getSortTarget,
+  });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,

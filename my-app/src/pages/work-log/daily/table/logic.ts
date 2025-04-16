@@ -60,8 +60,10 @@ export default function DailyTableLogic({ itemList }: Props) {
     []
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付", getSortTarget });
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "日付",
+    getSortTarget,
+  });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,
