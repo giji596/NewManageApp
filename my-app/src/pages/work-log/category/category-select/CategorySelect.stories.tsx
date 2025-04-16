@@ -5,12 +5,6 @@ import CategorySelect from "./CategorySelect";
 const meta = {
   component: CategorySelect,
   args: {
-    categoryOptions: [
-      { id: 1, name: "カテゴリ1" },
-      { id: 2, name: "カテゴリ2" },
-      { id: 3, name: "カテゴリ3" },
-      { id: 4, name: "カテゴリ4" },
-    ],
     selectedCategoryId: 1,
     onChangeCategoryId: () => {},
   },
