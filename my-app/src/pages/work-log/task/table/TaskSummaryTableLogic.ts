@@ -29,39 +29,41 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     toggleFilterCheckBox: toggleCategoryFilterCheckBox,
     doFilterByFilterList: doFilterByCategoryFilterList,
   } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "タスク名" });
-
-  const [isFavoriteChecked, setIsFavoriteChecked] = useState<boolean>(false);
-  const toggleFavoriteCheck = useCallback(
-    () => setIsFavoriteChecked((prev) => !prev),
-    []
-  );
 
   // ソート関数
   const getSortTarget = useCallback(
     (
       a: TaskSummary,
-      b: TaskSummary
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      b: TaskSummary,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
       switch (target) {
         case "タスク名":
-          return { a: a.taskName, b: b.taskName };
+          return { c: a.taskName, d: b.taskName };
         case "カテゴリ名":
-          return { a: a.categoryName, b: b.categoryName };
+          return { c: a.categoryName, d: b.categoryName };
         case "進捗":
-          return { a: a.progress, b: b.progress };
+          return { c: a.progress, d: b.progress };
         case "稼働合計":
-          return { a: a.totalHours, b: b.totalHours };
+          return { c: a.totalHours, d: b.totalHours };
         case "稼働開始日":
-          return { a: a.startDate, b: b.startDate };
+          return { c: a.startDate, d: b.startDate };
         case "最終稼働日":
-          return { a: a.lastDate, b: b.lastDate };
+          return { c: a.lastDate, d: b.lastDate };
         default:
-          return { a: a.id, b: b.id };
+          return { c: a.id, d: b.id };
       }
     },
-    [target]
+    []
+  );
+
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: "タスク名", getSortTarget });
+
+  const [isFavoriteChecked, setIsFavoriteChecked] = useState<boolean>(false);
+  const toggleFavoriteCheck = useCallback(
+    () => setIsFavoriteChecked((prev) => !prev),
+    []
   );
 
   const sortFunction = useCallback(

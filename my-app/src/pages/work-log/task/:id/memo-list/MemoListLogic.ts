@@ -37,20 +37,21 @@ export default function MemoList({ memoItemList }: Props) {
   const getSortTargetValue = useCallback(
     (
       a: MemoTaskDetail,
-      b: MemoTaskDetail
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      b: MemoTaskDetail,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
       switch (target) {
         case "日付":
-          return { a: a.date, b: b.date };
+          return { c: a.date, d: b.date };
         case "タイトル":
-          return { a: a.title, b: b.title };
+          return { c: a.title, d: b.title };
         case "タグ":
-          return { a: a.tag, b: b.tag };
+          return { c: a.tag, d: b.tag };
         default:
-          return { a: 0, b: 0 };
+          return { c: 0, d: 0 };
       }
     },
-    [target]
+    []
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =

@@ -41,22 +41,23 @@ export default function DailyTableLogic({ itemList }: Props) {
   const getSortTarget = useCallback(
     (
       a: DateSummary,
-      b: DateSummary
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      b: DateSummary,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
       switch (target) {
         case "メインカテゴリ":
-          return { a: a.categoryName, b: b.categoryName };
+          return { c: a.categoryName, d: b.categoryName };
         case "メインタスク":
-          return { a: a.taskName, b: b.taskName };
+          return { c: a.taskName, d: b.taskName };
         case "合計稼働時間":
-          return { a: a.dailyHours, b: b.dailyHours };
+          return { c: a.dailyHours, d: b.dailyHours };
         case "日付":
-          return { a: a.date, b: b.date };
+          return { c: a.date, d: b.date };
         default:
-          return { a: a.id, b: b.id };
+          return { c: a.id, d: b.id };
       }
     },
-    [target]
+    []
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =

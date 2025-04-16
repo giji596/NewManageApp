@@ -41,20 +41,21 @@ export default function TaskTableLogic({ taskList }: Props) {
   const getSortTarget = useCallback(
     (
       a: DailyDetailTaskTableType,
-      b: DailyDetailTaskTableType
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      b: DailyDetailTaskTableType,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
       switch (target) {
         case "タスク名":
-          return { a: a.task.name, b: b.task.name };
+          return { c: a.task.name, d: b.task.name };
         case "カテゴリ名":
-          return { a: a.category.name, b: b.category.name };
+          return { c: a.category.name, d: b.category.name };
         case "稼働時間":
-          return { a: a.dailyHours, b: b.dailyHours };
+          return { c: a.dailyHours, d: b.dailyHours };
         default:
-          return { a: a.id, b: b.id };
+          return { c: a.id, d: b.id };
       }
     },
-    [target]
+    []
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =

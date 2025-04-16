@@ -29,18 +29,19 @@ export default function MemoListLogic({ memoItemList }: Props) {
   const getSortTarget = useCallback(
     (
       a: MemoDailyTask,
-      b: MemoDailyTask
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      b: MemoDailyTask,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
       switch (target) {
         case "タイトル":
-          return { a: a.title, b: b.title };
+          return { c: a.title, d: b.title };
         case "タスク名":
-          return { a: a.task.name, b: b.task.name };
+          return { c: a.task.name, d: b.task.name };
         default:
-          return { a: a.id, b: b.id };
+          return { c: a.id, d: b.id };
       }
     },
-    [target]
+    []
   );
 
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
