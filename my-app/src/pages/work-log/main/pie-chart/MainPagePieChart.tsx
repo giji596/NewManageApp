@@ -8,8 +8,10 @@ import { Pie, PieChart, Tooltip } from "recharts";
 const MainPagePieChart = memo(function MainPagePieChart() {
   return (
     <Stack alignItems={"center"}>
-      <Typography>最近の稼働状況 </Typography>
-      <PieChart width={450} height={380}>
+      <Typography variant="h6" mb={2} color="text.secondary">
+        過去一ヶ月のタスク稼働
+      </Typography>
+      <PieChart width={450} height={350}>
         <Pie
           data={[{ name: "1", value: 1000 }]}
           dataKey="value"
