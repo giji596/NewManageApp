@@ -23,6 +23,7 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
     doSort,
     isFavoriteChecked,
     toggleFavoriteCheck,
+    navigateToTaskDetail,
   } = CategoryTaskTableLogic();
   return (
     <TableContainer>
@@ -41,7 +42,7 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
             <CategoryTaskTableBody
               key={item.id}
               item={item}
-              onClickNavigate={() => {}}
+              onClickNavigate={navigateToTaskDetail}
             />
           ))}
         </TableBody>
