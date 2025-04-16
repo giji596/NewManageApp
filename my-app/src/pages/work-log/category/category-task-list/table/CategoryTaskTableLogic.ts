@@ -37,6 +37,11 @@ export default function CategoryTaskTableLogic() {
     getSortTarget,
   });
 
+  const navigateToTaskDetail = useCallback((id: number) => {
+    // TODO:ページ全部つくってから繋ぎ込み
+    console.log("タスク詳細ページへ移動 id:", id);
+  }, []);
+
   return {
     /** 昇順かどうか */
     isAsc,
@@ -50,5 +55,7 @@ export default function CategoryTaskTableLogic() {
     isFavoriteChecked,
     /** お気に入りソートonOff切り替え */
     toggleFavoriteCheck,
+    /** タスク詳細ページへ移動する関数 */
+    navigateToTaskDetail,
   };
 }
