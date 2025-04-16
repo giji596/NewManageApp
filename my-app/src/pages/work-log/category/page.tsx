@@ -11,11 +11,7 @@ export default function CategoryPage() {
     <Stack direction="row" p={1.5}>
       {/** 左側(カテゴリ選択/期間グラフ) */}
       <Stack width="50%" justifyContent={"space-around"}>
-        <CategorySelect
-          categoryOptions={[]}
-          selectedCategoryId={1}
-          onChangeCategoryId={() => {}}
-        />
+        <CategorySelect selectedCategoryId={1} onChangeCategoryId={() => {}} />
         <TaskActivityPieChart categoryId={1} />
       </Stack>
       {/** 右側(カテゴリ内タスクリスト) */}
