@@ -3,6 +3,7 @@ import { memo } from "react";
 import CategoryTaskTableHeader from "./header/CategoryTaskTableHeader";
 import CategoryTaskTableBody from "./body/CategoryTaskTableBody";
 import { CategoryTaskList } from "@/type/Task";
+import CategoryTaskTableLogic from "./CategoryTaskTableLogic";
 
 type Props = {
   /** タスク一覧 */
@@ -15,20 +16,22 @@ type Props = {
 const CategoryTaskTable = memo(function CategoryTaskTable({
   taskItemList,
 }: Props) {
+  const { isAsc, isSelected, handleClickSortLabel, doSort } =
+    CategoryTaskTableLogic();
   return (
     <TableContainer>
       <Table sx={{ tableLayout: "fixed" }} stickyHeader>
         <TableHead>
           <CategoryTaskTableHeader
-            isSortTarget={() => false}
-            isAsc={false}
-            onClickSortLabel={() => {}}
+            isSortTarget={isSelected}
+            isAsc={isAsc}
+            onClickSortLabel={handleClickSortLabel}
             isFavoriteChecked={false}
             onClickFavoriteLabel={() => {}}
           />
         </TableHead>
         <TableBody>
-          {taskItemList.map((item) => (
+          {taskItemList.sort(doSort).map((item) => (
             <CategoryTaskTableBody
               key={item.id}
               item={item}

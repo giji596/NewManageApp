@@ -26,4 +26,16 @@ export default function CategoryTaskTableLogic() {
     },
     [target]
   );
+
+  return {
+    /** 昇順かどうか */
+    isAsc,
+    /** 特定のタイトルが選択状態か調べる */
+    isSelected,
+    /** ソート対象のラベルをクリックした際のハンドラー(ソート対象に指定 or 対象であれば昇順降順の切り替え) */
+    handleClickSortLabel,
+    /** ソートする関数 */
+    doSort: (a: CategoryTaskList, b: CategoryTaskList) =>
+      doSort(getSortTarget(a, b)),
+  };
 }
