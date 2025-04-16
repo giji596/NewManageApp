@@ -7,25 +7,20 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import CategoryIcon from "@mui/icons-material/Category";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ExploreIcon from "@mui/icons-material/Explore";
+import NavMenuLogic from "./NavMenuLogic";
 
+/**
+ * メインページのナビゲーションメニュー
+ */
 const NavMenu = memo(function NavMenu() {
-  const navButtonStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: 1,
-    color: "primary.main",
-    bgcolor: "white",
-    border: "1px solid #ddd",
-    borderRadius: 2,
-    boxShadow: 1,
-    transition: "all 0.2s",
-    "&:hover": {
-      bgcolor: "primary.light",
-      color: "white",
-      transform: "translateY(-2px)",
-    },
-  };
+  const {
+    navButtonStyle,
+    navigateToday,
+    navigateYesterday,
+    navigateDaily,
+    navigateTask,
+    navigateCategory,
+  } = NavMenuLogic();
   return (
     <Box
       sx={{
@@ -70,11 +65,11 @@ const NavMenu = memo(function NavMenu() {
               日付から移動
             </Typography>
           </Box>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateToday}>
             <TodayIcon fontSize="large" />
             <Typography variant="caption">本日のページ</Typography>
           </Button>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateYesterday}>
             <HistoryIcon fontSize="large" />
             <Typography variant="caption">昨日のページ</Typography>
           </Button>
@@ -87,15 +82,15 @@ const NavMenu = memo(function NavMenu() {
               その他のナビゲーション
             </Typography>
           </Box>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateDaily}>
             <DateRangeIcon fontSize="large" />
             <Typography variant="caption">日付ページ</Typography>
           </Button>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateTask}>
             <AssignmentIcon fontSize="large" />
             <Typography variant="caption">タスクページ</Typography>
           </Button>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateCategory}>
             <CategoryIcon fontSize="large" />
             <Typography variant="caption">カテゴリページ</Typography>
           </Button>
