@@ -15,7 +15,7 @@ type Props<T> = {
 /**
  * テーブルのソートロジックのカスタムフック T=ソート対象のタイプ
  */
-export default function useTableSort<T>({
+export default function useTableSort<T extends object>({
   initialTarget,
   getSortTarget,
 }: Props<T>) {
