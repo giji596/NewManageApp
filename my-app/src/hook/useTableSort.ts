@@ -1,16 +1,24 @@
 import { TableSortTargetType } from "@/type/Table";
 import { useCallback, useState } from "react";
 
-type Props = {
+type Props<T> = {
   /** 初期選択項目 */
   initialTarget: string | null;
+  /** ソート対象を取得する関数 */
+  getSortTarget: (
+    a: T,
+    b: T,
+    target: string | null
+  ) => { c: TableSortTargetType; d: TableSortTargetType };
 };
 
 /**
- * テーブルのソートロジックのカスタムフック
- * 注意点:ソート対象については個別にロジックで用意する必要あり(タイトル名からSwitch文でオブジェクトの値を変換するのを推奨)
+ * テーブルのソートロジックのカスタムフック T=ソート対象のタイプ
  */
-export default function useTableSort({ initialTarget }: Props) {
+export default function useTableSort<T>({
+  initialTarget,
+  getSortTarget,
+}: Props<T>) {
   const [isAsc, setIsAsc] = useState<boolean>(true);
   const [target, setTarget] = useState<string | null>(initialTarget);
 
@@ -34,26 +42,27 @@ export default function useTableSort({ initialTarget }: Props) {
 
   // ソート関数
   const doSort = useCallback(
-    ({ a, b }: { a: TableSortTargetType; b: TableSortTargetType }) => {
-      switch (typeof a) {
+    (a: T, b: T) => {
+      const { c, d } = getSortTarget(a, b, target);
+      switch (typeof c) {
         // 各タイプの同定を行ったのちにソートする
         case "string":
-          if (typeof a === "string" && typeof b == "string")
-            return isAsc ? a.localeCompare(b) : b.localeCompare(a);
+          if (typeof c === "string" && typeof d == "string")
+            return isAsc ? c.localeCompare(d) : d.localeCompare(c);
         case "number":
-          if (typeof a === "number" && typeof b == "number")
-            return isAsc ? a - b : b - a;
+          if (typeof c === "number" && typeof d == "number")
+            return isAsc ? c - d : d - c;
         case "object":
-          if (a instanceof Date && b instanceof Date)
+          if (c instanceof Date && d instanceof Date)
             return isAsc
-              ? a.getTime() - b.getTime()
-              : b.getTime() - a.getTime();
+              ? c.getTime() - d.getTime()
+              : d.getTime() - c.getTime();
         // デフォで0を与える =>sortメソッドで0は「何もしない」(引数絞ってるので、基本的にはここまでいかないはず)
         default:
           return 0;
       }
     },
-    [isAsc]
+    [getSortTarget, isAsc, target]
   );
   return {
     /** 現在のソート対象に選択されている値の名称 */
