@@ -11,7 +11,7 @@ type Props = {
  */
 export default function CategoryTaskListLogic({ categoryId }: Props) {
   // TODO:カテゴリidを使ってデータふぇっち SWR使うので実際はuseMemoは不要
-  const data = useMemo(() => {
+  const rowData = useMemo(() => {
     console.log("でーた元のカテゴリid", categoryId);
     return DUMMY_CATEGORY_TASK_LIST;
   }, [categoryId]);
@@ -28,6 +28,18 @@ export default function CategoryTaskListLogic({ categoryId }: Props) {
     },
     []
   );
+
+  const data = useMemo(() => {
+    switch (selectedValue) {
+      case "in-progress":
+        return rowData.filter((v) => v.progress !== 100);
+      case "completed":
+        return rowData.filter((v) => v.progress === 100);
+      case "all":
+      default:
+        return rowData;
+    }
+  }, [rowData, selectedValue]);
   return {
     /** タスクテーブル用のデータ */
     data,
