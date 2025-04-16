@@ -25,7 +25,14 @@ export default function CategoryTaskTableLogic() {
     []
   );
 
-  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+  const {
+    isAsc,
+    isSelected,
+    handleClickSortLabel,
+    doSort,
+    isFavoriteChecked,
+    toggleFavoriteCheck,
+  } = useTableSort({
     initialTarget: "progress",
     getSortTarget,
   });
@@ -39,5 +46,9 @@ export default function CategoryTaskTableLogic() {
     handleClickSortLabel,
     /** ソートする関数 */
     doSort,
+    /** お気に入りのソートのonOffのチェック状況 */
+    isFavoriteChecked,
+    /** お気に入りソートonOff切り替え */
+    toggleFavoriteCheck,
   };
 }

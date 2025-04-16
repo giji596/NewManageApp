@@ -16,8 +16,14 @@ type Props = {
 const CategoryTaskTable = memo(function CategoryTaskTable({
   taskItemList,
 }: Props) {
-  const { isAsc, isSelected, handleClickSortLabel, doSort } =
-    CategoryTaskTableLogic();
+  const {
+    isAsc,
+    isSelected,
+    handleClickSortLabel,
+    doSort,
+    isFavoriteChecked,
+    toggleFavoriteCheck,
+  } = CategoryTaskTableLogic();
   return (
     <TableContainer>
       <Table sx={{ tableLayout: "fixed" }} stickyHeader>
@@ -26,8 +32,8 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
             isSortTarget={isSelected}
             isAsc={isAsc}
             onClickSortLabel={handleClickSortLabel}
-            isFavoriteChecked={false}
-            onClickFavoriteLabel={() => {}}
+            isFavoriteChecked={isFavoriteChecked}
+            onClickFavoriteLabel={toggleFavoriteCheck}
           />
         </TableHead>
         <TableBody>
