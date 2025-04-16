@@ -1,6 +1,7 @@
 import {
   FormControl,
   FormControlLabel,
+  FormLabel,
   Radio,
   RadioGroup,
 } from "@mui/material";
@@ -22,6 +23,7 @@ const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
 }: Props) {
   return (
     <FormControl sx={{ pl: 2 }}>
+      <FormLabel>表示するタスク</FormLabel>
       <RadioGroup row value={selectedValue} onChange={onChange} sx={{ gap: 3 }}>
         <FormControlLabel
           value="in-progress"
