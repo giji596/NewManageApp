@@ -21,7 +21,11 @@ export default function useTableSort<T>({
 }: Props<T>) {
   const [isAsc, setIsAsc] = useState<boolean>(true);
   const [target, setTarget] = useState<string | null>(initialTarget);
-
+  const [isFavoriteChecked, setIsFavoriteChecked] = useState<boolean>(false);
+  const toggleFavoriteCheck = useCallback(
+    () => setIsFavoriteChecked((prev) => !prev),
+    []
+  );
   // タイトルが選択状態かどうかを調べる関数
   const isSelected = useCallback((title: string) => target === title, [target]);
 
@@ -79,5 +83,9 @@ export default function useTableSort<T>({
      * @return Array.sortメソッドに準拠したnumber
      */
     doSort,
+    /** お気に入りのソートのチェック */
+    isFavoriteChecked,
+    /** お気に入りのソートを切り替えるハンドラー */
+    toggleFavoriteCheck,
   };
 }
