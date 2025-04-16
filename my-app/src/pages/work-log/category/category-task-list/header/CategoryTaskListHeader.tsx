@@ -21,8 +21,8 @@ const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
   onChange,
 }: Props) {
   return (
-    <FormControl>
-      <RadioGroup row value={selectedValue} onChange={onChange}>
+    <FormControl sx={{ pl: 2 }}>
+      <RadioGroup row value={selectedValue} onChange={onChange} sx={{ gap: 3 }}>
         <FormControlLabel
           value="in-progress"
           control={<Radio />}
