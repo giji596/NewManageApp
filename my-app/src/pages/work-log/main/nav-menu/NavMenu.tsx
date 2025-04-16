@@ -7,25 +7,13 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import CategoryIcon from "@mui/icons-material/Category";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ExploreIcon from "@mui/icons-material/Explore";
+import NavMenuLogic from "./NavMenuLogic";
 
+/**
+ * メインページのナビゲーションメニュー
+ */
 const NavMenu = memo(function NavMenu() {
-  const navButtonStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: 1,
-    color: "primary.main",
-    bgcolor: "white",
-    border: "1px solid #ddd",
-    borderRadius: 2,
-    boxShadow: 1,
-    transition: "all 0.2s",
-    "&:hover": {
-      bgcolor: "primary.light",
-      color: "white",
-      transform: "translateY(-2px)",
-    },
-  };
+  const { navButtonStyle } = NavMenuLogic();
   return (
     <Box
       sx={{
