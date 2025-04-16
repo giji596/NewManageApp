@@ -13,7 +13,14 @@ import NavMenuLogic from "./NavMenuLogic";
  * メインページのナビゲーションメニュー
  */
 const NavMenu = memo(function NavMenu() {
-  const { navButtonStyle } = NavMenuLogic();
+  const {
+    navButtonStyle,
+    navigateToday,
+    navigateYesterday,
+    navigateDaily,
+    navigateTask,
+    navigateCategory,
+  } = NavMenuLogic();
   return (
     <Box
       sx={{
@@ -58,11 +65,11 @@ const NavMenu = memo(function NavMenu() {
               日付から移動
             </Typography>
           </Box>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateToday}>
             <TodayIcon fontSize="large" />
             <Typography variant="caption">本日のページ</Typography>
           </Button>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateYesterday}>
             <HistoryIcon fontSize="large" />
             <Typography variant="caption">昨日のページ</Typography>
           </Button>
@@ -75,15 +82,15 @@ const NavMenu = memo(function NavMenu() {
               その他のナビゲーション
             </Typography>
           </Box>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateDaily}>
             <DateRangeIcon fontSize="large" />
             <Typography variant="caption">日付ページ</Typography>
           </Button>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateTask}>
             <AssignmentIcon fontSize="large" />
             <Typography variant="caption">タスクページ</Typography>
           </Button>
-          <Button sx={navButtonStyle}>
+          <Button sx={navButtonStyle} onClick={navigateCategory}>
             <CategoryIcon fontSize="large" />
             <Typography variant="caption">カテゴリページ</Typography>
           </Button>
