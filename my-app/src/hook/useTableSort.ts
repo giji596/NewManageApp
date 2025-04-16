@@ -44,10 +44,9 @@ export default function useTableSort<T>({
     [isAsc, isSelected]
   );
 
-  // ソート関数
-  const doSort = useCallback(
-    (a: T, b: T) => {
-      const { c, d } = getSortTarget(a, b, target);
+  // ラベル状況に応じてソートする関数
+  const sortByLabel = useCallback(
+    (c: TableSortTargetType, d: TableSortTargetType) => {
       switch (typeof c) {
         // 各タイプの同定を行ったのちにソートする
         case "string":
@@ -66,7 +65,16 @@ export default function useTableSort<T>({
           return 0;
       }
     },
-    [getSortTarget, isAsc, target]
+    [isAsc]
+  );
+
+  // ソート関数
+  const doSort = useCallback(
+    (a: T, b: T) => {
+      const { c, d } = getSortTarget(a, b, target);
+      const result = sortByLabel(c, d);
+    },
+    [getSortTarget, sortByLabel, target]
   );
   return {
     /** ソートが昇順か降順か */
