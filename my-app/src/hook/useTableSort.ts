@@ -86,9 +86,21 @@ export default function useTableSort<T extends object>({
   const doSort = useCallback(
     (a: T, b: T) => {
       const { c, d } = getSortTarget(a, b, target);
-      const result = sortByLabel(c, d);
+      // お気に入りのチェックがOffであれば普通にラベルだけでソートする
+      if (!isFavoriteChecked) {
+        return sortByLabel(c, d);
+        // お気に入りのチェックがOnである場合
+      } else {
+        const favoriteDiff = sortByFavorite(a, b);
+        // favoriteDiff===0の場合(両方お気に入りorそうでない場合)は普通のソートに従ってソート
+        if (favoriteDiff === 0) {
+          return sortByLabel(c, d);
+        }
+        // favoriteDiff!==0の場合 お気に入りを優先させる
+        return favoriteDiff;
+      }
     },
-    [getSortTarget, sortByLabel, target]
+    [getSortTarget, isFavoriteChecked, sortByFavorite, sortByLabel, target]
   );
   return {
     /** ソートが昇順か降順か */
