@@ -68,6 +68,20 @@ export default function useTableSort<T extends object>({
     [isAsc]
   );
 
+  // お気に入りに応じてソートする関数
+  const sortByFavorite = useCallback((a: T, b: T): number => {
+    // パラメータあるかをチェックしとく
+    if ("isFavorite" in a && "isFavorite" in b) {
+      // 前後でisFavoriteが違う場合のみソート(通常のソートと併用しつつ、isFavoriteを優先させるため)
+      if (a.isFavorite !== b.isFavorite) {
+        // Numberにするとfalse:0,true:1 -> returnの値は1,-1となってソート可能
+        return Number(b.isFavorite) - Number(a.isFavorite);
+      }
+    }
+    // ソートしない場合(isFavoriteが前後で同じ or (例外処理)パラメータがない場合)
+    return 0;
+  }, []);
+
   // ソート関数
   const doSort = useCallback(
     (a: T, b: T) => {
