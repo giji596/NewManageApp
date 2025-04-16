@@ -12,12 +12,14 @@ type Props = {
  * カテゴリのタスク一覧表示コンポーネント
  */
 const CategoryTaskList = memo(function CategoryTaskList({ categoryId }: Props) {
-  const { data } = CategoryTaskListLogic({ categoryId });
+  const { data, selectedValue, onChangeSelectedValue } = CategoryTaskListLogic({
+    categoryId,
+  });
   return (
     <>
       <CategoryTaskListHeader
-        selectedValue={"in-progress"}
-        onChange={() => {}}
+        selectedValue={selectedValue}
+        onChange={onChangeSelectedValue}
       />
       <CategoryTaskTable taskItemList={data} />
     </>
