@@ -29,8 +29,38 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     toggleFilterCheckBox: toggleCategoryFilterCheckBox,
     doFilterByFilterList: doFilterByCategoryFilterList,
   } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "タスク名" });
+
+  // ソート関数
+  const getSortTarget = useCallback(
+    (
+      a: TaskSummary,
+      b: TaskSummary,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
+      switch (target) {
+        case "タスク名":
+          return { c: a.taskName, d: b.taskName };
+        case "カテゴリ名":
+          return { c: a.categoryName, d: b.categoryName };
+        case "進捗":
+          return { c: a.progress, d: b.progress };
+        case "稼働合計":
+          return { c: a.totalHours, d: b.totalHours };
+        case "稼働開始日":
+          return { c: a.startDate, d: b.startDate };
+        case "最終稼働日":
+          return { c: a.lastDate, d: b.lastDate };
+        default:
+          return { c: a.id, d: b.id };
+      }
+    },
+    []
+  );
+
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "タスク名",
+    getSortTarget,
+  });
 
   const [isFavoriteChecked, setIsFavoriteChecked] = useState<boolean>(false);
   const toggleFavoriteCheck = useCallback(
@@ -38,35 +68,9 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     []
   );
 
-  // ソート関数
-  const getSortTarget = useCallback(
-    (
-      a: TaskSummary,
-      b: TaskSummary
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
-      switch (target) {
-        case "タスク名":
-          return { a: a.taskName, b: b.taskName };
-        case "カテゴリ名":
-          return { a: a.categoryName, b: b.categoryName };
-        case "進捗":
-          return { a: a.progress, b: b.progress };
-        case "稼働合計":
-          return { a: a.totalHours, b: b.totalHours };
-        case "稼働開始日":
-          return { a: a.startDate, b: b.startDate };
-        case "最終稼働日":
-          return { a: a.lastDate, b: b.lastDate };
-        default:
-          return { a: a.id, b: b.id };
-      }
-    },
-    [target]
-  );
-
   const sortFunction = useCallback(
     (a: TaskSummary, b: TaskSummary) => {
-      const result = doSort(getSortTarget(a, b));
+      const result = doSort(a, b);
       if (isFavoriteChecked) {
         // 前後でisFavoriteが違う場合のみソート(通常のソートと併用しつつ、isFavoriteを優先させるため)
         if (a.isFavorite !== b.isFavorite) {
@@ -76,7 +80,7 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
       // 通常のソート
       return result;
     },
-    [doSort, getSortTarget, isFavoriteChecked]
+    [doSort, isFavoriteChecked]
   );
 
   const doFilterByFilterList = useCallback(

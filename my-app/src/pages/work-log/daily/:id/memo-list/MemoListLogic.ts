@@ -25,8 +25,29 @@ export default function MemoListLogic({ memoItemList }: Props) {
     {}
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: null });
+  // ソート関数
+  const getSortTarget = useCallback(
+    (
+      a: MemoDailyTask,
+      b: MemoDailyTask,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
+      switch (target) {
+        case "タイトル":
+          return { c: a.title, d: b.title };
+        case "タスク名":
+          return { c: a.task.name, d: b.task.name };
+        default:
+          return { c: a.id, d: b.id };
+      }
+    },
+    []
+  );
+
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: null,
+    getSortTarget,
+  });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,
@@ -50,24 +71,6 @@ export default function MemoListLogic({ memoItemList }: Props) {
     [selectedRowId]
   );
 
-  // ソート関数
-  const getSortTarget = useCallback(
-    (
-      a: MemoDailyTask,
-      b: MemoDailyTask
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
-      switch (target) {
-        case "タイトル":
-          return { a: a.title, b: b.title };
-        case "タスク名":
-          return { a: a.task.name, b: b.task.name };
-        default:
-          return { a: a.id, b: b.id };
-      }
-    },
-    [target]
-  );
-
   const doFilterByFilterList = useCallback(
     (item: MemoDailyTask) => doFilterByTaskFilterList(item.task.name),
     [doFilterByTaskFilterList]
@@ -89,8 +92,6 @@ export default function MemoListLogic({ memoItemList }: Props) {
     handleClickSortLabel,
     /** ソートする関数 */
     doSort,
-    /** ソート対象を取得する関数 */
-    getSortTarget,
     /** タスクのフィルター対象の一覧(key:value=string:booleanのオブジェクト) */
     taskFilterList,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */

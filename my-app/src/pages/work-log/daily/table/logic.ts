@@ -37,8 +37,33 @@ export default function DailyTableLogic({ itemList }: Props) {
     {}
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付" });
+  // ソート関数
+  const getSortTarget = useCallback(
+    (
+      a: DateSummary,
+      b: DateSummary,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
+      switch (target) {
+        case "メインカテゴリ":
+          return { c: a.categoryName, d: b.categoryName };
+        case "メインタスク":
+          return { c: a.taskName, d: b.taskName };
+        case "合計稼働時間":
+          return { c: a.dailyHours, d: b.dailyHours };
+        case "日付":
+          return { c: a.date, d: b.date };
+        default:
+          return { c: a.id, d: b.id };
+      }
+    },
+    []
+  );
+
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "日付",
+    getSortTarget,
+  });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,
@@ -49,28 +74,6 @@ export default function DailyTableLogic({ itemList }: Props) {
     toggleFilterCheckBox: toggleCategoryFilterCheckBox,
     doFilterByFilterList: doFilterByCategoryFilterList,
   } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
-
-  // ソート関数
-  const getSortTarget = useCallback(
-    (
-      a: DateSummary,
-      b: DateSummary
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
-      switch (target) {
-        case "メインカテゴリ":
-          return { a: a.categoryName, b: b.categoryName };
-        case "メインタスク":
-          return { a: a.taskName, b: b.taskName };
-        case "合計稼働時間":
-          return { a: a.dailyHours, b: b.dailyHours };
-        case "日付":
-          return { a: a.date, b: b.date };
-        default:
-          return { a: a.id, b: b.id };
-      }
-    },
-    [target]
-  );
 
   // idからメモのタイトル一覧を取得する関数
   const getMemoTitleArrayById = useCallback(
@@ -114,8 +117,6 @@ export default function DailyTableLogic({ itemList }: Props) {
     handleClickSortLabel,
     /** ソートする関数 */
     doSort,
-    /** オブジェクトからソート対象の値を取得する関数 */
-    getSortTarget,
     /** 該当するidのデータのメモのタイトルの配列を取得する関数 */
     getMemoTitleArrayById,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */

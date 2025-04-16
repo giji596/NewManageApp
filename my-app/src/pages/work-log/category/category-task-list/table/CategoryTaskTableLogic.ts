@@ -7,25 +7,28 @@ import { useCallback } from "react";
  * カテゴリページのタスク一覧のテーブルのロジック
  */
 export default function CategoryTaskTableLogic() {
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "progress" });
-
   const getSortTarget = useCallback(
     (
       a: CategoryTaskList,
-      b: CategoryTaskList
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      b: CategoryTaskList,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
       switch (target) {
         case "タスク名":
-          return { a: a.name, b: b.name };
+          return { c: a.name, d: b.name };
         case "進捗":
-          return { a: a.progress, b: b.progress };
+          return { c: a.progress, d: b.progress };
         default:
-          return { a: a.id, b: b.id };
+          return { c: a.id, d: b.id };
       }
     },
-    [target]
+    []
   );
+
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "progress",
+    getSortTarget,
+  });
 
   return {
     /** 昇順かどうか */
@@ -35,7 +38,6 @@ export default function CategoryTaskTableLogic() {
     /** ソート対象のラベルをクリックした際のハンドラー(ソート対象に指定 or 対象であれば昇順降順の切り替え) */
     handleClickSortLabel,
     /** ソートする関数 */
-    doSort: (a: CategoryTaskList, b: CategoryTaskList) =>
-      doSort(getSortTarget(a, b)),
+    doSort,
   };
 }

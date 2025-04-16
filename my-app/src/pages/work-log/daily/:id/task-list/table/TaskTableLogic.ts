@@ -36,8 +36,32 @@ export default function TaskTableLogic({ taskList }: Props) {
     },
     {}
   );
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付" });
+
+  // ソート関数
+  const getSortTarget = useCallback(
+    (
+      a: DailyDetailTaskTableType,
+      b: DailyDetailTaskTableType,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
+      switch (target) {
+        case "タスク名":
+          return { c: a.task.name, d: b.task.name };
+        case "カテゴリ名":
+          return { c: a.category.name, d: b.category.name };
+        case "稼働時間":
+          return { c: a.dailyHours, d: b.dailyHours };
+        default:
+          return { c: a.id, d: b.id };
+      }
+    },
+    []
+  );
+
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: "日付",
+    getSortTarget,
+  });
   const {
     filterList: taskFilterList,
     toggleFilterCheckBox: toggleTaskFilterCheckBox,
@@ -48,26 +72,6 @@ export default function TaskTableLogic({ taskList }: Props) {
     toggleFilterCheckBox: toggleCategoryFilterCheckBox,
     doFilterByFilterList: doFilterByCategoryFilterList,
   } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
-
-  // ソート関数
-  const getSortTarget = useCallback(
-    (
-      a: DailyDetailTaskTableType,
-      b: DailyDetailTaskTableType
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
-      switch (target) {
-        case "タスク名":
-          return { a: a.task.name, b: b.task.name };
-        case "カテゴリ名":
-          return { a: a.category.name, b: b.category.name };
-        case "稼働時間":
-          return { a: a.dailyHours, b: b.dailyHours };
-        default:
-          return { a: a.id, b: b.id };
-      }
-    },
-    [target]
-  );
 
   const doFilterByFilterList = useCallback(
     (item: DailyDetailTaskTableType) => {
@@ -97,8 +101,6 @@ export default function TaskTableLogic({ taskList }: Props) {
     handleClickSortLabel,
     /** ソートする関数 */
     doSort,
-    /** ソート対象を取得する関数 */
-    getSortTarget,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */

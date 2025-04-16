@@ -37,7 +37,6 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
     isSelected,
     handleClickSortLabel,
     doSort,
-    getSortTarget,
     getMemoTitleArrayById,
     toggleCategoryFilterCheckBox,
     toggleTaskFilterCheckBox,
@@ -65,7 +64,7 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
               itemList.length > 0 &&
               itemList
                 .filter((item) => doFilterByFilterList(item))
-                .sort((a, b) => doSort(getSortTarget(a, b)))
+                .sort(doSort)
                 .map((item) => (
                   <TableRow
                     key={item.id}

@@ -41,7 +41,6 @@ export default function TaskTable({
     isSelected,
     handleClickSortLabel,
     doSort,
-    getSortTarget,
     toggleCategoryFilterCheckBox,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
@@ -70,7 +69,7 @@ export default function TaskTable({
               taskList.length > 0 &&
               taskList
                 .filter((item) => doFilterByFilterList(item))
-                .sort((a, b) => doSort(getSortTarget(a, b)))
+                .sort(doSort)
                 .map((item) => (
                   <TableRow
                     key={item.id}

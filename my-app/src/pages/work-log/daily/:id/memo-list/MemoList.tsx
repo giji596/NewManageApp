@@ -26,7 +26,6 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
     isSelected,
     handleClickSortLabel,
     doSort,
-    getSortTarget,
     taskFilterList,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
@@ -50,7 +49,7 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
             {!isLoading &&
               memoItemList.length !== 0 &&
               memoItemList
-                .sort((a, b) => doSort(getSortTarget(a, b)))
+                .sort(doSort)
                 .filter(doFilterByFilterList)
                 .map((item) => (
                   <CustomTableBody
