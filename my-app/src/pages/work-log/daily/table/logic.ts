@@ -37,19 +37,6 @@ export default function DailyTableLogic({ itemList }: Props) {
     {}
   );
 
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付" });
-  const {
-    filterList: taskFilterList,
-    toggleFilterCheckBox: toggleTaskFilterCheckBox,
-    doFilterByFilterList: doFilterByTaskFilterList,
-  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
-  const {
-    filterList: categoryFilterList,
-    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
-    doFilterByFilterList: doFilterByCategoryFilterList,
-  } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
-
   // ソート関数
   const getSortTarget = useCallback(
     (
@@ -71,6 +58,19 @@ export default function DailyTableLogic({ itemList }: Props) {
     },
     [target]
   );
+
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: "日付" });
+  const {
+    filterList: taskFilterList,
+    toggleFilterCheckBox: toggleTaskFilterCheckBox,
+    doFilterByFilterList: doFilterByTaskFilterList,
+  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
+  const {
+    filterList: categoryFilterList,
+    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
+    doFilterByFilterList: doFilterByCategoryFilterList,
+  } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
 
   // idからメモのタイトル一覧を取得する関数
   const getMemoTitleArrayById = useCallback(

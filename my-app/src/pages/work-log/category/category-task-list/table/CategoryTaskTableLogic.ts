@@ -7,9 +7,6 @@ import { useCallback } from "react";
  * カテゴリページのタスク一覧のテーブルのロジック
  */
 export default function CategoryTaskTableLogic() {
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "progress" });
-
   const getSortTarget = useCallback(
     (
       a: CategoryTaskList,
@@ -27,6 +24,9 @@ export default function CategoryTaskTableLogic() {
     [target]
   );
 
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: "progress" });
+
   return {
     /** 昇順かどうか */
     isAsc,
@@ -35,7 +35,6 @@ export default function CategoryTaskTableLogic() {
     /** ソート対象のラベルをクリックした際のハンドラー(ソート対象に指定 or 対象であれば昇順降順の切り替え) */
     handleClickSortLabel,
     /** ソートする関数 */
-    doSort: (a: CategoryTaskList, b: CategoryTaskList) =>
-      doSort(getSortTarget(a, b)),
+    doSort: (a: CategoryTaskList, b: CategoryTaskList) => doSort(getSort),
   };
 }

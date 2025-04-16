@@ -36,18 +36,6 @@ export default function TaskTableLogic({ taskList }: Props) {
     },
     {}
   );
-  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
-    useTableSort({ initialTarget: "日付" });
-  const {
-    filterList: taskFilterList,
-    toggleFilterCheckBox: toggleTaskFilterCheckBox,
-    doFilterByFilterList: doFilterByTaskFilterList,
-  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
-  const {
-    filterList: categoryFilterList,
-    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
-    doFilterByFilterList: doFilterByCategoryFilterList,
-  } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
 
   // ソート関数
   const getSortTarget = useCallback(
@@ -68,6 +56,19 @@ export default function TaskTableLogic({ taskList }: Props) {
     },
     [target]
   );
+
+  const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
+    useTableSort({ initialTarget: "日付" });
+  const {
+    filterList: taskFilterList,
+    toggleFilterCheckBox: toggleTaskFilterCheckBox,
+    doFilterByFilterList: doFilterByTaskFilterList,
+  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
+  const {
+    filterList: categoryFilterList,
+    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
+    doFilterByFilterList: doFilterByCategoryFilterList,
+  } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
 
   const doFilterByFilterList = useCallback(
     (item: DailyDetailTaskTableType) => {

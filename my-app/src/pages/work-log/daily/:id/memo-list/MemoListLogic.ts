@@ -25,6 +25,24 @@ export default function MemoListLogic({ memoItemList }: Props) {
     {}
   );
 
+  // ソート関数
+  const getSortTarget = useCallback(
+    (
+      a: MemoDailyTask,
+      b: MemoDailyTask
+    ): { a: TableSortTargetType; b: TableSortTargetType } => {
+      switch (target) {
+        case "タイトル":
+          return { a: a.title, b: b.title };
+        case "タスク名":
+          return { a: a.task.name, b: b.task.name };
+        default:
+          return { a: a.id, b: b.id };
+      }
+    },
+    [target]
+  );
+
   const { target, isAsc, isSelected, handleClickSortLabel, doSort } =
     useTableSort({ initialTarget: null });
   const {
@@ -48,24 +66,6 @@ export default function MemoListLogic({ memoItemList }: Props) {
       }
     },
     [selectedRowId]
-  );
-
-  // ソート関数
-  const getSortTarget = useCallback(
-    (
-      a: MemoDailyTask,
-      b: MemoDailyTask
-    ): { a: TableSortTargetType; b: TableSortTargetType } => {
-      switch (target) {
-        case "タイトル":
-          return { a: a.title, b: b.title };
-        case "タスク名":
-          return { a: a.task.name, b: b.task.name };
-        default:
-          return { a: a.id, b: b.id };
-      }
-    },
-    [target]
   );
 
   const doFilterByFilterList = useCallback(
