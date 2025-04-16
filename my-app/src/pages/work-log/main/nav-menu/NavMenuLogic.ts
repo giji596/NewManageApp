@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * メインページのナビゲーションメニューのロジック
@@ -24,8 +24,34 @@ export default function NavMenuLogic() {
     };
   }, []);
 
+  // TODO:ページ関連実装時にそれぞれ実装
+  const navigateToday = useCallback(() => {
+    console.log("今日のページへ");
+  }, []);
+  const navigateYesterday = useCallback(() => {
+    console.log("昨日のページへ");
+  }, []);
+  const navigateDaily = useCallback(() => {
+    console.log("日付一覧ページへ");
+  }, []);
+  const navigateTask = useCallback(() => {
+    console.log("タスク一覧ページへ");
+  }, []);
+  const navigateCategory = useCallback(() => {
+    console.log("カテゴリ一覧ページへ");
+  }, []);
   return {
     /** ボタンの共通style */
     navButtonStyle,
+    /** 今日へ移動するハンドラー */
+    navigateToday,
+    /** 機能へ移動するハンドラー */
+    navigateYesterday,
+    /** 日付一覧ページへ移動するハンドラー */
+    navigateDaily,
+    /** タスク一覧ページへ移動するハンドラー */
+    navigateTask,
+    /** カテゴリ一覧ページへ移動するハンドラー */
+    navigateCategory,
   };
 }
