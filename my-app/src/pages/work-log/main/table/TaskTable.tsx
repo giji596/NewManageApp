@@ -15,7 +15,7 @@ import TaskTableLogic from "./TaskTableLogic";
  * メインページのタスクテーブルコンポーネント
  */
 const TaskTable = memo(function TaskTable() {
-  const { data } = TaskTableLogic();
+  const { data, navigateToDetail } = TaskTableLogic();
   return (
     <TableContainer sx={{ width: 600, height: 400 }}>
       <Table stickyHeader sx={{ tableLayout: "fixed" }}>
@@ -40,7 +40,7 @@ const TaskTable = memo(function TaskTable() {
               <TableCell>{item.progress}</TableCell>
               {/** ボタン部分 */}
               <TableCell>
-                <IconButton>
+                <IconButton onClick={() => navigateToDetail(item.id)}>
                   <DoubleArrowIcon />
                 </IconButton>
               </TableCell>
