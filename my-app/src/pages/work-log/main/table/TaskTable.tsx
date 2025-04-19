@@ -28,11 +28,15 @@ const TaskTable = memo(function TaskTable() {
           <TableHead>
             <TableRow>
               {/** タスク名 */}
-              <TableCell width={"60%"}>タスク名</TableCell>
+              <TableCell width={"60%"} sx={{ py: 1 }}>
+                タスク名
+              </TableCell>
               {/** 進捗 */}
-              <TableCell width={"30%"}>進捗</TableCell>
+              <TableCell width={"30%"} sx={{ py: 1 }}>
+                進捗
+              </TableCell>
               {/** ボタン部分 */}
-              <TableCell width={"10%"}></TableCell>
+              <TableCell width={"10%"} sx={{ py: 1 }}></TableCell>
             </TableRow>
           </TableHead>
           {/** ボディ */}
@@ -40,11 +44,11 @@ const TaskTable = memo(function TaskTable() {
             {data.map((item) => (
               <TableRow key={item.id}>
                 {/** タスク名 */}
-                <TableCell>{item.name}</TableCell>
+                <TableCell sx={{ py: 1 }}>{item.name}</TableCell>
                 {/** 進捗 */}
-                <TableCell>{item.progress}</TableCell>
+                <TableCell sx={{ py: 1 }}>{item.progress}</TableCell>
                 {/** ボタン部分 */}
-                <TableCell>
+                <TableCell sx={{ py: 1 }}>
                   <IconButton onClick={() => navigateToDetail(item.id)}>
                     <DoubleArrowIcon />
                   </IconButton>

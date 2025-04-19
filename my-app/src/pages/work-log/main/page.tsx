@@ -8,7 +8,7 @@ import TaskTable from "./table/TaskTable";
  */
 export default function MainPage() {
   return (
-    <Stack direction="row" p={2} justifyContent={"space-between"} height={600}>
+    <Stack direction="row" p={2} justifyContent={"space-between"} height={650}>
       <NavMenu />
       <Stack spacing={2}>
         <MainPagePieChart />
