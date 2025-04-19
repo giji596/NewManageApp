@@ -3,10 +3,15 @@ import { TaskDetail } from "@/type/Task";
 import { format } from "date-fns";
 import { useCallback, useMemo } from "react";
 
+type Props = {
+  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
+  params: { id: string };
+};
 /**
  * タスク詳細ページのカスタムフック
  */
-export default function useTaskDetailPage() {
+export default function useTaskDetailPage({ params }: Props) {
+  console.log("ぺーじid:", params.id);
   // TODO:でーたふぇっちさせる
   const data: TaskDetail = {
     id: 1,
