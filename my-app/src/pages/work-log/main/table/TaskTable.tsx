@@ -17,7 +17,7 @@ import TaskTableLogic from "./TaskTableLogic";
 const TaskTable = memo(function TaskTable() {
   const { data, navigateToDetail } = TaskTableLogic();
   return (
-    <TableContainer sx={{ width: 600, height: 400 }}>
+    <TableContainer sx={{ width: 450, height: 300 }}>
       <Table stickyHeader sx={{ tableLayout: "fixed" }}>
         {/** ヘッダー */}
         <TableHead>
