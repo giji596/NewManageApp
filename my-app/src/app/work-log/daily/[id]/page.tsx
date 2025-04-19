@@ -5,10 +5,15 @@ import TaskList from "./task-list/TaskList";
 import CircleGraph from "./circle-graph/CircleGraph";
 import MemoList from "./memo-list/MemoList";
 import DailyDetailPageNavLogic from "./navLogic";
+
+type Props = {
+  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
+  params: { id: string };
+};
 /**
  * 日付詳細ページ
  */
-export default function DailyDetailPage() {
+export default function DailyDetailPage({ params }: Props) {
   const {
     isLoading,
     date,
@@ -17,7 +22,7 @@ export default function DailyDetailPage() {
     taskList,
     taskOptions,
     circleDataList,
-  } = DailyDetailPageParams();
+  } = DailyDetailPageParams({ params });
   const { navigateToCategoryDetail, navigateToTaskDetail } =
     DailyDetailPageNavLogic();
   return (

@@ -2,12 +2,17 @@ import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
 import { DailyDetailTaskTableType, TaskOption } from "@/type/Task";
 import { useMemo } from "react";
 
+type Props = {
+  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
+  params: { id: string };
+};
 /**
  * 日付詳細ページのパラメータ関連
  */
-export default function DailyDetailPageParams() {
+export default function DailyDetailPageParams({ params }: Props) {
+  console.log("データid:", params.id);
   // TODO:でーたふぇっちする
-  const params: DateDetailPage = {
+  const rawData: DateDetailPage = {
     id: 1,
     date: new Date(),
     taskList: [
@@ -84,20 +89,20 @@ export default function DailyDetailPageParams() {
 
   const isLoading = false;
 
-  const date = params.date;
+  const date = rawData.date;
   const dailyHours = useMemo(
-    () => params.taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
-    [params.taskList]
+    () => rawData.taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
+    [rawData.taskList]
   );
-  const taskList = params.taskList;
+  const taskList = rawData.taskList;
   const taskOptions = taskList.reduce<TaskOption[]>((a, b) => {
     const taskData: TaskOption = { id: b.task.id, name: b.task.name };
     a.push(taskData);
     return a;
   }, []);
-  const memoList = params.memoList;
+  const memoList = rawData.memoList;
   const circleDataList: DailyCategoryCircleGraph[] = useMemo(() => {
-    const data = params.taskList;
+    const data = rawData.taskList;
     const totalHours = data.reduce((sum, item) => sum + item.dailyHours, 0);
 
     // カテゴリごとにグループ化
@@ -141,7 +146,7 @@ export default function DailyDetailPageParams() {
         task,
       };
     });
-  }, [params.taskList]);
+  }, [rawData.taskList]);
   return {
     /** ロード状態 */
     isLoading,
