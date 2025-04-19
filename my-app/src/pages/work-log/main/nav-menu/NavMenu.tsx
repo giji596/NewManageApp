@@ -24,7 +24,7 @@ const NavMenu = memo(function NavMenu() {
   return (
     <Box
       sx={{
-        m: 5,
+        m: 3,
         width: 450,
         height: 600,
         border: "1px solid #ccc",
@@ -50,13 +50,7 @@ const NavMenu = memo(function NavMenu() {
         }}
       />
       {/* ボタンたち */}
-      <Stack
-        justifyContent={"space-around"}
-        spacing={2}
-        height={"100%"}
-        px={3}
-        py={1.5}
-      >
+      <Stack justifyContent={"space-around"} height={"100%"} px={3} py={1.5}>
         {/** 日付関連 */}
         <Stack spacing={2}>
           <Box display="flex" alignItems="center" pl={2} gap={1}>

@@ -15,13 +15,13 @@ const MainPagePieChart = memo(function MainPagePieChart() {
       <Typography variant="h6" mb={2} color="text.secondary">
         過去一ヶ月のタスク稼働
       </Typography>
-      <PieChart width={450} height={350}>
+      <PieChart width={400} height={300}>
         <Pie
           data={data}
           dataKey="value"
           cx="50%"
           cy="50%"
-          outerRadius={170}
+          outerRadius={150}
           fill="#8884d8"
         />
         <Tooltip
