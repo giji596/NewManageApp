@@ -1,16 +1,11 @@
 import { Box, Breadcrumbs, ButtonBase, Link, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 
-type Props = {
-  /** 移動元のページ順番 */
-  navPages: string[];
-};
-
 /**
  *  ナビゲーションバーの共通コンポーネント
  */
-export default function Navbar({ navPages }: Props) {
-  const { isLastPageIndex, getLink } = NavBarLogic({ navPages });
+export default function Navbar() {
+  const { navPages, isLastPageIndex, getLink } = NavBarLogic();
 
   return (
     <Box
