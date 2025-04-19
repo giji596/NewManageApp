@@ -8,26 +8,23 @@ export default function MainPagePieChartLogic() {
       name: "カテゴリ1",
       value: 500,
       task: [
-        { name: "タスク1", hours: 30 },
-        { name: "タスク2", hours: 12 },
-        { name: "タスク3", hours: 8 },
+        { name: "タスク1", hours: "30(h)" },
+        { name: "タスク2", hours: "12(h)" },
+        { name: "タスク3", hours: "8(h)" },
       ],
-      index: 1,
     },
     {
       name: "カテゴリ2",
       value: 300,
       task: [
-        { name: "タスク4", hours: 20 },
-        { name: "タスク5", hours: 10 },
+        { name: "タスク4", hours: "20(h)" },
+        { name: "タスク5", hours: "10(h)" },
       ],
-      index: 1,
     },
     {
       name: "カテゴリ3",
       value: 200,
-      task: [{ name: "タスク6", hours: 20 }],
-      index: 1,
+      task: [{ name: "タスク6", hours: "20(h)" }],
     },
   ];
 
