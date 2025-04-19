@@ -83,3 +83,13 @@ export type CategoryTaskList = {
   /** お気に入りかどうか */
   isFavorite: boolean;
 };
+
+/** メインページのタスク一覧の型定義 */
+export type MainPageTaskTable = {
+  /** id(タスクページ移動に利用) */
+  id: number;
+  /** タスク名 */
+  name: string;
+  /** 進捗(XX%の表示形式のstring) */
+  progress: string;
+};

@@ -1,0 +1,54 @@
+import {
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { memo } from "react";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import TaskTableLogic from "./TaskTableLogic";
+
+/**
+ * メインページのタスクテーブルコンポーネント
+ */
+const TaskTable = memo(function TaskTable() {
+  const { data, navigateToDetail } = TaskTableLogic();
+  return (
+    <TableContainer sx={{ width: 600, height: 400 }}>
+      <Table stickyHeader sx={{ tableLayout: "fixed" }}>
+        {/** ヘッダー */}
+        <TableHead>
+          <TableRow>
+            {/** タスク名 */}
+            <TableCell width={"60%"}>タスク名</TableCell>
+            {/** 進捗 */}
+            <TableCell width={"30%"}>進捗</TableCell>
+            {/** ボタン部分 */}
+            <TableCell width={"10%"}></TableCell>
+          </TableRow>
+        </TableHead>
+        {/** ボディ */}
+        <TableBody>
+          {data.map((item) => (
+            <TableRow key={item.id}>
+              {/** タスク名 */}
+              <TableCell>{item.name}</TableCell>
+              {/** 進捗 */}
+              <TableCell>{item.progress}</TableCell>
+              {/** ボタン部分 */}
+              <TableCell>
+                <IconButton onClick={() => navigateToDetail(item.id)}>
+                  <DoubleArrowIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+});
+export default TaskTable;
