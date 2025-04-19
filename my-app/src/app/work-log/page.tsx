@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
-import NavMenu from "./nav-menu/NavMenu";
-import MainPagePieChart from "./pie-chart/MainPagePieChart";
-import TaskTable from "./table/TaskTable";
+import NavMenu from "./component/nav-menu/NavMenu";
+import MainPagePieChart from "./component/pie-chart/MainPagePieChart";
+import TaskTable from "./component/table/TaskTable";
 
 /**
  * メインページ
