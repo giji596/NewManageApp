@@ -1,3 +1,4 @@
+"use client";
 import { Stack } from "@mui/material";
 import NavMenu from "./component/nav-menu/NavMenu";
 import MainPagePieChart from "./component/pie-chart/MainPagePieChart";
