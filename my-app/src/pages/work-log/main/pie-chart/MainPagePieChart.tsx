@@ -2,6 +2,8 @@ import { Stack, Typography } from "@mui/material";
 import { memo } from "react";
 import { Pie, PieChart, Tooltip } from "recharts";
 import MainPagePieChartLogic from "./MainPagePieChartLogic";
+import CustomToolTipWrapper from "@/component/graph/tool-chip/CustomToolTipWrapper";
+import CustomToolTipContent from "@/component/graph/tool-chip/CustomToolTipContent";
 
 /**
  * メインページの円グラフ
@@ -22,7 +24,21 @@ const MainPagePieChart = memo(function MainPagePieChart() {
           outerRadius={170}
           fill="#8884d8"
         />
-        <Tooltip />
+        <Tooltip
+          content={
+            <CustomToolTipWrapper>
+              {(dataItem: (typeof data)[0]) =>
+                dataItem.task.map((item, idx) => (
+                  <CustomToolTipContent
+                    key={idx}
+                    name={item.name}
+                    value={item.hours}
+                  />
+                ))
+              }
+            </CustomToolTipWrapper>
+          }
+        />
       </PieChart>
     </Stack>
   );
