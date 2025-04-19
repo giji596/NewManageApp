@@ -13,17 +13,17 @@ import { memo } from "react";
  */
 const TaskTable = memo(function TaskTable() {
   return (
-    <TableContainer>
-      <Table>
+    <TableContainer sx={{ width: 600, height: 400 }}>
+      <Table stickyHeader sx={{ tableLayout: "fixed" }}>
         {/** ヘッダー */}
         <TableHead>
           <TableRow>
             {/** タスク名 */}
-            <TableCell>タスク名</TableCell>
+            <TableCell width={"60%"}>タスク名</TableCell>
             {/** 進捗 */}
-            <TableCell>進捗</TableCell>
+            <TableCell width={"30%"}>進捗</TableCell>
             {/** ボタン部分 */}
-            <TableCell></TableCell>
+            <TableCell width={"10%"}></TableCell>
           </TableRow>
         </TableHead>
         {/** ボディ */}
