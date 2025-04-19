@@ -1,5 +1,5 @@
 import { PieChart, Pie, Tooltip } from "recharts";
-import CircleGraphToolChip from "./tool-chip/CircleGraphToolChip";
+import CircleGraphToolChip from "../../../../../component/graph/tool-chip/CircleGraphToolChip";
 import { DailyCategoryCircleGraph } from "@/type/Date";
 
 type Props = {
