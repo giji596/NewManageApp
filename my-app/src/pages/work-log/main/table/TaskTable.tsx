@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { memo } from "react";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
@@ -18,6 +19,9 @@ const TaskTable = memo(function TaskTable() {
   const { data, navigateToDetail } = TaskTableLogic();
   return (
     <>
+      <Typography textAlign={"center"} variant="h6" color="text.secondary">
+        過去一ヶ月の稼働タスク(進捗順)
+      </Typography>
       <TableContainer sx={{ width: 450, height: 300 }}>
         <Table stickyHeader sx={{ tableLayout: "fixed" }}>
           {/** ヘッダー */}
