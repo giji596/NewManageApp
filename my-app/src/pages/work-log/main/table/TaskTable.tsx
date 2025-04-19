@@ -17,38 +17,40 @@ import TaskTableLogic from "./TaskTableLogic";
 const TaskTable = memo(function TaskTable() {
   const { data, navigateToDetail } = TaskTableLogic();
   return (
-    <TableContainer sx={{ width: 450, height: 300 }}>
-      <Table stickyHeader sx={{ tableLayout: "fixed" }}>
-        {/** ヘッダー */}
-        <TableHead>
-          <TableRow>
-            {/** タスク名 */}
-            <TableCell width={"60%"}>タスク名</TableCell>
-            {/** 進捗 */}
-            <TableCell width={"30%"}>進捗</TableCell>
-            {/** ボタン部分 */}
-            <TableCell width={"10%"}></TableCell>
-          </TableRow>
-        </TableHead>
-        {/** ボディ */}
-        <TableBody>
-          {data.map((item) => (
-            <TableRow key={item.id}>
+    <>
+      <TableContainer sx={{ width: 450, height: 300 }}>
+        <Table stickyHeader sx={{ tableLayout: "fixed" }}>
+          {/** ヘッダー */}
+          <TableHead>
+            <TableRow>
               {/** タスク名 */}
-              <TableCell>{item.name}</TableCell>
+              <TableCell width={"60%"}>タスク名</TableCell>
               {/** 進捗 */}
-              <TableCell>{item.progress}</TableCell>
+              <TableCell width={"30%"}>進捗</TableCell>
               {/** ボタン部分 */}
-              <TableCell>
-                <IconButton onClick={() => navigateToDetail(item.id)}>
-                  <DoubleArrowIcon />
-                </IconButton>
-              </TableCell>
+              <TableCell width={"10%"}></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          {/** ボディ */}
+          <TableBody>
+            {data.map((item) => (
+              <TableRow key={item.id}>
+                {/** タスク名 */}
+                <TableCell>{item.name}</TableCell>
+                {/** 進捗 */}
+                <TableCell>{item.progress}</TableCell>
+                {/** ボタン部分 */}
+                <TableCell>
+                  <IconButton onClick={() => navigateToDetail(item.id)}>
+                    <DoubleArrowIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 });
 export default TaskTable;
