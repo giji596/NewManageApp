@@ -1,6 +1,7 @@
 import { PieChart, Pie, Tooltip } from "recharts";
-import CircleGraphToolChip from "./tool-chip/CircleGraphToolChip";
 import { DailyCategoryCircleGraph } from "@/type/Date";
+import CustomToolTipWrapper from "@/component/graph/tool-chip/CustomToolTipWrapper";
+import CustomToolTipContent from "@/component/graph/tool-chip/CustomToolTipContent";
 
 type Props = {
   /** データ */
@@ -24,7 +25,21 @@ export default function CircleGraph({ data }: Props) {
           `${name} (${(percent * 100).toFixed(1)}%)`
         }
       />
-      <Tooltip content={<CircleGraphToolChip />} />
+      <Tooltip
+        content={
+          <CustomToolTipWrapper>
+            {(dataItem: DailyCategoryCircleGraph) =>
+              dataItem.task.map((item) => (
+                <CustomToolTipContent
+                  key={item.id}
+                  name={item.name}
+                  value={item.percent}
+                />
+              ))
+            }
+          </CustomToolTipWrapper>
+        }
+      />
     </PieChart>
   );
 }

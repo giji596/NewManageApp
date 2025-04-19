@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import CircleGraphToolChip from "./CircleGraphToolChip";
+import CircleGraphToolChip from "./CustomToolTipWrapper";
 
 const meta = {
   component: CircleGraphToolChip,
@@ -19,6 +19,7 @@ const meta = {
         },
       },
     ],
+    children: () => <div>children</div>,
   },
 } satisfies Meta<typeof CircleGraphToolChip>;
 
@@ -26,6 +27,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {},
-};
+export const Default: Story = {};
