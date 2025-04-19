@@ -9,10 +9,14 @@ import useDialog from "@/hook/useDialog";
 import CompleteConfirmDialog from "./dialog/complete-confirm/CompleteConfirmDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 
+type Props = {
+  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
+  params: { id: string };
+};
 /**
  * タスク詳細ページ
  */
-export default function TaskDetailPage() {
+export default function TaskDetailPage({ params }: Props) {
   const {
     isLoading,
     taskName,
@@ -27,7 +31,7 @@ export default function TaskDetailPage() {
     handleComplete,
     handleDelete,
     navigateCategoryPage,
-  } = useTaskDetailPage();
+  } = useTaskDetailPage({ params });
   const {
     open: openEdit,
     onClose: onCloseEdit,
