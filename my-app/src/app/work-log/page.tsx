@@ -1,8 +1,12 @@
 "use client";
 import { Stack } from "@mui/material";
 import NavMenu from "./component/nav-menu/NavMenu";
-import MainPagePieChart from "./component/pie-chart/MainPagePieChart";
+const MainPagePieChart = dynamic(
+  () => import("./component/pie-chart/MainPagePieChart"),
+  { ssr: false }
+);
 import TaskTable from "./component/table/TaskTable";
+import dynamic from "next/dynamic";
 
 /**
  * メインページ
