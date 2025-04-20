@@ -38,7 +38,14 @@ export default function Navbar() {
             }
             if (isLastPageIndex(index)) {
               return (
-                <Typography key={navPage} sx={{ color: "text.primary" }}>
+                <Typography
+                  key={navPage}
+                  height={30}
+                  alignItems={"center"}
+                  display={"flex"}
+                  paddingLeft={index === 0 ? 2 : 1} // indexに応じてpaddingを調整してボタン位置と合わせる
+                  sx={{ color: "text.primary" }}
+                >
                   {navPage}
                 </Typography>
               );
