@@ -13,7 +13,7 @@ export default function Navbar() {
         display: "flex",
         overflow: "hidden",
         color: "white",
-        padding: 5,
+        padding: 1,
       }}
     >
       {/* 左の四角形エリア */}
@@ -21,9 +21,8 @@ export default function Navbar() {
         sx={{
           flex: "0 0 60%", // 全体の70%を占める
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 2,
+          justifyContent: "flex-start",
+          padding: 1,
           background:
             "linear-gradient(to right, rgb(255, 255, 255), rgb(220, 220, 220))",
           borderBottom: "1px solid #ccc",
@@ -52,12 +51,16 @@ export default function Navbar() {
                   component={Link}
                   href={getLink(navPages, index)}
                   sx={{
-                    width: 56,
-                    height: 56,
+                    width: 90,
+                    height: 30,
+                    fontSize: "1rem", // Typographyに合わせたフォントサイズ（必要なら）
+                    fontWeight: "normal", // Typographyに寄せたいならlightやnormalで調整
+                    color: "inherit", // 親と同じ色
                     borderRadius: "50%",
                     overflow: "hidden", // リップルがはみ出さないように
                     transition: "background-color 0.2s, transform 0.1s",
                     "&:hover": {
+                      textDecoration: "underline", // ホバー時のアンダーライン
                       backgroundColor: "rgba(0, 0, 0, 0.08)",
                     },
                     "&:active": {
