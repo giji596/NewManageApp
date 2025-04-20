@@ -1,9 +1,21 @@
 "use client";
-import { Stack } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import NavMenu from "./component/nav-menu/NavMenu";
 const MainPagePieChart = dynamic(
   () => import("./component/pie-chart/MainPagePieChart"),
-  { ssr: false }
+  {
+    ssr: false,
+    loading: () => (
+      <Stack
+        width={600}
+        height={400}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <CircularProgress />
+      </Stack>
+    ),
+  }
 );
 import TaskTable from "./component/table/TaskTable";
 import dynamic from "next/dynamic";
@@ -13,7 +25,7 @@ import dynamic from "next/dynamic";
  */
 export default function MainPage() {
   return (
-    <Stack direction="row" p={2} justifyContent={"space-between"} height={650}>
+    <Stack direction="row" px={8} py={2} spacing={10} height={650}>
       <NavMenu />
       <Stack spacing={2}>
         <MainPagePieChart />
