@@ -1,3 +1,4 @@
+"use client";
 import { Button, Stack, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCommentIcon from "@mui/icons-material/AddComment";

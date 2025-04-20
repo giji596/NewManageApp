@@ -1,3 +1,4 @@
+"use client";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Checkbox } from "@mui/material";

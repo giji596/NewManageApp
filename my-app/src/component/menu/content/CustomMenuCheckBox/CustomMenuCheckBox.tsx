@@ -1,3 +1,4 @@
+"use client";
 import { MenuItem } from "@mui/material";
 
 type Props = {

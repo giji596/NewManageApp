@@ -1,3 +1,4 @@
+"use client";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import { memo } from "react";
 import StarBorderIcon from "@mui/icons-material/StarBorder";

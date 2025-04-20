@@ -1,3 +1,4 @@
+"use client";
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 import { TableCell, TableRow } from "@mui/material";
 import { memo } from "react";

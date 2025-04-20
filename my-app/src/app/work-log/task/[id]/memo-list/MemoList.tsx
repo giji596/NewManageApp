@@ -1,3 +1,4 @@
+"use client";
 import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
 import MemoListHeader from "./header/MemoListHeader";
 import { MemoTaskDetail } from "@/type/Memo";

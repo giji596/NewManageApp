@@ -1,3 +1,4 @@
+"use client";
 import { CategoryTaskActivity } from "@/type/Task";
 import { memo } from "react";
 import { Pie, PieChart, Tooltip } from "recharts";

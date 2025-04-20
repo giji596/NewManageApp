@@ -1,3 +1,4 @@
+"use client";
 import { Box, Stack, Button, Typography } from "@mui/material";
 import { memo } from "react";
 import TodayIcon from "@mui/icons-material/Today";

@@ -1,3 +1,4 @@
+"use client";
 import { memo } from "react";
 import TaskActivityGraph from "./graph/TaskActivityGraph";
 import PeriodSelector from "./period-selector/PeriodSelector";

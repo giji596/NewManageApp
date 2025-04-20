@@ -1,3 +1,4 @@
+"use client";
 import { Fade, Paper, Popper } from "@mui/material";
 import CustomMenuWrapperLogic from "./CustomMenuWrapperLogic";
 import { ReactNode } from "react";

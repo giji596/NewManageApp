@@ -1,3 +1,4 @@
+"use client";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import MainDisplay from "./main-display/MainDisplay";
 import MemoList from "./memo-list/MemoList";

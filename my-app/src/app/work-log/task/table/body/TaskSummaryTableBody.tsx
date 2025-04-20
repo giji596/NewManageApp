@@ -1,3 +1,4 @@
+"use client";
 import { TaskSummary } from "@/type/Task";
 import {
   Checkbox,

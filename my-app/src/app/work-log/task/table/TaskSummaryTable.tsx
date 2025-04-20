@@ -1,3 +1,4 @@
+"use client";
 import { TaskSummary } from "@/type/Task";
 import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
 import TaskSummaryTableHeader from "./header/TaskSummaryTableHeader";
