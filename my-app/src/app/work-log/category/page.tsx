@@ -1,3 +1,5 @@
+"use client";
+
 import { Stack } from "@mui/material";
 import CategorySelect from "./category-select/CategorySelect";
 import TaskActivityPieChart from "./task-activity-pie-chart/TaskActivityPieChart";

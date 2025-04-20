@@ -1,3 +1,5 @@
+"use client";
+
 import { Stack } from "@mui/material";
 import DailyHeader from "./header/DailyHeader";
 import DailyTable from "./table/DailyTable";

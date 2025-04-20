@@ -1,9 +1,11 @@
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 /**
  * メインページのナビゲーションメニューのロジック
  */
 export default function NavMenuLogic() {
+  const router = useRouter();
   const navButtonStyle = useMemo(() => {
     return {
       display: "flex",
@@ -32,14 +34,14 @@ export default function NavMenuLogic() {
     console.log("昨日のページへ");
   }, []);
   const navigateDaily = useCallback(() => {
-    console.log("日付一覧ページへ");
-  }, []);
+    router.push("/work-log/daily");
+  }, [router]);
   const navigateTask = useCallback(() => {
-    console.log("タスク一覧ページへ");
-  }, []);
+    router.push("/work-log/task");
+  }, [router]);
   const navigateCategory = useCallback(() => {
-    console.log("カテゴリ一覧ページへ");
-  }, []);
+    router.push("/work-log/category");
+  }, [router]);
   return {
     /** ボタンの共通style */
     navButtonStyle,

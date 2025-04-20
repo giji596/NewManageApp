@@ -1,3 +1,5 @@
+"use client";
+
 import TaskSummaryHeader from "./header/TaskSummaryHeader";
 import useTaskSummaryPage from "./useTaskSummaryPage";
 import TaskSummaryTable from "./table/TaskSummaryTable";
