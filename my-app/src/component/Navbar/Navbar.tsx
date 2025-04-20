@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, ButtonBase, Link, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, Link, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 
 /**
@@ -47,7 +47,7 @@ export default function Navbar() {
                 /** ページのリンクを表示する */
               }
               return (
-                <ButtonBase
+                <Button
                   key={navPage}
                   component={Link}
                   href={getLink(navPages, index)}
@@ -66,15 +66,8 @@ export default function Navbar() {
                     },
                   }}
                 >
-                  <Link
-                    key={navPage}
-                    underline="hover"
-                    color="inherit"
-                    href={getLink(navPages, index)}
-                  >
-                    {navPage}
-                  </Link>
-                </ButtonBase>
+                  {navPage}
+                </Button>
               );
             }
           })}
