@@ -52,13 +52,11 @@ export default function Navbar() {
                   component={Link}
                   href={getLink(index)}
                   sx={{
-                    width: 90,
                     height: 30,
                     fontSize: "1rem", // Typographyに合わせたフォントサイズ（必要なら）
                     fontWeight: "normal", // Typographyに寄せたいならlightやnormalで調整
                     color: "inherit", // 親と同じ色
                     borderRadius: "50%",
-                    overflow: "hidden", // リップルがはみ出さないように
                     transition: "background-color 0.2s, transform 0.1s",
                     "&:hover": {
                       textDecoration: "underline", // ホバー時のアンダーライン
