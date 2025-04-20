@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
  */
 export default function MainPage() {
   return (
-    <Stack direction="row" p={2} justifyContent={"space-between"} height={650}>
+    <Stack direction="row" px={8} py={2} spacing={10} height={650}>
       <NavMenu />
       <Stack spacing={2}>
         <MainPagePieChart />
