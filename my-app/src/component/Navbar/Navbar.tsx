@@ -1,12 +1,12 @@
 "use client";
-import { Box, Breadcrumbs, Button, Link, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 
 /**
  *  ナビゲーションバーの共通コンポーネント
  */
 export default function Navbar() {
-  const { navPages, isLastPageIndex, getLink } = NavBarLogic();
+  const { navPages, isLastPageIndex, doNavigate } = NavBarLogic();
 
   return (
     <Box
@@ -38,7 +38,14 @@ export default function Navbar() {
             }
             if (isLastPageIndex(index)) {
               return (
-                <Typography key={navPage} sx={{ color: "text.primary" }}>
+                <Typography
+                  key={navPage}
+                  height={30}
+                  alignItems={"center"}
+                  display={"flex"}
+                  paddingLeft={index === 0 ? 2 : 1} // indexに応じてpaddingを調整してボタン位置と合わせる
+                  sx={{ color: "text.primary" }}
+                >
                   {navPage}
                 </Typography>
               );
@@ -49,16 +56,12 @@ export default function Navbar() {
               return (
                 <Button
                   key={navPage}
-                  component={Link}
-                  href={getLink(index)}
                   sx={{
-                    width: 90,
                     height: 30,
                     fontSize: "1rem", // Typographyに合わせたフォントサイズ（必要なら）
                     fontWeight: "normal", // Typographyに寄せたいならlightやnormalで調整
                     color: "inherit", // 親と同じ色
                     borderRadius: "50%",
-                    overflow: "hidden", // リップルがはみ出さないように
                     transition: "background-color 0.2s, transform 0.1s",
                     "&:hover": {
                       textDecoration: "underline", // ホバー時のアンダーライン
@@ -69,6 +72,7 @@ export default function Navbar() {
                       transform: "scale(0.98)", // 押し込む感じ
                     },
                   }}
+                  onClick={() => doNavigate(index)}
                 >
                   {navPage}
                 </Button>

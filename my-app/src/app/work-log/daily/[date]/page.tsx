@@ -1,3 +1,5 @@
+"use client";
+
 import { Stack } from "@mui/material";
 import DailyDetailMenu from "./menu/DailyDetailMenu";
 import DailyDetailPageParams from "./param";
