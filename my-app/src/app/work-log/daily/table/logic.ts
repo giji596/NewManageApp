@@ -2,6 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { DateSummary } from "@/type/Date";
 import { TableSortTargetType } from "@/type/Table";
+import { format } from "date-fns";
 import { useCallback } from "react";
 
 type Props = {
@@ -13,6 +14,11 @@ type Props = {
  * 日ごとの一覧ページのテーブルコンポーネントのロジック部分
  */
 export default function DailyTableLogic({ itemList }: Props) {
+  const dateToId = useCallback(
+    (date: Date) => Number(format(date, "yyyyMMdd")),
+    []
+  );
+
   // itemリストに存在するタスク一覧
   const defaultTaskFilterList = itemList.reduce(
     (a: Record<string, boolean>, b) => {
@@ -54,7 +60,7 @@ export default function DailyTableLogic({ itemList }: Props) {
         case "日付":
           return { c: a.date, d: b.date };
         default:
-          return { c: a.id, d: b.id };
+          return { c: a.date, d: b.date };
       }
     },
     []
@@ -78,14 +84,14 @@ export default function DailyTableLogic({ itemList }: Props) {
   // idからメモのタイトル一覧を取得する関数
   const getMemoTitleArrayById = useCallback(
     (id: number) => {
-      const target = itemList.find((item) => item.id === id);
+      const target = itemList.find((item) => dateToId(item.date) === id);
       const array: string[] = [];
       if (target) {
         target.memo.forEach((item) => array.push(item.title));
       }
       return array;
     },
-    [itemList]
+    [dateToId, itemList]
   );
 
   const doFilterByFilterList = useCallback(
@@ -105,6 +111,8 @@ export default function DailyTableLogic({ itemList }: Props) {
   );
 
   return {
+    /** dateをホバー時のメモ開封用にid:number型に変換する関数 */
+    dateToId,
     /** 現在昇順かどうか */
     isAsc,
     /** アイテムのタスク名とチェック状態のRecordオブジェクト */
