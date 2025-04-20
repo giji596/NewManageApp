@@ -1,3 +1,4 @@
+"use client";
 import { Box, Breadcrumbs, Button, Link, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 
