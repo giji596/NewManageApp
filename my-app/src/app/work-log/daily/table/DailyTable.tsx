@@ -32,6 +32,7 @@ type Props = {
  */
 export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
   const {
+    dateToId,
     isAsc,
     taskFilterList,
     categoryFilterList,
@@ -68,9 +69,9 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                 .sort(doSort)
                 .map((item) => (
                   <TableRow
-                    key={item.id}
+                    key={item.date.toISOString()}
                     hover
-                    onClick={() => onClickRow(item.id)}
+                    onClick={() => onClickRow(dateToId(item.date))}
                     sx={{
                       cursor: "pointer",
                     }}
@@ -123,8 +124,10 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                           backgroundColor: "rgba(31, 158, 255, 0.37)",
                         },
                       }}
-                      onMouseEnter={(e) => handleMouseEnter(item.id, e)}
-                      onMouseLeave={() => handleMouseLeave(item.id)}
+                      onMouseEnter={(e) =>
+                        handleMouseEnter(dateToId(item.date), e)
+                      }
+                      onMouseLeave={() => handleMouseLeave(dateToId(item.date))}
                     >
                       <Typography
                         sx={{

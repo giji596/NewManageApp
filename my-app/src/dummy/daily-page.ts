@@ -7,7 +7,6 @@ import { DailyDetailTaskTableType } from "@/type/Task";
  */
 export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
   {
-    id: 0,
     categoryName: "カテゴリ1",
     date: new Date("2025-01-24"),
     taskName: "タスク1",
@@ -22,7 +21,6 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
     dailyHours: 8,
   },
   {
-    id: 1,
     categoryName: "カテゴリ2",
     date: new Date("2025-01-26"),
     taskName: "タスク2",
@@ -37,7 +35,6 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
     dailyHours: 8,
   },
   {
-    id: 2,
     categoryName: "カテゴリ3",
     date: new Date("2025-01-29"),
     taskName: "タスク3",
@@ -52,7 +49,6 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
     dailyHours: 8,
   },
   {
-    id: 4,
     categoryName: "カテゴリ1",
     date: new Date("2025-02-12"),
     taskName: "タスク1",

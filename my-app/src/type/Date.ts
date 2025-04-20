@@ -4,8 +4,6 @@ import { DailyDetailTaskTableType, TaskWithPercentage } from "./Task";
 
 /** 日付の一覧データ型 */
 export type DateSummary = {
-  /** 判別用のID */
-  id: number;
   /** 日付 */
   date: Date;
   /** メインカテゴリ名 */
