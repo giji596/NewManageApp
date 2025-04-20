@@ -1,3 +1,4 @@
+import { format, subDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
@@ -28,11 +29,13 @@ export default function NavMenuLogic() {
 
   // TODO:ページ関連実装時にそれぞれ実装
   const navigateToday = useCallback(() => {
-    console.log("今日のページへ");
-  }, []);
+    const todayString = format(new Date(), "yyyy-MM-dd");
+    router.push(`/work-log/daily/${todayString}`);
+  }, [router]);
   const navigateYesterday = useCallback(() => {
-    console.log("昨日のページへ");
-  }, []);
+    const yesterdayString = format(subDays(new Date(), 1), "yyyy-MM-dd");
+    router.push(`/work-log/daily/${yesterdayString}`);
+  }, [router]);
   const navigateDaily = useCallback(() => {
     router.push("/work-log/daily");
   }, [router]);
