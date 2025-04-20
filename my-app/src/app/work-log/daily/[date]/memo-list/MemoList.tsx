@@ -1,3 +1,4 @@
+"use client";
 import { Table, TableBody, TableContainer } from "@mui/material";
 import CustomTableHeader from "./table-header/CustomTableHeader";
 import { MemoDailyTask } from "@/type/Memo";

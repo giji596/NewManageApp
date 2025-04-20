@@ -1,3 +1,4 @@
+"use client";
 import { TableHead, TableRow, TableCell } from "@mui/material";
 import TaskTableHeaderLogic from "./TaskTableHeaderLogic";
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";

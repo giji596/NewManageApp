@@ -1,3 +1,4 @@
+"use client";
 import { PieChart, Pie, Tooltip } from "recharts";
 import { DailyCategoryCircleGraph } from "@/type/Date";
 import CustomToolTipWrapper from "@/component/graph/tool-chip/CustomToolTipWrapper";

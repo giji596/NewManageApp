@@ -1,3 +1,4 @@
+"use client";
 import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
 import { memo } from "react";
 import CategoryTaskTableHeader from "./header/CategoryTaskTableHeader";

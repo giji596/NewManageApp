@@ -1,3 +1,4 @@
+"use client";
 import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";

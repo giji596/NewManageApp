@@ -1,3 +1,4 @@
+"use client";
 import CustomHeaderSortCheckLabel from "@/component/table/header/CustomHeaderSortCheckLabel/CustomHeaderSortCheckLabel";
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 import { TableCell, TableHead, TableRow } from "@mui/material";

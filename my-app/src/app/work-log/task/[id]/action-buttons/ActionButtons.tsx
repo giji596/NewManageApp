@@ -1,3 +1,4 @@
+"use client";
 import { Button, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done";

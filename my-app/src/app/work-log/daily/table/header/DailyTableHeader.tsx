@@ -1,3 +1,4 @@
+"use client";
 import { TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { DailyTableHeaderLogic } from "./logic";
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";

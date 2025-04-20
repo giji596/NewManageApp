@@ -1,3 +1,4 @@
+"use client";
 import { Stack, Typography } from "@mui/material";
 
 type Props = {

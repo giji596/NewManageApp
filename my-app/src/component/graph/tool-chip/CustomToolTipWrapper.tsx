@@ -1,3 +1,4 @@
+"use client";
 import { Paper } from "@mui/material";
 import { ReactNode } from "react";
 import { TooltipProps } from "recharts";

@@ -1,3 +1,4 @@
+"use client";
 import { ButtonBase, TableSortLabel } from "@mui/material";
 import HeaderDesign from "../useHeaderLabelDesign";
 

@@ -1,3 +1,4 @@
+"use client";
 import { memo } from "react";
 import CategoryTaskTable from "./table/CategoryTaskTable";
 import CategoryTaskListHeader from "./header/CategoryTaskListHeader";

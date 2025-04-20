@@ -1,3 +1,4 @@
+"use client";
 import { MemoDailyTask } from "@/type/Memo";
 import { TableRow, TableCell, Collapse, Box, IconButton } from "@mui/material";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";

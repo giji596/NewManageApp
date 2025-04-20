@@ -1,3 +1,4 @@
+"use client";
 import { Stack } from "@mui/material";
 import TaskTable from "./table/TaskTable";
 import TaskMenu from "./task-menu/TaskMenu";
