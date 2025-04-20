@@ -1,4 +1,5 @@
 import { usePathname } from "next/navigation";
+import { useCallback } from "react";
 
 // 文言を変換する関数
 const exchangePathName = (nameList: string[], name: string, index: number) => {
@@ -34,13 +35,16 @@ export const NavBarLogic = () => {
   const isLastPageIndex = (index: number): boolean =>
     navPages.length - 1 == index;
 
-  const getLink = (pageNames: string[], index: number): string => {
-    const result: string[] = ["/"];
-    for (let i = 0; i <= index; i++) {
-      result.push(pageNames[i]);
-    }
-    return result.join("/");
-  };
+  const getLink = useCallback(
+    (index: number): string => {
+      const result: string[] = ["localhost:3000/"];
+      for (let i = 0; i <= index; i++) {
+        result.push(rawPages[i]);
+      }
+      return result.join("/");
+    },
+    [rawPages]
+  );
   return {
     navPages,
     isLastPageIndex,

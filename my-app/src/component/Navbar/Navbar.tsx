@@ -50,7 +50,7 @@ export default function Navbar() {
                 <Button
                   key={navPage}
                   component={Link}
-                  href={getLink(navPages, index)}
+                  href={getLink(index)}
                   sx={{
                     width: 90,
                     height: 30,
