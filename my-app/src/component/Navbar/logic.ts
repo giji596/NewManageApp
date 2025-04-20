@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 // 文言を変換する関数
@@ -29,25 +29,27 @@ const exchangePathName = (nameList: string[], name: string, index: number) => {
  * NavBarコンポーネントのロジック部分
  */
 export const NavBarLogic = () => {
+  const router = useRouter();
   const path = usePathname(); // ここでパス入手("/work-log/task"など)
   const rawPages = path.slice(1).split("/"); // 先頭の"/"を除いて配列化
   const navPages = rawPages.map((v, i) => exchangePathName(rawPages, v, i)); // 文言を変換
   const isLastPageIndex = (index: number): boolean =>
     navPages.length - 1 == index;
 
-  const getLink = useCallback(
-    (index: number): string => {
-      const result: string[] = ["localhost:3000/"];
+  const doNavigate = useCallback(
+    (index: number): void => {
+      const result: string[] = [];
       for (let i = 0; i <= index; i++) {
         result.push(rawPages[i]);
       }
-      return result.join("/");
+      const path = result.join("/");
+      router.push(`/${path}`);
     },
-    [rawPages]
+    [rawPages, router]
   );
   return {
     navPages,
     isLastPageIndex,
-    getLink,
+    doNavigate,
   };
 };

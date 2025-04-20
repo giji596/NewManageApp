@@ -1,12 +1,12 @@
 "use client";
-import { Box, Breadcrumbs, Button, Link, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 
 /**
  *  ナビゲーションバーの共通コンポーネント
  */
 export default function Navbar() {
-  const { navPages, isLastPageIndex, getLink } = NavBarLogic();
+  const { navPages, isLastPageIndex, doNavigate } = NavBarLogic();
 
   return (
     <Box
@@ -49,8 +49,6 @@ export default function Navbar() {
               return (
                 <Button
                   key={navPage}
-                  component={Link}
-                  href={getLink(index)}
                   sx={{
                     height: 30,
                     fontSize: "1rem", // Typographyに合わせたフォントサイズ（必要なら）
@@ -67,6 +65,7 @@ export default function Navbar() {
                       transform: "scale(0.98)", // 押し込む感じ
                     },
                   }}
+                  onClick={() => doNavigate(index)}
                 >
                   {navPage}
                 </Button>
