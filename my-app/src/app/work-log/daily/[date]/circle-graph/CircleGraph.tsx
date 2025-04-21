@@ -14,13 +14,13 @@ type Props = {
  */
 export default function CircleGraph({ data }: Props) {
   return (
-    <PieChart width={400} height={400}>
+    <PieChart width={500} height={300}>
       <Pie
         data={data}
         dataKey="value"
         cx="50%"
         cy="50%"
-        outerRadius={60}
+        outerRadius={90}
         fill="#8884d8"
         label={({ name, percent }) =>
           `${name} (${(percent * 100).toFixed(1)}%)`

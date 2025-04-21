@@ -33,7 +33,7 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
   } = MemoListLogic({ memoItemList });
   return (
     <>
-      <TableContainer>
+      <TableContainer sx={{ height: 345 }}>
         <Table sx={{ tableLayout: "fixed " }}>
           <CustomTableHeader
             isAsc={isAsc}
