@@ -1,15 +1,23 @@
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 /**
  * 日付詳細ページナビゲーション関連のロジック
  */
 export default function DailyDetailPageNavLogic() {
-  const navigateToTaskDetail = useCallback((id: number) => {
-    console.log("タスク詳細へ id:", id);
-  }, []);
-  const navigateToCategoryDetail = useCallback((id: number) => {
-    console.log("カテゴリ詳細へ id:", id);
-  }, []);
+  const router = useRouter();
+  const navigateToTaskDetail = useCallback(
+    (id: number) => {
+      router.push(`/work-log/task/${id}`);
+    },
+    [router]
+  );
+  const navigateToCategoryDetail = useCallback(
+    (id: number) => {
+      router.push(`/work-log/category/?id=${id}`);
+    },
+    [router]
+  );
 
   return {
     /** タスク詳細ページに飛ぶ */
