@@ -6,6 +6,7 @@ import DailyTable from "./table/DailyTable";
 import DateDialog from "./dialog/DateDialog";
 import DailyPageFetchLogic from "./fetchLogic";
 import DailyPageNavigationLogic from "./navigationLogic";
+import useDialog from "@/hook/useDialog";
 
 /**
  * DailyPage
@@ -23,6 +24,7 @@ export default function DailyPage() {
     handleNavigateToday,
     handleNavigateSelectedDay,
   } = DailyPageNavigationLogic();
+  const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <Stack spacing={2}>
@@ -44,6 +46,8 @@ export default function DailyPage() {
         />
       </Stack>
       <DateDialog
+        open={open}
+        onClose={onClose}
         dateDetails={detailData}
         isLoading={isLoadingDetail}
         navigatePage={handleNavigateSelectedDay}

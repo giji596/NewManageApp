@@ -19,6 +19,10 @@ import { DateDetail } from "@/type/Date";
 import { format } from "date-fns";
 
 type Props = {
+  /** ダイアログの開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じる関数 */
+  onClose: () => void;
   /** 特定の日付詳細データのダイアログ用データ */
   dateDetails: DateDetail;
   /** ロード状態か */
@@ -30,12 +34,13 @@ type Props = {
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
 export default function DateDialog({
+  open,
+  onClose,
   dateDetails,
   isLoading,
   navigatePage,
 }: Props) {
   const {
-    open,
     radioSelect,
     selectYear,
     selectMonth,
@@ -43,7 +48,6 @@ export default function DateDialog({
     selectableYearArray,
     selectableMonthArray,
     selectableDayArray,
-    onClose,
     onChangeRadioSelect,
     onSelectYear,
     onSelectMonth,
