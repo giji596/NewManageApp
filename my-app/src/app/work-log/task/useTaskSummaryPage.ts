@@ -8,11 +8,13 @@ import {
   useState,
 } from "react";
 import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLogic";
+import { useRouter } from "next/navigation";
 
 /**
  * タスク一覧ページのパラメータ関連
  */
 export default function useTaskSummaryPage() {
+  const router = useRouter();
   // TODO:データフェッチさせる
   const taskSummaryData = DUMMY_TASK_SUMMARY_DATA;
   const isLoading = false;
@@ -85,8 +87,8 @@ export default function useTaskSummaryPage() {
 
   // なびげーしょん
   const navigateToDetail = useCallback(
-    () => console.log("移動先のid", selectedItemId),
-    [selectedItemId]
+    () => router.push(`/work-log/task/${selectedItemId}`),
+    [router, selectedItemId]
   );
   return {
     /** タスク一覧 */
