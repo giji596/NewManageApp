@@ -1,15 +1,18 @@
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useMemo } from "react";
 
 /**
  * DailyPageのナビゲーション関連のロジック
  */
 export default function DailyPageNavigationLogic() {
   const router = useRouter();
-  // TODO:クエリパラメータから取得
-  const displayYear = "2025";
-  const displayMonth = "4";
+
+  const searchParams = useSearchParams(); // クエリパラメータ取得
+  const todayYear = useMemo(() => new Date().getFullYear(), []);
+  const todayMonth = useMemo(() => new Date().getMonth() + 1, []);
+  const displayYear = searchParams.get("year") ?? String(todayYear);
+  const displayMonth = searchParams.get("month") ?? String(todayMonth);
 
   // TODO:クエリパラメータを変更させる
   const handlePrevMonth = useCallback(() => {}, []);
