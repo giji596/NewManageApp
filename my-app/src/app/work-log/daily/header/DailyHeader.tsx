@@ -119,6 +119,7 @@ export default function DailyHeader({
             sx={{ minWidth: "80px" }}
           >
             <Select
+              name="year-select"
               value={displayYear}
               onChange={(e) => handleYearChange(e.target.value)}
               sx={{ mb: 1 }}
@@ -135,6 +136,7 @@ export default function DailyHeader({
           </FormControl>
           <FormControl disabled={isLoading} fullWidth variant="standard">
             <Select
+              name="month-select"
               value={displayMonth}
               onChange={(e) => handleMonthChange(e.target.value)}
               sx={{ mb: 1 }}
