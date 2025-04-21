@@ -40,7 +40,7 @@ export default function TaskList({
   const { open, onClose, onOpen } = useDialog();
   return (
     <>
-      <Stack>
+      <Stack height={400}>
         <TaskMenu
           isActive={isItemSelected}
           onClickEdit={onOpen}
