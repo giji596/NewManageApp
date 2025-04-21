@@ -1,12 +1,25 @@
 "use client";
 
-import { Stack } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import DailyDetailMenu from "./menu/DailyDetailMenu";
 import DailyDetailPageParams from "./param";
 import TaskList from "./task-list/TaskList";
-import CircleGraph from "./circle-graph/CircleGraph";
+const CircleGraph = dynamic(() => import("./circle-graph/CircleGraph"), {
+  ssr: false,
+  loading: () => (
+    <Stack
+      width={600}
+      height={400}
+      alignItems={"center"}
+      justifyContent={"center"}
+    >
+      <CircularProgress />
+    </Stack>
+  ),
+});
 import MemoList from "./memo-list/MemoList";
 import DailyDetailPageNavLogic from "./navLogic";
+import dynamic from "next/dynamic";
 
 type Props = {
   /** パスパラメータ(ページ呼び出し時に自動的に取得) */
