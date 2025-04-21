@@ -24,8 +24,15 @@ const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
 }: Props) {
   return (
     <FormControl sx={{ pl: 2 }}>
-      <FormLabel>表示するタスク</FormLabel>
-      <RadioGroup row value={selectedValue} onChange={onChange} sx={{ gap: 3 }}>
+      <FormLabel id="display-task-label">表示するタスク</FormLabel>
+      <RadioGroup
+        aria-labelledby="display-task-label"
+        name="display-task"
+        row
+        value={selectedValue}
+        onChange={onChange}
+        sx={{ gap: 3 }}
+      >
         <FormControlLabel
           value="in-progress"
           control={

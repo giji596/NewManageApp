@@ -1,10 +1,26 @@
 "use client";
 
-import { Stack } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import CategorySelect from "./category-select/CategorySelect";
-import TaskActivityPieChart from "./task-activity-pie-chart/TaskActivityPieChart";
+const TaskActivityPieChart = dynamic(
+  () => import("./task-activity-pie-chart/TaskActivityPieChart"),
+  {
+    ssr: false,
+    loading: () => (
+      <Stack
+        width={577.5}
+        height={397.5}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <CircularProgress />
+      </Stack>
+    ),
+  }
+);
 import CategoryTaskList from "./category-task-list/CategoryTaskList";
 import CategoryPageLogic from "./logic";
+import dynamic from "next/dynamic";
 
 /**
  * カテゴリページ

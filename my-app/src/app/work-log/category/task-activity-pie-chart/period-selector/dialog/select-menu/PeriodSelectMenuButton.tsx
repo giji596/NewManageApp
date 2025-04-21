@@ -79,8 +79,11 @@ export default function PeriodSelectMenuButton({
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <Stack direction={"row"} spacing={1} px={2} py={0.5}>
           <FormControl>
-            <InputLabel>年</InputLabel>
+            <InputLabel id="year-select-label">年</InputLabel>
             <Select
+              labelId="year-select-label"
+              id="year-select"
+              name="year-select"
               label="年"
               value={String(year)}
               onChange={onChangeYear}
@@ -94,8 +97,11 @@ export default function PeriodSelectMenuButton({
             </Select>
           </FormControl>
           <FormControl>
-            <InputLabel>月</InputLabel>
+            <InputLabel id="month-select-label">月</InputLabel>
             <Select
+              labelId="month-select-label"
+              id="month-select"
+              name="month-select"
               label="月"
               value={String(month)}
               onChange={onChangeMonth}
@@ -109,8 +115,11 @@ export default function PeriodSelectMenuButton({
             </Select>
           </FormControl>
           <FormControl>
-            <InputLabel>日</InputLabel>
+            <InputLabel id="day-select-label">日</InputLabel>
             <Select
+              labelId="day-select-label"
+              id="day-select"
+              name="day-select"
               label="日"
               value={String(day)}
               onChange={onChangeDay}
