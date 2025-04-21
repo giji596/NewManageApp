@@ -4,7 +4,6 @@ import { Stack } from "@mui/material";
 import DailyHeader from "./header/DailyHeader";
 import DailyTable from "./table/DailyTable";
 import DateDialog from "./dialog/DateDialog";
-import DataDialogLogic from "./dialog/DateDialogLogic";
 import DailyPageFetchLogic from "./fetchLogic";
 import DailyPageNavigationLogic from "./navigationLogic";
 
@@ -12,13 +11,8 @@ import DailyPageNavigationLogic from "./navigationLogic";
  * DailyPage
  */
 export default function DailyPage() {
-  const {
-    itemList,
-    isLoadingItemList,
-    detailData,
-    isLoadingDetail,
-    onFetchDetails,
-  } = DailyPageFetchLogic();
+  const { itemList, isLoadingItemList, detailData, isLoadingDetail } =
+    DailyPageFetchLogic();
   const {
     displayYear,
     displayMonth,
@@ -29,9 +23,6 @@ export default function DailyPage() {
     handleNavigateToday,
     handleNavigateSelectedDay,
   } = DailyPageNavigationLogic();
-  const { onOpen, ...prevDialogLogic } = DataDialogLogic({
-    onFetchData: onFetchDetails,
-  });
   return (
     <>
       <Stack spacing={2}>
@@ -54,7 +45,6 @@ export default function DailyPage() {
       </Stack>
       <DateDialog
         dateDetails={detailData}
-        logic={{ onOpen, ...prevDialogLogic }}
         isLoading={isLoadingDetail}
         navigatePage={handleNavigateSelectedDay}
       />
