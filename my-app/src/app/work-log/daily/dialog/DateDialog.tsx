@@ -82,8 +82,11 @@ export default function DateDialog({
               variant="standard"
               sx={{ minWidth: 90 }}
             >
-              <InputLabel>年</InputLabel>
+              <InputLabel id="year-select-label">年</InputLabel>
               <Select
+                id="year-select"
+                labelId="year-select-label"
+                name="year-select"
                 onChange={onSelectYear}
                 value={String(selectYear)}
                 label="年"
@@ -100,11 +103,14 @@ export default function DateDialog({
               variant="standard"
               sx={{ minWidth: 90 }}
             >
-              <InputLabel>月</InputLabel>
+              <InputLabel id="month-select-label">月</InputLabel>
               <Select
+                id="month-select"
+                labelId="month-select-label"
+                name="month-select"
                 onChange={onSelectMonth}
                 value={String(selectMonth)}
-                label="年"
+                label="月"
               >
                 {selectableMonthArray.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -118,11 +124,13 @@ export default function DateDialog({
               variant="standard"
               sx={{ minWidth: 90 }}
             >
-              <InputLabel>日</InputLabel>
+              <InputLabel id="day-select-label">日</InputLabel>
               <Select
+                id="day-select"
+                labelId="day-select-label"
+                name="day-select"
                 onChange={onSelectDay}
                 value={String(selectDay)}
-                label="年"
               >
                 {selectableDayArray.map((v) => (
                   <MenuItem key={v} value={v}>
