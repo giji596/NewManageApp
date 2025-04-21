@@ -63,9 +63,15 @@ export default function DailyPageNavigationLogic() {
       // パラメータのコピー
       const params = new URLSearchParams(searchParams.toString());
       params.set("year", v);
+      // yearの値が今年の場合 -> monthが今月以降である場合monthを今月に修正する
+      if (Number(v) === todayYear) {
+        if (todayMonth < Number(displayMonth)) {
+          params.set("month", String(todayMonth));
+        }
+      }
       router.push(`?${params.toString()}`);
     },
-    [router, searchParams]
+    [displayMonth, router, searchParams, todayMonth, todayYear]
   );
   const handleChangeMonth = useCallback(
     (v: string) => {
