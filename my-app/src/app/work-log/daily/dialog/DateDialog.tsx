@@ -15,16 +15,12 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
-import { DateDetail } from "@/type/Date";
-import { format } from "date-fns";
 
 type Props = {
-  /** 特定の日付詳細データのダイアログ用データ */
-  dateDetails: DateDetail;
-  /** このダイアログの固有ロジック群 */
-  logic: ReturnType<typeof DataDialogLogic>;
-  /** ロード状態か */
-  isLoading: boolean;
+  /** ダイアログの開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じる関数 */
+  onClose: () => void;
   /** ページを移動する関数 */
   navigatePage: (dateParam: string) => void;
 };
@@ -32,13 +28,15 @@ type Props = {
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
 export default function DateDialog({
-  dateDetails,
-  logic,
-  isLoading,
+  open,
+  onClose,
+
   navigatePage,
 }: Props) {
   const {
-    open,
+    dateDetails,
+    isLoading,
+    dateParams,
     radioSelect,
     selectYear,
     selectMonth,
@@ -46,12 +44,11 @@ export default function DateDialog({
     selectableYearArray,
     selectableMonthArray,
     selectableDayArray,
-    onClose,
     onChangeRadioSelect,
     onSelectYear,
     onSelectMonth,
     onSelectDay,
-  } = logic;
+  } = DataDialogLogic();
   return (
     <Dialog open={open} onClose={onClose}>
       <Stack width="500px" height="300px" p={3} spacing={7}>
@@ -211,7 +208,7 @@ export default function DateDialog({
               <Button
                 onClick={() => {
                   onClose();
-                  navigatePage(format(dateDetails.date, "yyyy-MM-dd")); //TODO:後でこのページ修正する時にformatはロジックに入れる予定
+                  navigatePage(dateParams);
                 }}
                 startIcon={<ArrowCircleRightIcon />}
               >

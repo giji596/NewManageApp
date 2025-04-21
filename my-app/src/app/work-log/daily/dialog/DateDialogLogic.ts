@@ -1,5 +1,6 @@
 import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
+import { DateDetail } from "@/type/Date";
 import {
   dayBeforeYesterdayDate,
   dayBeforeYesterdayMonth,
@@ -11,6 +12,7 @@ import {
   yesterdayMonth,
   yesterdayYear,
 } from "./params";
+import { format } from "date-fns";
 
 /**
  * ラジオ選択賜のstringのオブジェクト
@@ -22,19 +24,10 @@ const RadioSelectSet = ["昨日", "一昨日", "指定する"] as const;
  */
 type RadioSelect = (typeof RadioSelectSet)[number];
 
-type Props = {
-  /** データフェッチする関数 */
-  onFetchData: (params: {
-    year?: number;
-    month?: number;
-    day?: number;
-  }) => void;
-};
 /**
  * 日付ダイアログコンポーネントのロジック
  */
-export default function DataDialogLogic({ onFetchData }: Props) {
-  const [open, setOpen] = useState<boolean>(false);
+export default function DataDialogLogic() {
   const [radioSelect, setRadioSelect] = useState<RadioSelect>("昨日");
   const [selectYear, setSelectYear] = useState<number>(yesterdayYear);
   const [selectMonth, setSelectMonth] = useState<number>(yesterdayMonth);
@@ -50,12 +43,66 @@ export default function DataDialogLogic({ onFetchData }: Props) {
     [selectMonth, selectYear]
   );
 
-  const onClose = useCallback(() => {
-    setOpen(false);
+  // TODO:データフェッチさせる
+  const dateDetails: DateDetail = useMemo(() => {
+    return {
+      id: 0,
+      date: new Date(),
+      categoryList: [
+        {
+          id: 0,
+          name: "カテゴリ1",
+          taskList: [
+            { id: 0, name: "タスク1", percent: "80%" },
+            { id: 1, name: "タスク2", percent: "20%" },
+          ],
+          percent: "60%",
+        },
+        {
+          id: 1,
+          name: "カテゴリ2",
+          taskList: [
+            { id: 0, name: "タスク3", percent: "80%" },
+            { id: 1, name: "タスク4", percent: "20%" },
+          ],
+          percent: "30%",
+        },
+        {
+          id: 2,
+          name: "カテゴリ3",
+          taskList: [
+            { id: 0, name: "タスク5", percent: "80%" },
+            { id: 1, name: "タスク6", percent: "20%" },
+          ],
+          percent: "10%",
+        },
+      ],
+      memoList: [
+        { id: 0, title: "メモ1" },
+        { id: 1, title: "メモ2" },
+        { id: 2, title: "メモ3" },
+        { id: 3, title: "メモ4" },
+        { id: 4, title: "メモ5" },
+        { id: 5, title: "メモ6" },
+        { id: 6, title: "メモ7" },
+        { id: 7, title: "メモ8" },
+        { id: 8, title: "メモ9" },
+      ],
+    };
   }, []);
-  const onOpen = useCallback(() => {
-    setOpen(true);
-  }, []);
+  const isLoading = false;
+  // TODO:データフェッチ時に詳しくは考える イメージとしてはこれが呼ばれると再度フェッチする！みたいな
+  const onFetchData = useCallback(
+    (params: { year?: number; month?: number; day?: number }) => {
+      console.log(params);
+    },
+    []
+  );
+
+  const dateParams = useMemo(
+    () => format(dateDetails.date, "yyyy-MM-dd"),
+    [dateDetails]
+  );
 
   const onChangeRadioSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,8 +170,12 @@ export default function DataDialogLogic({ onFetchData }: Props) {
   );
 
   return {
-    /** 開閉状態 */
-    open,
+    /** 特定の日付詳細データのダイアログ用データ */
+    dateDetails,
+    /** ロード状態か */
+    isLoading,
+    /** Dateのパラメータ形式のstring */
+    dateParams,
     /** ラジオボタンの選択中の値 */
     radioSelect,
     /** セレクトの年の値 */
@@ -139,11 +190,6 @@ export default function DataDialogLogic({ onFetchData }: Props) {
     selectableMonthArray,
     /** 日の選択賜の配列 */
     selectableDayArray,
-    /** */
-    /**　ダイアログを閉じるハンドラー */
-    onClose,
-    /** ダイアログを開くハンドラー */
-    onOpen,
     /** ラジオボタンの選択をvalueの値に変更する関数 */
     onChangeRadioSelect,
     /** 年を選択した際のハンドラー */
