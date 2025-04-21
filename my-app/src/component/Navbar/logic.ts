@@ -15,11 +15,9 @@ const exchangePathName = (nameList: string[], name: string, index: number) => {
       return "カテゴリ";
     // これら以外の場合
     default:
-      // [id]に当たる場合(Number化した時にNaNでない場合) ->一つ前の値がタスクかカテゴリかで分岐
-      if (isNaN(Number(name))) {
-        if (nameList[index - 1] === "daily") return "日付(詳細)";
-        if (nameList[index - 1] === "task") return "タスク(詳細)";
-      }
+      // 一つ前の値がタスクかカテゴリかで分岐
+      if (nameList[index - 1] === "daily") return "日付(詳細)";
+      if (nameList[index - 1] === "task") return "タスク(詳細)";
       // 該当しなければ空白を返す
       return "";
   }
