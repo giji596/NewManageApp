@@ -1,27 +1,68 @@
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useMemo } from "react";
 
 /**
  * DailyPageのナビゲーション関連のロジック
  */
 export default function DailyPageNavigationLogic() {
   const router = useRouter();
-  // TODO:クエリパラメータから取得
-  const displayYear = "2025";
-  const displayMonth = "4";
 
-  // TODO:クエリパラメータを変更させる
-  const handlePrevMonth = useCallback(() => {}, []);
-  const handleNextMonth = useCallback(() => {}, []);
-  const handleChangeYear = useCallback((v: string) => {
-    console.log("飛び先年:", v);
-  }, []);
-  const handleChangeMonth = useCallback((v: string) => {
-    console.log("飛び先月:", v);
-  }, []);
+  // クエリパラメータ取得
+  const searchParams = useSearchParams();
+  const todayYear = useMemo(() => new Date().getFullYear(), []);
+  const todayMonth = useMemo(() => new Date().getMonth() + 1, []);
+  // クエリパラメータから表示(null時は今日の年月を表示)
+  const displayYear = searchParams.get("year") ?? String(todayYear);
+  const displayMonth = searchParams.get("month") ?? String(todayMonth);
 
-  // TODO:ページの移動を行う
+  const handlePrevMonth = useCallback(() => {
+    // パラメータのコピー
+    const params = new URLSearchParams(searchParams.toString());
+    // 新しいmonthの値(クエリあるならそれ-1　なければ現在の月-1)
+    let newMonth: number;
+    const currentMonthParam = searchParams.get("month");
+    if (currentMonthParam !== null) {
+      newMonth = Number(searchParams.get("month")) - 1;
+    } else {
+      newMonth = todayMonth - 1;
+    }
+    params.set("month", String(newMonth));
+    router.push(`?${params.toString()}`);
+  }, [router, searchParams, todayMonth]);
+  const handleNextMonth = useCallback(() => {
+    // パラメータのコピー
+    const params = new URLSearchParams(searchParams.toString());
+    // 新しいmonthの値(クエリあるならそれ+1　なければ現在の月+1)
+    let newMonth: number;
+    const currentMonthParam = searchParams.get("month");
+    if (currentMonthParam !== null) {
+      newMonth = Number(searchParams.get("month")) + 1;
+    } else {
+      newMonth = todayMonth + 1;
+    }
+    params.set("month", String(newMonth));
+    router.push(`?${params.toString()}`);
+  }, [router, searchParams, todayMonth]);
+  const handleChangeYear = useCallback(
+    (v: string) => {
+      // パラメータのコピー
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("year", v);
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
+  const handleChangeMonth = useCallback(
+    (v: string) => {
+      // パラメータのコピー
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("month", v);
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
+
   const handleNavigateToday = useCallback(() => {
     const todayParam = format(new Date(), "yyyy-MM-dd");
     router.push(`/work-log/daily/${todayParam}`);
