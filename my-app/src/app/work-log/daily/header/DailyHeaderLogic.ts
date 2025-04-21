@@ -14,13 +14,13 @@ export default function DailyHeaderLogic({ displayYear, displayMonth }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // ポップオーバーの位置
   const open = Boolean(anchorEl);
 
-  const monthArray = useMemo(
-    () => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+  const yearArray = useMemo(
+    () => Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i),
     []
   );
 
-  const yearArray = useMemo(
-    () => Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i),
+  const monthArray = useMemo(
+    () => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     []
   );
 
