@@ -19,6 +19,11 @@ export default function DailyTableLogic({ itemList }: Props) {
     []
   );
 
+  const dateToParam = useCallback(
+    (date: Date) => format(date, "yyyy-MM-dd"),
+    []
+  );
+
   // itemリストに存在するタスク一覧
   const defaultTaskFilterList = itemList.reduce(
     (a: Record<string, boolean>, b) => {
@@ -113,6 +118,8 @@ export default function DailyTableLogic({ itemList }: Props) {
   return {
     /** dateをホバー時のメモ開封用にid:number型に変換する関数 */
     dateToId,
+    /** dateをナビゲーション用のパラメータstringに変換する関数 */
+    dateToParam,
     /** 現在昇順かどうか */
     isAsc,
     /** アイテムのタスク名とチェック状態のRecordオブジェクト */
