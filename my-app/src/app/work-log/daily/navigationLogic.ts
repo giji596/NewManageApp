@@ -15,8 +15,34 @@ export default function DailyPageNavigationLogic() {
   const displayMonth = searchParams.get("month") ?? String(todayMonth);
 
   // TODO:クエリパラメータを変更させる
-  const handlePrevMonth = useCallback(() => {}, []);
-  const handleNextMonth = useCallback(() => {}, []);
+  const handlePrevMonth = useCallback(() => {
+    // パラメータのコピー
+    const params = new URLSearchParams(searchParams.toString());
+    // 新しいmonthの値(クエリあるならそれ-1　なければ現在の月-1)
+    let newMonth: number;
+    const currentMonthParam = searchParams.get("month");
+    if (currentMonthParam !== null) {
+      newMonth = Number(searchParams.get("month")) - 1;
+    } else {
+      newMonth = todayMonth - 1;
+    }
+    params.set("month", String(newMonth));
+    router.push(`?${params.toString()}`);
+  }, [router, searchParams, todayMonth]);
+  const handleNextMonth = useCallback(() => {
+    // パラメータのコピー
+    const params = new URLSearchParams(searchParams.toString());
+    // 新しいmonthの値(クエリあるならそれ+1　なければ現在の月+1)
+    let newMonth: number;
+    const currentMonthParam = searchParams.get("month");
+    if (currentMonthParam !== null) {
+      newMonth = Number(searchParams.get("month")) + 1;
+    } else {
+      newMonth = todayMonth + 1;
+    }
+    params.set("month", String(newMonth));
+    router.push(`?${params.toString()}`);
+  }, [router, searchParams, todayMonth]);
   const handleChangeYear = useCallback((v: string) => {
     console.log("飛び先年:", v);
   }, []);
