@@ -78,13 +78,15 @@ export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
         </TableCell>
       </TableRow>
       {/** 詳細のダイアログ */}
-      <MemoListDialog
-        id={memoItem.id}
-        title={memoItem.title}
-        tagName={memoItem.tag}
-        open={open}
-        onClose={onClose}
-      />
+      {open && (
+        <MemoListDialog
+          id={memoItem.id}
+          title={memoItem.title}
+          tagName={memoItem.tag}
+          open={open}
+          onClose={onClose}
+        />
+      )}
     </>
   );
 }

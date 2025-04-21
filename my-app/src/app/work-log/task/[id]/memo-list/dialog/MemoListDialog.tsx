@@ -153,6 +153,7 @@ export default function MemoListDialog({
                 render={({ field }) => (
                   <TextField
                     {...field}
+                    id="main-text"
                     fullWidth
                     disabled={!isEdit}
                     multiline

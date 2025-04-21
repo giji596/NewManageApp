@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 type Props = {
-  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  params: { id: string };
+  /** パスパラメータのid(ページ呼び出し時に自動的に取得) */
+  id: string;
 };
 /**
  * タスク詳細ページのカスタムフック
  */
-export default function useTaskDetailPage({ params }: Props) {
+export default function useTaskDetailPage({ id }: Props) {
   const router = useRouter();
-  console.log("ぺーじid:", params.id);
+  console.log("ぺーじid:", id);
   // TODO:でーたふぇっちさせる
   const data: TaskDetail = {
     id: 1,

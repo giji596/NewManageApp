@@ -61,6 +61,7 @@ export default function TaskEditDialog({
             render={({ field }) => (
               <TextField
                 {...field}
+                id="task-name"
                 label={"タスク名"}
                 variant="standard"
                 sx={{ "& input": { pl: 1.5 } }}
@@ -76,13 +77,15 @@ export default function TaskEditDialog({
           )}
           {!isLoading && (
             <FormControl fullWidth>
-              <InputLabel>カテゴリ名</InputLabel>
+              <InputLabel id="category-select-label">カテゴリ名</InputLabel>
               <Controller
                 name={"categoryId"}
                 control={control}
                 render={({ field }) => (
                   <Select
                     {...field}
+                    labelId="category-select-label"
+                    id="category-select"
                     label="カテゴリ名"
                     variant="standard"
                     defaultValue={1}
