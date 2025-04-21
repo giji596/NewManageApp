@@ -4,13 +4,13 @@ import { useMemo } from "react";
 
 type Props = {
   /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  params: { id: string };
+  params: { date: string };
 };
 /**
  * 日付詳細ページのパラメータ関連
  */
 export default function DailyDetailPageParams({ params }: Props) {
-  console.log("データid:", params.id);
+  console.log("データdate:", params.date);
   // TODO:でーたふぇっちする
   const rawData: DateDetailPage = {
     id: 1,

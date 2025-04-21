@@ -23,7 +23,7 @@ import dynamic from "next/dynamic";
 
 type Props = {
   /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  params: { id: string };
+  params: { date: string };
 };
 /**
  * 日付詳細ページ
