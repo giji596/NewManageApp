@@ -12,8 +12,7 @@ import useDialog from "@/hook/useDialog";
  * DailyPage
  */
 export default function DailyPage() {
-  const { itemList, isLoadingItemList, detailData, isLoadingDetail } =
-    DailyPageFetchLogic();
+  const { itemList, isLoadingItemList } = DailyPageFetchLogic();
   const {
     displayYear,
     displayMonth,
@@ -48,8 +47,6 @@ export default function DailyPage() {
       <DateDialog
         open={open}
         onClose={onClose}
-        dateDetails={detailData}
-        isLoading={isLoadingDetail}
         navigatePage={handleNavigateSelectedDay}
       />
     </>

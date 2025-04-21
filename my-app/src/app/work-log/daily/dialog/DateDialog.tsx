@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
-import { DateDetail } from "@/type/Date";
 import { format } from "date-fns";
 
 type Props = {
@@ -23,10 +22,6 @@ type Props = {
   open: boolean;
   /** ダイアログ閉じる関数 */
   onClose: () => void;
-  /** 特定の日付詳細データのダイアログ用データ */
-  dateDetails: DateDetail;
-  /** ロード状態か */
-  isLoading: boolean;
   /** ページを移動する関数 */
   navigatePage: (dateParam: string) => void;
 };
@@ -36,11 +31,12 @@ type Props = {
 export default function DateDialog({
   open,
   onClose,
-  dateDetails,
-  isLoading,
+
   navigatePage,
 }: Props) {
   const {
+    dateDetails,
+    isLoading,
     radioSelect,
     selectYear,
     selectMonth,
