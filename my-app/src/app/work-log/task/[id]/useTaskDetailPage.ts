@@ -1,6 +1,7 @@
 import { DUMMY_TASK_DETAIL_MEMO } from "@/dummy/task-page";
 import { TaskDetail } from "@/type/Task";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
  * タスク詳細ページのカスタムフック
  */
 export default function useTaskDetailPage({ params }: Props) {
+  const router = useRouter();
   console.log("ぺーじid:", params.id);
   // TODO:でーたふぇっちさせる
   const data: TaskDetail = {
@@ -51,9 +53,8 @@ export default function useTaskDetailPage({ params }: Props) {
   }, [data.id]);
 
   const navigateCategoryPage = useCallback(() => {
-    // TODO:ナビゲートさせる
-    console.log("カテゴリページへ移動 id:", categoryId);
-  }, [categoryId]);
+    router.push(`/work-log/category?id=${categoryId}`);
+  }, [categoryId, router]);
   return {
     /** ロード状態 */
     isLoading,
