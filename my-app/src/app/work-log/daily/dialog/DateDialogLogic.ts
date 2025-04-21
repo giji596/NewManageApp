@@ -27,7 +27,6 @@ type RadioSelect = (typeof RadioSelectSet)[number];
  * 日付ダイアログコンポーネントのロジック
  */
 export default function DataDialogLogic() {
-  const [open, setOpen] = useState<boolean>(false);
   const [radioSelect, setRadioSelect] = useState<RadioSelect>("昨日");
   const [selectYear, setSelectYear] = useState<number>(yesterdayYear);
   const [selectMonth, setSelectMonth] = useState<number>(yesterdayMonth);
@@ -42,13 +41,6 @@ export default function DataDialogLogic() {
     () => getDaySelectArray(selectYear, selectMonth),
     [selectMonth, selectYear]
   );
-
-  const onClose = useCallback(() => {
-    setOpen(false);
-  }, []);
-  const onOpen = useCallback(() => {
-    setOpen(true);
-  }, []);
 
   // TODO:データフェッチさせる
   const dateDetails: DateDetail = {
@@ -174,8 +166,6 @@ export default function DataDialogLogic() {
     dateDetails,
     /** ロード状態か */
     isLoading,
-    /** 開閉状態 */
-    open,
     /** ラジオボタンの選択中の値 */
     radioSelect,
     /** セレクトの年の値 */
@@ -190,11 +180,6 @@ export default function DataDialogLogic() {
     selectableMonthArray,
     /** 日の選択賜の配列 */
     selectableDayArray,
-    /** */
-    /**　ダイアログを閉じるハンドラー */
-    onClose,
-    /** ダイアログを開くハンドラー */
-    onOpen,
     /** ラジオボタンの選択をvalueの値に変更する関数 */
     onChangeRadioSelect,
     /** 年を選択した際のハンドラー */
