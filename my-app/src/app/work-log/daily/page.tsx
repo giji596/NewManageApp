@@ -44,11 +44,13 @@ export default function DailyPage() {
           isLoading={isLoadingItemList}
         />
       </Stack>
-      <DateDialog
-        open={open}
-        onClose={onClose}
-        navigatePage={handleNavigateSelectedDay}
-      />
+      {open && (
+        <DateDialog
+          open={open}
+          onClose={onClose}
+          navigatePage={handleNavigateSelectedDay}
+        />
+      )}
     </>
   );
 }
