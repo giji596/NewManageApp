@@ -23,7 +23,7 @@ export default function DailyPageNavigationLogic() {
     let newMonth: number;
     const currentMonthParam = searchParams.get("month");
     if (currentMonthParam !== null) {
-      newMonth = Number(searchParams.get("month")) - 1;
+      newMonth = Number(currentMonthParam) - 1;
     } else {
       newMonth = todayMonth - 1;
     }
@@ -37,7 +37,7 @@ export default function DailyPageNavigationLogic() {
     let newMonth: number;
     const currentMonthParam = searchParams.get("month");
     if (currentMonthParam !== null) {
-      newMonth = Number(searchParams.get("month")) + 1;
+      newMonth = Number(currentMonthParam) + 1;
     } else {
       newMonth = todayMonth + 1;
     }
