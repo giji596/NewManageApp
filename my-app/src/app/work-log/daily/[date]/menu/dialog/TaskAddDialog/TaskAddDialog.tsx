@@ -60,8 +60,11 @@ export default function TaskAddDialog({ open, onClose }: Props) {
           <Stack direction="row" spacing={1}>
             {/** セレクト*/}
             <FormControl fullWidth>
-              <InputLabel>カテゴリ名</InputLabel>
+              <InputLabel id="category-select-label">カテゴリ名</InputLabel>
               <Select
+                labelId="category-select-label"
+                id="category-select"
+                name="category-select"
                 label="カテゴリ名"
                 value={String(selectedCategoryId)}
                 onChange={onChangeSelectedCategory}
@@ -85,21 +88,38 @@ export default function TaskAddDialog({ open, onClose }: Props) {
           <Stack direction="row" spacing={1}>
             {/** セレクト */}
             <FormControl fullWidth>
-              <InputLabel>タスク名</InputLabel>
+              <InputLabel id="task-select-label">タスク名</InputLabel>
               {isLoading && (
-                <Select disabled label="タスク名" value={0}>
+                <Select
+                  disabled
+                  labelId="task-select-label"
+                  id="task-select-loading"
+                  name="task-select-loading"
+                  label="タスク名"
+                  value={0}
+                >
                   <MenuItem value={0}>
                     <CircularProgress size={22} />
                   </MenuItem>
                 </Select>
               )}
               {!isLoading && taskList.length === 0 && (
-                <Select disabled label="タスク名" value={0}>
+                <Select
+                  disabled
+                  labelId="task-select-label"
+                  id="task-select-nothing"
+                  name="task-select-nothing"
+                  label="タスク名"
+                  value={0}
+                >
                   <MenuItem value={0}>タスクがありません</MenuItem>
                 </Select>
               )}
               {!isLoading && taskList.length > 0 && (
                 <Select
+                  labelId="task-select-label"
+                  id="task-select"
+                  name="task-select"
                   label="タスク名"
                   value={String(selectedTaskId)}
                   onChange={onChangeSelectedTask}

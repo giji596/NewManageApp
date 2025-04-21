@@ -47,14 +47,19 @@ export default function MemoAddDialog({
       <form onSubmit={onSubmit}>
         <Stack spacing={1} px={2}>
           <FormControl fullWidth>
-            <InputLabel>タスクを選ぶ</InputLabel>
+            <InputLabel id="task-select-label">タスクを選ぶ</InputLabel>
             {!isTaskSelected && (
               <Controller
                 name="taskId"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Select {...field} label="タスクを選ぶ">
+                  <Select
+                    {...field}
+                    labelId="task-select-label"
+                    id="task-select"
+                    label="タスクを選ぶ"
+                  >
                     {taskList.map((task) => (
                       <MenuItem key={task.id} value={task.id}>
                         {task.name}
@@ -66,6 +71,8 @@ export default function MemoAddDialog({
             )}
             {isTaskSelected && (
               <Select
+                labelId="task-select-label"
+                id="task-select-disabled"
                 disabled
                 label="タスクを選ぶ"
                 defaultValue={taskList[0].id}
@@ -85,12 +92,17 @@ export default function MemoAddDialog({
               )}
             />
             <FormControl sx={{ width: "20%" }}>
-              <InputLabel>タグ</InputLabel>
+              <InputLabel id="tag-select-label">タグ</InputLabel>
               <Controller
                 name="tagId"
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} label="タグ">
+                  <Select
+                    {...field}
+                    labelId="tag-select-label"
+                    id="tag-select-label"
+                    label="タグ"
+                  >
                     {tagList.map((tag) => (
                       <MenuItem key={tag.id} value={tag.id}>
                         {tag.name}
@@ -107,7 +119,7 @@ export default function MemoAddDialog({
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <TextField {...field} label="本文" multiline rows={4} />
+              <TextField {...field} id="text" label="本文" multiline rows={4} />
             )}
           />
         </Stack>

@@ -89,8 +89,11 @@ export default function TaskEditDialog({
             {/** カテゴリ */}
             <Stack direction="row" spacing={1}>
               <FormControl fullWidth>
-                <InputLabel>カテゴリ</InputLabel>
+                <InputLabel id="category-select-label">カテゴリ</InputLabel>
                 <Select
+                  labelId="category-select-label"
+                  id="category-select"
+                  name="category-select"
                   value={String(categoryId)}
                   onChange={onChangeSelectCategory}
                   label="カテゴリ"
@@ -114,8 +117,11 @@ export default function TaskEditDialog({
             <Stack direction="row" spacing={1}>
               {/** セレクト */}
               <FormControl fullWidth>
-                <InputLabel>タスク</InputLabel>
+                <InputLabel id="task-select-label">タスク</InputLabel>
                 <Select
+                  labelId="task-select-label"
+                  id="task-select"
+                  name="task-select"
                   value={String(taskId)}
                   onChange={onChangeSelectTask}
                   label="タスク"
@@ -141,8 +147,11 @@ export default function TaskEditDialog({
             </Stack>
             {/** 稼働時間 */}
             <FormControl sx={{ width: "30%" }}>
-              <InputLabel>稼働時間(hour)</InputLabel>
+              <InputLabel id="hours-select-label">稼働時間(hour)</InputLabel>
               <Select
+                labelId="hours-select-label"
+                id="hours-select"
+                name="hours-select"
                 value={String(dailyHours)}
                 onChange={onChangeSelectHours}
                 label="稼働時間(hour)"
