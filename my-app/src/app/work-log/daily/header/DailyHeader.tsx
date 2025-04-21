@@ -47,8 +47,16 @@ export default function DailyHeader({
   onClickEditToday,
   onClickEditSelectDate,
 }: Props) {
-  const { monthArray, anchorEl, open, handleClosePopover, handleOpenPopover } =
-    DailyHeaderLogic();
+  const {
+    monthArray,
+    yearArray,
+    isLastRange,
+    isStartRange,
+    anchorEl,
+    open,
+    handleClosePopover,
+    handleOpenPopover,
+  } = DailyHeaderLogic({ displayYear, displayMonth });
   return (
     <>
       <Stack direction="row" justifyContent={"space-between"} p={2}>
@@ -79,6 +87,7 @@ export default function DailyHeader({
               transition: "transform 0.2s ease-in-out",
               "&:hover": { transform: "scale(1.2) translateX(-5px)" },
             }}
+            disabled={isStartRange}
             onClick={handlePrev}
             loading={isLoading}
           >
@@ -96,6 +105,7 @@ export default function DailyHeader({
               transition: "transform 0.2s ease-in-out",
               "&:hover": { transform: "scale(1.2) translateX(5px)" },
             }}
+            disabled={isLastRange}
             onClick={handleNext}
             loading={isLoading}
           >
@@ -124,14 +134,11 @@ export default function DailyHeader({
               onChange={(e) => handleYearChange(e.target.value)}
               sx={{ mb: 1 }}
             >
-              {[...Array(10)].map((_, i) => {
-                const year = 2020 + i;
-                return (
-                  <MenuItem key={year} value={year}>
-                    {year}年
-                  </MenuItem>
-                );
-              })}
+              {yearArray.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}年
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl disabled={isLoading} fullWidth variant="standard">

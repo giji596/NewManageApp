@@ -19,39 +19,59 @@ export default function DailyPageNavigationLogic() {
   const handlePrevMonth = useCallback(() => {
     // パラメータのコピー
     const params = new URLSearchParams(searchParams.toString());
-    // 新しいmonthの値(クエリあるならそれ-1　なければ現在の月-1)
+    // 新しいmonthの値
     let newMonth: number;
     const currentMonthParam = searchParams.get("month");
+    // クエリあるならそれ-1　なければ現在の月-1
     if (currentMonthParam !== null) {
       newMonth = Number(currentMonthParam) - 1;
     } else {
       newMonth = todayMonth - 1;
     }
+    // 0になる場合は年を1つ下げてmonthを12にする
+    if (newMonth === 0) {
+      const newYear = String(Number(displayYear) - 1);
+      params.set("year", newYear);
+      newMonth = 12;
+    }
     params.set("month", String(newMonth));
     router.push(`?${params.toString()}`);
-  }, [router, searchParams, todayMonth]);
+  }, [displayYear, router, searchParams, todayMonth]);
   const handleNextMonth = useCallback(() => {
     // パラメータのコピー
     const params = new URLSearchParams(searchParams.toString());
-    // 新しいmonthの値(クエリあるならそれ+1　なければ現在の月+1)
+    // 新しいmonthの値
     let newMonth: number;
     const currentMonthParam = searchParams.get("month");
+    // クエリあるならそれ+1　なければ現在の月+1
     if (currentMonthParam !== null) {
       newMonth = Number(currentMonthParam) + 1;
     } else {
       newMonth = todayMonth + 1;
     }
+    // 13になる場合は年を1つ上げてmonthを1にする
+    if (newMonth === 13) {
+      const newYear = String(Number(displayYear) + 1);
+      params.set("year", newYear);
+      newMonth = 1;
+    }
     params.set("month", String(newMonth));
     router.push(`?${params.toString()}`);
-  }, [router, searchParams, todayMonth]);
+  }, [displayYear, router, searchParams, todayMonth]);
   const handleChangeYear = useCallback(
     (v: string) => {
       // パラメータのコピー
       const params = new URLSearchParams(searchParams.toString());
       params.set("year", v);
+      // yearの値が今年の場合 -> monthが今月以降である場合monthを今月に修正する
+      if (Number(v) === todayYear) {
+        if (todayMonth < Number(displayMonth)) {
+          params.set("month", String(todayMonth));
+        }
+      }
       router.push(`?${params.toString()}`);
     },
-    [router, searchParams]
+    [displayMonth, router, searchParams, todayMonth, todayYear]
   );
   const handleChangeMonth = useCallback(
     (v: string) => {
