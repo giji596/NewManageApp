@@ -1,12 +1,14 @@
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
 import { CategoryTaskList } from "@/type/Task";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 /**
  * カテゴリページのタスク一覧のテーブルのロジック
  */
 export default function CategoryTaskTableLogic() {
+  const router = useRouter();
   const getSortTarget = useCallback(
     (
       a: CategoryTaskList,
@@ -37,10 +39,12 @@ export default function CategoryTaskTableLogic() {
     getSortTarget,
   });
 
-  const navigateToTaskDetail = useCallback((id: number) => {
-    // TODO:ページ全部つくってから繋ぎ込み
-    console.log("タスク詳細ページへ移動 id:", id);
-  }, []);
+  const navigateToTaskDetail = useCallback(
+    (id: number) => {
+      router.push(`/work-log/task/${id}`);
+    },
+    [router]
+  );
 
   return {
     /** 昇順かどうか */
