@@ -20,8 +20,8 @@ export default function DailyPageNavigationLogic() {
 
   // TODO:ページの移動を行う
   const handleNavigateToday = useCallback(() => {}, []);
-  const handleNavigateSelectedDay = useCallback((id: number) => {
-    console.log("移動先のid", id);
+  const handleNavigateSelectedDay = useCallback((dateParam: string) => {
+    console.log("移動先のdate", dateParam);
   }, []);
   return {
     /** 表示されている年 */

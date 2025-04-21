@@ -16,6 +16,7 @@ import {
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
 import { DateDetail } from "@/type/Date";
+import { format } from "date-fns";
 
 type Props = {
   /** 特定の日付詳細データのダイアログ用データ */
@@ -25,7 +26,7 @@ type Props = {
   /** ロード状態か */
   isLoading: boolean;
   /** ページを移動する関数 */
-  navigatePage: (id: number) => void;
+  navigatePage: (dateParam: string) => void;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
@@ -210,7 +211,7 @@ export default function DateDialog({
               <Button
                 onClick={() => {
                   onClose();
-                  navigatePage(dateDetails.id);
+                  navigatePage(format(dateDetails.date, "yyyy-MM-dd")); //TODO:後でこのページ修正する時にformatはロジックに入れる予定
                 }}
                 startIcon={<ArrowCircleRightIcon />}
               >
