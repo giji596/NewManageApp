@@ -13,7 +13,6 @@ export default function DailyDetailPageParams({ params }: Props) {
   console.log("データdate:", params.date);
   // TODO:でーたふぇっちする
   const rawData: DateDetailPage = {
-    id: 1,
     date: new Date(),
     taskList: [
       {

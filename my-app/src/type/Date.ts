@@ -30,8 +30,6 @@ export type DateDetail = {
 
 /** 日付の詳細データ型 */
 export type DateDetailPage = {
-  /** 識別用のid */
-  id: number;
   /** 日付 */
   date: Date;
   /** タスクの一覧 */
