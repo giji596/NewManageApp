@@ -43,12 +43,24 @@ export default function DailyPageNavigationLogic() {
     params.set("month", String(newMonth));
     router.push(`?${params.toString()}`);
   }, [router, searchParams, todayMonth]);
-  const handleChangeYear = useCallback((v: string) => {
-    console.log("飛び先年:", v);
-  }, []);
-  const handleChangeMonth = useCallback((v: string) => {
-    console.log("飛び先月:", v);
-  }, []);
+  const handleChangeYear = useCallback(
+    (v: string) => {
+      // パラメータのコピー
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("year", v);
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
+  const handleChangeMonth = useCallback(
+    (v: string) => {
+      // パラメータのコピー
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("month", v);
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
 
   // TODO:ページの移動を行う
   const handleNavigateToday = useCallback(() => {
