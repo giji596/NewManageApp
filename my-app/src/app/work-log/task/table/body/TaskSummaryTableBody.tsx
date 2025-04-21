@@ -87,13 +87,15 @@ export default function TaskSummaryTableBody({
       {/** 進捗{セレクト} */}
       <TableCell>
         <FormControl fullWidth>
-          <InputLabel>進捗</InputLabel>
+          <InputLabel id="progress-select-label">進捗</InputLabel>
           <Controller
             name="progress"
             control={control}
             render={({ field }) => (
               <Select
                 {...field}
+                labelId="progress-select-label"
+                id="progress-select"
                 onClick={(e) => e.stopPropagation()}
                 label={"進捗"}
               >

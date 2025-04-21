@@ -16,6 +16,7 @@ type Props = {
 export default function HeaderFavoriteLabel({ isChecked, onClick }: Props) {
   return (
     <Checkbox
+      id="favorite-check"
       checked={isChecked}
       onClick={onClick}
       icon={<StarBorderIcon />}
