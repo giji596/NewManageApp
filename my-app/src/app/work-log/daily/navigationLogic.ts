@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
@@ -21,7 +22,10 @@ export default function DailyPageNavigationLogic() {
   }, []);
 
   // TODO:ページの移動を行う
-  const handleNavigateToday = useCallback(() => {}, []);
+  const handleNavigateToday = useCallback(() => {
+    const todayParam = format(new Date(), "yyyy-MM-dd");
+    router.push(`/work-log/daily/${todayParam}`);
+  }, [router]);
   const handleNavigateSelectedDay = useCallback(
     (dateParam: string) => {
       router.push(`/work-log/daily/${dateParam}`);
