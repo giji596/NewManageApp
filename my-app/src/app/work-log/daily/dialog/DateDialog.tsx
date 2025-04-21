@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
-import { format } from "date-fns";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -37,6 +36,7 @@ export default function DateDialog({
   const {
     dateDetails,
     isLoading,
+    dateParams,
     radioSelect,
     selectYear,
     selectMonth,
@@ -208,7 +208,7 @@ export default function DateDialog({
               <Button
                 onClick={() => {
                   onClose();
-                  navigatePage(format(dateDetails.date, "yyyy-MM-dd")); //TODO:後でこのページ修正する時にformatはロジックに入れる予定
+                  navigatePage(dateParams);
                 }}
                 startIcon={<ArrowCircleRightIcon />}
               >

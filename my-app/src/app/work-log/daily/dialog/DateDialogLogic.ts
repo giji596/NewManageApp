@@ -12,6 +12,7 @@ import {
   yesterdayMonth,
   yesterdayYear,
 } from "./params";
+import { format } from "date-fns";
 
 /**
  * ラジオ選択賜のstringのオブジェクト
@@ -43,50 +44,52 @@ export default function DataDialogLogic() {
   );
 
   // TODO:データフェッチさせる
-  const dateDetails: DateDetail = {
-    id: 0,
-    date: new Date(),
-    categoryList: [
-      {
-        id: 0,
-        name: "カテゴリ1",
-        taskList: [
-          { id: 0, name: "タスク1", percent: "80%" },
-          { id: 1, name: "タスク2", percent: "20%" },
-        ],
-        percent: "60%",
-      },
-      {
-        id: 1,
-        name: "カテゴリ2",
-        taskList: [
-          { id: 0, name: "タスク3", percent: "80%" },
-          { id: 1, name: "タスク4", percent: "20%" },
-        ],
-        percent: "30%",
-      },
-      {
-        id: 2,
-        name: "カテゴリ3",
-        taskList: [
-          { id: 0, name: "タスク5", percent: "80%" },
-          { id: 1, name: "タスク6", percent: "20%" },
-        ],
-        percent: "10%",
-      },
-    ],
-    memoList: [
-      { id: 0, title: "メモ1" },
-      { id: 1, title: "メモ2" },
-      { id: 2, title: "メモ3" },
-      { id: 3, title: "メモ4" },
-      { id: 4, title: "メモ5" },
-      { id: 5, title: "メモ6" },
-      { id: 6, title: "メモ7" },
-      { id: 7, title: "メモ8" },
-      { id: 8, title: "メモ9" },
-    ],
-  };
+  const dateDetails: DateDetail = useMemo(() => {
+    return {
+      id: 0,
+      date: new Date(),
+      categoryList: [
+        {
+          id: 0,
+          name: "カテゴリ1",
+          taskList: [
+            { id: 0, name: "タスク1", percent: "80%" },
+            { id: 1, name: "タスク2", percent: "20%" },
+          ],
+          percent: "60%",
+        },
+        {
+          id: 1,
+          name: "カテゴリ2",
+          taskList: [
+            { id: 0, name: "タスク3", percent: "80%" },
+            { id: 1, name: "タスク4", percent: "20%" },
+          ],
+          percent: "30%",
+        },
+        {
+          id: 2,
+          name: "カテゴリ3",
+          taskList: [
+            { id: 0, name: "タスク5", percent: "80%" },
+            { id: 1, name: "タスク6", percent: "20%" },
+          ],
+          percent: "10%",
+        },
+      ],
+      memoList: [
+        { id: 0, title: "メモ1" },
+        { id: 1, title: "メモ2" },
+        { id: 2, title: "メモ3" },
+        { id: 3, title: "メモ4" },
+        { id: 4, title: "メモ5" },
+        { id: 5, title: "メモ6" },
+        { id: 6, title: "メモ7" },
+        { id: 7, title: "メモ8" },
+        { id: 8, title: "メモ9" },
+      ],
+    };
+  }, []);
   const isLoading = false;
   // TODO:データフェッチ時に詳しくは考える イメージとしてはこれが呼ばれると再度フェッチする！みたいな
   const onFetchData = useCallback(
@@ -94,6 +97,11 @@ export default function DataDialogLogic() {
       console.log(params);
     },
     []
+  );
+
+  const dateParams = useMemo(
+    () => format(dateDetails.date, "yyyy-MM-dd"),
+    [dateDetails]
   );
 
   const onChangeRadioSelect = useCallback(
@@ -166,6 +174,8 @@ export default function DataDialogLogic() {
     dateDetails,
     /** ロード状態か */
     isLoading,
+    /** Dateのパラメータ形式のstring */
+    dateParams,
     /** ラジオボタンの選択中の値 */
     radioSelect,
     /** セレクトの年の値 */
