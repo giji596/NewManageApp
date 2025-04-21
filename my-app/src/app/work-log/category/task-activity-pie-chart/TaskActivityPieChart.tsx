@@ -3,6 +3,7 @@ import { memo } from "react";
 import TaskActivityGraph from "./graph/TaskActivityGraph";
 import PeriodSelector from "./period-selector/PeriodSelector";
 import TaskActivityPieChartLogic from "./TaskActivityPieChartLogic";
+import { Stack } from "@mui/material";
 
 type Props = {
   /** カテゴリid */
@@ -24,7 +25,7 @@ const TaskActivityPieChart = memo(function TaskActivityPieChart({
     data,
   } = TaskActivityPieChartLogic({ categoryId });
   return (
-    <>
+    <Stack>
       <PeriodSelector
         selectRange={selectedRange}
         onChangeSelectRange={onChangeSelectedRange}
@@ -33,7 +34,7 @@ const TaskActivityPieChart = memo(function TaskActivityPieChart({
         getDataSelectRange={handleSetSelectedRange}
       />
       <TaskActivityGraph data={data} />
-    </>
+    </Stack>
   );
 });
 export default TaskActivityPieChart;
