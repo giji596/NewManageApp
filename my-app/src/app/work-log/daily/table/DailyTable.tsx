@@ -25,7 +25,7 @@ type Props = {
   /** ロード状態か */
   isLoading: boolean;
   /** rowをクリックした際のページナビゲーションのハンドラー */
-  onClickRow: (id: number) => void;
+  onClickRow: (dateParam: string) => void;
 };
 /**
  * 日付ページのテーブルコンポーネント
@@ -33,6 +33,7 @@ type Props = {
 export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
   const {
     dateToId,
+    dateToParam,
     isAsc,
     taskFilterList,
     categoryFilterList,
@@ -71,7 +72,7 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                   <TableRow
                     key={item.date.toISOString()}
                     hover
-                    onClick={() => onClickRow(dateToId(item.date))}
+                    onClick={() => onClickRow(dateToParam(item.date))}
                     sx={{
                       cursor: "pointer",
                     }}

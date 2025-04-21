@@ -1,9 +1,12 @@
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 /**
  * DailyPageのナビゲーション関連のロジック
  */
 export default function DailyPageNavigationLogic() {
+  const router = useRouter();
   // TODO:クエリパラメータから取得
   const displayYear = "2025";
   const displayMonth = "4";
@@ -19,10 +22,16 @@ export default function DailyPageNavigationLogic() {
   }, []);
 
   // TODO:ページの移動を行う
-  const handleNavigateToday = useCallback(() => {}, []);
-  const handleNavigateSelectedDay = useCallback((id: number) => {
-    console.log("移動先のid", id);
-  }, []);
+  const handleNavigateToday = useCallback(() => {
+    const todayParam = format(new Date(), "yyyy-MM-dd");
+    router.push(`/work-log/daily/${todayParam}`);
+  }, [router]);
+  const handleNavigateSelectedDay = useCallback(
+    (dateParam: string) => {
+      router.push(`/work-log/daily/${dateParam}`);
+    },
+    [router]
+  );
   return {
     /** 表示されている年 */
     displayYear,
