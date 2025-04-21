@@ -9,15 +9,17 @@ import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompleteConfirmDialog from "./dialog/complete-confirm/CompleteConfirmDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
+import { use } from "react";
 
 type Props = {
   /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 /**
  * タスク詳細ページ
  */
 export default function TaskDetailPage({ params }: Props) {
+  const { id } = use(params);
   const {
     isLoading,
     taskName,
@@ -32,7 +34,7 @@ export default function TaskDetailPage({ params }: Props) {
     handleComplete,
     handleDelete,
     navigateCategoryPage,
-  } = useTaskDetailPage({ params });
+  } = useTaskDetailPage({ id });
   const {
     open: openEdit,
     onClose: onCloseEdit,
