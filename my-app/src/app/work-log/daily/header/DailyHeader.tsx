@@ -50,11 +50,13 @@ export default function DailyHeader({
   const {
     monthArray,
     yearArray,
+    isLastRange,
+    isStartRange,
     anchorEl,
     open,
     handleClosePopover,
     handleOpenPopover,
-  } = DailyHeaderLogic();
+  } = DailyHeaderLogic({ displayYear, displayMonth });
   return (
     <>
       <Stack direction="row" justifyContent={"space-between"} p={2}>
@@ -85,6 +87,7 @@ export default function DailyHeader({
               transition: "transform 0.2s ease-in-out",
               "&:hover": { transform: "scale(1.2) translateX(-5px)" },
             }}
+            disabled={isStartRange}
             onClick={handlePrev}
             loading={isLoading}
           >
@@ -102,6 +105,7 @@ export default function DailyHeader({
               transition: "transform 0.2s ease-in-out",
               "&:hover": { transform: "scale(1.2) translateX(5px)" },
             }}
+            disabled={isLastRange}
             onClick={handleNext}
             loading={isLoading}
           >
