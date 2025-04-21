@@ -12,7 +12,7 @@ import CategoryPageLogic from "./logic";
 export default function CategoryPage() {
   const { selectedId, onChangeSelectedId } = CategoryPageLogic();
   return (
-    <Stack direction="row" p={1.5}>
+    <Stack direction="row" p={4}>
       {/** 左側(カテゴリ選択/期間グラフ) */}
       <Stack width="50%" justifyContent={"space-around"}>
         <CategorySelect
@@ -22,7 +22,7 @@ export default function CategoryPage() {
         <TaskActivityPieChart categoryId={selectedId} />
       </Stack>
       {/** 右側(カテゴリ内タスクリスト) */}
-      <Stack width="50%" height={500} pt={15}>
+      <Stack width="50%" height={500} pt={10}>
         <CategoryTaskList categoryId={selectedId} />
       </Stack>
     </Stack>
