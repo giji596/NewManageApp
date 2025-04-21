@@ -67,13 +67,15 @@ export default function CustomTableBody({
           </Collapse>
         </TableCell>
       </TableRow>
-      <MemoDetailDialog
-        id={memoItem.id}
-        title={memoItem.title}
-        taskName={memoItem.task.name}
-        open={open}
-        onClose={onClose}
-      />
+      {open && (
+        <MemoDetailDialog
+          id={memoItem.id}
+          title={memoItem.title}
+          taskName={memoItem.task.name}
+          open={open}
+          onClose={onClose}
+        />
+      )}
     </>
   );
 }
