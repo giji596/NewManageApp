@@ -26,9 +26,12 @@ export default function CategorySelect({
   const { categoryOptions } = CategorySelectLogic();
   return (
     <Stack direction={"row"} alignItems={"center"}>
-      <Typography>表示中のカテゴリ：</Typography>
+      <Typography id="category-select-label">表示中のカテゴリ：</Typography>
       <FormControl>
         <Select
+          labelId="category-select-label"
+          id="category-select"
+          name="category-select"
           variant="standard"
           value={String(selectedCategoryId)}
           onChange={onChangeCategoryId}

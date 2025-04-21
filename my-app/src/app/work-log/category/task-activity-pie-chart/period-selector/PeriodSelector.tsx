@@ -42,8 +42,10 @@ export default function PeriodSelector({
     <>
       <Stack direction="row">
         <FormControl>
-          <FormLabel>表示期間</FormLabel>
+          <FormLabel id="display-range-label">表示期間</FormLabel>
           <RadioGroup
+            aria-labelledby="display-range-label"
+            name="display-range"
             row
             sx={{ gap: 0.5 }}
             value={selectRange}
