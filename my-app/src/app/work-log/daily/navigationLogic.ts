@@ -8,13 +8,14 @@ import { useCallback, useMemo } from "react";
 export default function DailyPageNavigationLogic() {
   const router = useRouter();
 
-  const searchParams = useSearchParams(); // クエリパラメータ取得
+  // クエリパラメータ取得
+  const searchParams = useSearchParams();
   const todayYear = useMemo(() => new Date().getFullYear(), []);
   const todayMonth = useMemo(() => new Date().getMonth() + 1, []);
+  // クエリパラメータから表示(null時は今日の年月を表示)
   const displayYear = searchParams.get("year") ?? String(todayYear);
   const displayMonth = searchParams.get("month") ?? String(todayMonth);
 
-  // TODO:クエリパラメータを変更させる
   const handlePrevMonth = useCallback(() => {
     // パラメータのコピー
     const params = new URLSearchParams(searchParams.toString());
@@ -62,7 +63,6 @@ export default function DailyPageNavigationLogic() {
     [router, searchParams]
   );
 
-  // TODO:ページの移動を行う
   const handleNavigateToday = useCallback(() => {
     const todayParam = format(new Date(), "yyyy-MM-dd");
     router.push(`/work-log/daily/${todayParam}`);
