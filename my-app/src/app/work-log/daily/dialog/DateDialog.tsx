@@ -36,7 +36,7 @@ export default function DateDialog({
   const {
     dateDetails,
     isLoading,
-    dateParams,
+    dateParam,
     radioSelect,
     selectYear,
     selectMonth,
@@ -152,6 +152,7 @@ export default function DateDialog({
             )}
             {/** カテゴリ+タスクごとの塊 */}
             {!isLoading &&
+              dateDetails &&
               dateDetails.categoryList.map((item) => (
                 <Stack key={item.id} pb={0.5}>
                   {/* カテゴリタイトル */}
@@ -206,6 +207,7 @@ export default function DateDialog({
               )}
               {!isLoading && <Typography variant="subtitle1">メモ</Typography>}
               {!isLoading &&
+                dateDetails &&
                 dateDetails.memoList.map((item) => (
                   <Typography key={item.id} pl={4} variant="caption">
                     {item.title}
@@ -216,7 +218,7 @@ export default function DateDialog({
               <Button
                 onClick={() => {
                   onClose();
-                  navigatePage(dateParams);
+                  navigatePage(dateParam);
                 }}
                 startIcon={<ArrowCircleRightIcon />}
               >

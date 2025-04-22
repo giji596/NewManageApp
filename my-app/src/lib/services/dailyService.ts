@@ -1,6 +1,7 @@
 import { MemoSummary } from "@/type/Memo";
 import prisma from "../prisma";
-import { DateSummary } from "@/type/Date";
+import { DateSummary, DateSummaryDetail } from "@/type/Date";
+import { CategoryWithPercentage } from "@/type/Category";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -64,4 +65,88 @@ export const getDailySummaryData = async (year: number, month: number) => {
     };
   });
   return dailyData;
+};
+
+/**
+ * DailySummaryPageのDetailデータをとってくる関数
+ */
+export const getDailySummaryDetailData = async (date: Date) => {
+  const data = await prisma.dailyData.findUnique({
+    where: { date: date },
+    select: {
+      date: true,
+      logs: {
+        select: {
+          workTime: true,
+          task: {
+            select: {
+              id: true,
+              name: true,
+              category: { select: { id: true, name: true } },
+            },
+          },
+          memos: { select: { id: true, title: true } },
+        },
+      },
+    },
+  });
+  if (data) {
+    // 取得したデータをDateSummaryDetail型に変換
+    const dateSummaryDetail: DateSummaryDetail = {
+      date: data.date, // dataがあるので必ず値が取れる
+      categoryList: [],
+      memoList: [],
+    };
+
+    // logsのworkTimeを集計
+    const totalWorkTime = data.logs.reduce(
+      (total, log) => total + log.workTime,
+      0
+    );
+
+    // categoryListを作成
+    const categoryMap: Record<number, CategoryWithPercentage> = {};
+
+    data.logs.forEach((log) => {
+      const task = log.task;
+      const workTime = log.workTime;
+      const categoryId = task.category.id;
+      const categoryName = task.category.name;
+      const taskId = task.id;
+      const taskName = task.name;
+
+      // CategoryWithPercentageを作成
+      if (!categoryMap[categoryId]) {
+        categoryMap[categoryId] = {
+          id: categoryId,
+          name: categoryName,
+          taskList: [],
+          percent: "0", // 初期値
+        };
+      }
+
+      // TaskWithPercentageを作成
+      categoryMap[categoryId].taskList.push({
+        id: taskId,
+        name: taskName,
+        percent: ((workTime / totalWorkTime) * 100).toFixed(2), // パーセントを計算
+      });
+    });
+
+    // categoryListにデータをセット
+    dateSummaryDetail.categoryList = Object.values(categoryMap);
+
+    // memoListを作成
+    dateSummaryDetail.memoList = data.logs.flatMap((log) =>
+      log.memos.map((memo) => ({
+        id: memo.id,
+        title: memo.title,
+      }))
+    );
+
+    console.log(dateSummaryDetail);
+    return dateSummaryDetail;
+  }
+  console.log(data);
+  return null;
 };
