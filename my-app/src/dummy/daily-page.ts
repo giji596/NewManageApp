@@ -14,8 +14,6 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
       {
         id: 0,
         title: "メモ1",
-        date: new Date("2025-01-24"),
-        taskName: "タスク1",
       },
     ],
     dailyHours: 8,
@@ -28,8 +26,6 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
       {
         id: 0,
         title: "メモ1",
-        date: new Date("2025-01-26"),
-        taskName: "タスク2",
       },
     ],
     dailyHours: 8,
@@ -42,8 +38,6 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
       {
         id: 0,
         title: "メモ1",
-        date: new Date("2025-01-29"),
-        taskName: "タスク3",
       },
     ],
     dailyHours: 8,
@@ -56,14 +50,10 @@ export const DUMMY_DAILY_SUMMARY_DATA: DateSummary[] = [
       {
         id: 0,
         title: "メモ1",
-        date: new Date("2025-02-12"),
-        taskName: "タスク1",
       },
       {
         id: 1,
         title: "メモ2",
-        date: new Date("2025-02-12"),
-        taskName: "タスク2",
       },
     ],
     dailyHours: 8,
