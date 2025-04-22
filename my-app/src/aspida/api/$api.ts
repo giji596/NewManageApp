@@ -1,16 +1,26 @@
 import type { AspidaClient } from 'aspida';
 import { dataToURLString } from 'aspida';
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
+import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:3000' : baseURL).replace(/\/$/, '');
   const PATH0 = '/work-log/daily/summary';
+  const PATH1 = '/work-log/daily/summary/detail';
   const GET = 'GET';
 
   return {
     work_log: {
       daily: {
         summary: {
+          detail: {
+            get: (option: { query: Methods_1v3f3ur['get']['query'], config?: T | undefined }) =>
+              fetch<Methods_1v3f3ur['get']['resBody']>(prefix, PATH1, GET, option).json(),
+            $get: (option: { query: Methods_1v3f3ur['get']['query'], config?: T | undefined }) =>
+              fetch<Methods_1v3f3ur['get']['resBody']>(prefix, PATH1, GET, option).json().then(r => r.body),
+            $path: (option?: { method?: 'get' | undefined; query: Methods_1v3f3ur['get']['query'] } | undefined) =>
+              `${prefix}${PATH1}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+          },
           get: (option?: { query?: Methods_1diwgzt['get']['query'] | undefined, config?: T | undefined } | undefined) =>
             fetch<Methods_1diwgzt['get']['resBody']>(prefix, PATH0, GET, option).json(),
           $get: (option?: { query?: Methods_1diwgzt['get']['query'] | undefined, config?: T | undefined } | undefined) =>
