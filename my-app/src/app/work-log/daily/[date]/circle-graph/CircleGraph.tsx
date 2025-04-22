@@ -26,21 +26,35 @@ export default function CircleGraph({ data }: Props) {
         fill={color}
         label={getLabel}
       />
-      <Tooltip
-        content={
-          <CustomToolTipWrapper>
-            {(dataItem: DailyCategoryCircleGraph) =>
-              dataItem.task.map((item) => (
-                <CustomToolTipContent
-                  key={item.id}
-                  name={item.name}
-                  value={item.percent}
-                />
-              ))
-            }
-          </CustomToolTipWrapper>
-        }
-      />
+      {!isNoData && (
+        <Tooltip
+          content={
+            <CustomToolTipWrapper>
+              {(dataItem: DailyCategoryCircleGraph) =>
+                dataItem.task.map((item) => (
+                  <CustomToolTipContent
+                    key={item.id}
+                    name={item.name}
+                    value={item.percent}
+                  />
+                ))
+              }
+            </CustomToolTipWrapper>
+          }
+        />
+      )}
+      {isNoData && (
+        <text
+          x="50%"
+          y="50%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize={12}
+          fill="#666"
+        >
+          データがありません
+        </text>
+      )}
     </PieChart>
   );
 }
