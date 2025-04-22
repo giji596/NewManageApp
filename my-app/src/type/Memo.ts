@@ -14,12 +14,6 @@ export type MemoSummary = {
   id: number;
   /** メモのタイトル */
   title: string;
-  /** メモの日付 */
-  date: Date;
-  /** メモに関連するタスク名 */
-  taskName: string;
-  /** タグ(任意) */
-  tag?: string;
 };
 
 /** メモの詳細データの型定義 */
