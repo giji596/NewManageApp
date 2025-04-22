@@ -1,6 +1,5 @@
 import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { DateSummaryDetail } from "@/type/Date";
 import {
   dayBeforeYesterdayDate,
   dayBeforeYesterdayMonth,
@@ -13,6 +12,8 @@ import {
   yesterdayYear,
 } from "./params";
 import { format } from "date-fns";
+import useAspidaSWR from "@aspida/swr";
+import apiClient from "@/lib/apiClient";
 
 /**
  * ラジオ選択賜のstringのオブジェクト
@@ -43,53 +44,17 @@ export default function DataDialogLogic() {
     [selectMonth, selectYear]
   );
 
-  // TODO:データフェッチさせる
-  const dateDetails: DateSummaryDetail = useMemo(() => {
-    return {
-      date: new Date(),
-      categoryList: [
-        {
-          id: 0,
-          name: "カテゴリ1",
-          taskList: [
-            { id: 0, name: "タスク1", percent: "80%" },
-            { id: 1, name: "タスク2", percent: "20%" },
-          ],
-          percent: "60%",
-        },
-        {
-          id: 1,
-          name: "カテゴリ2",
-          taskList: [
-            { id: 0, name: "タスク3", percent: "80%" },
-            { id: 1, name: "タスク4", percent: "20%" },
-          ],
-          percent: "30%",
-        },
-        {
-          id: 2,
-          name: "カテゴリ3",
-          taskList: [
-            { id: 0, name: "タスク5", percent: "80%" },
-            { id: 1, name: "タスク6", percent: "20%" },
-          ],
-          percent: "10%",
-        },
-      ],
-      memoList: [
-        { id: 0, title: "メモ1" },
-        { id: 1, title: "メモ2" },
-        { id: 2, title: "メモ3" },
-        { id: 3, title: "メモ4" },
-        { id: 4, title: "メモ5" },
-        { id: 5, title: "メモ6" },
-        { id: 6, title: "メモ7" },
-        { id: 7, title: "メモ8" },
-        { id: 8, title: "メモ9" },
-      ],
-    };
-  }, []);
-  const isLoading = false;
+  const dateParam = useMemo(
+    () => `${selectYear}-${selectMonth}-${selectDay}`,
+    [selectDay, selectMonth, selectYear]
+  );
+  const { data, isLoading } = useAspidaSWR(
+    apiClient.work_log.daily.summary.detail,
+    "get",
+    { query: { date: dateParam } }
+  );
+  const dateDetails = data?.body;
+
   // TODO:データフェッチ時に詳しくは考える イメージとしてはこれが呼ばれると再度フェッチする！みたいな
   const onFetchData = useCallback(
     (params: { year?: number; month?: number; day?: number }) => {
