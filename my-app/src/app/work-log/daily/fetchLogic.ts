@@ -1,11 +1,10 @@
-import {
-  DUMMY_DAILY_CATEGORY_LIST,
-  DUMMY_DAILY_SUMMARY_DATA,
-  DUMMY_MEMO_LIST,
-} from "@/dummy/daily-page";
+import { DUMMY_DAILY_CATEGORY_LIST, DUMMY_MEMO_LIST } from "@/dummy/daily-page";
 import { useCallback, useRef } from "react";
 import { yesterdayDate, yesterdayMonth, yesterdayYear } from "./dialog/params";
 import { DateDetail } from "@/type/Date";
+import useAspidaSWR from "@aspida/swr";
+import apiClient from "@/lib/apiClient";
+import { useSearchParams } from "next/navigation";
 
 /**
  * DailyPageのフェッチ関連のロジック
@@ -14,9 +13,17 @@ export default function DailyPageFetchLogic() {
   const detailDataParams = useRef<{ year: number; month: number; day: number }>(
     { year: yesterdayYear, month: yesterdayMonth, day: yesterdayDate }
   );
+  const searchParams = useSearchParams();
+  const year = searchParams.get("year") ?? undefined;
+  const month = searchParams.get("month") ?? undefined;
   // TODO:SWRで取得
-  const itemList = DUMMY_DAILY_SUMMARY_DATA;
-  const isLoadingItemList = false;
+  const { data, isLoading: isLoadingItemList } = useAspidaSWR(
+    apiClient.work_log.daily.summary,
+    "get",
+    { query: { year, month } }
+  );
+  const itemList = data?.body ?? [];
+  console.log(itemList);
   const detailData: DateDetail = {
     /** ここのidは元データのid(ナビゲート時に使用するため必須) */
     id: 0,
