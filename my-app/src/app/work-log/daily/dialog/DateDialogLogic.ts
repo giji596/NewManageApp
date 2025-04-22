@@ -11,7 +11,6 @@ import {
   yesterdayMonth,
   yesterdayYear,
 } from "./params";
-import { format } from "date-fns";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
 
@@ -61,11 +60,6 @@ export default function DataDialogLogic() {
       console.log(params);
     },
     []
-  );
-
-  const dateParams = useMemo(
-    () => format(dateDetails.date, "yyyy-MM-dd"),
-    [dateDetails]
   );
 
   const onChangeRadioSelect = useCallback(
@@ -139,7 +133,7 @@ export default function DataDialogLogic() {
     /** ロード状態か */
     isLoading,
     /** Dateのパラメータ形式のstring */
-    dateParams,
+    dateParam,
     /** ラジオボタンの選択中の値 */
     radioSelect,
     /** セレクトの年の値 */
