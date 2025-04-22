@@ -1,5 +1,5 @@
 import { getDailySummaryData } from "@/lib/services/dailyService";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   // クエリパラメータ(またはなければ今の年月)を取得
@@ -10,5 +10,5 @@ export async function GET(req: NextRequest) {
   const month = Number(searchParams.get("month")) ?? nowMonth;
   // データを取得して返す
   const res = await getDailySummaryData(year, month);
-  return res;
+  return NextResponse.json(res);
 }
