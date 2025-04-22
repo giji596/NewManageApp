@@ -54,14 +54,6 @@ export default function DataDialogLogic() {
   );
   const dateDetails = data?.body;
 
-  // TODO:データフェッチ時に詳しくは考える イメージとしてはこれが呼ばれると再度フェッチする！みたいな
-  const onFetchData = useCallback(
-    (params: { year?: number; month?: number; day?: number }) => {
-      console.log(params);
-    },
-    []
-  );
-
   const onChangeRadioSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const target = e.target.value;
@@ -70,25 +62,16 @@ export default function DataDialogLogic() {
         // 値によって、データフェッチを行う
         switch (target) {
           case "昨日":
-            onFetchData({
-              year: yesterdayYear,
-              month: yesterdayMonth,
-              day: yesterdayDate,
-            });
+            setSelectYear(yesterdayYear);
+            setSelectMonth(yesterdayMonth);
+            setSelectDay(yesterdayDate);
             break;
           case "一昨日":
-            onFetchData({
-              year: dayBeforeYesterdayYear,
-              month: dayBeforeYesterdayMonth,
-              day: dayBeforeYesterdayDate,
-            });
+            setSelectYear(dayBeforeYesterdayYear);
+            setSelectMonth(dayBeforeYesterdayMonth);
+            setSelectDay(dayBeforeYesterdayDate);
             break;
           case "指定する":
-            onFetchData({
-              year: selectYear,
-              month: selectMonth,
-              day: selectDay,
-            });
             break;
           default:
             console.log("ターゲット外なので、どっかおかしい?");
@@ -97,35 +80,23 @@ export default function DataDialogLogic() {
         console.log("ラジオボタンに型定義外の値が与えられとる"); // FIXME:リリース時には削除
       }
     },
-    [onFetchData, selectDay, selectMonth, selectYear]
+    []
   );
 
-  const onSelectYear = useCallback(
-    (e: SelectChangeEvent) => {
-      const target = e.target.value;
-      setSelectYear(Number(target));
-      onFetchData({ year: Number(target) });
-    },
-    [onFetchData]
-  );
+  const onSelectYear = useCallback((e: SelectChangeEvent) => {
+    const target = e.target.value;
+    setSelectYear(Number(target));
+  }, []);
 
-  const onSelectMonth = useCallback(
-    (e: SelectChangeEvent) => {
-      const target = e.target.value;
-      setSelectMonth(Number(target));
-      onFetchData({ month: Number(target) });
-    },
-    [onFetchData]
-  );
+  const onSelectMonth = useCallback((e: SelectChangeEvent) => {
+    const target = e.target.value;
+    setSelectMonth(Number(target));
+  }, []);
 
-  const onSelectDay = useCallback(
-    (e: SelectChangeEvent) => {
-      const target = e.target.value;
-      setSelectDay(Number(target));
-      onFetchData({ day: Number(target) });
-    },
-    [onFetchData]
-  );
+  const onSelectDay = useCallback((e: SelectChangeEvent) => {
+    const target = e.target.value;
+    setSelectDay(Number(target));
+  }, []);
 
   return {
     /** 特定の日付詳細データのダイアログ用データ */
