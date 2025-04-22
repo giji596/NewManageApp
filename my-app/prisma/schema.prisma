@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DailyData {
+  date DateTime @unique
+  logs TaskLog[]
+}
+
+model TaskLog {
+  id Int @id @default(autoincrement())
+  taskId Int
+  task Task @relation(fields: [taskId], references: [id])
+  date DateTime
+  dailyData DailyData @relation(fields: [date], references: [date])
+  workTime Float
+  memos Memo[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  name String
+  categoryId Int
+  category Category @relation(fields: [categoryId], references: [id])
+  progress Int
+  isFavorite Boolean
+  tasks TaskLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  tasks Task[]
+}
+
+model Memo {
+  id Int @id @default(autoincrement())
+  title String
+  text String
+  taskLogId Int
+  taskLog TaskLog @relation(fields: [taskLogId], references: [id])
+  tagId Int
+  tag MemoTag @relation(fields: [tagId], references: [id])
+}
+
+model MemoTag {
+  id Int @id @default(autoincrement())
+  name String @unique
+  memos Memo[]
+}
