@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { DateDetail } from "@/type/Date";
+import { DateSummaryDetail } from "@/type/Date";
 import {
   dayBeforeYesterdayDate,
   dayBeforeYesterdayMonth,
@@ -44,9 +44,8 @@ export default function DataDialogLogic() {
   );
 
   // TODO:データフェッチさせる
-  const dateDetails: DateDetail = useMemo(() => {
+  const dateDetails: DateSummaryDetail = useMemo(() => {
     return {
-      id: 0,
       date: new Date(),
       categoryList: [
         {

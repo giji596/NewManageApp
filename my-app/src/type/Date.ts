@@ -17,9 +17,7 @@ export type DateSummary = {
 };
 
 /** 日付の詳細データ型 */
-export type DateDetail = {
-  /** 識別用のid */
-  id: number;
+export type DateSummaryDetail = {
   /** 日付 */
   date: Date;
   /** 割合つきのカテゴリリスト */
