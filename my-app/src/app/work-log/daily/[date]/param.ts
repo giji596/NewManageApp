@@ -1,5 +1,7 @@
+import apiClient from "@/lib/apiClient";
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
 import { DailyDetailTaskTableType, TaskOption } from "@/type/Task";
+import useAspidaSWR from "@aspida/swr";
 import { useMemo } from "react";
 
 type Props = {
@@ -10,91 +12,28 @@ type Props = {
  * 日付詳細ページのパラメータ関連
  */
 export default function DailyDetailPageParams({ dateParam }: Props) {
-  console.log("データdate:", dateParam);
-  // TODO:でーたふぇっちする
-  const rawData: DateDetailPage = {
-    date: new Date(),
-    taskList: [
-      {
-        id: 1,
-        task: { id: 1, name: "タスク1" },
-        category: { id: 1, name: "カテゴリー1" },
-        dailyHours: 3,
+  const { data, isLoading } = useAspidaSWR(
+    apiClient.work_log.daily._date(dateParam),
+    "get"
+  );
+  const rawData: DateDetailPage = useMemo(
+    () =>
+      data?.body ?? {
+        // dataない時は空データ渡す(一応isLoadingで表示しないようにしてるはずなのでいらないと思うけど)
+        date: new Date(dateParam),
+        taskList: [],
+        memoList: [],
       },
-      {
-        id: 2,
-        task: { id: 2, name: "タスク2" },
-        category: { id: 1, name: "カテゴリー1" },
-        dailyHours: 1,
-      },
-      {
-        id: 3,
-        task: { id: 3, name: "タスク3" },
-        category: { id: 1, name: "カテゴリー1" },
-        dailyHours: 0.8,
-      },
-      {
-        id: 4,
-        task: { id: 4, name: "タスク4" },
-        category: { id: 2, name: "カテゴリー2" },
-        dailyHours: 1.2,
-      },
-      {
-        id: 5,
-        task: { id: 5, name: "タスク5" },
-        category: { id: 2, name: "カテゴリー2" },
-        dailyHours: 0.6,
-      },
-      {
-        id: 6,
-        task: { id: 6, name: "タスク6" },
-        category: { id: 3, name: "カテゴリー3" },
-        dailyHours: 1,
-      },
-      {
-        id: 7,
-        task: { id: 7, name: "タスク7" },
-        category: { id: 3, name: "カテゴリー3" },
-        dailyHours: 0.4,
-      },
-    ],
-    memoList: [
-      {
-        id: 1,
-        title: "メモ1",
-        summary: "本文のあたまああああああああああああああ",
-        task: { id: 1, name: "タスク1" },
-      },
-      {
-        id: 2,
-        title: "メモ2",
-        summary: "本文のあたまああああああああああああああ",
-        task: { id: 2, name: "タスク2" },
-      },
-      {
-        id: 3,
-        title: "メモ3",
-        summary: "本文のあたまああああああああああああああ",
-        task: { id: 3, name: "タスク3" },
-      },
-      {
-        id: 4,
-        title: "メモ4",
-        summary: "本文のあたまああああああああああああああ",
-        task: { id: 3, name: "タスク3" },
-      },
-    ],
-  };
-
-  const isLoading = false;
+    [data?.body, dateParam]
+  );
 
   const date = rawData.date;
   const dailyHours = useMemo(
     () => rawData.taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
     [rawData.taskList]
   );
-  const taskList = rawData.taskList;
-  const taskOptions = taskList.reduce<TaskOption[]>((a, b) => {
+  const taskList = rawData?.taskList;
+  const taskOptions = taskList?.reduce<TaskOption[]>((a, b) => {
     const taskData: TaskOption = { id: b.task.id, name: b.task.name };
     a.push(taskData);
     return a;
