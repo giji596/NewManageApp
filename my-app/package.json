@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "api:build": "aspida",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
