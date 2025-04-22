@@ -3,6 +3,7 @@ import { PieChart, Pie, Tooltip } from "recharts";
 import { DailyCategoryCircleGraph } from "@/type/Date";
 import CustomToolTipWrapper from "@/component/graph/tool-chip/CustomToolTipWrapper";
 import CustomToolTipContent from "@/component/graph/tool-chip/CustomToolTipContent";
+import CircleGraphLogic from "./CircleGraphLogic";
 
 type Props = {
   /** データ */
@@ -13,18 +14,17 @@ type Props = {
  * 日付詳細 - 円グラフコンポーネント
  */
 export default function CircleGraph({ data }: Props) {
+  const { isNoData, displayData, color, getLabel } = CircleGraphLogic({ data });
   return (
     <PieChart width={500} height={300}>
       <Pie
-        data={data}
+        data={displayData}
         dataKey="value"
         cx="50%"
         cy="50%"
         outerRadius={90}
-        fill="#8884d8"
-        label={({ name, percent }) =>
-          `${name} (${(percent * 100).toFixed(1)}%)`
-        }
+        fill={color}
+        label={getLabel}
       />
       <Tooltip
         content={
