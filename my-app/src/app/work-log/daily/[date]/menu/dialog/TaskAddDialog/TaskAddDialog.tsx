@@ -37,6 +37,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
     selectedCategoryId,
     selectedTaskId,
     isNoCategory,
+    isNoTask,
     onChangeSelectedCategory,
     onChangeSelectedTask,
     handleAddDailyTask,
@@ -109,22 +110,11 @@ export default function TaskAddDialog({ open, onClose }: Props) {
               )}
               {!isLoading && taskList && (
                 <Select
-                  disabled
-                  labelId="task-select-label"
-                  id="task-select-nothing"
-                  name="task-select-nothing"
-                  label="タスク名"
-                  value={0}
-                >
-                  <MenuItem value={0}>タスクがありません</MenuItem>
-                </Select>
-              )}
-              {!isLoading && taskList && (
-                <Select
                   labelId="task-select-label"
                   id="task-select"
                   name="task-select"
                   label="タスク名"
+                  disabled={isNoTask}
                   value={String(selectedTaskId)}
                   onChange={onChangeSelectedTask}
                 >

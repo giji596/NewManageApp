@@ -42,6 +42,7 @@ export default function TaskAddDialogLogic() {
     () => selectedCategoryId === 0,
     [selectedCategoryId]
   );
+  const isNoTask = useMemo(() => selectedTaskId === 0, [selectedTaskId]);
   const onChangeSelectedCategory = useCallback(async (e: SelectChangeEvent) => {
     const newValue = e.target.value;
     setSelectedCategoryId(Number(newValue));
@@ -69,6 +70,8 @@ export default function TaskAddDialogLogic() {
     selectedTaskId,
     /** カテゴリデータがない場合(返ってくる値にid:0がある場合) カテゴリのセレクトとタスク追加ボタンのdisabled条件 */
     isNoCategory,
+    /** タスクデータがない場合(返ってくる値にid:0がある場合) タスクのセレクトのdisabled条件 */
+    isNoTask,
     /** 選択中のカテゴリーを変更する関数 */
     onChangeSelectedCategory,
     /** 選択中のタスクを変更する関数 */
