@@ -1,6 +1,9 @@
+import apiClient from "@/lib/apiClient";
 import { CategoryOption } from "@/type/Category";
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** カテゴリID */
@@ -47,17 +50,23 @@ export default function CreateTaskDialogLogic({
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       try {
-        // TODO:POSTリクエスト送る
-        console.log("でーた", data);
-        // TODO: ここでエラーハンドリング(response.okとかで)
-        if (true) {
-          onClose();
-        } else {
-          throw new Error();
-        }
+        const res = await apiClient.work_log.tasks.post({
+          body: {
+            name: data.taskName,
+            categoryId: data.categoryId,
+            isFavorite: data.isFavorite,
+          },
+        });
+        mutate("api/work-log/tasks/options");
+        onClose();
+        return res.body;
       } catch (error) {
-        // TODO:エラーの内容があらかじめ設定したものであればset
-        if (error) setDuplicateError(true);
+        if (axios.isAxiosError(error) && error.response) {
+          // エラーコードが400の場合は重複エラーであるとする
+          if (error.response.status === 400) {
+            setDuplicateError(true);
+          }
+        }
       }
     },
     [onClose]
