@@ -11,3 +11,31 @@ export const getTaskOptions = async (categoryId: number) => {
   });
   return data;
 };
+
+/**
+ * タスク作成する関数
+ */
+export const createTask = async (
+  name: string,
+  categoryId: number,
+  isFavorite: boolean
+) => {
+  // 重複チェック
+  const existing = await prisma.task.findFirst({
+    where: {
+      categoryId,
+      name,
+    },
+    select: { id: true },
+  });
+  if (existing !== null) return null;
+  // くりえーとする
+  const data: TaskOption = await prisma.task.create({
+    data: { name, categoryId, isFavorite, progress: 0 },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+  return data;
+};
