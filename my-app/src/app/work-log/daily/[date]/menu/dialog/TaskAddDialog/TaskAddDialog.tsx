@@ -62,24 +62,23 @@ export default function TaskAddDialog({ open, onClose }: Props) {
             {/** セレクト*/}
             <FormControl fullWidth>
               <InputLabel id="category-select-label">カテゴリ名</InputLabel>
-              <Select
-                labelId="category-select-label"
-                id="category-select"
-                name="category-select"
-                label="カテゴリ名"
-                disabled={isNoCategory}
-                value={String(selectedCategoryId)}
-                onChange={onChangeSelectedCategory}
-              >
-                {!isLoading &&
-                  categoryList &&
-                  selectedCategoryId &&
-                  categoryList.map((category) => (
+              {!isLoading && categoryList && selectedCategoryId !== null && (
+                <Select
+                  labelId="category-select-label"
+                  id="category-select"
+                  name="category-select"
+                  label="カテゴリ名"
+                  disabled={isNoCategory}
+                  value={String(selectedCategoryId)}
+                  onChange={onChangeSelectedCategory}
+                >
+                  {categoryList.map((category) => (
                     <MenuItem key={category.id} value={category.id}>
                       {category.name}
                     </MenuItem>
                   ))}
-              </Select>
+                </Select>
+              )}
             </FormControl>
             {/** 追加ボタン */}
             <IconButton
