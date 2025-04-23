@@ -4,6 +4,7 @@ import type { Methods as Methods_aywlos } from './work-log/categories/options';
 import type { Methods as Methods_1mf7n5w } from './work-log/daily/_date';
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
 import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
+import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:3000' : baseURL).replace(/\/$/, '');
@@ -11,6 +12,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH1 = '/work-log/daily';
   const PATH2 = '/work-log/daily/summary';
   const PATH3 = '/work-log/daily/summary/detail';
+  const PATH4 = '/work-log/tasks/options';
   const GET = 'GET';
 
   return {
@@ -51,6 +53,16 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             fetch<Methods_1diwgzt['get']['resBody']>(prefix, PATH2, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_1diwgzt['get']['query'] } | undefined) =>
             `${prefix}${PATH2}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+        },
+      },
+      tasks: {
+        options: {
+          get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH4, GET, option).json(),
+          $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH4, GET, option).json().then(r => r.body),
+          $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
+            `${prefix}${PATH4}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
       },
     },
