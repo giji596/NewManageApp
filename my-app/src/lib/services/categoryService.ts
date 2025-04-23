@@ -10,3 +10,15 @@ export const getCategoryOptions = async () => {
   });
   return data;
 };
+
+/**
+ * 新規カテゴリの作成
+ */
+export const createCategory = async (name: string) => {
+  const data = await prisma.category.create({
+    data: {
+      name,
+    },
+  });
+  return data;
+};
