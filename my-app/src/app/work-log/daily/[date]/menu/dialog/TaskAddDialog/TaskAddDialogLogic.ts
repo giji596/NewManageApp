@@ -23,14 +23,13 @@ export default function TaskAddDialogLogic() {
     apiClient.work_log.tasks.options,
     "get",
     {
-      key: "api/work-log/tasks/options",
+      key: `api/work-log/tasks/options?categoryId=${selectedCategoryId}`,
       query: { categoryId: selectedCategoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
       enabled: selectedCategoryId !== null, // カテゴリのフェッチ前にフェッチさせない
     }
   );
   const taskList = taskData?.body;
   const isLoading = isLoadingCategory || isLoadingTask;
-
   // 初期化処理(カテゴリーのデータフェッチ時)
   useEffect(() => {
     if (categoryList) {
@@ -42,7 +41,7 @@ export default function TaskAddDialogLogic() {
     if (taskList) {
       setSelectedTaskId(taskList[0].id);
     }
-  }, [categoryList, taskList]);
+  }, [taskList]);
 
   const isNoCategory = useMemo(
     () => selectedCategoryId === 0,

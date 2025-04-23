@@ -57,7 +57,7 @@ export default function CreateTaskDialogLogic({
             isFavorite: data.isFavorite,
           },
         });
-        mutate("api/work-log/tasks/options");
+        mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
         onClose();
         return res.body;
       } catch (error) {
