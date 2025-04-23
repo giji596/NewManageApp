@@ -108,7 +108,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
                   </MenuItem>
                 </Select>
               )}
-              {!isLoading && taskList && (
+              {!isLoading && taskList && selectedTaskId !== null && (
                 <Select
                   labelId="task-select-label"
                   id="task-select"
