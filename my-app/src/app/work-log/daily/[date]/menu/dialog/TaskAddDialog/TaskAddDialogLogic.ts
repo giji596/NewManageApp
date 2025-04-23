@@ -1,5 +1,6 @@
-import { CategoryOption } from "@/type/Category";
+import apiClient from "@/lib/apiClient";
 import { TaskOption } from "@/type/Task";
+import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useState } from "react";
 
@@ -8,12 +9,11 @@ import { useCallback, useState } from "react";
  */
 export default function TaskAddDialogLogic() {
   // TODO:でーたふぇっちさせる
-  const categoryList: CategoryOption[] = [
-    { id: 1, name: "カテゴリ1" },
-    { id: 2, name: "カテゴリ2" },
-    { id: 3, name: "カテゴリ3" },
-    { id: 4, name: "カテゴリ4" },
-  ];
+  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get"
+  );
+  const categoryList = categoryData?.body;
   const taskList: TaskOption[] = [
     { id: 0, name: "タスクがありません" },
     { id: 1, name: "タスク1" },
@@ -21,7 +21,7 @@ export default function TaskAddDialogLogic() {
     { id: 3, name: "タスク3" },
     { id: 4, name: "タスク4" },
   ];
-  const isLoading = false;
+  const isLoading = isLoadingCategory;
 
   // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);

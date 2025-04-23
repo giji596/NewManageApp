@@ -69,11 +69,13 @@ export default function TaskAddDialog({ open, onClose }: Props) {
                 value={String(selectedCategoryId)}
                 onChange={onChangeSelectedCategory}
               >
-                {categoryList.map((category) => (
-                  <MenuItem key={category.id} value={category.id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
+                {!isLoading &&
+                  categoryList &&
+                  categoryList.map((category) => (
+                    <MenuItem key={category.id} value={category.id}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
             {/** 追加ボタン */}
