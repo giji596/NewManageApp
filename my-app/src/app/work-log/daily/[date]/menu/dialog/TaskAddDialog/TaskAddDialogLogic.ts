@@ -23,6 +23,7 @@ export default function TaskAddDialogLogic() {
     apiClient.work_log.tasks.options,
     "get",
     {
+      key: "api/work-log/tasks/options",
       query: { categoryId: selectedCategoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
       enabled: selectedCategoryId !== null, // カテゴリのフェッチ前にフェッチさせない
     }
