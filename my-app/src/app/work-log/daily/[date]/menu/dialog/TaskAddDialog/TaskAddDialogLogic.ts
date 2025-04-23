@@ -36,7 +36,7 @@ export default function TaskAddDialogLogic() {
       setSelectedCategoryId(categoryList[0].id);
     }
   }, [categoryList]);
-  // タスク - 初期化(タスクのフェッチ時)
+  // タスク - 初期化及びカテゴリー変更時に呼び出し(keyが変更されてtaskListが更新されるため)
   useEffect(() => {
     if (taskList) {
       setSelectedTaskId(taskList[0].id);
@@ -51,7 +51,7 @@ export default function TaskAddDialogLogic() {
   const onChangeSelectedCategory = useCallback(async (e: SelectChangeEvent) => {
     const newValue = e.target.value;
     setSelectedCategoryId(Number(newValue));
-    // TODO:カテゴリー変更時にタスクを再フェッチしてその後セットさせる
+    setSelectedTaskId(null); // タスクidをnullにセットしてSelectを非表示に(再度フェッチ時に自動でidはセットされる)
   }, []);
 
   const onChangeSelectedTask = useCallback((e: SelectChangeEvent) => {
