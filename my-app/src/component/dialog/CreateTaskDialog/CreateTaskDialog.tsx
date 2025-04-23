@@ -48,19 +48,21 @@ export default function CreateTaskDialog({
           {/** カテゴリフォーム */}
           <FormControl fullWidth>
             <InputLabel>カテゴリ名</InputLabel>
-            <Controller
-              name="categoryId"
-              control={control}
-              render={({ field }) => (
-                <Select {...field} label="カテゴリ名">
-                  {categoryList.map((category) => (
-                    <MenuItem key={category.id} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-            />
+            {categoryList && (
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} label="カテゴリ名">
+                    {categoryList.map((category) => (
+                      <MenuItem key={category.id} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+            )}
           </FormControl>
           {/** タスク名のフォーム */}
           <Controller
