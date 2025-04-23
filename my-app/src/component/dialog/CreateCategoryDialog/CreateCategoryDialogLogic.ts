@@ -1,3 +1,4 @@
+import apiClient from "@/lib/apiClient";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -24,12 +25,11 @@ export default function CreateCategoryDialogLogic({ onClose }: Props) {
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       try {
-        // TODO:BEにリクエストを送る
-        console.log("新規カテゴリ", data);
-        // TODO:ここでレスポンスを検証して、必要であればエラーをthrowする
-        if (true) {
-          onClose();
-        }
+        const res = await apiClient.work_log.categories.post({
+          body: { name: data.name },
+        });
+        onClose();
+        return res.body;
       } catch (error) {
         console.log("カテゴリ作成エラー", error);
         // TODO:重複時に想定しているエラーと合致していた場合、フラグをonにする
