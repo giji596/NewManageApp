@@ -1,5 +1,4 @@
 import apiClient from "@/lib/apiClient";
-import { TaskOption } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -14,20 +13,23 @@ export default function TaskAddDialogLogic() {
     "get"
   );
   const categoryList = categoryData?.body;
-  const taskList: TaskOption[] = [
-    { id: 0, name: "タスクがありません" },
-    { id: 1, name: "タスク1" },
-    { id: 2, name: "タスク2" },
-    { id: 3, name: "タスク3" },
-    { id: 4, name: "タスク4" },
-  ];
-  const isLoading = isLoadingCategory;
 
   // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
   const [selectedTaskId, setSelectedTaskId] = useState<number>(0);
+
+  const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
+    apiClient.work_log.tasks.options,
+    "get",
+    {
+      query: { categoryId: selectedCategoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
+      enabled: selectedCategoryId !== null, // カテゴリのフェッチ前にフェッチさせない
+    }
+  );
+  const taskList = taskData?.body;
+  const isLoading = isLoadingCategory || isLoadingTask;
 
   // 初期化処理(カテゴリーのデータフェッチ時)
   useEffect(() => {

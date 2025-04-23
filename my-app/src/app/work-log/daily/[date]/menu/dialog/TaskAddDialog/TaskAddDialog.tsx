@@ -107,7 +107,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
                   </MenuItem>
                 </Select>
               )}
-              {!isLoading && taskList.length === 0 && (
+              {!isLoading && taskList && (
                 <Select
                   disabled
                   labelId="task-select-label"
@@ -119,7 +119,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
                   <MenuItem value={0}>タスクがありません</MenuItem>
                 </Select>
               )}
-              {!isLoading && taskList.length > 0 && (
+              {!isLoading && taskList && (
                 <Select
                   labelId="task-select-label"
                   id="task-select"
