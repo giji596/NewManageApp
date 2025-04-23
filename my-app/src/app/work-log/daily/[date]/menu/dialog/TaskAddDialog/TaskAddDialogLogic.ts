@@ -48,11 +48,15 @@ export default function TaskAddDialogLogic() {
     [selectedCategoryId]
   );
   const isNoTask = useMemo(() => selectedTaskId === 0, [selectedTaskId]);
-  const onChangeSelectedCategory = useCallback(async (e: SelectChangeEvent) => {
-    const newValue = e.target.value;
-    setSelectedCategoryId(Number(newValue));
-    setSelectedTaskId(null); // タスクidをnullにセットしてSelectを非表示に(再度フェッチ時に自動でidはセットされる)
-  }, []);
+  const onChangeSelectedCategory = useCallback(
+    async (e: SelectChangeEvent) => {
+      const newValue = Number(e.target.value);
+      if (newValue === selectedCategoryId) return; // 元と同じ値であれば早期return
+      setSelectedCategoryId(newValue);
+      setSelectedTaskId(null); // タスクidをnullにセットしてSelectを非表示に(再度フェッチ時に自動でidはセットされる)
+    },
+    [selectedCategoryId]
+  );
 
   const onChangeSelectedTask = useCallback((e: SelectChangeEvent) => {
     const newValue = e.target.value;
@@ -62,6 +66,7 @@ export default function TaskAddDialogLogic() {
   const handleAddDailyTask = useCallback(async () => {
     // TODO:BEにデータ送信(selectedCategoryIdとタスクのそれを送信して送る)
   }, []);
+  console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
     categoryList,
