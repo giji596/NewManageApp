@@ -1,5 +1,6 @@
 import type { AspidaClient } from 'aspida';
 import { dataToURLString } from 'aspida';
+import type { Methods as Methods_a4q315 } from './work-log/categories';
 import type { Methods as Methods_aywlos } from './work-log/categories/options';
 import type { Methods as Methods_1mf7n5w } from './work-log/daily/_date';
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
@@ -8,27 +9,34 @@ import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:3000' : baseURL).replace(/\/$/, '');
-  const PATH0 = '/work-log/categories/options';
-  const PATH1 = '/work-log/daily';
-  const PATH2 = '/work-log/daily/summary';
-  const PATH3 = '/work-log/daily/summary/detail';
-  const PATH4 = '/work-log/tasks/options';
+  const PATH0 = '/work-log/categories';
+  const PATH1 = '/work-log/categories/options';
+  const PATH2 = '/work-log/daily';
+  const PATH3 = '/work-log/daily/summary';
+  const PATH4 = '/work-log/daily/summary/detail';
+  const PATH5 = '/work-log/tasks/options';
   const GET = 'GET';
+  const POST = 'POST';
 
   return {
     work_log: {
       categories: {
         options: {
           get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_aywlos['get']['resBody']>(prefix, PATH0, GET, option).json(),
+            fetch<Methods_aywlos['get']['resBody']>(prefix, PATH1, GET, option).json(),
           $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_aywlos['get']['resBody']>(prefix, PATH0, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH0}`,
+            fetch<Methods_aywlos['get']['resBody']>(prefix, PATH1, GET, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH1}`,
         },
+        post: (option: { body: Methods_a4q315['post']['reqBody'], config?: T | undefined }) =>
+          fetch<Methods_a4q315['post']['resBody']>(prefix, PATH0, POST, option).json(),
+        $post: (option: { body: Methods_a4q315['post']['reqBody'], config?: T | undefined }) =>
+          fetch<Methods_a4q315['post']['resBody']>(prefix, PATH0, POST, option).json().then(r => r.body),
+        $path: () => `${prefix}${PATH0}`,
       },
       daily: {
         _date: (val2: number | string) => {
-          const prefix2 = `${PATH1}/${val2}`;
+          const prefix2 = `${PATH2}/${val2}`;
 
           return {
             get: (option?: { config?: T | undefined } | undefined) =>
@@ -41,28 +49,28 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         summary: {
           detail: {
             get: (option: { query: Methods_1v3f3ur['get']['query'], config?: T | undefined }) =>
-              fetch<Methods_1v3f3ur['get']['resBody']>(prefix, PATH3, GET, option).json(),
+              fetch<Methods_1v3f3ur['get']['resBody']>(prefix, PATH4, GET, option).json(),
             $get: (option: { query: Methods_1v3f3ur['get']['query'], config?: T | undefined }) =>
-              fetch<Methods_1v3f3ur['get']['resBody']>(prefix, PATH3, GET, option).json().then(r => r.body),
+              fetch<Methods_1v3f3ur['get']['resBody']>(prefix, PATH4, GET, option).json().then(r => r.body),
             $path: (option?: { method?: 'get' | undefined; query: Methods_1v3f3ur['get']['query'] } | undefined) =>
-              `${prefix}${PATH3}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+              `${prefix}${PATH4}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
           },
           get: (option?: { query?: Methods_1diwgzt['get']['query'] | undefined, config?: T | undefined } | undefined) =>
-            fetch<Methods_1diwgzt['get']['resBody']>(prefix, PATH2, GET, option).json(),
+            fetch<Methods_1diwgzt['get']['resBody']>(prefix, PATH3, GET, option).json(),
           $get: (option?: { query?: Methods_1diwgzt['get']['query'] | undefined, config?: T | undefined } | undefined) =>
-            fetch<Methods_1diwgzt['get']['resBody']>(prefix, PATH2, GET, option).json().then(r => r.body),
+            fetch<Methods_1diwgzt['get']['resBody']>(prefix, PATH3, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_1diwgzt['get']['query'] } | undefined) =>
-            `${prefix}${PATH2}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH3}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
       },
       tasks: {
         options: {
           get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH4, GET, option).json(),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH5, GET, option).json(),
           $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH4, GET, option).json().then(r => r.body),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH5, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
-            `${prefix}${PATH4}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH5}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
       },
     },
