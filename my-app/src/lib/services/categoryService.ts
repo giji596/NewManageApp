@@ -12,9 +12,19 @@ export const getCategoryOptions = async () => {
 };
 
 /**
- * 新規カテゴリの作成
+ * 新規カテゴリの作成 (重複がある場合はnullを返す)
  */
 export const createCategory = async (name: string) => {
+  // 重複チェック
+  const existingCategory = await prisma.category.findFirst({
+    where: {
+      name: name,
+    },
+  });
+  if (existingCategory) {
+    return null;
+  }
+
   const data = await prisma.category.create({
     data: {
       name,
