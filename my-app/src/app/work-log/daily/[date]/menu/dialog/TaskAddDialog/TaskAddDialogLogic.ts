@@ -15,13 +15,15 @@ export default function TaskAddDialogLogic() {
 
   const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
     apiClient.work_log.categories.options,
-    "get"
+    "get",
+    { key: "api/work-log/categories/options" }
   );
   const categoryList = categoryData?.body;
   const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
     apiClient.work_log.tasks.options,
     "get",
     {
+      key: "api/work-log/tasks/options",
       query: { categoryId: selectedCategoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
       enabled: selectedCategoryId !== null, // カテゴリのフェッチ前にフェッチさせない
     }

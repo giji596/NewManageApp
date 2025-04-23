@@ -2,6 +2,7 @@ import apiClient from "@/lib/apiClient";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** カテゴリ名 */
@@ -29,6 +30,7 @@ export default function CreateCategoryDialogLogic({ onClose }: Props) {
         const res = await apiClient.work_log.categories.post({
           body: { name: data.name },
         });
+        mutate("api/work-log/categories/options");
         onClose();
         return res.body;
       } catch (error) {
