@@ -15,7 +15,8 @@ export default function TaskAddDialogLogic() {
 
   const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
     apiClient.work_log.categories.options,
-    "get"
+    "get",
+    { key: "api/work-log/categories/options" }
   );
   const categoryList = categoryData?.body;
   const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
