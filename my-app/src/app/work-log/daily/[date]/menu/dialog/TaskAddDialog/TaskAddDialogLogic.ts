@@ -18,7 +18,7 @@ export default function TaskAddDialogLogic() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
-  const [selectedTaskId, setSelectedTaskId] = useState<number>(0);
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
   const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
     apiClient.work_log.tasks.options,
@@ -37,6 +37,12 @@ export default function TaskAddDialogLogic() {
       setSelectedCategoryId(categoryList[0].id);
     }
   }, [categoryList]);
+  // タスク - 初期化(タスクのフェッチ時)
+  useEffect(() => {
+    if (taskList) {
+      setSelectedTaskId(taskList[0].id);
+    }
+  }, [categoryList, taskList]);
 
   const isNoCategory = useMemo(
     () => selectedCategoryId === 0,
