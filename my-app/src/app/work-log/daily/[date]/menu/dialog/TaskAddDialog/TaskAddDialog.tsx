@@ -36,6 +36,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
     isLoading,
     selectedCategoryId,
     selectedTaskId,
+    isNoCategory,
     onChangeSelectedCategory,
     onChangeSelectedTask,
     handleAddDailyTask,
@@ -66,11 +67,13 @@ export default function TaskAddDialog({ open, onClose }: Props) {
                 id="category-select"
                 name="category-select"
                 label="カテゴリ名"
+                disabled={isNoCategory}
                 value={String(selectedCategoryId)}
                 onChange={onChangeSelectedCategory}
               >
                 {!isLoading &&
                   categoryList &&
+                  selectedCategoryId &&
                   categoryList.map((category) => (
                     <MenuItem key={category.id} value={category.id}>
                       {category.name}
@@ -136,6 +139,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
             </FormControl>
             {/** アイコンボタン */}
             <IconButton
+              disabled={isNoCategory}
               onClick={onOpenCreateTask}
               sx={{ width: 50, height: 50 }}
             >
@@ -164,7 +168,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
           onClose={onCloseCreateCategory}
         />
       )}
-      {openCreateTask && (
+      {openCreateTask && selectedCategoryId && (
         <CreateTaskDialog
           initialCategoryId={selectedCategoryId}
           open={openCreateTask}

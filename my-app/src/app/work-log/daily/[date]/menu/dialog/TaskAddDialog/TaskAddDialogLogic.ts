@@ -2,7 +2,7 @@ import apiClient from "@/lib/apiClient";
 import { TaskOption } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * タスク追加ダイアログのロジック
@@ -24,9 +24,22 @@ export default function TaskAddDialogLogic() {
   const isLoading = isLoadingCategory;
 
   // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   const [selectedTaskId, setSelectedTaskId] = useState<number>(0);
 
+  // 初期化処理(カテゴリーのデータフェッチ時)
+  useEffect(() => {
+    if (categoryList) {
+      setSelectedCategoryId(categoryList[0].id);
+    }
+  }, [categoryList]);
+
+  const isNoCategory = useMemo(
+    () => selectedCategoryId === 0,
+    [selectedCategoryId]
+  );
   const onChangeSelectedCategory = useCallback(async (e: SelectChangeEvent) => {
     const newValue = e.target.value;
     setSelectedCategoryId(Number(newValue));
@@ -52,6 +65,8 @@ export default function TaskAddDialogLogic() {
     selectedCategoryId,
     /** 選択中のタスクID */
     selectedTaskId,
+    /** カテゴリデータがない場合(返ってくる値にid:0がある場合) カテゴリのセレクトとタスク追加ボタンのdisabled条件 */
+    isNoCategory,
     /** 選択中のカテゴリーを変更する関数 */
     onChangeSelectedCategory,
     /** 選択中のタスクを変更する関数 */
