@@ -7,19 +7,17 @@ import { useCallback, useEffect, useMemo, useState } from "react";
  * タスク追加ダイアログのロジック
  */
 export default function TaskAddDialogLogic() {
-  // TODO:でーたふぇっちさせる
-  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
-    apiClient.work_log.categories.options,
-    "get"
-  );
-  const categoryList = categoryData?.body;
-
   // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
+  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get"
+  );
+  const categoryList = categoryData?.body;
   const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
     apiClient.work_log.tasks.options,
     "get",
