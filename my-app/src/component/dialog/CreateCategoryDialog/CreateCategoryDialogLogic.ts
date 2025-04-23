@@ -1,4 +1,5 @@
 import apiClient from "@/lib/apiClient";
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -31,10 +32,12 @@ export default function CreateCategoryDialogLogic({ onClose }: Props) {
         onClose();
         return res.body;
       } catch (error) {
-        console.log("カテゴリ作成エラー", error);
-        // TODO:重複時に想定しているエラーと合致していた場合、フラグをonにする
-        if (error) {
-          setDuplicateError(true);
+        // AxiosErrorの場合
+        if (axios.isAxiosError(error) && error.response) {
+          // エラーコードが400の場合は重複エラーであるとする
+          if (error.response.status === 400) {
+            setDuplicateError(true);
+          }
         }
       }
     },
