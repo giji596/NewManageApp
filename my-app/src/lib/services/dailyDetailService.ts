@@ -108,3 +108,14 @@ export const updateTaskLog = async (
   });
   return data;
 };
+
+/**
+ * タスクログを削除するロジック
+ */
+export const deleteTaskLog = async (id: number) => {
+  const data = await prisma.taskLog.delete({
+    where: { id },
+    select: { id: true },
+  });
+  return data;
+};
