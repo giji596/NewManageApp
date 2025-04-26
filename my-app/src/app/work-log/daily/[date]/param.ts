@@ -1,6 +1,6 @@
 import apiClient from "@/lib/apiClient";
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
-import { DailyDetailTaskTableType, TaskOption } from "@/type/Task";
+import { DailyDetailTaskTableType, TaskLogSummary } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { useMemo } from "react";
 
@@ -34,8 +34,8 @@ export default function DailyDetailPageParams({ dateParam }: Props) {
     [rawData.taskList]
   );
   const taskList = rawData?.taskList;
-  const taskOptions = taskList?.reduce<TaskOption[]>((a, b) => {
-    const taskData: TaskOption = { id: b.task.id, name: b.task.name };
+  const taskLogSummary = taskList?.reduce<TaskLogSummary[]>((a, b) => {
+    const taskData: TaskLogSummary = { id: b.id, taskName: b.task.name };
     a.push(taskData);
     return a;
   }, []);
@@ -96,7 +96,7 @@ export default function DailyDetailPageParams({ dateParam }: Props) {
     /** タスク一覧 */
     taskList,
     /** タスク一覧(タイトルのみ) */
-    taskOptions,
+    taskLogSummary,
     /** メモ一覧 */
     memoList,
     /** 円グラフのデータ */
