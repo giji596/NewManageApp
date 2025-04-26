@@ -6,10 +6,15 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
 
+type Props = {
+  /** ダイアログを閉じる関数 */
+  onClose: () => void;
+};
+
 /**
  * タスク追加ダイアログのロジック
  */
-export default function TaskAddDialogLogic() {
+export default function TaskAddDialogLogic({ onClose }: Props) {
   // パスパラメータ
   const { date } = useParams<{ date: string }>();
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
@@ -78,6 +83,7 @@ export default function TaskAddDialogLogic() {
           ._date(date)
           .task_logs.post({ body: { taskId: selectedTaskId } });
         mutate(`api/work-log/daily/${date}`); // 再検証する
+        onClose();
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -87,7 +93,7 @@ export default function TaskAddDialogLogic() {
         }
       }
     }
-  }, [date, selectedTaskId]);
+  }, [date, onClose, selectedTaskId]);
   console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
