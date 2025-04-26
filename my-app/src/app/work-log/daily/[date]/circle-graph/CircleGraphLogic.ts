@@ -20,7 +20,7 @@ export default function CircleGraphLogic({ data }: Props) {
   const color = useMemo(() => (isNoData ? "#ccc" : "#8884d8"), [isNoData]);
   const getLabel = useCallback(
     ({ name, percent }: PieLabelRenderProps) =>
-      isNoData ? undefined : `${name} (${(percent ?? 0 * 100).toFixed(1)}%)`,
+      isNoData ? undefined : `${name} (${((percent ?? 0) * 100).toFixed(1)}%)`,
     [isNoData]
   );
 
