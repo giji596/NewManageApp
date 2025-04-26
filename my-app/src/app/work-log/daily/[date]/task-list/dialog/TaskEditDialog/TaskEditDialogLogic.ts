@@ -76,10 +76,20 @@ export default function TaskEditDialogLogic({
     setDailyHours(Number(target));
   }, []);
 
-  // TODO:バックエンドに送信
-  const handleSave = useCallback(() => {
-    console.log("せーぶ！ id:", itemId);
-  }, [itemId]);
+  const handleSave = useCallback(async () => {
+    // 各stateの値について、初期値と一緒なら処理に含めない
+    const body: Record<string, number> = {};
+    if (initialValues.current.dailyHours !== dailyHours)
+      body.workTime = dailyHours;
+    if (initialValues.current.taskId !== taskId && taskId !== null)
+      body.taskId = taskId;
+    console.log(body);
+    // bodyで必要な値だけ渡す
+    await apiClient.work_log.daily
+      ._date(date)
+      .task_logs._id(itemId)
+      .patch({ body: body });
+  }, [dailyHours, date, itemId, taskId]);
   const handleDelete = useCallback(() => {
     console.log("さくじょ！ id:", itemId);
   }, [itemId]);
