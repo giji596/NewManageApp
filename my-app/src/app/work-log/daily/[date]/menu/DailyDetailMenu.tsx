@@ -6,7 +6,7 @@ import useDialog from "@/hook/useDialog";
 import TaskAddDialog from "./dialog/TaskAddDialog/TaskAddDialog";
 import MemoAddDialog from "./dialog/MemoAddDialog/MemoAddDialog";
 import DailyDetailMenuLogic from "./DailyDetailMenuLogic";
-import { TaskOption } from "@/type/Task";
+import { TaskLogSummary } from "@/type/Task";
 
 type Props = {
   /** 対象の日付データ */
@@ -14,7 +14,7 @@ type Props = {
   /** 稼働時間 */
   dailyHours: number;
   /** タスクの一覧(メモで使う) */
-  taskList: TaskOption[];
+  taskList: TaskLogSummary[];
 };
 
 /**

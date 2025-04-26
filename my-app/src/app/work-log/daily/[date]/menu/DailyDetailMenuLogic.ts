@@ -1,4 +1,4 @@
-import { TaskOption } from "@/type/Task";
+import { TaskLogSummary } from "@/type/Task";
 import { format } from "date-fns";
 import { useMemo } from "react";
 
@@ -8,7 +8,7 @@ type Props = {
   /** 稼働時間 */
   dailyHours: number;
   /** タスクの一覧 */
-  taskList: TaskOption[];
+  taskList: TaskLogSummary[];
 };
 
 /**

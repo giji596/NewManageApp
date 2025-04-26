@@ -1,6 +1,6 @@
 import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
-import { TaskOption } from "@/type/Task";
+import { TaskLogSummary } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,7 @@ type SubmitData = {
 
 type Props = {
   /** タスクの一覧 */
-  taskList: TaskOption[];
+  taskList: TaskLogSummary[];
   /** ダイアログを閉じる関数 */
   onClose: () => void;
 };
