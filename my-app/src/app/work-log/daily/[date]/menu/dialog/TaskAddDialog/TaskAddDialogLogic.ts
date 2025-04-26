@@ -60,6 +60,7 @@ export default function TaskAddDialogLogic() {
       if (newValue === selectedCategoryId) return; // 元と同じ値であれば早期return
       setSelectedCategoryId(newValue);
       setSelectedTaskId(null); // タスクidをnullにセットしてSelectを非表示に(再度フェッチ時に自動でidはセットされる)
+      setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
     },
     [selectedCategoryId]
   );
@@ -67,6 +68,7 @@ export default function TaskAddDialogLogic() {
   const onChangeSelectedTask = useCallback((e: SelectChangeEvent) => {
     const newValue = e.target.value;
     setSelectedTaskId(Number(newValue));
+    setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
   }, []);
 
   const handleAddDailyTask = useCallback(async () => {
