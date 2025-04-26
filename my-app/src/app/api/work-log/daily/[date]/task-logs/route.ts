@@ -1,5 +1,5 @@
 import { createDailyDetailData } from "@/lib/services/dailyDetailService";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
   req: NextRequest,
@@ -11,5 +11,5 @@ export async function POST(
     taskId: number;
   };
   const data = await createDailyDetailData(date, taskId);
-  return { newId: data.id };
+  return NextResponse.json({ newId: data.id });
 }
