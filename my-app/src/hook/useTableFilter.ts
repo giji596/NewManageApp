@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
   /** 初期値のフィルターリスト */
@@ -10,9 +10,12 @@ type Props = {
  * @param initialFilterList:Record<string,boolean> key:対象名 value:フィルター対象か　形式の選択対象のリスト(valueは基本的に初期値falseで)
  */
 export default function useTableFilter({ initialFilterList }: Props) {
-  const [filterList, setFilterList] = useState<Record<string, boolean>>(
-    () => initialFilterList
-  );
+  const [filterList, setFilterList] =
+    useState<Record<string, boolean>>(initialFilterList);
+  // リスト更新時に再取得するようにする
+  useEffect(() => {
+    setFilterList(initialFilterList);
+  }, [initialFilterList]);
 
   // フィルターリストのチェックのOnOffを切り替える関数
   const toggleFilterCheckBox = useCallback(
