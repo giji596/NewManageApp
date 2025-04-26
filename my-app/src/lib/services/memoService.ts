@@ -42,3 +42,17 @@ export const getMemoBody = async (id: number) => {
   });
   return data;
 };
+
+/**
+ * メモを更新するメソッド
+ */
+export const updateMemo = async (id: number, text: string) => {
+  const data = await prisma.memo.update({
+    where: { id },
+    data: {
+      text,
+    },
+    select: { id: true },
+  });
+  return data;
+};
