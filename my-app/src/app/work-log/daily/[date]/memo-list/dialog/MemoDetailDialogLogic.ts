@@ -1,3 +1,5 @@
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -17,10 +19,12 @@ type Props = {
  * メモの詳細を表示するダイアログのロジック
  */
 export default function MemoDetailDialogLogic({ id, onClose }: Props) {
-  // TODO:idを使ってデータフェッチ
-  const text =
-    "本文の文章をなんかかいて、それがまとめて渡されるあああ、えええ、っっっでええあえふぁ";
-  const isLoading = id ? false : true;
+  const { data, isLoading } = useAspidaSWR(
+    apiClient.work_log.memos._id(id).body,
+    "get",
+    { key: `api/work-log/memos/${id}/body` }
+  );
+  const text = data?.body.text;
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -30,10 +34,10 @@ export default function MemoDetailDialogLogic({ id, onClose }: Props) {
   });
   // ロード完了時にsetValueで初期値をセットする
   useEffect(() => {
-    if (!isLoading) {
+    if (text) {
       setValue("text", text);
     }
-  }, [isLoading, setValue]);
+  }, [setValue, text]);
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
