@@ -6,6 +6,7 @@ import type { Methods as Methods_1mf7n5w } from './work-log/daily/_date';
 import type { Methods as Methods_1tcwjyk } from './work-log/daily/_date/task-logs';
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
 import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
+import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
 import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
 
@@ -17,8 +18,9 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH3 = '/task-logs';
   const PATH4 = '/work-log/daily/summary';
   const PATH5 = '/work-log/daily/summary/detail';
-  const PATH6 = '/work-log/tasks';
-  const PATH7 = '/work-log/tasks/options';
+  const PATH6 = '/work-log/memos/tags';
+  const PATH7 = '/work-log/tasks';
+  const PATH8 = '/work-log/tasks/options';
   const GET = 'GET';
   const POST = 'POST';
 
@@ -74,20 +76,29 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             `${prefix}${PATH4}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
       },
+      memos: {
+        tags: {
+          get: (option?: { config?: T | undefined } | undefined) =>
+            fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH6, GET, option).json(),
+          $get: (option?: { config?: T | undefined } | undefined) =>
+            fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH6, GET, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH6}`,
+        },
+      },
       tasks: {
         options: {
           get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH7, GET, option).json(),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH8, GET, option).json(),
           $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH7, GET, option).json().then(r => r.body),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH8, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
-            `${prefix}${PATH7}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH8}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
         post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH6, POST, option).json(),
+          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH7, POST, option).json(),
         $post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH6, POST, option).json().then(r => r.body),
-        $path: () => `${prefix}${PATH6}`,
+          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH7, POST, option).json().then(r => r.body),
+        $path: () => `${prefix}${PATH7}`,
       },
     },
   };
