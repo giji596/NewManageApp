@@ -93,3 +93,11 @@ export type MainPageTaskTable = {
   /** 進捗(XX%の表示形式のstring) */
   progress: string;
 };
+
+/** タスクのログidと名称の型定義 */
+export type TaskLogSummary = {
+  /** タスクログのid */
+  id: number;
+  /** タスク名 */
+  taskName: string;
+};
