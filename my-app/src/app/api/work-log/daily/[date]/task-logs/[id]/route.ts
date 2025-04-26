@@ -1,4 +1,7 @@
-import { updateTaskLog } from "@/lib/services/dailyDetailService";
+import {
+  deleteTaskLog,
+  updateTaskLog,
+} from "@/lib/services/dailyDetailService";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -12,5 +15,15 @@ export async function PATCH(
     workTime?: number;
   };
   const res = await updateTaskLog(id, taskId, workTime);
+  return NextResponse.json(res);
+}
+
+export async function DELETE(
+  _: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id: idParam } = await params;
+  const id = Number(idParam);
+  const res = await deleteTaskLog(id);
   return NextResponse.json(res);
 }
