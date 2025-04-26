@@ -2,8 +2,10 @@ import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
 import { TaskLogSummary } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
+import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** タスクログid */
@@ -26,6 +28,7 @@ type Props = {
  * メモ追加ダイアログコンポーネントのロジック
  */
 export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
+  const { date } = useParams<{ date: string }>();
   const { data } = useAspidaSWR(apiClient.work_log.memos.tags, "get", {
     key: "api/work-log/memos/tags",
   });
@@ -59,9 +62,10 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
         };
       }
       await apiClient.work_log.memos.post({ body: newData });
+      mutate(`api/work-log/daily/${date}`);
       onClose();
     },
-    [onClose]
+    [date, onClose]
   );
   return {
     /** タスクの一覧 */
