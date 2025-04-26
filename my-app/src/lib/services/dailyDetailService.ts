@@ -69,3 +69,13 @@ export const getDailyDetailData = async (date: Date) => {
     memoList,
   };
 };
+
+/**
+ * 日付詳細 - タスク追加ダイアログによる追加時のロジック
+ */
+export const createDailyDetailData = async (date: Date, taskId: number) => {
+  const data = await prisma.taskLog.create({
+    data: { taskId, date, workTime: 0 },
+  });
+  return data;
+};
