@@ -56,3 +56,14 @@ export const updateMemo = async (id: number, text: string) => {
   });
   return data;
 };
+
+/**
+ * メモを削除するメソッド
+ */
+export const deleteMemo = async (id: number) => {
+  const data = await prisma.memo.delete({
+    where: { id },
+    select: { id: true },
+  });
+  return data;
+};
