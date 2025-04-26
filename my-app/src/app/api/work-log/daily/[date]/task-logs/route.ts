@@ -11,5 +11,7 @@ export async function POST(
     taskId: number;
   };
   const data = await createDailyDetailData(date, taskId);
+  if (data === null)
+    return NextResponse.json({ error: "duplicate error" }, { status: 400 });
   return NextResponse.json({ newId: data.id });
 }

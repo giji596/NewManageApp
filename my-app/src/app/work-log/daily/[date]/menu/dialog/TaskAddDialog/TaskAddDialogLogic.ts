@@ -1,6 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
+import axios from "axios";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
@@ -11,6 +12,7 @@ import { mutate } from "swr";
 export default function TaskAddDialogLogic() {
   // パスパラメータ
   const { date } = useParams<{ date: string }>();
+  const [duplicateError, setDuplicateError] = useState<boolean>(false);
   // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -58,6 +60,7 @@ export default function TaskAddDialogLogic() {
       if (newValue === selectedCategoryId) return; // 元と同じ値であれば早期return
       setSelectedCategoryId(newValue);
       setSelectedTaskId(null); // タスクidをnullにセットしてSelectを非表示に(再度フェッチ時に自動でidはセットされる)
+      setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
     },
     [selectedCategoryId]
   );
@@ -65,6 +68,7 @@ export default function TaskAddDialogLogic() {
   const onChangeSelectedTask = useCallback((e: SelectChangeEvent) => {
     const newValue = e.target.value;
     setSelectedTaskId(Number(newValue));
+    setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
   }, []);
 
   const handleAddDailyTask = useCallback(async () => {
@@ -76,8 +80,12 @@ export default function TaskAddDialogLogic() {
         mutate(`api/work-log/daily/${date}`); // 再検証する
       }
     } catch (error) {
-      // TODO:エラー時の処理
-      console.log(error);
+      if (axios.isAxiosError(error) && error.response) {
+        // エラーコードが400の場合は重複エラーであるとする
+        if (error.response.status === 400) {
+          setDuplicateError(true);
+        }
+      }
     }
   }, [date, selectedTaskId]);
   console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
@@ -88,6 +96,8 @@ export default function TaskAddDialogLogic() {
     taskList,
     /** ロード状態 */
     isLoading,
+    /** 重複エラー */
+    duplicateError,
     /** 選択中のカテゴリID */
     selectedCategoryId,
     /** 選択中のタスクID */
