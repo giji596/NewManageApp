@@ -1,7 +1,8 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -23,6 +24,13 @@ export default function TaskEditDialogLogic({
   initialTaskId,
   initialHours,
 }: Props) {
+  // ぱらめーた
+  const { date } = useParams<{ date: string }>();
+  // 初期値保存(更新処理時に比較に仕様)
+  const initialValues = useRef<{ taskId: number; dailyHours: number }>({
+    taskId: initialTaskId,
+    dailyHours: initialHours,
+  });
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
   const [taskId, setTaskId] = useState<number | null>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
