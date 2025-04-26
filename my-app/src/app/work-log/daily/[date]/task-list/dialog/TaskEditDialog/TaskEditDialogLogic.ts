@@ -1,5 +1,5 @@
-import { CategoryOption } from "@/type/Category";
-import { TaskOption } from "@/type/Task";
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import { useCallback, useState } from "react";
 
@@ -27,22 +27,22 @@ export default function TaskEditDialogLogic({
   const [taskId, setTaskId] = useState<number>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
-
-  // TODO:データフェッチ行う
-  const categoryList: CategoryOption[] = [
-    { id: 1, name: "カテゴリ1" },
-    { id: 2, name: "カテゴリ2" },
-    { id: 3, name: "カテゴリ3" },
-  ];
-  const taskList: TaskOption[] = [
-    { id: 0, name: "未選択" },
-    { id: 1, name: "タスク1" },
-    { id: 2, name: "タスク2" },
-    { id: 3, name: "タスク3" },
-    { id: 4, name: "タスク4" },
-    { id: 5, name: "タスク5" },
-    { id: 6, name: "タスク6" },
-  ];
+  const { data: categoryData } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get",
+    { key: "api/work-log/categories/options" }
+  );
+  const categoryList = categoryData?.body;
+  const { data: taskData } = useAspidaSWR(
+    apiClient.work_log.tasks.options,
+    "get",
+    {
+      key: `api/work-log/tasks/options?categoryId=${categoryId}`,
+      query: { categoryId: categoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
+      enabled: categoryId !== null, // カテゴリのフェッチ前にフェッチさせない
+    }
+  );
+  const taskList = taskData?.body;
   const onChangeSelectCategory = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
     setCategoryId(Number(target));
