@@ -86,3 +86,25 @@ export const createDailyDetailData = async (date: Date, taskId: number) => {
   });
   return data;
 };
+
+/**
+ * 日付詳細 - 特定のログの更新する時のロジック
+ */
+export const updateTaskLog = async (
+  id: number,
+  taskId?: number,
+  workTime?: number
+) => {
+  const data = await prisma.taskLog.update({
+    where: { id },
+    data: {
+      // undefinedの場合は更新対象から除く
+      ...(taskId !== undefined && { taskId }),
+      ...(workTime !== undefined && { workTime }),
+    },
+    select: {
+      id: true,
+    },
+  });
+  return data;
+};
