@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import { CategoryOption } from "@/type/Category";
+import useAspidaSWR from "@aspida/swr";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,12 +29,10 @@ export default function CreateTaskDialogLogic({
   onClose,
 }: Props) {
   // TODO:でーたふぇっちさせる
-  const categoryList: CategoryOption[] = [
-    { id: 1, name: "カテゴリ1" },
-    { id: 2, name: "カテゴリ2" },
-    { id: 3, name: "カテゴリ3" },
-    { id: 4, name: "カテゴリ4" },
-  ];
+  const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
+    key: "api/work-log/categories/options",
+  });
+  const categoryList = data?.body;
   const {
     control,
     handleSubmit,
@@ -57,7 +55,7 @@ export default function CreateTaskDialogLogic({
             isFavorite: data.isFavorite,
           },
         });
-        mutate("api/work-log/tasks/options");
+        mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
         onClose();
         return res.body;
       } catch (error) {

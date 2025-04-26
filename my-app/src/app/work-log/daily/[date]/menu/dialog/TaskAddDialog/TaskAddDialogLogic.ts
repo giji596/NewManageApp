@@ -23,37 +23,40 @@ export default function TaskAddDialogLogic() {
     apiClient.work_log.tasks.options,
     "get",
     {
-      key: "api/work-log/tasks/options",
+      key: `api/work-log/tasks/options?categoryId=${selectedCategoryId}`,
       query: { categoryId: selectedCategoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
       enabled: selectedCategoryId !== null, // カテゴリのフェッチ前にフェッチさせない
     }
   );
   const taskList = taskData?.body;
   const isLoading = isLoadingCategory || isLoadingTask;
-
   // 初期化処理(カテゴリーのデータフェッチ時)
   useEffect(() => {
     if (categoryList) {
       setSelectedCategoryId(categoryList[0].id);
     }
   }, [categoryList]);
-  // タスク - 初期化(タスクのフェッチ時)
+  // タスク - 初期化及びカテゴリー変更時に呼び出し(keyが変更されてtaskListが更新されるため)
   useEffect(() => {
     if (taskList) {
       setSelectedTaskId(taskList[0].id);
     }
-  }, [categoryList, taskList]);
+  }, [taskList]);
 
   const isNoCategory = useMemo(
     () => selectedCategoryId === 0,
     [selectedCategoryId]
   );
   const isNoTask = useMemo(() => selectedTaskId === 0, [selectedTaskId]);
-  const onChangeSelectedCategory = useCallback(async (e: SelectChangeEvent) => {
-    const newValue = e.target.value;
-    setSelectedCategoryId(Number(newValue));
-    // TODO:カテゴリー変更時にタスクを再フェッチしてその後セットさせる
-  }, []);
+  const onChangeSelectedCategory = useCallback(
+    async (e: SelectChangeEvent) => {
+      const newValue = Number(e.target.value);
+      if (newValue === selectedCategoryId) return; // 元と同じ値であれば早期return
+      setSelectedCategoryId(newValue);
+      setSelectedTaskId(null); // タスクidをnullにセットしてSelectを非表示に(再度フェッチ時に自動でidはセットされる)
+    },
+    [selectedCategoryId]
+  );
 
   const onChangeSelectedTask = useCallback((e: SelectChangeEvent) => {
     const newValue = e.target.value;
@@ -63,6 +66,7 @@ export default function TaskAddDialogLogic() {
   const handleAddDailyTask = useCallback(async () => {
     // TODO:BEにデータ送信(selectedCategoryIdとタスクのそれを送信して送る)
   }, []);
+  console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
     categoryList,
