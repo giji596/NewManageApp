@@ -49,6 +49,7 @@ export default function TaskEditDialog({
     dailyHours,
     unSelected,
     taskList,
+    isTaskSelectAvailable,
     categoryList,
     onChangeSelectCategory,
     onChangeSelectTask,
@@ -90,20 +91,22 @@ export default function TaskEditDialog({
             <Stack direction="row" spacing={1}>
               <FormControl fullWidth>
                 <InputLabel id="category-select-label">カテゴリ</InputLabel>
-                <Select
-                  labelId="category-select-label"
-                  id="category-select"
-                  name="category-select"
-                  value={String(categoryId)}
-                  onChange={onChangeSelectCategory}
-                  label="カテゴリ"
-                >
-                  {categoryList.map((cat) => (
-                    <MenuItem key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                {categoryList && (
+                  <Select
+                    labelId="category-select-label"
+                    id="category-select"
+                    name="category-select"
+                    value={String(categoryId)}
+                    onChange={onChangeSelectCategory}
+                    label="カテゴリ"
+                  >
+                    {categoryList.map((cat) => (
+                      <MenuItem key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
               </FormControl>
               {/** アイコンボタン */}
               <IconButton
@@ -118,24 +121,26 @@ export default function TaskEditDialog({
               {/** セレクト */}
               <FormControl fullWidth>
                 <InputLabel id="task-select-label">タスク</InputLabel>
-                <Select
-                  labelId="task-select-label"
-                  id="task-select"
-                  name="task-select"
-                  value={String(taskId)}
-                  onChange={onChangeSelectTask}
-                  label="タスク"
-                >
-                  {taskList.map((task) => (
-                    <MenuItem
-                      key={task.id}
-                      value={task.id}
-                      disabled={task.id == 0}
-                    >
-                      {task.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                {isTaskSelectAvailable && (
+                  <Select
+                    labelId="task-select-label"
+                    id="task-select"
+                    name="task-select"
+                    value={String(taskId)}
+                    onChange={onChangeSelectTask}
+                    label="タスク"
+                  >
+                    {taskList!.map((task) => (
+                      <MenuItem
+                        key={task.id}
+                        value={task.id}
+                        disabled={task.id == 0}
+                      >
+                        {task.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
               </FormControl>
               {/** アイコンボタン */}
               <IconButton

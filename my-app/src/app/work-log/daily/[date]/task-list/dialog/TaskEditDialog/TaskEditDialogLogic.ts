@@ -1,7 +1,7 @@
-import { CategoryOption } from "@/type/Category";
-import { TaskOption } from "@/type/Task";
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -24,29 +24,38 @@ export default function TaskEditDialogLogic({
   initialHours,
 }: Props) {
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
-  const [taskId, setTaskId] = useState<number>(initialTaskId);
+  const [taskId, setTaskId] = useState<number | null>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
-
-  // TODO:データフェッチ行う
-  const categoryList: CategoryOption[] = [
-    { id: 1, name: "カテゴリ1" },
-    { id: 2, name: "カテゴリ2" },
-    { id: 3, name: "カテゴリ3" },
-  ];
-  const taskList: TaskOption[] = [
-    { id: 0, name: "未選択" },
-    { id: 1, name: "タスク1" },
-    { id: 2, name: "タスク2" },
-    { id: 3, name: "タスク3" },
-    { id: 4, name: "タスク4" },
-    { id: 5, name: "タスク5" },
-    { id: 6, name: "タスク6" },
-  ];
+  const { data: categoryData } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get",
+    { key: "api/work-log/categories/options" }
+  );
+  const categoryList = categoryData?.body;
+  const { data: taskData } = useAspidaSWR(
+    apiClient.work_log.tasks.options,
+    "get",
+    {
+      key: `api/work-log/tasks/options?categoryId=${categoryId}`,
+      query: { categoryId: categoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
+      enabled: categoryId !== null, // カテゴリのフェッチ前にフェッチさせない
+    }
+  );
+  const taskList = taskData?.body;
+  useEffect(() => {
+    if (taskList) {
+      setTaskId(taskList[0].id);
+    }
+  }, [taskList]);
+  const isTaskSelectAvailable = useMemo(
+    () => taskList && taskList.some((v) => v.id === taskId),
+    [taskId, taskList]
+  );
   const onChangeSelectCategory = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
     setCategoryId(Number(target));
-    setTaskId(0);
+    setTaskId(null);
   }, []);
 
   const onChangeSelectTask = useCallback((e: SelectChangeEvent) => {
@@ -79,6 +88,8 @@ export default function TaskEditDialogLogic({
     categoryList,
     /** タスク一覧(カテゴリを変更時には再度取得する必要あり) */
     taskList,
+    /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */
+    isTaskSelectAvailable,
     /** 選択したカテゴリーに変更するハンドラー */
     onChangeSelectCategory,
     /** 選択したタスクに変更するハンドラー */
