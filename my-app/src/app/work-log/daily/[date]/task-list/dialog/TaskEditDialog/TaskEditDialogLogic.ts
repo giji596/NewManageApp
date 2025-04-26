@@ -1,7 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -48,6 +48,10 @@ export default function TaskEditDialogLogic({
       setTaskId(taskList[0].id);
     }
   }, [taskList]);
+  const isTaskSelectAvailable = useMemo(
+    () => taskList && taskList.some((v) => v.id === taskId),
+    [taskId, taskList]
+  );
   const onChangeSelectCategory = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
     setCategoryId(Number(target));
@@ -84,6 +88,8 @@ export default function TaskEditDialogLogic({
     categoryList,
     /** タスク一覧(カテゴリを変更時には再度取得する必要あり) */
     taskList,
+    /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */
+    isTaskSelectAvailable,
     /** 選択したカテゴリーに変更するハンドラー */
     onChangeSelectCategory,
     /** 選択したタスクに変更するハンドラー */

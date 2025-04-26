@@ -49,6 +49,7 @@ export default function TaskEditDialog({
     dailyHours,
     unSelected,
     taskList,
+    isTaskSelectAvailable,
     categoryList,
     onChangeSelectCategory,
     onChangeSelectTask,
@@ -120,7 +121,7 @@ export default function TaskEditDialog({
               {/** セレクト */}
               <FormControl fullWidth>
                 <InputLabel id="task-select-label">タスク</InputLabel>
-                {taskList && (
+                {isTaskSelectAvailable && (
                   <Select
                     labelId="task-select-label"
                     id="task-select"
@@ -129,7 +130,7 @@ export default function TaskEditDialog({
                     onChange={onChangeSelectTask}
                     label="タスク"
                   >
-                    {taskList.map((task) => (
+                    {taskList!.map((task) => (
                       <MenuItem
                         key={task.id}
                         value={task.id}
