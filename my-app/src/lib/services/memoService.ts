@@ -29,3 +29,16 @@ export const getMemoTags = async () => {
   const data = await prisma.memoTag.findMany();
   return data;
 };
+
+/**
+ * メモのbody部分を取得するメソッド
+ */
+export const getMemoBody = async (id: number) => {
+  const data = await prisma.memo.findUnique({
+    where: { id: id },
+    select: {
+      text: true,
+    },
+  });
+  return data;
+};
