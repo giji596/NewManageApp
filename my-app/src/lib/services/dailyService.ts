@@ -41,9 +41,12 @@ export const getDailySummaryData = async (year: number, month: number) => {
     const logs = daily.logs;
 
     // 最も時間をかけたタスクを見つける
-    const mainTask = logs.reduce((prev, current) => {
-      return prev.workTime > current.workTime ? prev : current;
-    });
+    const mainTask = logs.reduce(
+      (prev, current) => {
+        return prev.workTime > current.workTime ? prev : current;
+      },
+      { workTime: -1, task: { name: "", category: { name: "" } }, memos: [] }
+    );
 
     // メインカテゴリ（最も時間をかけたタスクのカテゴリ）
     const categoryName = mainTask.task.category.name;
