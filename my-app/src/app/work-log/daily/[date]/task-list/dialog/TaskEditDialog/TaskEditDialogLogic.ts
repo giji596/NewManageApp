@@ -1,7 +1,9 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { mutate } from "swr";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -23,6 +25,13 @@ export default function TaskEditDialogLogic({
   initialTaskId,
   initialHours,
 }: Props) {
+  // ぱらめーた
+  const { date } = useParams<{ date: string }>();
+  // 初期値保存(更新処理時に比較に仕様)
+  const initialValues = useRef<{ taskId: number; dailyHours: number }>({
+    taskId: initialTaskId,
+    dailyHours: initialHours,
+  });
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
   const [taskId, setTaskId] = useState<number | null>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
@@ -68,10 +77,20 @@ export default function TaskEditDialogLogic({
     setDailyHours(Number(target));
   }, []);
 
-  // TODO:バックエンドに送信
-  const handleSave = useCallback(() => {
-    console.log("せーぶ！ id:", itemId);
-  }, [itemId]);
+  const handleSave = useCallback(async () => {
+    // 各stateの値について、初期値と一緒なら処理に含めない
+    const body: Record<string, number> = {};
+    if (initialValues.current.dailyHours !== dailyHours)
+      body.workTime = dailyHours;
+    if (initialValues.current.taskId !== taskId && taskId !== null)
+      body.taskId = taskId;
+    // bodyで必要な値だけ渡す
+    await apiClient.work_log.daily
+      ._date(date)
+      .task_logs._id(itemId)
+      .patch({ body: body });
+    mutate(`api/work-log/daily/${date}`); // 再検証する
+  }, [dailyHours, date, itemId, taskId]);
   const handleDelete = useCallback(() => {
     console.log("さくじょ！ id:", itemId);
   }, [itemId]);
