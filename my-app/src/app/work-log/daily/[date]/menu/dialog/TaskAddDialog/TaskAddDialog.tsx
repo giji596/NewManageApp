@@ -43,7 +43,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
     onChangeSelectedCategory,
     onChangeSelectedTask,
     handleAddDailyTask,
-  } = TaskAddDialogLogic();
+  } = TaskAddDialogLogic({ onClose });
   const {
     open: openCreateTask,
     onOpen: onOpenCreateTask,
