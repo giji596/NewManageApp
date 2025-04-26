@@ -41,9 +41,10 @@ export default function DailyDetailPageParams({ dateParam }: Props) {
   }, []);
   const memoList = rawData.memoList;
   const circleDataList: DailyCategoryCircleGraph[] = useMemo(() => {
-    const data = rawData.taskList;
+    const data = rawData.taskList.filter((item) => item.dailyHours > 0);
     const totalHours = data.reduce((sum, item) => sum + item.dailyHours, 0);
-
+    // 合計時間0の場合は空配列をreturn
+    if (totalHours === 0) return [];
     // カテゴリごとにグループ化
     const groupedByCategory = data.reduce((acc, item) => {
       const key = item.category.name;
