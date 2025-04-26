@@ -14,7 +14,8 @@ type Props = {
 export default function DailyDetailPageParams({ dateParam }: Props) {
   const { data, isLoading } = useAspidaSWR(
     apiClient.work_log.daily._date(dateParam),
-    "get"
+    "get",
+    { key: `api/work-log/daily/${dateParam}` }
   );
   const rawData: DateDetailPage = useMemo(
     () =>
