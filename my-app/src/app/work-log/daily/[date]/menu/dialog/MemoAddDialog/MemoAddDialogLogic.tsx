@@ -49,14 +49,12 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
       let newData;
       // tagId0(未選択)の場合はtagIdを渡さない(undefined)
       if (data.tagId === 0) {
-        // TODO:タスクログのidを親からもらえるようにする
-        newData = { title: data.title, text: data.text, taskLogId: 0 };
+        newData = { title: data.title, text: data.text, taskLogId: data.logId };
       } else {
-        // TODO:タスクログのidを親からもらえるようにする
         newData = {
           title: data.title,
           text: data.text,
-          taskLogId: 1,
+          taskLogId: data.logId,
           tagId: data.tagId,
         };
       }
