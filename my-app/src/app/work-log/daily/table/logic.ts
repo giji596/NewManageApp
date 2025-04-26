@@ -3,7 +3,7 @@ import useTableSort from "@/hook/useTableSort";
 import { DateSummary } from "@/type/Date";
 import { TableSortTargetType } from "@/type/Table";
 import { format } from "date-fns";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 type Props = {
   /** アイテム */
@@ -25,27 +25,29 @@ export default function DailyTableLogic({ itemList }: Props) {
   );
 
   // itemリストに存在するタスク一覧
-  const defaultTaskFilterList = itemList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const taskName = b.taskName;
-      if (!(taskName in a)) {
-        a[taskName] = false;
-      }
-      return a;
-    },
-    {}
+  const defaultTaskFilterList = useMemo(
+    () =>
+      itemList.reduce((a: Record<string, boolean>, b) => {
+        const taskName = b.taskName;
+        if (!(taskName in a)) {
+          a[taskName] = false;
+        }
+        return a;
+      }, {}),
+    [itemList]
   );
 
   // itemリストに存在するカテゴリ一覧
-  const defaultCategoryFilterList = itemList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const categoryName = b.categoryName;
-      if (!(categoryName in a)) {
-        a[categoryName] = false;
-      }
-      return a;
-    },
-    {}
+  const defaultCategoryFilterList = useMemo(
+    () =>
+      itemList.reduce((a: Record<string, boolean>, b) => {
+        const categoryName = b.categoryName;
+        if (!(categoryName in a)) {
+          a[categoryName] = false;
+        }
+        return a;
+      }, {}),
+    [itemList]
   );
 
   // ソート関数

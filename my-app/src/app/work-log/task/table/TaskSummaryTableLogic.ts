@@ -2,7 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
 import { TaskSummary } from "@/type/Task";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 type Props = {
   /** タスク一覧データ */
@@ -14,15 +14,16 @@ type Props = {
  */
 export default function TaskSummaryTableLogic({ taskList }: Props) {
   // カテゴリのフィルター値
-  const defaultCategoryFilterList = taskList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const categoryName = b.categoryName;
-      if (!(categoryName in a)) {
-        a[categoryName] = false;
-      }
-      return a;
-    },
-    {}
+  const defaultCategoryFilterList = useMemo(
+    () =>
+      taskList.reduce((a: Record<string, boolean>, b) => {
+        const categoryName = b.categoryName;
+        if (!(categoryName in a)) {
+          a[categoryName] = false;
+        }
+        return a;
+      }, {}),
+    [taskList]
   );
   const {
     filterList: categoryFilterList,
