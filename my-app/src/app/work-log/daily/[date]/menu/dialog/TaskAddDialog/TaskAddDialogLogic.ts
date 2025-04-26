@@ -1,12 +1,16 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { mutate } from "swr";
 
 /**
  * タスク追加ダイアログのロジック
  */
 export default function TaskAddDialogLogic() {
+  // パスパラメータ
+  const { date } = useParams<{ date: string }>();
   // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -64,8 +68,17 @@ export default function TaskAddDialogLogic() {
   }, []);
 
   const handleAddDailyTask = useCallback(async () => {
-    // TODO:BEにデータ送信(selectedCategoryIdとタスクのそれを送信して送る)
-  }, []);
+    try {
+      if (selectedTaskId !== null) {
+        await apiClient.work_log.daily
+          ._date(date)
+          .task_logs.post({ body: { taskId: selectedTaskId } });
+      }
+    } catch (error) {
+      // TODO:エラー時の処理
+      console.log(error);
+    }
+  }, [date, selectedTaskId]);
   console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
