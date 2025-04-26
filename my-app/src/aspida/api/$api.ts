@@ -4,6 +4,7 @@ import type { Methods as Methods_a4q315 } from './work-log/categories';
 import type { Methods as Methods_aywlos } from './work-log/categories/options';
 import type { Methods as Methods_1mf7n5w } from './work-log/daily/_date';
 import type { Methods as Methods_1tcwjyk } from './work-log/daily/_date/task-logs';
+import type { Methods as Methods_1aphmwv } from './work-log/daily/_date/task-logs/_id';
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
 import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
 import type { Methods as Methods_y7y0f0 } from './work-log/memos';
@@ -25,6 +26,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH9 = '/work-log/tasks/options';
   const GET = 'GET';
   const POST = 'POST';
+  const PATCH = 'PATCH';
 
   return {
     work_log: {
@@ -48,6 +50,17 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
 
           return {
             task_logs: {
+              _id: (val4: number | string) => {
+                const prefix4 = `${prefix2}${PATH3}/${val4}`;
+
+                return {
+                  patch: (option: { body: Methods_1aphmwv['patch']['reqBody'], config?: T | undefined }) =>
+                    fetch<Methods_1aphmwv['patch']['resBody']>(prefix, prefix4, PATCH, option).json(),
+                  $patch: (option: { body: Methods_1aphmwv['patch']['reqBody'], config?: T | undefined }) =>
+                    fetch<Methods_1aphmwv['patch']['resBody']>(prefix, prefix4, PATCH, option).json().then(r => r.body),
+                  $path: () => `${prefix}${prefix4}`,
+                };
+              },
               post: (option: { body: Methods_1tcwjyk['post']['reqBody'], config?: T | undefined }) =>
                 fetch<Methods_1tcwjyk['post']['resBody']>(prefix, `${prefix2}${PATH3}`, POST, option).json(),
               $post: (option: { body: Methods_1tcwjyk['post']['reqBody'], config?: T | undefined }) =>
