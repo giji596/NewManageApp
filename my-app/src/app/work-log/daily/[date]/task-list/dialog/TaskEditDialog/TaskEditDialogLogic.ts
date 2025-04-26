@@ -83,7 +83,6 @@ export default function TaskEditDialogLogic({
       body.workTime = dailyHours;
     if (initialValues.current.taskId !== taskId && taskId !== null)
       body.taskId = taskId;
-    console.log(body);
     // bodyで必要な値だけ渡す
     await apiClient.work_log.daily
       ._date(date)
