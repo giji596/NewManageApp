@@ -58,10 +58,10 @@ export default function MemoDetailDialogLogic({ id, onClose }: Props) {
   );
 
   const handleDelete = useCallback(async () => {
-    // TODO: 削除のリクエスト
-    console.log("削除対象のid", id);
+    await apiClient.work_log.memos._id(id).delete();
+    mutate(`api/work-log/daily/${date}`);
     onClose();
-  }, [id, onClose]);
+  }, [date, id, onClose]);
 
   const handleEdit = useCallback(() => setIsEdit(true), []);
   return {

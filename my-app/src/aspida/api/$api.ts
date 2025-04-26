@@ -115,6 +115,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
               fetch<Methods_14he14f['patch']['resBody']>(prefix, prefix2, PATCH, option).json(),
             $patch: (option: { body: Methods_14he14f['patch']['reqBody'], config?: T | undefined }) =>
               fetch<Methods_14he14f['patch']['resBody']>(prefix, prefix2, PATCH, option).json().then(r => r.body),
+            delete: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_14he14f['delete']['resBody']>(prefix, prefix2, DELETE, option).json(),
+            $delete: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_14he14f['delete']['resBody']>(prefix, prefix2, DELETE, option).json().then(r => r.body),
             $path: () => `${prefix}${prefix2}`,
           };
         },
