@@ -73,6 +73,7 @@ export default function TaskAddDialogLogic() {
         await apiClient.work_log.daily
           ._date(date)
           .task_logs.post({ body: { taskId: selectedTaskId } });
+        mutate(`api/work-log/daily/${date}`); // 再検証する
       }
     } catch (error) {
       // TODO:エラー時の処理
