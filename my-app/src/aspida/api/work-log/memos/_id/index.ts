@@ -5,4 +5,7 @@ export type Methods = DefineMethods<{
     reqBody: { text: string };
     resBody: { id: number };
   };
+  delete: {
+    resBody: { id: number };
+  };
 }>;
