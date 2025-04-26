@@ -5,7 +5,7 @@ export async function GET(
   _: NextRequest,
   { params }: { params: { date: string } }
 ) {
-  const { date } = params;
+  const { date } = await params;
   const dateDate = new Date(date);
   const res = await getDailyDetailData(dateDate);
   return NextResponse.json(res);
