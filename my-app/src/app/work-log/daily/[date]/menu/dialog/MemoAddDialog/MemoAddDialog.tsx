@@ -50,7 +50,7 @@ export default function MemoAddDialog({
             <InputLabel id="task-select-label">タスクを選ぶ</InputLabel>
             {!isTaskSelected && (
               <Controller
-                name="taskId"
+                name="logId"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (

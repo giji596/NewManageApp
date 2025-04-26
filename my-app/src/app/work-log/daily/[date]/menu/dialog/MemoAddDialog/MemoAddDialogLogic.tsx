@@ -6,8 +6,8 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 type SubmitData = {
-  /** タスクid */
-  taskId: number;
+  /** タスクログid */
+  logId: number;
   /** メモタイトル */
   title: string;
   /** タグid */
@@ -37,7 +37,7 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     formState: { isValid },
   } = useForm<SubmitData>({
     defaultValues: {
-      taskId: taskList[0].id,
+      logId: taskList[0].id,
       title: "",
       tagId: tagList[0].id,
       text: "",
