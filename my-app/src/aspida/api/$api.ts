@@ -8,6 +8,7 @@ import type { Methods as Methods_1aphmwv } from './work-log/daily/_date/task-log
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
 import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
 import type { Methods as Methods_y7y0f0 } from './work-log/memos';
+import type { Methods as Methods_14he14f } from './work-log/memos/_id';
 import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
@@ -110,6 +111,11 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                 fetch<Methods_17g6bd8['get']['resBody']>(prefix, `${prefix2}${PATH7}`, GET, option).json().then(r => r.body),
               $path: () => `${prefix}${prefix2}${PATH7}`,
             },
+            patch: (option: { body: Methods_14he14f['patch']['reqBody'], config?: T | undefined }) =>
+              fetch<Methods_14he14f['patch']['resBody']>(prefix, prefix2, PATCH, option).json(),
+            $patch: (option: { body: Methods_14he14f['patch']['reqBody'], config?: T | undefined }) =>
+              fetch<Methods_14he14f['patch']['resBody']>(prefix, prefix2, PATCH, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix2}`,
           };
         },
         tags: {
