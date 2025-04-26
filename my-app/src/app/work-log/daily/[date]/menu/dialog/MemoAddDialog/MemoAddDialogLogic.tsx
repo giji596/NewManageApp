@@ -29,7 +29,8 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
   const { data } = useAspidaSWR(apiClient.work_log.memos.tags, "get", {
     key: "api/work-log/memos/tags",
   });
-  const tagList: TagOption[] = data?.body ?? [];
+  const rawTagList: TagOption[] = data?.body ?? [];
+  const tagList: TagOption[] = [{ id: 0, name: "未選択" }, ...rawTagList];
   const {
     control,
     handleSubmit,
