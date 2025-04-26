@@ -3,6 +3,7 @@ import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { mutate } from "swr";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -88,6 +89,7 @@ export default function TaskEditDialogLogic({
       ._date(date)
       .task_logs._id(itemId)
       .patch({ body: body });
+    mutate(`api/work-log/daily/${date}`); // 再検証する
   }, [dailyHours, date, itemId, taskId]);
   const handleDelete = useCallback(() => {
     console.log("さくじょ！ id:", itemId);
