@@ -1,7 +1,9 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** 本文 */
@@ -19,6 +21,7 @@ type Props = {
  * メモの詳細を表示するダイアログのロジック
  */
 export default function MemoDetailDialogLogic({ id, onClose }: Props) {
+  const { date } = useParams<{ date: string }>();
   const { data, isLoading } = useAspidaSWR(
     apiClient.work_log.memos._id(id).body,
     "get",
@@ -49,8 +52,9 @@ export default function MemoDetailDialogLogic({ id, onClose }: Props) {
       // 必要かわかんないのでとりま放置
       setIsSending(false);
       setIsEdit(false);
+      mutate(`api/work-log/daily/${date}`);
     },
-    [id]
+    [date, id]
   );
 
   const handleDelete = useCallback(async () => {
