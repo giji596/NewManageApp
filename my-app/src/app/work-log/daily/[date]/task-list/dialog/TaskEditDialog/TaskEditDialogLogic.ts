@@ -1,7 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -24,7 +24,7 @@ export default function TaskEditDialogLogic({
   initialHours,
 }: Props) {
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
-  const [taskId, setTaskId] = useState<number>(initialTaskId);
+  const [taskId, setTaskId] = useState<number | null>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
   const { data: categoryData } = useAspidaSWR(
@@ -43,10 +43,15 @@ export default function TaskEditDialogLogic({
     }
   );
   const taskList = taskData?.body;
+  useEffect(() => {
+    if (taskList) {
+      setTaskId(taskList[0].id);
+    }
+  }, [taskList]);
   const onChangeSelectCategory = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
     setCategoryId(Number(target));
-    setTaskId(0);
+    setTaskId(null);
   }, []);
 
   const onChangeSelectTask = useCallback((e: SelectChangeEvent) => {
