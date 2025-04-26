@@ -5,4 +5,7 @@ export type Methods = DefineMethods<{
     reqBody: { taskId?: number; workTime?: number };
     resBody: { targetId: number };
   };
+  delete: {
+    resBody: { targetId: number };
+  };
 }>;

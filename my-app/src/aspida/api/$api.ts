@@ -26,6 +26,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH9 = '/work-log/tasks/options';
   const GET = 'GET';
   const POST = 'POST';
+  const DELETE = 'DELETE';
   const PATCH = 'PATCH';
 
   return {
@@ -58,6 +59,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                     fetch<Methods_1aphmwv['patch']['resBody']>(prefix, prefix4, PATCH, option).json(),
                   $patch: (option: { body: Methods_1aphmwv['patch']['reqBody'], config?: T | undefined }) =>
                     fetch<Methods_1aphmwv['patch']['resBody']>(prefix, prefix4, PATCH, option).json().then(r => r.body),
+                  delete: (option?: { config?: T | undefined } | undefined) =>
+                    fetch<Methods_1aphmwv['delete']['resBody']>(prefix, prefix4, DELETE, option).json(),
+                  $delete: (option?: { config?: T | undefined } | undefined) =>
+                    fetch<Methods_1aphmwv['delete']['resBody']>(prefix, prefix4, DELETE, option).json().then(r => r.body),
                   $path: () => `${prefix}${prefix4}`,
                 };
               },
