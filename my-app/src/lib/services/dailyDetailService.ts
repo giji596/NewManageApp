@@ -78,6 +78,9 @@ export const getDailyDetailData = async (date: Date) => {
  * 日付詳細 - タスク追加ダイアログによる追加時のロジック
  */
 export const createDailyDetailData = async (date: Date, taskId: number) => {
+  // すでに同じタスクidがある場合はnullを返す
+  const existing = await prisma.taskLog.findFirst({ where: { date, taskId } });
+  if (existing) return null;
   const data = await prisma.taskLog.create({
     data: { taskId, date, workTime: 0 },
   });
