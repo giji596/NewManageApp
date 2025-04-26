@@ -49,13 +49,13 @@ model Category {
 }
 
 model Memo {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
   text      String
   taskLogId Int
-  taskLog   TaskLog @relation(fields: [taskLogId], references: [id])
-  tagId     Int
-  tag       MemoTag @relation(fields: [tagId], references: [id])
+  taskLog   TaskLog  @relation(fields: [taskLogId], references: [id])
+  tagId     Int?
+  tag       MemoTag? @relation(fields: [tagId], references: [id])
 }
 
 model MemoTag {
