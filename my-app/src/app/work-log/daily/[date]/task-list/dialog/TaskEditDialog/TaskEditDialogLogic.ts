@@ -32,6 +32,8 @@ export default function TaskEditDialogLogic({
     taskId: initialTaskId,
     dailyHours: initialHours,
   });
+  // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
+  const firstRender = useRef<boolean>(true);
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
   const [taskId, setTaskId] = useState<number | null>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
@@ -53,6 +55,11 @@ export default function TaskEditDialogLogic({
   );
   const taskList = taskData?.body;
   useEffect(() => {
+    // 最初のレンダー時は処理しない(初期値を使用させる)
+    if (firstRender) {
+      firstRender.current = false;
+      return;
+    }
     if (taskList) {
       setTaskId(taskList[0].id);
     }
