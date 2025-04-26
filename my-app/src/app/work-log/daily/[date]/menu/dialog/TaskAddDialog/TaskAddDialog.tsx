@@ -11,6 +11,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  Typography,
 } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -34,6 +35,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
     categoryList,
     taskList,
     isLoading,
+    duplicateError,
     selectedCategoryId,
     selectedTaskId,
     isNoCategory,
@@ -135,6 +137,12 @@ export default function TaskAddDialog({ open, onClose }: Props) {
               <AddCircleOutlineIcon />
             </IconButton>
           </Stack>
+          {/** エラーメッセージ */}
+          {duplicateError && (
+            <Typography variant="caption" color="error">
+              * すでに存在するタスクは追加できません。
+            </Typography>
+          )}
         </Stack>
         {/** ボタン */}
         <DialogActions>
