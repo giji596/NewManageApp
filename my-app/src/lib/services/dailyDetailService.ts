@@ -29,8 +29,12 @@ export const getDailyDetailData = async (date: Date) => {
       },
     },
   });
-  // データなかったらnull返す
-  if (!data) return null;
+  // データなかったら新規作成後、null返す
+  if (!data) {
+    console.log("aaaaa");
+    await prisma.dailyData.create({ data: { date } });
+    return null;
+  }
 
   const taskList: DailyDetailTaskTableType[] = [];
   const memoList: MemoDailyTask[] = [];
