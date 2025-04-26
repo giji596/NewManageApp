@@ -14,6 +14,8 @@ type Props = {
   initialTaskId: number;
   /** 稼働時間の初期選択の値 */
   initialHours: number;
+  /** ダイアログ閉じるイベント */
+  onClose: () => void;
 };
 
 /**
@@ -24,6 +26,7 @@ export default function TaskEditDialogLogic({
   initialCategoryId,
   initialTaskId,
   initialHours,
+  onClose,
 }: Props) {
   // ぱらめーた
   const { date } = useParams<{ date: string }>();
@@ -32,6 +35,8 @@ export default function TaskEditDialogLogic({
     taskId: initialTaskId,
     dailyHours: initialHours,
   });
+  // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
+  const firstRender = useRef<boolean>(true);
   const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
   const [taskId, setTaskId] = useState<number | null>(initialTaskId);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
@@ -53,6 +58,11 @@ export default function TaskEditDialogLogic({
   );
   const taskList = taskData?.body;
   useEffect(() => {
+    // 最初のレンダー時は処理しない(初期値を使用させる)
+    if (firstRender) {
+      firstRender.current = false;
+      return;
+    }
     if (taskList) {
       setTaskId(taskList[0].id);
     }
@@ -90,11 +100,13 @@ export default function TaskEditDialogLogic({
       .task_logs._id(itemId)
       .patch({ body: body });
     mutate(`api/work-log/daily/${date}`); // 再検証する
-  }, [dailyHours, date, itemId, taskId]);
+    onClose();
+  }, [dailyHours, date, itemId, onClose, taskId]);
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
-  }, [date, itemId]);
+    onClose();
+  }, [date, itemId, onClose]);
   return {
     /** 選択中のカテゴリーのid */
     categoryId,

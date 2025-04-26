@@ -61,6 +61,7 @@ export default function TaskEditDialog({
     initialCategoryId,
     initialTaskId,
     initialHours,
+    onClose,
   });
   const {
     open: openDelete,
