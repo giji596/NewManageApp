@@ -6012,7 +6012,7 @@ export namespace Prisma {
     title: string
     text: string
     taskLogId: number
-    tagId: number
+    tagId: number | null
     _count: MemoCountAggregateOutputType | null
     _avg: MemoAvgAggregateOutputType | null
     _sum: MemoSumAggregateOutputType | null
@@ -6041,7 +6041,7 @@ export namespace Prisma {
     taskLogId?: boolean
     tagId?: boolean
     taskLog?: boolean | TaskLogDefaultArgs<ExtArgs>
-    tag?: boolean | MemoTagDefaultArgs<ExtArgs>
+    tag?: boolean | Memo$tagArgs<ExtArgs>
   }, ExtArgs["result"]["memo"]>
 
   export type MemoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6051,7 +6051,7 @@ export namespace Prisma {
     taskLogId?: boolean
     tagId?: boolean
     taskLog?: boolean | TaskLogDefaultArgs<ExtArgs>
-    tag?: boolean | MemoTagDefaultArgs<ExtArgs>
+    tag?: boolean | Memo$tagArgs<ExtArgs>
   }, ExtArgs["result"]["memo"]>
 
   export type MemoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6061,7 +6061,7 @@ export namespace Prisma {
     taskLogId?: boolean
     tagId?: boolean
     taskLog?: boolean | TaskLogDefaultArgs<ExtArgs>
-    tag?: boolean | MemoTagDefaultArgs<ExtArgs>
+    tag?: boolean | Memo$tagArgs<ExtArgs>
   }, ExtArgs["result"]["memo"]>
 
   export type MemoSelectScalar = {
@@ -6075,29 +6075,29 @@ export namespace Prisma {
   export type MemoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "text" | "taskLogId" | "tagId", ExtArgs["result"]["memo"]>
   export type MemoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     taskLog?: boolean | TaskLogDefaultArgs<ExtArgs>
-    tag?: boolean | MemoTagDefaultArgs<ExtArgs>
+    tag?: boolean | Memo$tagArgs<ExtArgs>
   }
   export type MemoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     taskLog?: boolean | TaskLogDefaultArgs<ExtArgs>
-    tag?: boolean | MemoTagDefaultArgs<ExtArgs>
+    tag?: boolean | Memo$tagArgs<ExtArgs>
   }
   export type MemoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     taskLog?: boolean | TaskLogDefaultArgs<ExtArgs>
-    tag?: boolean | MemoTagDefaultArgs<ExtArgs>
+    tag?: boolean | Memo$tagArgs<ExtArgs>
   }
 
   export type $MemoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Memo"
     objects: {
       taskLog: Prisma.$TaskLogPayload<ExtArgs>
-      tag: Prisma.$MemoTagPayload<ExtArgs>
+      tag: Prisma.$MemoTagPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
       text: string
       taskLogId: number
-      tagId: number
+      tagId: number | null
     }, ExtArgs["result"]["memo"]>
     composites: {}
   }
@@ -6493,7 +6493,7 @@ export namespace Prisma {
   export interface Prisma__MemoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     taskLog<T extends TaskLogDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TaskLogDefaultArgs<ExtArgs>>): Prisma__TaskLogClient<$Result.GetResult<Prisma.$TaskLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    tag<T extends MemoTagDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MemoTagDefaultArgs<ExtArgs>>): Prisma__MemoTagClient<$Result.GetResult<Prisma.$MemoTagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tag<T extends Memo$tagArgs<ExtArgs> = {}>(args?: Subset<T, Memo$tagArgs<ExtArgs>>): Prisma__MemoTagClient<$Result.GetResult<Prisma.$MemoTagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6919,6 +6919,25 @@ export namespace Prisma {
      * Limit how many Memos to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Memo.tag
+   */
+  export type Memo$tagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemoTag
+     */
+    select?: MemoTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemoTag
+     */
+    omit?: MemoTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MemoTagInclude<ExtArgs> | null
+    where?: MemoTagWhereInput
   }
 
   /**
@@ -8079,6 +8098,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   /**
    * Field references
    */
@@ -8335,9 +8362,9 @@ export namespace Prisma {
     title?: StringFilter<"Memo"> | string
     text?: StringFilter<"Memo"> | string
     taskLogId?: IntFilter<"Memo"> | number
-    tagId?: IntFilter<"Memo"> | number
+    tagId?: IntNullableFilter<"Memo"> | number | null
     taskLog?: XOR<TaskLogScalarRelationFilter, TaskLogWhereInput>
-    tag?: XOR<MemoTagScalarRelationFilter, MemoTagWhereInput>
+    tag?: XOR<MemoTagNullableScalarRelationFilter, MemoTagWhereInput> | null
   }
 
   export type MemoOrderByWithRelationInput = {
@@ -8345,7 +8372,7 @@ export namespace Prisma {
     title?: SortOrder
     text?: SortOrder
     taskLogId?: SortOrder
-    tagId?: SortOrder
+    tagId?: SortOrderInput | SortOrder
     taskLog?: TaskLogOrderByWithRelationInput
     tag?: MemoTagOrderByWithRelationInput
   }
@@ -8358,9 +8385,9 @@ export namespace Prisma {
     title?: StringFilter<"Memo"> | string
     text?: StringFilter<"Memo"> | string
     taskLogId?: IntFilter<"Memo"> | number
-    tagId?: IntFilter<"Memo"> | number
+    tagId?: IntNullableFilter<"Memo"> | number | null
     taskLog?: XOR<TaskLogScalarRelationFilter, TaskLogWhereInput>
-    tag?: XOR<MemoTagScalarRelationFilter, MemoTagWhereInput>
+    tag?: XOR<MemoTagNullableScalarRelationFilter, MemoTagWhereInput> | null
   }, "id">
 
   export type MemoOrderByWithAggregationInput = {
@@ -8368,7 +8395,7 @@ export namespace Prisma {
     title?: SortOrder
     text?: SortOrder
     taskLogId?: SortOrder
-    tagId?: SortOrder
+    tagId?: SortOrderInput | SortOrder
     _count?: MemoCountOrderByAggregateInput
     _avg?: MemoAvgOrderByAggregateInput
     _max?: MemoMaxOrderByAggregateInput
@@ -8384,7 +8411,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Memo"> | string
     text?: StringWithAggregatesFilter<"Memo"> | string
     taskLogId?: IntWithAggregatesFilter<"Memo"> | number
-    tagId?: IntWithAggregatesFilter<"Memo"> | number
+    tagId?: IntNullableWithAggregatesFilter<"Memo"> | number | null
   }
 
   export type MemoTagWhereInput = {
@@ -8619,7 +8646,7 @@ export namespace Prisma {
     title: string
     text: string
     taskLog: TaskLogCreateNestedOneWithoutMemosInput
-    tag: MemoTagCreateNestedOneWithoutMemosInput
+    tag?: MemoTagCreateNestedOneWithoutMemosInput
   }
 
   export type MemoUncheckedCreateInput = {
@@ -8627,14 +8654,14 @@ export namespace Prisma {
     title: string
     text: string
     taskLogId: number
-    tagId: number
+    tagId?: number | null
   }
 
   export type MemoUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     taskLog?: TaskLogUpdateOneRequiredWithoutMemosNestedInput
-    tag?: MemoTagUpdateOneRequiredWithoutMemosNestedInput
+    tag?: MemoTagUpdateOneWithoutMemosNestedInput
   }
 
   export type MemoUncheckedUpdateInput = {
@@ -8642,7 +8669,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     taskLogId?: IntFieldUpdateOperationsInput | number
-    tagId?: IntFieldUpdateOperationsInput | number
+    tagId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MemoCreateManyInput = {
@@ -8650,7 +8677,7 @@ export namespace Prisma {
     title: string
     text: string
     taskLogId: number
-    tagId: number
+    tagId?: number | null
   }
 
   export type MemoUpdateManyMutationInput = {
@@ -8663,7 +8690,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     taskLogId?: IntFieldUpdateOperationsInput | number
-    tagId?: IntFieldUpdateOperationsInput | number
+    tagId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MemoTagCreateInput = {
@@ -8980,14 +9007,30 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type TaskLogScalarRelationFilter = {
     is?: TaskLogWhereInput
     isNot?: TaskLogWhereInput
   }
 
-  export type MemoTagScalarRelationFilter = {
-    is?: MemoTagWhereInput
-    isNot?: MemoTagWhereInput
+  export type MemoTagNullableScalarRelationFilter = {
+    is?: MemoTagWhereInput | null
+    isNot?: MemoTagWhereInput | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type MemoCountOrderByAggregateInput = {
@@ -9024,6 +9067,22 @@ export namespace Prisma {
     id?: SortOrder
     taskLogId?: SortOrder
     tagId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type MemoTagCountOrderByAggregateInput = {
@@ -9307,12 +9366,22 @@ export namespace Prisma {
     update?: XOR<XOR<TaskLogUpdateToOneWithWhereWithoutMemosInput, TaskLogUpdateWithoutMemosInput>, TaskLogUncheckedUpdateWithoutMemosInput>
   }
 
-  export type MemoTagUpdateOneRequiredWithoutMemosNestedInput = {
+  export type MemoTagUpdateOneWithoutMemosNestedInput = {
     create?: XOR<MemoTagCreateWithoutMemosInput, MemoTagUncheckedCreateWithoutMemosInput>
     connectOrCreate?: MemoTagCreateOrConnectWithoutMemosInput
     upsert?: MemoTagUpsertWithoutMemosInput
+    disconnect?: MemoTagWhereInput | boolean
+    delete?: MemoTagWhereInput | boolean
     connect?: MemoTagWhereUniqueInput
     update?: XOR<XOR<MemoTagUpdateToOneWithWhereWithoutMemosInput, MemoTagUpdateWithoutMemosInput>, MemoTagUncheckedUpdateWithoutMemosInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type MemoCreateNestedManyWithoutTagInput = {
@@ -9480,6 +9549,44 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type TaskLogCreateWithoutDailyDataInput = {
     workTime: number
     task: TaskCreateNestedOneWithoutTasksInput
@@ -9568,14 +9675,14 @@ export namespace Prisma {
   export type MemoCreateWithoutTaskLogInput = {
     title: string
     text: string
-    tag: MemoTagCreateNestedOneWithoutMemosInput
+    tag?: MemoTagCreateNestedOneWithoutMemosInput
   }
 
   export type MemoUncheckedCreateWithoutTaskLogInput = {
     id?: number
     title: string
     text: string
-    tagId: number
+    tagId?: number | null
   }
 
   export type MemoCreateOrConnectWithoutTaskLogInput = {
@@ -9660,7 +9767,7 @@ export namespace Prisma {
     title?: StringFilter<"Memo"> | string
     text?: StringFilter<"Memo"> | string
     taskLogId?: IntFilter<"Memo"> | number
-    tagId?: IntFilter<"Memo"> | number
+    tagId?: IntNullableFilter<"Memo"> | number | null
   }
 
   export type CategoryCreateWithoutTasksInput = {
@@ -9935,27 +10042,27 @@ export namespace Prisma {
     id?: number
     title: string
     text: string
-    tagId: number
+    tagId?: number | null
   }
 
   export type MemoUpdateWithoutTaskLogInput = {
     title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    tag?: MemoTagUpdateOneRequiredWithoutMemosNestedInput
+    tag?: MemoTagUpdateOneWithoutMemosNestedInput
   }
 
   export type MemoUncheckedUpdateWithoutTaskLogInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    tagId?: IntFieldUpdateOperationsInput | number
+    tagId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MemoUncheckedUpdateManyWithoutTaskLogInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    tagId?: IntFieldUpdateOperationsInput | number
+    tagId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TaskLogCreateManyTaskInput = {

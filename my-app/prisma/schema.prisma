@@ -54,8 +54,8 @@ model Memo {
   text String
   taskLogId Int
   taskLog TaskLog @relation(fields: [taskLogId], references: [id])
-  tagId Int
-  tag MemoTag @relation(fields: [tagId], references: [id])
+  tagId Int?
+  tag MemoTag? @relation(fields: [tagId], references: [id])
 }
 
 model MemoTag {
