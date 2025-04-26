@@ -1,5 +1,7 @@
+import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
 import { TaskOption } from "@/type/Task";
+import useAspidaSWR from "@aspida/swr";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
@@ -24,14 +26,10 @@ type Props = {
  * メモ追加ダイアログコンポーネントのロジック
  */
 export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
-  // TODO:でーたふぇっちする
-
-  const tagList: TagOption[] = [
-    { id: 0, name: "なし" },
-    { id: 1, name: "タグ1" },
-    { id: 2, name: "タグ2" },
-    { id: 3, name: "タグ3" },
-  ];
+  const { data } = useAspidaSWR(apiClient.work_log.memos.tags, "get", {
+    key: "api/work-log/memos/tags",
+  });
+  const tagList: TagOption[] = data?.body ?? [];
   const {
     control,
     handleSubmit,
