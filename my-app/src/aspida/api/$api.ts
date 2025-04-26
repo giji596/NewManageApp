@@ -8,6 +8,7 @@ import type { Methods as Methods_1aphmwv } from './work-log/daily/_date/task-log
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
 import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
 import type { Methods as Methods_y7y0f0 } from './work-log/memos';
+import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
 import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
@@ -21,9 +22,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH4 = '/work-log/daily/summary';
   const PATH5 = '/work-log/daily/summary/detail';
   const PATH6 = '/work-log/memos';
-  const PATH7 = '/work-log/memos/tags';
-  const PATH8 = '/work-log/tasks';
-  const PATH9 = '/work-log/tasks/options';
+  const PATH7 = '/body';
+  const PATH8 = '/work-log/memos/tags';
+  const PATH9 = '/work-log/tasks';
+  const PATH10 = '/work-log/tasks/options';
   const GET = 'GET';
   const POST = 'POST';
   const DELETE = 'DELETE';
@@ -97,12 +99,25 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         },
       },
       memos: {
+        _id: (val2: number | string) => {
+          const prefix2 = `${PATH6}/${val2}`;
+
+          return {
+            body: {
+              get: (option?: { config?: T | undefined } | undefined) =>
+                fetch<Methods_17g6bd8['get']['resBody']>(prefix, `${prefix2}${PATH7}`, GET, option).json(),
+              $get: (option?: { config?: T | undefined } | undefined) =>
+                fetch<Methods_17g6bd8['get']['resBody']>(prefix, `${prefix2}${PATH7}`, GET, option).json().then(r => r.body),
+              $path: () => `${prefix}${prefix2}${PATH7}`,
+            },
+          };
+        },
         tags: {
           get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH7, GET, option).json(),
+            fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH8, GET, option).json(),
           $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH7, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH7}`,
+            fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH8, GET, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH8}`,
         },
         post: (option: { body: Methods_y7y0f0['post']['reqBody'], config?: T | undefined }) =>
           fetch<Methods_y7y0f0['post']['resBody']>(prefix, PATH6, POST, option).json(),
@@ -113,17 +128,17 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
       tasks: {
         options: {
           get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH9, GET, option).json(),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH10, GET, option).json(),
           $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH9, GET, option).json().then(r => r.body),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH10, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
-            `${prefix}${PATH9}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH10}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
         post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH8, POST, option).json(),
+          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH9, POST, option).json(),
         $post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH8, POST, option).json().then(r => r.body),
-        $path: () => `${prefix}${PATH8}`,
+          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH9, POST, option).json().then(r => r.body),
+        $path: () => `${prefix}${PATH9}`,
       },
     },
   };
