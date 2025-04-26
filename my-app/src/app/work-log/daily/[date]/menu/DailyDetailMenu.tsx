@@ -31,10 +31,12 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
     onClose: onCloseMemo,
     onOpen: onOpenMemo,
   } = useDialog();
-  const { dateString, dailyHourCoverGraphLength } = DailyDetailMenuLogic({
-    date,
-    dailyHours,
-  });
+  const { dateString, dailyHourCoverGraphLength, isNoTask } =
+    DailyDetailMenuLogic({
+      date,
+      dailyHours,
+      taskList,
+    });
   return (
     <>
       <Stack spacing={2}>
@@ -85,6 +87,7 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
             startIcon={<AddCommentIcon />}
             sx={{ width: "50%" }}
             onClick={onOpenMemo}
+            disabled={isNoTask}
           >
             メモを追加する
           </Button>
