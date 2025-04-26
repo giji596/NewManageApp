@@ -2,7 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { MemoDailyTask } from "@/type/Memo";
 import { TableSortTargetType } from "@/type/Table";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** メモの一覧 */
@@ -14,15 +14,16 @@ type Props = {
  */
 export default function MemoListLogic({ memoItemList }: Props) {
   // itemリストに存在するタスク一覧
-  const defaultTaskFilterList = memoItemList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const taskName = b.task.name;
-      if (!(taskName in a)) {
-        a[taskName] = false;
-      }
-      return a;
-    },
-    {}
+  const defaultTaskFilterList = useMemo(
+    () =>
+      memoItemList.reduce((a: Record<string, boolean>, b) => {
+        const taskName = b.task.name;
+        if (!(taskName in a)) {
+          a[taskName] = false;
+        }
+        return a;
+      }, {}),
+    [memoItemList]
   );
 
   // ソート関数

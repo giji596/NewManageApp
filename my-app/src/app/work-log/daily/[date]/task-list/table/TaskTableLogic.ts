@@ -2,7 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
 import { DailyDetailTaskTableType } from "@/type/Task";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 type Props = {
   /** タスクの一覧 */
@@ -14,29 +14,30 @@ type Props = {
  */
 export default function TaskTableLogic({ taskList }: Props) {
   // itemリストに存在するタスク一覧
-  const defaultTaskFilterList = taskList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const taskName = b.task.name;
-      if (!(taskName in a)) {
-        a[taskName] = false;
-      }
-      return a;
-    },
-    {}
+  const defaultTaskFilterList = useMemo(
+    () =>
+      taskList.reduce((a: Record<string, boolean>, b) => {
+        const taskName = b.task.name;
+        if (!(taskName in a)) {
+          a[taskName] = false;
+        }
+        return a;
+      }, {}),
+    [taskList]
   );
 
   // itemリストに存在するカテゴリ一覧
-  const defaultCategoryFilterList = taskList.reduce(
-    (a: Record<string, boolean>, b) => {
-      const categoryName = b.category.name;
-      if (!(categoryName in a)) {
-        a[categoryName] = false;
-      }
-      return a;
-    },
-    {}
+  const defaultCategoryFilterList = useMemo(
+    () =>
+      taskList.reduce((a: Record<string, boolean>, b) => {
+        const categoryName = b.category.name;
+        if (!(categoryName in a)) {
+          a[categoryName] = false;
+        }
+        return a;
+      }, {}),
+    [taskList]
   );
-
   // ソート関数
   const getSortTarget = useCallback(
     (
