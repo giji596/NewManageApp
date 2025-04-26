@@ -46,12 +46,22 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
-      try {
-        console.log("でーた", data); // TODO:BE繋ぎ込み時修正
-        onClose();
-      } catch {
-        console.log("えらー");
+      let newData;
+      // tagId0(未選択)の場合はtagIdを渡さない(undefined)
+      if (data.tagId === 0) {
+        // TODO:タスクログのidを親からもらえるようにする
+        newData = { title: data.title, text: data.text, taskLogId: 0 };
+      } else {
+        // TODO:タスクログのidを親からもらえるようにする
+        newData = {
+          title: data.title,
+          text: data.text,
+          taskLogId: 1,
+          tagId: data.tagId,
+        };
       }
+      await apiClient.work_log.memos.post({ body: newData });
+      onClose();
     },
     [onClose]
   );
