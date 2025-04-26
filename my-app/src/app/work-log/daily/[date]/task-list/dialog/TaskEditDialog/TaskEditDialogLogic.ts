@@ -91,9 +91,10 @@ export default function TaskEditDialogLogic({
       .patch({ body: body });
     mutate(`api/work-log/daily/${date}`); // 再検証する
   }, [dailyHours, date, itemId, taskId]);
-  const handleDelete = useCallback(() => {
-    console.log("さくじょ！ id:", itemId);
-  }, [itemId]);
+  const handleDelete = useCallback(async () => {
+    await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
+    mutate(`api/work-log/daily/${date}`); // 再検証する
+  }, [date, itemId]);
   return {
     /** 選択中のカテゴリーのid */
     categoryId,
