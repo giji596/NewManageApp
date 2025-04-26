@@ -37,7 +37,7 @@ export default function DailyDetailPage({ params }: Props) {
     dailyHours,
     memoList,
     taskList,
-    taskOptions,
+    taskLogSummary,
     circleDataList,
   } = DailyDetailPageParams({ dateParam });
   const { navigateToCategoryDetail, navigateToTaskDetail } =
@@ -50,7 +50,7 @@ export default function DailyDetailPage({ params }: Props) {
         <DailyDetailMenu
           date={date}
           dailyHours={dailyHours}
-          taskList={taskOptions}
+          taskList={taskLogSummary}
         />
         {/** タスク */}
         <TaskList

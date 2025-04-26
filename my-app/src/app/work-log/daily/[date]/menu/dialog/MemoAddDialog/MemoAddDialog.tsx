@@ -14,11 +14,11 @@ import {
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import MemoAddDialogLogic from "./MemoAddDialogLogic";
 import { Controller } from "react-hook-form";
-import { TaskOption } from "@/type/Task";
+import { TaskLogSummary } from "@/type/Task";
 
 type Props = {
   /** タスクの一覧 */
-  taskList: TaskOption[];
+  taskList: TaskLogSummary[];
   /** ダイアログ開閉状態 */
   open: boolean;
   /** タスクを指定しているかどうか */
@@ -50,7 +50,7 @@ export default function MemoAddDialog({
             <InputLabel id="task-select-label">タスクを選ぶ</InputLabel>
             {!isTaskSelected && (
               <Controller
-                name="taskId"
+                name="logId"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
@@ -62,7 +62,7 @@ export default function MemoAddDialog({
                   >
                     {taskList.map((task) => (
                       <MenuItem key={task.id} value={task.id}>
-                        {task.name}
+                        {task.taskName}
                       </MenuItem>
                     ))}
                   </Select>
@@ -77,7 +77,9 @@ export default function MemoAddDialog({
                 label="タスクを選ぶ"
                 defaultValue={taskList[0].id}
               >
-                <MenuItem value={taskList[0].id}>{taskList[0].name}</MenuItem>
+                <MenuItem value={taskList[0].id}>
+                  {taskList[0].taskName}
+                </MenuItem>
               </Select>
             )}
           </FormControl>

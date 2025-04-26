@@ -1,13 +1,13 @@
 import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
-import { TaskOption } from "@/type/Task";
+import { TaskLogSummary } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 type SubmitData = {
-  /** タスクid */
-  taskId: number;
+  /** タスクログid */
+  logId: number;
   /** メモタイトル */
   title: string;
   /** タグid */
@@ -18,7 +18,7 @@ type SubmitData = {
 
 type Props = {
   /** タスクの一覧 */
-  taskList: TaskOption[];
+  taskList: TaskLogSummary[];
   /** ダイアログを閉じる関数 */
   onClose: () => void;
 };
@@ -37,7 +37,7 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     formState: { isValid },
   } = useForm<SubmitData>({
     defaultValues: {
-      taskId: taskList[0].id,
+      logId: taskList[0].id,
       title: "",
       tagId: tagList[0].id,
       text: "",
@@ -49,14 +49,12 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
       let newData;
       // tagId0(未選択)の場合はtagIdを渡さない(undefined)
       if (data.tagId === 0) {
-        // TODO:タスクログのidを親からもらえるようにする
-        newData = { title: data.title, text: data.text, taskLogId: 0 };
+        newData = { title: data.title, text: data.text, taskLogId: data.logId };
       } else {
-        // TODO:タスクログのidを親からもらえるようにする
         newData = {
           title: data.title,
           text: data.text,
-          taskLogId: 1,
+          taskLogId: data.logId,
           tagId: data.tagId,
         };
       }
