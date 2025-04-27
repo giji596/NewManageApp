@@ -31,12 +31,11 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
     onClose: onCloseMemo,
     onOpen: onOpenMemo,
   } = useDialog();
-  const { dateString, dailyHourCoverGraphLength, isNoTask } =
-    DailyDetailMenuLogic({
-      date,
-      dailyHours,
-      taskList,
-    });
+  const { dateString, growAnimation, isNoTask } = DailyDetailMenuLogic({
+    date,
+    dailyHours,
+    taskList,
+  });
   return (
     <>
       <Stack spacing={2}>
@@ -60,13 +59,7 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
                   height: "100%",
                   width: "0%",
                   backgroundColor: "#eee",
-                  animation: "grow 1s ease-out forwards",
-                  "@keyframes grow": {
-                    "0%": { width: "100%" },
-                    "100%": {
-                      width: `${dailyHourCoverGraphLength}%`,
-                    },
-                  },
+                  animation: `${growAnimation} 1s ease-out forwards`,
                 }}
               />
             </Stack>
