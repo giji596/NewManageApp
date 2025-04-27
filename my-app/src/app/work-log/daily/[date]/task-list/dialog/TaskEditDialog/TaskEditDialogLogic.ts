@@ -59,7 +59,7 @@ export default function TaskEditDialogLogic({
   const taskList = taskData?.body;
   useEffect(() => {
     // 最初のレンダー時は処理しない(初期値を使用させる)
-    if (firstRender) {
+    if (firstRender.current) {
       firstRender.current = false;
       return;
     }
