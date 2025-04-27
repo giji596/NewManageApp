@@ -6,9 +6,10 @@ export async function GET(req: NextRequest) {
   const nowYear = new Date().getFullYear();
   const nowMonth = new Date().getMonth() + 1;
   const { searchParams } = new URL(req.url);
-  const year = Number(searchParams.get("year")) ?? nowYear;
-  const month = Number(searchParams.get("month")) ?? nowMonth;
+  const year = Number(searchParams.get("year") ?? nowYear);
+  const month = Number(searchParams.get("month") ?? nowMonth);
   // データを取得して返す
   const res = await getDailySummaryData(year, month);
+  console.log(year, month);
   return NextResponse.json(res);
 }

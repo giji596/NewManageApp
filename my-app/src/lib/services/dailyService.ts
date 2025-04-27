@@ -35,15 +35,23 @@ export const getDailySummaryData = async (year: number, month: number) => {
       },
     },
   });
-
+  // ログの稼働合計が0時間のデータをフィルターする
+  const filterNoWork = data.filter((v) => {
+    const dailyWorkTimes = v.logs.reduce((a, b) => a + b.workTime, 0);
+    if (dailyWorkTimes > 0) return true;
+    return false;
+  });
   // FE用にデータを整形
-  const dailyData = data.map<DateSummary>((daily) => {
+  const dailyData = filterNoWork.map<DateSummary>((daily) => {
     const logs = daily.logs;
 
     // 最も時間をかけたタスクを見つける
-    const mainTask = logs.reduce((prev, current) => {
-      return prev.workTime > current.workTime ? prev : current;
-    });
+    const mainTask = logs.reduce(
+      (prev, current) => {
+        return prev.workTime > current.workTime ? prev : current;
+      },
+      { workTime: -1, task: { name: "", category: { name: "" } }, memos: [] }
+    );
 
     // メインカテゴリ（最も時間をかけたタスクのカテゴリ）
     const categoryName = mainTask.task.category.name;
