@@ -2,6 +2,7 @@ import {
   createRef,
   RefObject,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -21,14 +22,18 @@ export default function useTaskSummaryPage() {
     key: "api/work-log/tasks",
   });
   // TODO:データフェッチさせる
-  const rawData = data?.body ?? [];
-  const taskSummaryData: TaskSummary[] = rawData.map((v) => {
-    return {
-      ...v,
-      startDate: new Date(v.startDate),
-      lastDate: new Date(v.lastDate),
-    };
-  });
+  const rawData = useMemo(() => data?.body ?? [], [data?.body]);
+  const taskSummaryData: TaskSummary[] = useMemo(
+    () =>
+      rawData.map((v) => {
+        return {
+          ...v,
+          startDate: new Date(v.startDate),
+          lastDate: new Date(v.lastDate),
+        };
+      }),
+    [rawData]
+  );
 
   const [isDirtyRecord, setIsDirtyRecord] = useState<Record<number, boolean>>(
     {}
@@ -42,18 +47,27 @@ export default function useTaskSummaryPage() {
     [isDirtyRecord]
   );
 
-  const initialRef = taskSummaryData.reduce<
-    Record<number, RefObject<TaskSummaryTableBodyHandle | null>>
-  >((a, b) => {
-    const key = b.id;
-    const value = createRef<TaskSummaryTableBodyHandle>();
-    return { ...a, [key]: value };
-  }, {});
+  const getInitialRef = useCallback(
+    () =>
+      taskSummaryData.reduce<
+        Record<number, RefObject<TaskSummaryTableBodyHandle | null>>
+      >((a, b) => {
+        const key = b.id;
+        const value = createRef<TaskSummaryTableBodyHandle>();
+        return { ...a, [key]: value };
+      }, {}),
+    [taskSummaryData]
+  );
   // 各行の参照(key:タスクのid,value:各行のメソッド(saveとreset用))
-  const rowRefs =
-    useRef<Record<number, RefObject<TaskSummaryTableBodyHandle | null>>>(
-      initialRef
-    );
+  const rowRefs = useRef<
+    Record<number, RefObject<TaskSummaryTableBodyHandle | null>>
+  >({});
+  // refの初期化
+  useEffect(() => {
+    if (taskSummaryData && Object.keys(rowRefs.current).length === 0) {
+      rowRefs.current = getInitialRef();
+    }
+  }, [getInitialRef, taskSummaryData]);
 
   // 変更のある対象のキーを取得する関数
   const getTargetKeys = useCallback(() => {
