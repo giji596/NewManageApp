@@ -71,3 +71,24 @@ export const createTask = async (
   });
   return data;
 };
+
+/**
+ * タスクを一括更新するメソッド(一覧ページで利用)
+ */
+export const bulkUpdateTask = async (
+  updateData: { id: number; progress?: number; isFavorite?: boolean }[]
+) => {
+  const data = await prisma.$transaction(
+    updateData.map((v) =>
+      prisma.task.update({
+        where: { id: v.id },
+        data: {
+          ...(v.progress !== undefined && { progress: v.progress }),
+          ...(v.isFavorite !== undefined && { isFavorite: v.isFavorite }),
+        },
+        select: { id: true },
+      })
+    )
+  );
+  return data;
+};
