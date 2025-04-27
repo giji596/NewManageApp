@@ -12,6 +12,7 @@ import type { Methods as Methods_14he14f } from './work-log/memos/_id';
 import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
+import type { Methods as Methods_oqgfc } from './work-log/tasks/bulk-update';
 import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
@@ -26,7 +27,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH7 = '/body';
   const PATH8 = '/work-log/memos/tags';
   const PATH9 = '/work-log/tasks';
-  const PATH10 = '/work-log/tasks/options';
+  const PATH10 = '/work-log/tasks/bulk-update';
+  const PATH11 = '/work-log/tasks/options';
   const GET = 'GET';
   const POST = 'POST';
   const DELETE = 'DELETE';
@@ -136,13 +138,20 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         $path: () => `${prefix}${PATH6}`,
       },
       tasks: {
+        bulk_update: {
+          patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH10, PATCH, option).json(),
+          $patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH10, PATCH, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH10}`,
+        },
         options: {
           get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH10, GET, option).json(),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH11, GET, option).json(),
           $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH10, GET, option).json().then(r => r.body),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH11, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
-            `${prefix}${PATH10}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH11}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
         get: (option?: { config?: T | undefined } | undefined) =>
           fetch<Methods_161gw75['get']['resBody']>(prefix, PATH9, GET, option).json(),
