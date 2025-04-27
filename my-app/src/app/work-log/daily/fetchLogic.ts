@@ -1,6 +1,7 @@
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
 import { useSearchParams } from "next/navigation";
+import { DateSummary } from "@/type/Date";
 
 /**
  * DailyPageのフェッチ関連のロジック
@@ -15,7 +16,10 @@ export default function DailyPageFetchLogic() {
     "get",
     { query: { year, month } }
   );
-  const itemList = data?.body ?? [];
+  const rawItemList = data?.body ?? [];
+  const itemList: DateSummary[] = rawItemList.map((v) => {
+    return { ...v, date: new Date(v.date) };
+  });
 
   return {
     /** アイテム全体のリスト */
