@@ -2,6 +2,7 @@ import { MemoSummary } from "@/type/Memo";
 import prisma from "../prisma";
 import { DateSummary, DateSummaryDetail } from "@/type/Date";
 import { CategoryWithPercentage } from "@/type/Category";
+import { TaskWithPercentage } from "@/type/Task";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -112,9 +113,18 @@ export const getDailySummaryDetailData = async (date: Date) => {
       0
     );
 
-    // categoryListを作成
-    const categoryMap: Record<number, CategoryWithPercentage> = {};
+    // categoryIDごとのworkTimeを集計
+    const categoryWorkTime: Record<
+      number,
+      { categoryName: string; workTime: number }
+    > = {};
+    // タスクIDごとのworkTimeを記録
+    const taskWorkTime: Record<
+      number,
+      { categoryId: number; taskName: string; workTime: number }
+    > = {};
 
+    // カテゴリ/タスクごとの時間を集計する
     data.logs.forEach((log) => {
       const task = log.task;
       const workTime = log.workTime;
@@ -123,26 +133,59 @@ export const getDailySummaryDetailData = async (date: Date) => {
       const taskId = task.id;
       const taskName = task.name;
 
-      // CategoryWithPercentageを作成
-      if (!categoryMap[categoryId]) {
-        categoryMap[categoryId] = {
-          id: categoryId,
-          name: categoryName,
-          taskList: [],
-          percent: "0", // 初期値
-        };
+      // カテゴリのkeyがない場合は作る
+      if (!categoryWorkTime[categoryId]) {
+        categoryWorkTime[categoryId] = { categoryName, workTime };
+      } else {
+        // すでにある場合はworkTimeを加算する
+        categoryWorkTime[categoryId].workTime += workTime;
       }
-
-      // TaskWithPercentageを作成
-      categoryMap[categoryId].taskList.push({
-        id: taskId,
-        name: taskName,
-        percent: ((workTime / totalWorkTime) * 100).toFixed(2), // パーセントを計算
-      });
+      // 同じidのタスクはないのでこちらは分岐不要
+      taskWorkTime[taskId] = { categoryId, taskName, workTime };
     });
 
-    // categoryListにデータをセット
-    dateSummaryDetail.categoryList = Object.values(categoryMap);
+    // パーセント化してオブジェクト化
+    const categoryList: CategoryWithPercentage[] = Object.keys(
+      categoryWorkTime
+    ).map((categoryId) => {
+      // keyをnumber化
+      const categoryIdNum = parseInt(categoryId);
+      const category = categoryWorkTime[categoryIdNum];
+
+      // タスクについて
+      const tasks: TaskWithPercentage[] = [];
+      // categoryIdが一致するタスクのみをtasks配列にpushする
+      Object.keys(taskWorkTime).map((taskId) => {
+        // keyをnumber化
+        const taskIdNum = parseInt(taskId);
+        const task = taskWorkTime[taskIdNum];
+        if (task.categoryId === categoryIdNum) {
+          const percent = ((task.workTime / category.workTime) * 100).toFixed(
+            1
+          );
+          tasks.push({
+            id: taskIdNum,
+            name: task.taskName,
+            percent: `${percent}%`,
+          });
+        }
+      });
+
+      // カテゴリについて
+      const categoryPercent = (
+        (category.workTime / totalWorkTime) *
+        100
+      ).toFixed(1);
+
+      return {
+        id: categoryIdNum,
+        name: category.categoryName,
+        taskList: tasks,
+        percent: `${categoryPercent}%`,
+      };
+    });
+
+    dateSummaryDetail.categoryList = categoryList;
 
     // memoListを作成
     dateSummaryDetail.memoList = data.logs.flatMap((log) =>
@@ -151,8 +194,6 @@ export const getDailySummaryDetailData = async (date: Date) => {
         title: memo.title,
       }))
     );
-
-    console.log(dateSummaryDetail);
     return dateSummaryDetail;
   }
   console.log(data);
