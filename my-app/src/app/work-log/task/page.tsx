@@ -11,6 +11,7 @@ export default function TaskSummaryPage() {
   const {
     taskSummaryData,
     isLoading,
+    isValidating,
     rowRefs,
     handleSaveAll,
     handleResetAll,
@@ -30,7 +31,7 @@ export default function TaskSummaryPage() {
         onClickReset={handleResetAll}
         onClickNavigateDetail={navigateToDetail}
       />
-      {!isLoading && (
+      {!isLoading && !isValidating && (
         <TaskSummaryTable
           taskList={taskSummaryData}
           ref={rowRefs.current}
