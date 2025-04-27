@@ -1,4 +1,4 @@
-import { TaskOption } from "@/type/Task";
+import { TaskOption, TaskSummary } from "@/type/Task";
 import prisma from "../prisma";
 
 /**
@@ -10,6 +10,38 @@ export const getTaskOptions = async (categoryId: number) => {
     select: { id: true, name: true },
   });
   return data;
+};
+
+/**
+ * タスク一覧ページのデータを取得する関数
+ */
+export const getTaskSummary = async (): Promise<TaskSummary[]> => {
+  const data = await prisma.task.findMany({
+    select: {
+      id: true,
+      name: true,
+      category: { select: { name: true } },
+      progress: true,
+      isFavorite: true,
+      tasks: { select: { workTime: true } },
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  const result: TaskSummary[] = data.map((task) => {
+    const totalHours = task.tasks.reduce((a, b) => a + b.workTime, 0);
+    return {
+      id: task.id,
+      taskName: task.name,
+      isFavorite: task.isFavorite,
+      categoryName: task.category.name,
+      progress: task.progress,
+      totalHours: totalHours,
+      startDate: task.createdAt,
+      lastDate: task.updatedAt,
+    };
+  });
+  return result;
 };
 
 /**

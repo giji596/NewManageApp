@@ -144,6 +144,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
             `${prefix}${PATH10}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
+        get: (option?: { config?: T | undefined } | undefined) =>
+          fetch<Methods_161gw75['get']['resBody']>(prefix, PATH9, GET, option).json(),
+        $get: (option?: { config?: T | undefined } | undefined) =>
+          fetch<Methods_161gw75['get']['resBody']>(prefix, PATH9, GET, option).json().then(r => r.body),
         post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
           fetch<Methods_161gw75['post']['resBody']>(prefix, PATH9, POST, option).json(),
         $post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>

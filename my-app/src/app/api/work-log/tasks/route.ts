@@ -1,5 +1,10 @@
-import { createTask } from "@/lib/services/taskService";
+import { createTask, getTaskSummary } from "@/lib/services/taskService";
 import { NextRequest, NextResponse } from "next/server";
+
+export async function GET() {
+  const data = await getTaskSummary();
+  return NextResponse.json(data);
+}
 
 export async function POST(req: NextRequest) {
   const { name, categoryId, isFavorite } = (await req.json()) as {
