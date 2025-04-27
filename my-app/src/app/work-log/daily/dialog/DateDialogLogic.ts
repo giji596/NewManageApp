@@ -44,7 +44,10 @@ export default function DataDialogLogic() {
   );
 
   const dateParam = useMemo(
-    () => `${selectYear}-${selectMonth}-${selectDay}`,
+    () =>
+      `${selectYear}-${selectMonth.toString().padStart(2, "0")}-${selectDay
+        .toString()
+        .padStart(2, "0")}`,
     [selectDay, selectMonth, selectYear]
   );
   const { data, isLoading } = useAspidaSWR(
