@@ -12,15 +12,20 @@ import { useRouter } from "next/navigation";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
 import { TaskSummary } from "@/type/Task";
+import { mutate } from "swr";
 
 /**
  * タスク一覧ページのパラメータ関連
  */
 export default function useTaskSummaryPage() {
   const router = useRouter();
-  const { data, isLoading } = useAspidaSWR(apiClient.work_log.tasks, "get", {
-    key: "api/work-log/tasks",
-  });
+  const { data, isLoading, isValidating } = useAspidaSWR(
+    apiClient.work_log.tasks,
+    "get",
+    {
+      key: "api/work-log/tasks",
+    }
+  );
   // TODO:データフェッチさせる
   const rawData = useMemo(() => data?.body ?? [], [data?.body]);
   const taskSummaryData: TaskSummary[] = useMemo(
@@ -34,6 +39,7 @@ export default function useTaskSummaryPage() {
       }),
     [rawData]
   );
+  console.log(taskSummaryData);
 
   const [isDirtyRecord, setIsDirtyRecord] = useState<Record<number, boolean>>(
     {}
@@ -85,9 +91,10 @@ export default function useTaskSummaryPage() {
       const data = ref.current?.getFormData();
       result.push({ id: Number(key), ...data }); // 判別ようにidを付与
     }
-    // TODO:ここでデータ送信
-    console.log("送信データ", result);
-    // TODO:この後にデータフェッチ => await => フォームresetで更新後の値を適応させる
+    // データをまとめて変更
+    await apiClient.work_log.tasks.bulk_update.patch({ body: result });
+    // 再検証
+    mutate("api/work-log/tasks"); // undefinedにすることでテーブルを一度アンマウント
   }, [getTargetKeys]);
 
   const handleResetAll = useCallback(() => {
@@ -120,6 +127,8 @@ export default function useTaskSummaryPage() {
     taskSummaryData,
     /** ロード状態 */
     isLoading,
+    /** 検証状態 */
+    isValidating,
     /** 各行のref値(各行のメソッドを呼び出すのに必要) */
     rowRefs,
     /** dirty状態を切り替える関数(各行について切り替え) */
