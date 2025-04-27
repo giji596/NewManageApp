@@ -1,4 +1,3 @@
-import { DUMMY_TASK_SUMMARY_DATA } from "@/dummy/task-page";
 import {
   createRef,
   RefObject,
@@ -9,15 +8,19 @@ import {
 } from "react";
 import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLogic";
 import { useRouter } from "next/navigation";
+import useAspidaSWR from "@aspida/swr";
+import apiClient from "@/lib/apiClient";
 
 /**
  * タスク一覧ページのパラメータ関連
  */
 export default function useTaskSummaryPage() {
   const router = useRouter();
+  const { data, isLoading } = useAspidaSWR(apiClient.work_log.tasks, "get", {
+    key: "api/work-log/tasks",
+  });
   // TODO:データフェッチさせる
-  const taskSummaryData = DUMMY_TASK_SUMMARY_DATA;
-  const isLoading = false;
+  const taskSummaryData = data?.body ?? [];
 
   const [isDirtyRecord, setIsDirtyRecord] = useState<Record<number, boolean>>(
     {}
