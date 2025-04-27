@@ -10,6 +10,7 @@ import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLog
 import { useRouter } from "next/navigation";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
+import { TaskSummary } from "@/type/Task";
 
 /**
  * タスク一覧ページのパラメータ関連
@@ -20,7 +21,14 @@ export default function useTaskSummaryPage() {
     key: "api/work-log/tasks",
   });
   // TODO:データフェッチさせる
-  const taskSummaryData = data?.body ?? [];
+  const rawData = data?.body ?? [];
+  const taskSummaryData: TaskSummary[] = rawData.map((v) => {
+    return {
+      ...v,
+      startDate: new Date(v.startDate),
+      lastDate: new Date(v.lastDate),
+    };
+  });
 
   const [isDirtyRecord, setIsDirtyRecord] = useState<Record<number, boolean>>(
     {}
