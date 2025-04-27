@@ -52,13 +52,15 @@ export const getDailyDetailData = async (date: Date) => {
       },
       dailyHours: workTime,
     });
-
     // メモを整形して格納
     memos.forEach((memo) => {
+      // 30文字以上であればスライスして「...」を末尾につける
+      const text =
+        memo.text.length > 30 ? `${memo.text.slice(0, 30)}...` : memo.text;
       memoList.push({
         id: memo.id,
         title: memo.title,
-        summary: memo.text.slice(0, 30),
+        summary: text,
         task: {
           id: memo.taskLog.task.id,
           name: memo.taskLog.task.name,
