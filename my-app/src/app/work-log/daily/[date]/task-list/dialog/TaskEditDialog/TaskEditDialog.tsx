@@ -196,16 +196,20 @@ export default function TaskEditDialog({
         </Stack>
       </Dialog>
       {/** 確認ダイアログ */}
-      <ConfirmDeleteDialog
-        open={openDelete}
-        onClose={onCloseDelete}
-        onAccept={handleDelete}
-      />
-      <ConfirmSaveDialog
-        open={openSave}
-        onClose={onCloseSave}
-        onAccept={handleSave}
-      />
+      {openDelete && (
+        <ConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
+          onAccept={handleDelete}
+        />
+      )}
+      {openSave && (
+        <ConfirmSaveDialog
+          open={openSave}
+          onClose={onCloseSave}
+          onAccept={handleSave}
+        />
+      )}
       {openCreateCategory && (
         <CreateCategoryDialog
           open={openCreateCategory}
