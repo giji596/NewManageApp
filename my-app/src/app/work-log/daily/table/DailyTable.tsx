@@ -122,7 +122,10 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                         borderRadius: "4px",
                         transition: "background 0.5s",
                         "&:hover": {
-                          backgroundColor: "rgba(31, 158, 255, 0.37)",
+                          backgroundColor:
+                            item.memo.length > 0
+                              ? "rgba(31, 158, 255, 0.37)"
+                              : "",
                         },
                       }}
                       onMouseEnter={(e) =>
@@ -130,21 +133,25 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                       }
                       onMouseLeave={() => handleMouseLeave(dateToId(item.date))}
                     >
-                      <Typography
-                        sx={{
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {item.memo[0].title}
-                      </Typography>
-                      <KeyboardArrowDownIcon
-                        sx={{
-                          opacity: 0.6,
-                          fontSize: 20,
-                        }}
-                      />
+                      {item.memo.length > 0 && (
+                        <>
+                          <Typography
+                            sx={{
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {item.memo[0].title}
+                          </Typography>
+                          <KeyboardArrowDownIcon
+                            sx={{
+                              opacity: 0.6,
+                              fontSize: 20,
+                            }}
+                          />
+                        </>
+                      )}
                     </TableCell>
                     {/** 稼働合計 */}
                     <TableCell
