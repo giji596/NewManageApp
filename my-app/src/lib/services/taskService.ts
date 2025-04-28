@@ -159,3 +159,22 @@ export const getTaskDetail = async (id: number) => {
   // データないときはnull
   return null;
 };
+
+export const updateTaskDetail = async (
+  id: number,
+  taskName?: string,
+  categoryId?: number,
+  isFavorite?: boolean
+) => {
+  const data = await prisma.task.update({
+    where: { id },
+    data: {
+      // あるデータだけ更新
+      ...(taskName !== undefined && { name: taskName }),
+      ...(categoryId !== undefined && { categoryId }),
+      ...(isFavorite !== undefined && { isFavorite }),
+    },
+    select: { id: true },
+  });
+  return data;
+};
