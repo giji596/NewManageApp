@@ -1,6 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import { TaskDetail } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { mutate } from "swr";
@@ -62,9 +63,18 @@ export default function useTaskDetailPage({ id }: Props) {
     mutate(`api/work-log/tasks/${id}`);
   }, [id]);
   const handleDelete = useCallback(async () => {
-    // TODO:データの削除と一覧ページへのナビゲーションを行う
-    console.log("削除処理 対象id:", data.id);
-  }, [data.id]);
+    try {
+      await apiClient.work_log.tasks._id(id).delete();
+    } catch (error) {
+      // エラーコードが400の場合に利用中を削除した際のエラーとする
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          // TODO:ここにエラー時の処理を
+          console.log("利用中のタスクを削除しようとした場合");
+        }
+      }
+    }
+  }, [id]);
 
   const navigateCategoryPage = useCallback(() => {
     router.push(`/work-log/category?id=${categoryId}`);
