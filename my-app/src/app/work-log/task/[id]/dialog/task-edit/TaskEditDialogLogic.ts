@@ -1,4 +1,6 @@
+import apiClient from "@/lib/apiClient";
 import { CategoryOption } from "@/type/Category";
+import useAspidaSWR from "@aspida/swr";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
@@ -30,6 +32,11 @@ export default function TaskEditDialogLogic({
   initialIsFavorite,
   onClose,
 }: Props) {
+  const { data, isLoading } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get",
+    { key: "api/work-log/categories/options" }
+  );
   // TODO:ここでデータフェッチ
   const categoryList: CategoryOption[] = [
     { id: 1, name: "カテゴリ1" },
@@ -37,7 +44,6 @@ export default function TaskEditDialogLogic({
     { id: 3, name: "カテゴリ3" },
     { id: 4, name: "カテゴリ4" },
   ];
-  const isLoading = false;
 
   const {
     control,
