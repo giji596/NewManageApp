@@ -42,8 +42,8 @@ export default function TaskSummaryTable({
     doFilterByFilterList,
   } = TaskSummaryTableLogic({ taskList });
   return (
-    <TableContainer>
-      <Table sx={{ tableLayout: "fixed" }}>
+    <TableContainer sx={{ height: `calc(100vh - 180px)` }}>
+      <Table sx={{ tableLayout: "fixed" }} stickyHeader>
         <TableHead>
           <TaskSummaryTableHeader
             isFavoriteChecked={isFavoriteChecked}
