@@ -6,4 +6,8 @@ export type Methods = DefineMethods<{
   get: {
     resBody: ReplaceDateWithString<TaskDetail>;
   };
+  patch: {
+    reqBody: { taskName?: string; categoryId?: number; isFavorite?: boolean };
+    resBody: { id: number };
+  };
 }>;
