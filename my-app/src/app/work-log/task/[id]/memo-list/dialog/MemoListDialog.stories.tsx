@@ -7,7 +7,7 @@ const meta = {
   args: {
     id: 1,
     title: "タイトル名",
-    tagId: 1,
+    tagName: "1",
     open: true,
     onClose: () => {},
   },

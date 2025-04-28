@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import CategoryTaskList from './CategoryTaskList';
+import CategoryTaskList from "./CategoryTaskList";
 
 const meta = {
   component: CategoryTaskList,
@@ -11,5 +11,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {}
+  args: { categoryId: 1 },
 };

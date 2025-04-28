@@ -8,6 +8,7 @@ const meta = {
     logic: {
       open: true,
       anchorEl: null,
+      openTargetIdRef: { current: 1 },
       handleClose: () => {},
       handleMouseEnter: () => {},
       handleMouseLeave: () => {},
