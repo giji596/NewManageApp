@@ -1,8 +1,10 @@
 import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
 import useAspidaSWR from "@aspida/swr";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** 本文 */
@@ -33,6 +35,7 @@ export default function MemoListDialogLogic({
   title,
   onClose,
 }: Props) {
+  const { id: taskId } = useParams<{ id: string }>();
   const { data, isLoading: isLoadingText } = useAspidaSWR(
     apiClient.work_log.memos._id(id).body,
     "get",
@@ -94,10 +97,10 @@ export default function MemoListDialogLogic({
   );
 
   const handleDelete = useCallback(async () => {
-    // TODO: 削除のリクエスト
-    console.log("削除対象のid", id);
+    await apiClient.work_log.memos._id(id).delete();
+    mutate(`api/work-log/tasks/${taskId}`);
     onClose();
-  }, [id, onClose]);
+  }, [id, onClose, taskId]);
 
   const handleEdit = useCallback(() => setIsEdit(true), []);
   return {
