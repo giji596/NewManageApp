@@ -180,3 +180,11 @@ export const updateTaskDetail = async (
   });
   return data;
 };
+
+export const deleteTask = async (id: number) => {
+  const data = await prisma.task.delete({
+    where: { id },
+    select: { id: true },
+  });
+  return data;
+};
