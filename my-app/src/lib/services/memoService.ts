@@ -52,13 +52,15 @@ export const updateMemo = async (
   text?: string,
   tagId?: number
 ) => {
+  // tagIdが0の場合はnullに変換する(memoのtagIdはNull許容 かつtagId0の場合は未選択の場合なので)
+  const nullableTagId = tagId === 0 ? null : tagId;
   const data = await prisma.memo.update({
     where: { id },
     data: {
       // あるデータだけ更新 (左辺falseだと処理なし)
       ...(title !== undefined && { title }),
       ...(text !== undefined && { text }),
-      ...(tagId !== undefined && { tagId }),
+      ...(tagId !== undefined && { nullableTagId }),
     },
     select: { id: true },
   });
