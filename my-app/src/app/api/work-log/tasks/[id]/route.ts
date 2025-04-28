@@ -1,4 +1,8 @@
-import { getTaskDetail, updateTaskDetail } from "@/lib/services/taskService";
+import {
+  deleteTask,
+  getTaskDetail,
+  updateTaskDetail,
+} from "@/lib/services/taskService";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -27,5 +31,15 @@ export async function PATCH(
     progress?: number;
   };
   const res = updateTaskDetail(id, taskName, categoryId, isFavorite, progress);
+  return NextResponse.json(res);
+}
+
+export async function DELETE(
+  _: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id: idParam } = await params;
+  const id = Number(idParam);
+  const res = await deleteTask(id);
   return NextResponse.json(res);
 }
