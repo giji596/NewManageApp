@@ -1,4 +1,4 @@
-import { TaskOption, TaskSummary } from "@/type/Task";
+import { TaskDetail, TaskOption, TaskSummary } from "@/type/Task";
 import prisma from "../prisma";
 
 /**
@@ -91,4 +91,71 @@ export const bulkUpdateTask = async (
     )
   );
   return data;
+};
+
+/**
+ * タスク詳細データ取得ロジック
+ */
+export const getTaskDetail = async (id: number) => {
+  const data = await prisma.task.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      category: true,
+      progress: true,
+      isFavorite: true,
+      tasks: {
+        select: {
+          workTime: true,
+          date: true,
+          memos: {
+            select: {
+              id: true,
+              title: true,
+              tag: { select: { name: true } },
+              text: true,
+            },
+          },
+        },
+      },
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  if (data) {
+    // 総稼働時間は計算
+    const totalHours = data.tasks.reduce((a, b) => a + b.workTime, 0);
+    // メモは整形してflatに
+    const memos = data.tasks.flatMap((task) =>
+      task.memos.map((memo) => {
+        // タグなければ未選択とする
+        const tag = memo.tag?.name ?? "未選択";
+        // summaryは30文字超える場合は 30文字+... に変更
+        const summary =
+          memo.text.length > 30 ? `${memo.text.slice(0, 30)}...` : memo.text;
+        return {
+          id: memo.id,
+          date: task.date,
+          title: memo.title,
+          tag: tag,
+          summary: summary,
+        };
+      })
+    );
+    const result: TaskDetail = {
+      id: data.id,
+      name: data.name,
+      isFavorite: data.isFavorite,
+      category: data.category,
+      progress: data.progress,
+      totalHours: totalHours,
+      startDate: data.createdAt,
+      lastDate: data.updatedAt,
+      memo: memos,
+    };
+    return result;
+  }
+  // データないときはnull
+  return null;
 };
