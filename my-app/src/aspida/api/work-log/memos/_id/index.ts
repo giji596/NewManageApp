@@ -2,7 +2,7 @@ import { DefineMethods } from "aspida";
 
 export type Methods = DefineMethods<{
   patch: {
-    reqBody: { text: string };
+    reqBody: { title?: string; text?: string; tagId?: number };
     resBody: { id: number };
   };
   delete: {

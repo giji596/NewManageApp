@@ -7,7 +7,11 @@ export async function PATCH(
 ) {
   const { id: idParam } = await params;
   const id = Number(idParam);
-  const { text } = (await req.json()) as { text: string };
+  const { title, text, tagId } = (await req.json()) as {
+    title?: string;
+    text?: string;
+    tagId?: number;
+  };
   const res = await updateMemo(id, text);
   return NextResponse.json(res);
 }
