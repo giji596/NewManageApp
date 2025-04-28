@@ -101,12 +101,14 @@ export default function MemoListDialogLogic({
       });
       // 送信後に初期値のrefを更新する
       init.current = data;
+      // 再検証して表示データに即時適応
+      mutate(`api/work-log/tasks/${taskId}`);
       // TODO: データのレスポンスに応じて分岐
       // どうするかは今後の使用感で考える(isSendingいらんかも？)
       setIsSending(false);
       setIsEdit(false);
     },
-    [id]
+    [id, taskId]
   );
 
   const handleDelete = useCallback(async () => {
