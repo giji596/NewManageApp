@@ -3,7 +3,7 @@ import { TaskDetail } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { mutate } from "swr";
 
 type Props = {
@@ -14,6 +14,8 @@ type Props = {
  * タスク詳細ページのカスタムフック
  */
 export default function useTaskDetailPage({ id }: Props) {
+  const [openError, setOpenError] = useState<boolean>(false);
+  const onCloseError = useCallback(() => setOpenError(false), []);
   const router = useRouter();
   const { data: rawData, isLoading } = useAspidaSWR(
     apiClient.work_log.tasks._id(id),
@@ -73,8 +75,7 @@ export default function useTaskDetailPage({ id }: Props) {
       // エラーコードが400の場合に利用中を削除した際のエラーとする
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 400) {
-          // TODO:ここにエラー時の処理を
-          console.log("利用中のタスクを削除しようとした場合");
+          setOpenError(true);
         }
       }
     }
@@ -84,6 +85,10 @@ export default function useTaskDetailPage({ id }: Props) {
     router.push(`/work-log/category?id=${categoryId}`);
   }, [categoryId, router]);
   return {
+    /** エラーメッセージの表示 */
+    openError,
+    /** エラーメッセージ閉じるハンドラ */
+    onCloseError,
     /** ロード状態 */
     isLoading,
     /** タスク名 */
