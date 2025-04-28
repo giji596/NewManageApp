@@ -20,11 +20,12 @@ export async function PATCH(
 ) {
   const { id: idParam } = await params;
   const id = Number(idParam);
-  const { taskName, categoryId, isFavorite } = (await req.json()) as {
+  const { taskName, categoryId, isFavorite, progress } = (await req.json()) as {
     taskName?: string;
     categoryId?: number;
     isFavorite?: boolean;
+    progress?: number;
   };
-  const res = updateTaskDetail(id, taskName, categoryId, isFavorite);
+  const res = updateTaskDetail(id, taskName, categoryId, isFavorite, progress);
   return NextResponse.json(res);
 }

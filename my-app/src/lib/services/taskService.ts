@@ -164,7 +164,8 @@ export const updateTaskDetail = async (
   id: number,
   taskName?: string,
   categoryId?: number,
-  isFavorite?: boolean
+  isFavorite?: boolean,
+  progress?: number
 ) => {
   const data = await prisma.task.update({
     where: { id },
@@ -173,6 +174,7 @@ export const updateTaskDetail = async (
       ...(taskName !== undefined && { name: taskName }),
       ...(categoryId !== undefined && { categoryId }),
       ...(isFavorite !== undefined && { isFavorite }),
+      ...(progress !== undefined && { progress }),
     },
     select: { id: true },
   });
