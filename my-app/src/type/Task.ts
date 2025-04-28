@@ -44,9 +44,9 @@ export type TaskDetail = {
   /** タスクの稼働合計時間 */
   totalHours: number;
   /** タスクの開始日 */
-  startDate: Date;
+  startDate: string;
   /** タスクの最終更新日 */
-  lastDate: Date;
+  lastDate: string;
   /** タスクの詳細ページのメモ */
   memo: MemoTaskDetail[];
 };
