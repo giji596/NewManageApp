@@ -1,8 +1,7 @@
-import { DUMMY_TASK_DETAIL_MEMO } from "@/dummy/task-page";
 import apiClient from "@/lib/apiClient";
+import { ReplaceDateWithString } from "@/type/common";
 import { TaskDetail } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
-import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
@@ -20,17 +19,17 @@ export default function useTaskDetailPage({ id }: Props) {
     "get",
     { key: `api/work-log/tasks/${id}` }
   );
-  // TODO:でーたふぇっちさせる
-  const data: TaskDetail = {
+  // 初期ロード時はisLoading=trueとなりdataは利用されないので、null時のデータは利用されない
+  const data: ReplaceDateWithString<TaskDetail> = rawData?.body ?? {
     id: 1,
     name: "タスク1",
     category: { id: 1, name: "カテゴリ1" },
     isFavorite: false,
     progress: 70,
     totalHours: 35,
-    startDate: new Date("2024-12-22"),
-    lastDate: new Date("2025-02-22"),
-    memo: DUMMY_TASK_DETAIL_MEMO,
+    startDate: "",
+    lastDate: "",
+    memo: [],
   };
   const taskName = data.name;
   const categoryId = data.category.id;
@@ -39,11 +38,11 @@ export default function useTaskDetailPage({ id }: Props) {
   const progress = data.progress;
   const totalHours = data.totalHours;
   const startDateString = useMemo(
-    () => format(data.startDate, "yyyy/MM/dd"),
+    () => data.startDate.replaceAll("-", "/").split("T")[0],
     [data.startDate]
   );
   const lastDateString = useMemo(
-    () => format(data.lastDate, "yyyy/MM/dd"),
+    () => data.lastDate.replaceAll("-", "/").split("T")[0],
     [data.lastDate]
   );
   const memoList = useMemo(() => data.memo, [data.memo]); // タスク名の更新時の再フェッチ時に更新しないように設定
