@@ -1,5 +1,11 @@
 "use client";
-import { CircularProgress, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  CircularProgress,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/material";
 import MainDisplay from "./main-display/MainDisplay";
 import MemoList from "./memo-list/MemoList";
 import DateDisplay from "./date-display/DateDisplay";
@@ -21,6 +27,8 @@ type Props = {
 export default function TaskDetailPage({ params }: Props) {
   const { id } = use(params);
   const {
+    openError,
+    onCloseError,
     isLoading,
     taskName,
     categoryId,
@@ -128,6 +136,11 @@ export default function TaskDetailPage({ params }: Props) {
           onClose={onCloseDelete}
           onAccept={handleDelete} // TODO:動作を設定
         />
+      )}
+      {openError && (
+        <Snackbar open={openError} onClose={onCloseError}>
+          <Alert severity="error">参照されているタスクは削除できません。</Alert>
+        </Snackbar>
       )}
     </>
   );
