@@ -33,36 +33,50 @@ export default function MemoListDialogLogic({
   title,
   onClose,
 }: Props) {
-  // TODO:idを使ってデータフェッチ
-  const { data, isLoading } = useAspidaSWR(
+  const { data, isLoading: isLoadingText } = useAspidaSWR(
     apiClient.work_log.memos._id(id).body,
     "get",
     { key: `api/work-log/memos/${id}/body` }
   );
   const text = useMemo(() => data?.body.text ?? "", [data?.body.text]);
 
-  // TODO:タグ一覧をデータフェッチ
-  const tagList: TagOption[] = [
-    { id: 1, name: "タグ1" },
-    { id: 2, name: "タグ2" },
-    { id: 3, name: "タグ3" },
-  ];
+  const { data: tagData, isLoading: isLoadingTag } = useAspidaSWR(
+    apiClient.work_log.memos.tags,
+    "get",
+    { key: "api/work-log/memos/tags" }
+  );
+  const tagList: TagOption[] = useMemo(
+    () =>
+      tagData !== undefined
+        ? [{ id: 0, name: "未選択" }, ...tagData.body]
+        : [{ id: 0, name: "未選択" }],
+    [tagData]
+  );
+
+  const isLoading = useMemo(
+    () => isLoadingText || isLoadingTag,
+    [isLoadingTag, isLoadingText]
+  );
 
   // タグ名から検索してidを取得する
-  const tagId = tagList.find((tagItem) => tagItem.name === tagName)?.id;
+  const tagId = useMemo(
+    () => tagList.find((tagItem) => tagItem.name === tagName)?.id,
+    [tagList, tagName]
+  );
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
   // RHF
   const { control, handleSubmit, setValue } = useForm<SubmitData>({
-    defaultValues: { text: "", tagId: tagId, title: title },
+    defaultValues: { text: "", tagId: 0, title: title },
   });
   // ロード完了時にsetValueで初期値をセットする
   useEffect(() => {
     if (!isLoading) {
       setValue("text", text);
+      setValue("tagId", tagId ?? 0);
     }
-  }, [isLoading, setValue, text]);
+  }, [isLoading, setValue, tagId, text]);
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
