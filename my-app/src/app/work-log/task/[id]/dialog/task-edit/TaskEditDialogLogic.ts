@@ -1,6 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import { CategoryOption } from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
+import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
@@ -32,6 +33,7 @@ export default function TaskEditDialogLogic({
   initialIsFavorite,
   onClose,
 }: Props) {
+  const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useAspidaSWR(
     apiClient.work_log.categories.options,
     "get",
@@ -53,11 +55,16 @@ export default function TaskEditDialogLogic({
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
-      // TODO:ここで送信
-      console.log("送信でーた", data);
+      await apiClient.work_log.tasks._id(id).patch({
+        body: {
+          taskName: data.taskName,
+          categoryId: data.categoryId,
+          isFavorite: data.isFavorite,
+        },
+      });
       onClose();
     },
-    [onClose]
+    [id, onClose]
   );
   return {
     /** カテゴリの一覧 */
