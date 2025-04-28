@@ -1,8 +1,10 @@
 import apiClient from "@/lib/apiClient";
 import { CategoryOption } from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
+import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** タスク名 */
@@ -32,6 +34,7 @@ export default function TaskEditDialogLogic({
   initialIsFavorite,
   onClose,
 }: Props) {
+  const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useAspidaSWR(
     apiClient.work_log.categories.options,
     "get",
@@ -53,11 +56,19 @@ export default function TaskEditDialogLogic({
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
-      // TODO:ここで送信
-      console.log("送信でーた", data);
+      const sendData: Record<string, string | number | boolean> = {};
+      if (initialTaskName !== data.taskName) sendData.taskName = data.taskName;
+      if (initialCategoryId !== data.categoryId)
+        sendData.categoryId = data.categoryId;
+      if (initialIsFavorite !== data.isFavorite)
+        sendData.isFavorite = data.isFavorite;
+      await apiClient.work_log.tasks._id(id).patch({
+        body: sendData,
+      });
+      mutate(`api/work-log/tasks/${id}`);
       onClose();
     },
-    [onClose]
+    [id, initialCategoryId, initialIsFavorite, initialTaskName, onClose]
   );
   return {
     /** カテゴリの一覧 */

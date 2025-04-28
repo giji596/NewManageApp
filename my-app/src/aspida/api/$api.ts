@@ -147,6 +147,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
               fetch<Methods_1pplcpu['get']['resBody']>(prefix, prefix2, GET, option).json(),
             $get: (option?: { config?: T | undefined } | undefined) =>
               fetch<Methods_1pplcpu['get']['resBody']>(prefix, prefix2, GET, option).json().then(r => r.body),
+            patch: (option: { body: Methods_1pplcpu['patch']['reqBody'], config?: T | undefined }) =>
+              fetch(prefix, prefix2, PATCH, option).send(),
+            $patch: (option: { body: Methods_1pplcpu['patch']['reqBody'], config?: T | undefined }) =>
+              fetch(prefix, prefix2, PATCH, option).send().then(r => r.body),
             $path: () => `${prefix}${prefix2}`,
           };
         },
