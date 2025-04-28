@@ -83,15 +83,14 @@ export default function MemoListDialogLogic({
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
-      //TODO:データ送信処理
       setIsSending(true);
-      console.log("そうしんでーた", data);
-      console.log("送信先id", id);
-      if (true) {
-        // TODO: データのレスポンスに応じて分岐
-        setIsSending(false);
-        setIsEdit(false);
-      }
+      await apiClient.work_log.memos._id(id).patch({
+        body: { title: data.title, text: data.text, tagId: data.tagId },
+      });
+      // TODO: データのレスポンスに応じて分岐
+      // どうするかは今後の使用感で考える(isSendingいらんかも？)
+      setIsSending(false);
+      setIsEdit(false);
     },
     [id]
   );
