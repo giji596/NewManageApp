@@ -12,7 +12,7 @@ export async function PATCH(
     text?: string;
     tagId?: number;
   };
-  const res = await updateMemo(id, text);
+  const res = await updateMemo(id, title, text, tagId);
   return NextResponse.json(res);
 }
 
