@@ -1,5 +1,4 @@
 import apiClient from "@/lib/apiClient";
-import { ReplaceDateWithString } from "@/type/common";
 import { TaskDetail } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { useRouter } from "next/navigation";
@@ -20,17 +19,26 @@ export default function useTaskDetailPage({ id }: Props) {
     { key: `api/work-log/tasks/${id}` }
   );
   // 初期ロード時はisLoading=trueとなりdataは利用されないので、null時のデータは利用されない
-  const data: ReplaceDateWithString<TaskDetail> = rawData?.body ?? {
-    id: 1,
-    name: "タスク1",
-    category: { id: 1, name: "カテゴリ1" },
-    isFavorite: false,
-    progress: 70,
-    totalHours: 35,
-    startDate: "",
-    lastDate: "",
-    memo: [],
-  };
+  const data: TaskDetail = useMemo(() => {
+    if (rawData) {
+      const memos = rawData.body.memo.map((v) => {
+        return { ...v, date: new Date(v.date) };
+      });
+      return { ...rawData.body, memo: memos };
+    } else {
+      return {
+        id: 1,
+        name: "タスク1",
+        category: { id: 1, name: "カテゴリ1" },
+        isFavorite: false,
+        progress: 70,
+        totalHours: 35,
+        startDate: "",
+        lastDate: "",
+        memo: [],
+      };
+    }
+  }, [rawData]);
   const taskName = data.name;
   const categoryId = data.category.id;
   const categoryName = data.category.name;
