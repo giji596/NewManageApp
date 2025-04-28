@@ -33,7 +33,7 @@ export default function MemoListDialogLogic({
   title,
   onClose,
 }: Props) {
-  const { data, isLoading } = useAspidaSWR(
+  const { data, isLoading: isLoadingText } = useAspidaSWR(
     apiClient.work_log.memos._id(id).body,
     "get",
     { key: `api/work-log/memos/${id}/body` }
@@ -48,6 +48,11 @@ export default function MemoListDialogLogic({
   const tagList: TagOption[] = useMemo(
     () => tagData?.body ?? [],
     [tagData?.body]
+  );
+
+  const isLoading = useMemo(
+    () => isLoadingText || isLoadingTag,
+    [isLoadingTag, isLoadingText]
   );
 
   // タグ名から検索してidを取得する
