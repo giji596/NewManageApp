@@ -14,7 +14,7 @@ export async function GET(
   const id = Number(idParam);
   const res = await getTaskDetail(id);
   if (res === null) {
-    return NextResponse.json({ error: "Invalid Id" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Id" }, { status: 404 });
   }
   return NextResponse.json(res);
 }
