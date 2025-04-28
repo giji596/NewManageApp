@@ -4,6 +4,7 @@ import useAspidaSWR from "@aspida/swr";
 import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type SubmitData = {
   /** タスク名 */
@@ -62,6 +63,7 @@ export default function TaskEditDialogLogic({
           isFavorite: data.isFavorite,
         },
       });
+      mutate(`api/work-log/tasks/${id}`);
       onClose();
     },
     [id, onClose]
