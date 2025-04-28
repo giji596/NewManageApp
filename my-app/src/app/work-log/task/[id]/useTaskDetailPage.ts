@@ -65,6 +65,10 @@ export default function useTaskDetailPage({ id }: Props) {
   const handleDelete = useCallback(async () => {
     try {
       await apiClient.work_log.tasks._id(id).delete();
+      // 現在のページのキャッシュを削除(再検証は不要なのでfalseで)
+      mutate(`api/work-log/tasks/${id}`, undefined, { revalidate: false });
+      // 一覧ページへ移動
+      router.push("/work-log/task");
     } catch (error) {
       // エラーコードが400の場合に利用中を削除した際のエラーとする
       if (axios.isAxiosError(error) && error.response) {
@@ -74,7 +78,7 @@ export default function useTaskDetailPage({ id }: Props) {
         }
       }
     }
-  }, [id]);
+  }, [id, router]);
 
   const navigateCategoryPage = useCallback(() => {
     router.push(`/work-log/category?id=${categoryId}`);
