@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import Page from './page';
+import Page from "./page";
 
 const meta = {
   component: Page,
@@ -8,8 +8,8 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Page>;
 
 export const Default: Story = {
-  args: {}
+  render: () => <Page params={Promise.resolve({ date: "" })} />,
 };

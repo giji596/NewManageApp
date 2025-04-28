@@ -7,11 +7,9 @@ const meta = {
   args: {
     isFavoriteChecked: false,
     isAsc: false,
-    taskCheckList: { タスク1: false, タスク2: false, タスク3: false },
     categoryCheckList: { カテゴリ1: false, カテゴリ2: false, カテゴリ3: false },
     onClickFavorite: () => {},
     onClickTitle: () => {},
-    onClickSelectTask: () => {},
     onClickSelectCategory: () => {},
   },
 } satisfies Meta<typeof TaskSummaryTableHeader>;
