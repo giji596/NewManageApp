@@ -15,4 +15,5 @@ export type Methods = DefineMethods<{
     };
     resBody: { id: number };
   };
+  delete: { resBody: { id: number } };
 }>;
