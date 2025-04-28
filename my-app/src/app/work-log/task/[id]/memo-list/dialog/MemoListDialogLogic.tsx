@@ -1,5 +1,7 @@
+import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
-import { useCallback, useEffect, useState } from "react";
+import useAspidaSWR from "@aspida/swr";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type SubmitData = {
@@ -32,9 +34,12 @@ export default function MemoListDialogLogic({
   onClose,
 }: Props) {
   // TODO:idを使ってデータフェッチ
-  const text =
-    "本文の文章をなんかかいて、それがまとめて渡されるあああ、えええ、っっっでええあえふぁ";
-  const isLoading = id ? false : true;
+  const { data, isLoading } = useAspidaSWR(
+    apiClient.work_log.memos._id(id).body,
+    "get",
+    { key: `api/work-log/memos/${id}/body` }
+  );
+  const text = useMemo(() => data?.body.text ?? "", [data?.body.text]);
 
   // TODO:タグ一覧をデータフェッチ
   const tagList: TagOption[] = [
@@ -57,7 +62,7 @@ export default function MemoListDialogLogic({
     if (!isLoading) {
       setValue("text", text);
     }
-  }, [isLoading, setValue]);
+  }, [isLoading, setValue, text]);
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
