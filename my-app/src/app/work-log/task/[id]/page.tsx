@@ -119,7 +119,7 @@ export default function TaskDetailPage({ params }: Props) {
         <CompleteConfirmDialog
           open={openComplete}
           onClose={onCloseComplete}
-          onAccept={handleComplete} // TODO:動作を設定
+          onAccept={handleComplete}
         />
       )}
       {openDelete && (

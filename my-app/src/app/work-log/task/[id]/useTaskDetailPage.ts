@@ -3,6 +3,7 @@ import { TaskDetail } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { mutate } from "swr";
 
 type Props = {
   /** パスパラメータのid(ページ呼び出し時に自動的に取得) */
@@ -56,9 +57,10 @@ export default function useTaskDetailPage({ id }: Props) {
   const memoList = useMemo(() => data.memo, [data.memo]); // タスク名の更新時の再フェッチ時に更新しないように設定
 
   const handleComplete = useCallback(async () => {
-    // TODO: データ更新させる(進捗を100%にする？)
-    console.log("完了処理 対象id:", data.id);
-  }, [data.id]);
+    await apiClient.work_log.tasks._id(id).patch({ body: { progress: 100 } });
+    // データ更新後に再検証してUIに即時反映
+    mutate(`api/work-log/tasks/${id}`);
+  }, [id]);
   const handleDelete = useCallback(async () => {
     // TODO:データの削除と一覧ページへのナビゲーションを行う
     console.log("削除処理 対象id:", data.id);
