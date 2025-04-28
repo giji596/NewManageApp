@@ -2,7 +2,7 @@ import apiClient from "@/lib/apiClient";
 import { TagOption } from "@/type/Tag";
 import useAspidaSWR from "@aspida/swr";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { mutate } from "swr";
 
@@ -36,6 +36,12 @@ export default function MemoListDialogLogic({
   onClose,
 }: Props) {
   const { id: taskId } = useParams<{ id: string }>();
+  // 初期値を保持(更新時のチェック用)
+  const init = useRef<{ title: string; text: string; tagId: number }>({
+    title: title,
+    text: "",
+    tagId: 0,
+  });
   const { data, isLoading: isLoadingText } = useAspidaSWR(
     apiClient.work_log.memos._id(id).body,
     "get",
@@ -78,15 +84,23 @@ export default function MemoListDialogLogic({
     if (!isLoading) {
       setValue("text", text);
       setValue("tagId", tagId ?? 0);
+      init.current = { ...init.current, text: text, tagId: tagId ?? 0 };
     }
   }, [isLoading, setValue, tagId, text]);
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       setIsSending(true);
+      // 送信データを作成(initの値と異なる場合のみ含める)
+      const sendData: Record<string, string | number> = {};
+      if (init.current.title !== data.title) sendData.title = data.title;
+      if (init.current.text !== data.text) sendData.text = data.text;
+      if (init.current.tagId !== data.tagId) sendData.tagId = data.tagId;
       await apiClient.work_log.memos._id(id).patch({
-        body: { title: data.title, text: data.text, tagId: data.tagId },
+        body: sendData,
       });
+      // 送信後に初期値のrefを更新する
+      init.current = data;
       // TODO: データのレスポンスに応じて分岐
       // どうするかは今後の使用感で考える(isSendingいらんかも？)
       setIsSending(false);
