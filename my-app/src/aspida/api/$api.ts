@@ -12,6 +12,7 @@ import type { Methods as Methods_14he14f } from './work-log/memos/_id';
 import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
+import type { Methods as Methods_1pplcpu } from './work-log/tasks/_id';
 import type { Methods as Methods_oqgfc } from './work-log/tasks/bulk-update';
 import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
 
@@ -138,6 +139,17 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         $path: () => `${prefix}${PATH6}`,
       },
       tasks: {
+        _id: (val2: number | string) => {
+          const prefix2 = `${PATH9}/${val2}`;
+
+          return {
+            get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_1pplcpu['get']['resBody']>(prefix, prefix2, GET, option).json(),
+            $get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_1pplcpu['get']['resBody']>(prefix, prefix2, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix2}`,
+          };
+        },
         bulk_update: {
           patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
             fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH10, PATCH, option).json(),
