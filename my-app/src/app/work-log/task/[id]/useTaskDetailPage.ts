@@ -1,5 +1,7 @@
 import { DUMMY_TASK_DETAIL_MEMO } from "@/dummy/task-page";
+import apiClient from "@/lib/apiClient";
 import { TaskDetail } from "@/type/Task";
+import useAspidaSWR from "@aspida/swr";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -13,7 +15,11 @@ type Props = {
  */
 export default function useTaskDetailPage({ id }: Props) {
   const router = useRouter();
-  console.log("ぺーじid:", id);
+  const { data: rawData, isLoading } = useAspidaSWR(
+    apiClient.work_log.tasks._id(id),
+    "get",
+    { key: `api/work-log/tasks/${id}` }
+  );
   // TODO:でーたふぇっちさせる
   const data: TaskDetail = {
     id: 1,
@@ -26,7 +32,6 @@ export default function useTaskDetailPage({ id }: Props) {
     lastDate: new Date("2025-02-22"),
     memo: DUMMY_TASK_DETAIL_MEMO,
   };
-  const isLoading = false;
   const taskName = data.name;
   const categoryId = data.category.id;
   const categoryName = data.category.name;
