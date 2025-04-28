@@ -56,17 +56,19 @@ export default function TaskEditDialogLogic({
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
+      const sendData: Record<string, string | number | boolean> = {};
+      if (initialTaskName !== data.taskName) sendData.taskName = data.taskName;
+      if (initialCategoryId !== data.categoryId)
+        sendData.categoryId = data.categoryId;
+      if (initialIsFavorite !== data.isFavorite)
+        sendData.isFavorite = data.isFavorite;
       await apiClient.work_log.tasks._id(id).patch({
-        body: {
-          taskName: data.taskName,
-          categoryId: data.categoryId,
-          isFavorite: data.isFavorite,
-        },
+        body: sendData,
       });
       mutate(`api/work-log/tasks/${id}`);
       onClose();
     },
-    [id, onClose]
+    [id, initialCategoryId, initialIsFavorite, initialTaskName, onClose]
   );
   return {
     /** カテゴリの一覧 */
