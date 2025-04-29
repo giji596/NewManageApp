@@ -1,5 +1,5 @@
 import { getDaysInMonth } from "date-fns";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** 選択中の年 */
@@ -57,17 +57,18 @@ export const DateSelectMenuButtonLogic = ({
     return Array.from({ length: days }, (_, i) => i + 1);
   }, [selectMonth, selectYear]);
 
-  const yearLabel = useMemo(() => String(selectYear), [selectYear]);
-  const monthLabel = useMemo(() => {
-    const label = String(selectMonth);
+  const getLabel = useCallback((v: number) => {
+    const label = String(v);
     // 一桁なら0を付与する
     return label.length === 1 ? `0${label}` : label;
-  }, [selectMonth]);
-  const dayLabel = useMemo(() => {
-    const label = String(selectDay);
-    // 一桁なら0を付与する
-    return label.length === 1 ? `0${label}` : label;
-  }, [selectDay]);
+  }, []);
+
+  const dateLabel = useMemo(() => {
+    const year = getLabel(selectYear);
+    const month = getLabel(selectMonth);
+    const day = getLabel(selectDay);
+    return `${year}/${month}/${day}`;
+  }, [getLabel, selectDay, selectMonth, selectYear]);
 
   return {
     /** メニューの開閉状態 */
@@ -84,11 +85,9 @@ export const DateSelectMenuButtonLogic = ({
     monthSelectList,
     /** 日の選択賜 */
     daySelectList,
-    /** 年のラベル */
-    yearLabel,
-    /** 月のラベル */
-    monthLabel,
-    /** 日のラベル */
-    dayLabel,
+    /** セレクトのラベル取得する(一桁の場合のみ0を頭につける) */
+    getLabel,
+    /** ボタン用の日付ラベル */
+    dateLabel,
   };
 };

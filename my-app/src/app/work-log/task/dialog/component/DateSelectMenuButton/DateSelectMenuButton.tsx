@@ -36,9 +36,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
     yearSelectList,
     monthSelectList,
     daySelectList,
-    yearLabel,
-    monthLabel,
-    dayLabel,
+    getLabel,
+    dateLabel,
   } = DateSelectMenuButtonLogic({
     selectYear,
     selectMonth,
@@ -48,7 +47,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   return (
     <>
       <Button aria-label={name} onClick={handleClick}>
-        yyyy/mm/dd
+        {dateLabel}
       </Button>
       <Menu
         id={`${name}-menu`}
@@ -66,7 +65,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
             >
               {yearSelectList.map((v) => (
                 <MenuItem key={v} value={v}>
-                  {yearLabel}
+                  {getLabel(v)}
                 </MenuItem>
               ))}
             </Select>
@@ -80,7 +79,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
             >
               {monthSelectList.map((v) => (
                 <MenuItem key={v} value={v}>
-                  {monthLabel}
+                  {getLabel(v)}
                 </MenuItem>
               ))}
             </Select>
@@ -94,7 +93,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
             >
               {daySelectList.map((v) => (
                 <MenuItem key={v} value={v}>
-                  {dayLabel}
+                  {getLabel(v)}
                 </MenuItem>
               ))}
             </Select>
