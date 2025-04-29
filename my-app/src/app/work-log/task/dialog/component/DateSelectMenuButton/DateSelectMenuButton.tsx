@@ -28,18 +28,12 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   selectMonth,
   selectDay,
 }: Props) {
-  const {
-    open,
-    anchorEl,
-    handleClick,
-    handleClose,
-    selectList,
-    getSelectValue,
-  } = DateSelectMenuButtonLogic({
-    selectYear,
-    selectMonth,
-    selectDay,
-  });
+  const { open, anchorEl, handleClick, handleClose } =
+    DateSelectMenuButtonLogic({
+      selectYear,
+      selectMonth,
+      selectDay,
+    });
 
   return (
     <>
@@ -53,18 +47,36 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
         onClose={handleClose}
       >
         <Stack direction="row" px={1.5} py={0.5}>
-          {selectList.map((v) => (
-            <FormControl key={v}>
-              <Select
-                name={`${name}-${v}-select`}
-                aria-label={`${name}-${v}-select`}
-                variant="standard"
-                value={getSelectValue(v)}
-              >
-                <MenuItem value={v}>{v}</MenuItem>
-              </Select>
-            </FormControl>
-          ))}
+          <FormControl>
+            <Select
+              name={`${name}-year-select`}
+              aria-label={`${name}-year-select`}
+              variant="standard"
+              value={"x"}
+            >
+              <MenuItem value="x">x</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <Select
+              name={`${name}-month-select`}
+              aria-label={`${name}-month-select`}
+              variant="standard"
+              value={"x"}
+            >
+              <MenuItem value="x">x</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <Select
+              name={`${name}-day-select`}
+              aria-label={`${name}-day-select`}
+              variant="standard"
+              value={"x"}
+            >
+              <MenuItem value="x">x</MenuItem>
+            </Select>
+          </FormControl>
         </Stack>
       </Menu>
     </>
