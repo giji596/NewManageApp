@@ -41,9 +41,25 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
           </Stack>
           {/** フォームエリア */}
           <Stack direction={"row"} spacing={4}>
-            <Input sx={{ width: 80 }} />
-            <Slider />
-            <Input sx={{ width: 80 }} />
+            <Input
+              sx={{ width: 80 }}
+              inputProps={{
+                step: 10,
+                min: 0,
+                max: 100,
+                type: "number",
+              }}
+            />
+            <Slider value={[30, 70]} valueLabelDisplay="auto" />
+            <Input
+              sx={{ width: 80 }}
+              inputProps={{
+                step: 10,
+                min: 0,
+                max: 100,
+                type: "number",
+              }}
+            />
           </Stack>
         </Stack>
         {/** 開始日/終了日 */}
@@ -62,11 +78,11 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
             >
               <Button>yyyy/mm/dd</Button>
               <Menu open={false /** TODO:あとで修正 */}>
-                <Stack direction="row">
+                <Stack direction="row" px={1.5} py={0.5}>
                   {["yyyy", "mm", "dd"].map((v) => (
                     <FormControl key={v}>
-                      <Select>
-                        <MenuItem>{v}</MenuItem>
+                      <Select variant="standard" value={v}>
+                        <MenuItem value={v}>{v}</MenuItem>
                       </Select>
                     </FormControl>
                   ))}
@@ -74,11 +90,11 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
               </Menu>
               ~<Button>yyyy/mm/dd</Button>
               <Menu open={false /** TODO:あとで修正 */}>
-                <Stack direction="row">
+                <Stack direction="row" px={1.5} py={0.5}>
                   {["yyyy", "mm", "dd"].map((v) => (
                     <FormControl key={v}>
-                      <Select>
-                        <MenuItem>{v}</MenuItem>
+                      <Select variant="standard" value={v}>
+                        <MenuItem value={v}>{v}</MenuItem>
                       </Select>
                     </FormControl>
                   ))}
