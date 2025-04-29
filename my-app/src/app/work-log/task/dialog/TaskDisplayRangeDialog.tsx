@@ -22,7 +22,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
   return (
     <Dialog open={true /** TODO:後々修正 */}>
       {/** 表示設定のラジオボタン */}
-      <FormControl>
+      <FormControl sx={{ px: 3, pt: 2 }}>
         <FormLabel>表示設定</FormLabel>
         <RadioGroup row>
           <FormControlLabel control={<Radio />} label="進行中" />
@@ -31,7 +31,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         </RadioGroup>
       </FormControl>
       {/** カスタム設定部分(メインコンテンツ) */}
-      <Stack>
+      <Stack m={1} px={2} py={1} border="1px solid #ccc">
         {/** 進捗 */}
         <Stack>
           {/** 上部(switch/タイトル) */}
@@ -85,7 +85,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         ))}
       </Stack>
       {/** 下部(稼働なし省くかのチェック/ ボタン群) */}
-      <Stack direction="row" justifyContent={"space-between"}>
+      <Stack pb={2} px={3} direction="row" justifyContent={"space-between"}>
         {/** 左部分(チェックボックス) */}
         <FormControlLabel
           control={<Checkbox defaultChecked />}
