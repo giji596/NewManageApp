@@ -23,8 +23,12 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
     <Dialog open={true /** TODO:後々修正 */}>
       {/** 表示設定のラジオボタン */}
       <FormControl sx={{ px: 3, pt: 2 }}>
-        <FormLabel>表示設定</FormLabel>
-        <RadioGroup row>
+        <FormLabel id="display-range-label">表示設定</FormLabel>
+        <RadioGroup
+          aria-labelledby="display-range-label"
+          name="display-range"
+          row
+        >
           <FormControlLabel control={<Radio />} label="進行中" />
           <FormControlLabel control={<Radio />} label="完了済み" />
           <FormControlLabel control={<Radio />} label="カスタム" />
@@ -37,12 +41,14 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
           {/** 上部(switch/タイトル) */}
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch />
-            <Typography>進捗</Typography>
+            <Typography id="slider-label">進捗</Typography>
           </Stack>
           {/** フォームエリア */}
           <Stack direction={"row"} spacing={4}>
             <Input
               sx={{ width: 80 }}
+              aria-label="min-progress-range"
+              name="min-progress-range"
               inputProps={{
                 step: 10,
                 min: 0,
@@ -50,9 +56,16 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
                 type: "number",
               }}
             />
-            <Slider value={[30, 70]} valueLabelDisplay="auto" />
+            <Slider
+              aria-labelledby="slider-label"
+              name="progress-slider"
+              value={[30, 70]}
+              valueLabelDisplay="auto"
+            />
             <Input
               sx={{ width: 80 }}
+              aria-label="max-progress-range"
+              name="max-progress-range"
               inputProps={{
                 step: 10,
                 min: 0,
@@ -76,24 +89,40 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
               justifyContent={"space-around"}
               alignItems={"center"}
             >
-              <Button>yyyy/mm/dd</Button>
-              <Menu open={false /** TODO:あとで修正 */}>
+              <Button aria-label={`min-${v}-range`}>yyyy/mm/dd</Button>
+              <Menu
+                id={`min-${v}-range-menu`}
+                open={false /** TODO:あとで修正 */}
+              >
                 <Stack direction="row" px={1.5} py={0.5}>
                   {["yyyy", "mm", "dd"].map((v) => (
                     <FormControl key={v}>
-                      <Select variant="standard" value={v}>
+                      <Select
+                        name="min-date-range-select"
+                        aria-label="min-date-range-select"
+                        variant="standard"
+                        value={v}
+                      >
                         <MenuItem value={v}>{v}</MenuItem>
                       </Select>
                     </FormControl>
                   ))}
                 </Stack>
               </Menu>
-              ~<Button>yyyy/mm/dd</Button>
-              <Menu open={false /** TODO:あとで修正 */}>
+              ~<Button aria-label={`max-${v}-range`}>yyyy/mm/dd</Button>
+              <Menu
+                id={`max-${v}-range-menu`}
+                open={false /** TODO:あとで修正 */}
+              >
                 <Stack direction="row" px={1.5} py={0.5}>
                   {["yyyy", "mm", "dd"].map((v) => (
                     <FormControl key={v}>
-                      <Select variant="standard" value={v}>
+                      <Select
+                        name="max-date-range-select"
+                        aria-label="min-date-range-select"
+                        variant="standard"
+                        value={v}
+                      >
                         <MenuItem value={v}>{v}</MenuItem>
                       </Select>
                     </FormControl>
