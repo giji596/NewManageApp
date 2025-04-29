@@ -49,57 +49,59 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
       <Button aria-label={name} onClick={handleClick}>
         {dateLabel}
       </Button>
-      <Menu
-        id={`${name}-menu`}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-      >
-        <Stack direction="row" px={1.5} py={0.5}>
-          <FormControl>
-            <Select
-              name={`${name}-year-select`}
-              aria-label={`${name}-year-select`}
-              variant="standard"
-              value={selectYear}
-            >
-              {yearSelectList.map((v) => (
-                <MenuItem key={v} value={v}>
-                  {getLabel(v)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <Select
-              name={`${name}-month-select`}
-              aria-label={`${name}-month-select`}
-              variant="standard"
-              value={selectMonth}
-            >
-              {monthSelectList.map((v) => (
-                <MenuItem key={v} value={v}>
-                  {getLabel(v)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <Select
-              name={`${name}-day-select`}
-              aria-label={`${name}-day-select`}
-              variant="standard"
-              value={selectDay}
-            >
-              {daySelectList.map((v) => (
-                <MenuItem key={v} value={v}>
-                  {getLabel(v)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Stack>
-      </Menu>
+      {open && (
+        <Menu
+          id={`${name}-menu`}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+        >
+          <Stack direction="row" px={1.5} py={0.5}>
+            <FormControl>
+              <Select
+                name={`${name}-year-select`}
+                aria-label={`${name}-year-select`}
+                variant="standard"
+                value={selectYear}
+              >
+                {yearSelectList.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {getLabel(v)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <Select
+                name={`${name}-month-select`}
+                aria-label={`${name}-month-select`}
+                variant="standard"
+                value={selectMonth}
+              >
+                {monthSelectList.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {getLabel(v)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <Select
+                name={`${name}-day-select`}
+                aria-label={`${name}-day-select`}
+                variant="standard"
+                value={selectDay}
+              >
+                {daySelectList.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {getLabel(v)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        </Menu>
+      )}
     </>
   );
 });
