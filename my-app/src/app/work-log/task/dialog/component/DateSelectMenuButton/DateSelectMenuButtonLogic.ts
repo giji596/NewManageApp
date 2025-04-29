@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { getDaysInMonth } from "date-fns";
+import { useMemo, useState } from "react";
 
 type Props = {
   /** 選択中の年 */
@@ -25,20 +26,49 @@ export const DateSelectMenuButtonLogic = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const selectList = ["year", "month", "day"] as const;
-  const getSelectValue = useCallback(
-    (v: (typeof selectList)[number]) => {
-      switch (v) {
-        case "year":
-          return selectYear;
-        case "month":
-          return selectMonth;
-        case "day":
-          return selectDay;
+  const yearSelectList = useMemo(() => {
+    const todayYear = new Date().getFullYear();
+    return Array.from({ length: 10 }, (_, i) => todayYear - i);
+  }, []);
+  const monthSelectList = useMemo(() => {
+    const today = new Date();
+    const todayYear = today.getFullYear();
+    // 選択年が今年の場合は1~今月まで
+    if (selectYear === todayYear) {
+      const todayMonth = today.getMonth() + 1;
+      return Array.from({ length: todayMonth }, (_, i) => i + 1);
+    }
+    // それ以外は1~12
+    return Array.from({ length: 12 }, (_, i) => i + 1);
+  }, [selectYear]);
+  const daySelectList = useMemo(() => {
+    const today = new Date();
+    const todayYear = today.getFullYear();
+    // 年月が今日の値であれば今日の日付まで
+    if (selectYear === todayYear) {
+      const todayMonth = today.getMonth() + 1;
+      if (selectMonth === todayMonth) {
+        const todayDay = today.getDate();
+        return Array.from({ length: todayDay }, (_, i) => i + 1);
       }
-    },
-    [selectDay, selectMonth, selectYear]
-  );
+    }
+    // それ以外なら現在の年月の日数分
+    const days = getDaysInMonth(new Date(selectYear, selectMonth));
+    return Array.from({ length: days }, (_, i) => i + 1);
+  }, [selectMonth, selectYear]);
+
+  const yearLabel = useMemo(() => String(selectYear), [selectYear]);
+  const monthLabel = useMemo(() => {
+    const label = String(selectMonth);
+    // 一桁なら0を付与する
+    return label.length === 1 ? `0${label}` : label;
+  }, [selectMonth]);
+  const dayLabel = useMemo(() => {
+    const label = String(selectDay);
+    // 一桁なら0を付与する
+    return label.length === 1 ? `0${label}` : label;
+  }, [selectDay]);
+
   return {
     /** メニューの開閉状態 */
     open,
@@ -48,9 +78,17 @@ export const DateSelectMenuButtonLogic = ({
     handleClick,
     /** メニュー閉じるハンドラー */
     handleClose,
-    /** セレクトの一覧 */
-    selectList,
-    /** セレクトの名称からvalueを取得する関数 */
-    getSelectValue,
+    /** 年の選択賜 */
+    yearSelectList,
+    /** 月の選択賜 */
+    monthSelectList,
+    /** 日の選択賜 */
+    daySelectList,
+    /** 年のラベル */
+    yearLabel,
+    /** 月のラベル */
+    monthLabel,
+    /** 日のラベル */
+    dayLabel,
   };
 };

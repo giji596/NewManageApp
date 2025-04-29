@@ -28,12 +28,22 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   selectMonth,
   selectDay,
 }: Props) {
-  const { open, anchorEl, handleClick, handleClose } =
-    DateSelectMenuButtonLogic({
-      selectYear,
-      selectMonth,
-      selectDay,
-    });
+  const {
+    open,
+    anchorEl,
+    handleClick,
+    handleClose,
+    yearSelectList,
+    monthSelectList,
+    daySelectList,
+    yearLabel,
+    monthLabel,
+    dayLabel,
+  } = DateSelectMenuButtonLogic({
+    selectYear,
+    selectMonth,
+    selectDay,
+  });
 
   return (
     <>
@@ -52,9 +62,13 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
               name={`${name}-year-select`}
               aria-label={`${name}-year-select`}
               variant="standard"
-              value={"x"}
+              value={selectYear}
             >
-              <MenuItem value="x">x</MenuItem>
+              {yearSelectList.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {yearLabel}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -62,9 +76,13 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
               name={`${name}-month-select`}
               aria-label={`${name}-month-select`}
               variant="standard"
-              value={"x"}
+              value={selectMonth}
             >
-              <MenuItem value="x">x</MenuItem>
+              {monthSelectList.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {monthLabel}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -72,9 +90,13 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
               name={`${name}-day-select`}
               aria-label={`${name}-day-select`}
               variant="standard"
-              value={"x"}
+              value={selectDay}
             >
-              <MenuItem value="x">x</MenuItem>
+              {daySelectList.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {dayLabel}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Stack>
