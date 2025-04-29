@@ -35,27 +35,31 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         {/** 進捗 */}
         <Stack>
           {/** 上部(switch/タイトル) */}
-          <Stack direction="row">
+          <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch />
             <Typography>進捗</Typography>
           </Stack>
           {/** フォームエリア */}
-          <Stack direction={"row"}>
-            <Input />
+          <Stack direction={"row"} spacing={4}>
+            <Input sx={{ width: 80 }} />
             <Slider />
-            <Input />
+            <Input sx={{ width: 80 }} />
           </Stack>
         </Stack>
         {/** 開始日/終了日 */}
         {["startDate", "lastDate"].map((v) => (
           <Stack key={v}>
             {/** 上部(switch/タイトル) */}
-            <Stack direction="row">
+            <Stack direction="row" alignItems={"center"} spacing={1}>
               <Switch />
               <Typography>{v === "startDate" ? "開始日" : "最終日"}</Typography>
             </Stack>
             {/** フォームエリア */}
-            <Stack direction={"row"}>
+            <Stack
+              direction={"row"}
+              justifyContent={"space-around"}
+              alignItems={"center"}
+            >
               <Button>yyyy/mm/dd</Button>
               <Menu open={false /** TODO:あとで修正 */}>
                 <Stack direction="row">
@@ -68,7 +72,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
                   ))}
                 </Stack>
               </Menu>
-              -<Button>yyyy/mm/dd</Button>
+              ~<Button>yyyy/mm/dd</Button>
               <Menu open={false /** TODO:あとで修正 */}>
                 <Stack direction="row">
                   {["yyyy", "mm", "dd"].map((v) => (
@@ -88,8 +92,12 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
       <Stack pb={2} px={3} direction="row" justifyContent={"space-between"}>
         {/** 左部分(チェックボックス) */}
         <FormControlLabel
-          control={<Checkbox defaultChecked />}
-          label="稼働記録のないタスクを表示しない"
+          control={<Checkbox size="small" />}
+          label={
+            <Typography fontSize="0.8rem">
+              稼働記録のないタスクを表示しない
+            </Typography>
+          }
         />
         {/** 右部分(ボタン) */}
         <Stack direction="row">
