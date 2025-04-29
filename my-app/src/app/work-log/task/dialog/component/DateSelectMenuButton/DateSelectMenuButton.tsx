@@ -28,7 +28,14 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   selectMonth,
   selectDay,
 }: Props) {
-  const { selectList, getSelectValue } = DateSelectMenuButtonLogic({
+  const {
+    open,
+    anchorEl,
+    handleClick,
+    handleClose,
+    selectList,
+    getSelectValue,
+  } = DateSelectMenuButtonLogic({
     selectYear,
     selectMonth,
     selectDay,
@@ -36,8 +43,15 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
 
   return (
     <>
-      <Button aria-label={name}>yyyy/mm/dd</Button>
-      <Menu id={`${name}-menu`} open={false /** TODO:あとで修正 */}>
+      <Button aria-label={name} onClick={handleClick}>
+        yyyy/mm/dd
+      </Button>
+      <Menu
+        id={`${name}-menu`}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+      >
         <Stack direction="row" px={1.5} py={0.5}>
           {selectList.map((v) => (
             <FormControl key={v}>

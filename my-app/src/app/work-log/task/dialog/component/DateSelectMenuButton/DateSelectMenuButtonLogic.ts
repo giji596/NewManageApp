@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 type Props = {
   /** 選択中の年 */
@@ -17,6 +17,14 @@ export const DateSelectMenuButtonLogic = ({
   selectMonth,
   selectDay,
 }: Props) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const selectList = ["year", "month", "day"] as const;
   const getSelectValue = useCallback(
     (v: (typeof selectList)[number]) => {
@@ -32,6 +40,14 @@ export const DateSelectMenuButtonLogic = ({
     [selectDay, selectMonth, selectYear]
   );
   return {
+    /** メニューの開閉状態 */
+    open,
+    /** メニューの開閉位置 */
+    anchorEl,
+    /** ボタンクリックした際のハンドラー(メニュー開く) */
+    handleClick,
+    /** メニュー閉じるハンドラー */
+    handleClose,
     /** セレクトの一覧 */
     selectList,
     /** セレクトの名称からvalueを取得する関数 */
