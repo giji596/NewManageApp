@@ -146,7 +146,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         />
         {/** 右部分(ボタン) */}
         <Stack direction="row">
-          <Button>キャンセル</Button>
+          <Button color="error">キャンセル</Button>
           <Button>適応</Button>
         </Stack>
       </Stack>
