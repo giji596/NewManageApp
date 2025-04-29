@@ -6,17 +6,15 @@ import {
   FormControlLabel,
   FormLabel,
   Input,
-  Menu,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   Slider,
   Stack,
   Switch,
   Typography,
 } from "@mui/material";
 import { memo } from "react";
+import DateSelectMenuButton from "./component/DateSelectMenuButton/DateSelectMenuButton";
 
 const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
   return (
@@ -89,46 +87,25 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
               justifyContent={"space-around"}
               alignItems={"center"}
             >
-              <Button aria-label={`min-${v}-range`}>yyyy/mm/dd</Button>
-              <Menu
-                id={`min-${v}-range-menu`}
-                open={false /** TODO:あとで修正 */}
-              >
-                <Stack direction="row" px={1.5} py={0.5}>
-                  {["yyyy", "mm", "dd"].map((v) => (
-                    <FormControl key={v}>
-                      <Select
-                        name="min-date-range-select"
-                        aria-label="min-date-range-select"
-                        variant="standard"
-                        value={v}
-                      >
-                        <MenuItem value={v}>{v}</MenuItem>
-                      </Select>
-                    </FormControl>
-                  ))}
-                </Stack>
-              </Menu>
-              ~<Button aria-label={`max-${v}-range`}>yyyy/mm/dd</Button>
-              <Menu
-                id={`max-${v}-range-menu`}
-                open={false /** TODO:あとで修正 */}
-              >
-                <Stack direction="row" px={1.5} py={0.5}>
-                  {["yyyy", "mm", "dd"].map((v) => (
-                    <FormControl key={v}>
-                      <Select
-                        name="max-date-range-select"
-                        aria-label="min-date-range-select"
-                        variant="standard"
-                        value={v}
-                      >
-                        <MenuItem value={v}>{v}</MenuItem>
-                      </Select>
-                    </FormControl>
-                  ))}
-                </Stack>
-              </Menu>
+              <DateSelectMenuButton
+                name={`min-${v}`}
+                selectYear={2025}
+                selectMonth={4}
+                selectDay={22}
+                onChangeSelectYear={() => {}}
+                onChangeSelectMonth={() => {}}
+                onChangeSelectDay={() => {}}
+              />
+              ~
+              <DateSelectMenuButton
+                name={`max-${v}`}
+                selectYear={2025}
+                selectMonth={4}
+                selectDay={22}
+                onChangeSelectYear={() => {}}
+                onChangeSelectMonth={() => {}}
+                onChangeSelectDay={() => {}}
+              />
             </Stack>
           </Stack>
         ))}
