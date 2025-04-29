@@ -18,6 +18,12 @@ type Props = {
   selectMonth: number;
   /** 選択中の日 */
   selectDay: number;
+  /** 年の選択変える関数 */
+  onChangeSelectYear: (v: number) => void;
+  /** 月の選択変える関数 */
+  onChangeSelectMonth: (v: number) => void;
+  /** 日の選択変える関数 */
+  onChangeSelectDay: (v: number) => void;
 };
 /**
  * 日付選択のメニュー及びそれを開閉するボタンのコンポーネント
@@ -27,6 +33,9 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   selectYear,
   selectMonth,
   selectDay,
+  onChangeSelectYear,
+  onChangeSelectMonth,
+  onChangeSelectDay,
 }: Props) {
   const {
     open,
@@ -63,6 +72,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 aria-label={`${name}-year-select`}
                 variant="standard"
                 value={selectYear}
+                onChange={(e) => onChangeSelectYear(Number(e.target.value))}
               >
                 {yearSelectList.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -77,6 +87,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 aria-label={`${name}-month-select`}
                 variant="standard"
                 value={selectMonth}
+                onChange={(e) => onChangeSelectMonth(Number(e.target.value))}
               >
                 {monthSelectList.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -91,6 +102,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 aria-label={`${name}-day-select`}
                 variant="standard"
                 value={selectDay}
+                onChange={(e) => onChangeSelectDay(Number(e.target.value))}
               >
                 {daySelectList.map((v) => (
                   <MenuItem key={v} value={v}>
