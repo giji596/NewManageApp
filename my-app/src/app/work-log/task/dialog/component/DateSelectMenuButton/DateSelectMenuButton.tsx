@@ -24,6 +24,8 @@ type Props = {
   onChangeSelectMonth: (v: number) => void;
   /** 日の選択変える関数 */
   onChangeSelectDay: (v: number) => void;
+  /** disabledかどうか */
+  disabled: boolean;
 };
 /**
  * 日付選択のメニュー及びそれを開閉するボタンのコンポーネント
@@ -36,6 +38,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   onChangeSelectYear,
   onChangeSelectMonth,
   onChangeSelectDay,
+  disabled,
 }: Props) {
   const {
     open,
@@ -55,7 +58,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
 
   return (
     <>
-      <Button aria-label={name} onClick={handleClick}>
+      <Button aria-label={name} onClick={handleClick} disabled={disabled}>
         {dateLabel}
       </Button>
       {open && (
