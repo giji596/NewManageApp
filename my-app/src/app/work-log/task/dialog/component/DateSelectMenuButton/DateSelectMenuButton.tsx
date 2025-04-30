@@ -8,22 +8,14 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import { DateSelectMenuButtonLogic } from "./DateSelectMenuButtonLogic";
+import { useDateSelectMenuButton } from "./out-side-logic";
 
+type SelectValueProps = ReturnType<typeof useDateSelectMenuButton>;
 type Props = {
   /** 名称(識別/アクセシビリティ用) */
   name: string;
-  /** 選択中の年 */
-  selectYear: number;
-  /** 選択中の月 */
-  selectMonth: number;
-  /** 選択中の日 */
-  selectDay: number;
-  /** 年の選択変える関数 */
-  onChangeSelectYear: (v: number) => void;
-  /** 月の選択変える関数 */
-  onChangeSelectMonth: (v: number) => void;
-  /** 日の選択変える関数 */
-  onChangeSelectDay: (v: number) => void;
+  /** 選択中の値に関するパラメータ */
+  selectValueProps: SelectValueProps;
   /** disabledかどうか */
   disabled: boolean;
 };
@@ -32,14 +24,11 @@ type Props = {
  */
 const DateSelectMenuButton = memo(function DateSelectMenuButton({
   name,
-  selectYear,
-  selectMonth,
-  selectDay,
-  onChangeSelectYear,
-  onChangeSelectMonth,
-  onChangeSelectDay,
+  selectValueProps,
   disabled,
 }: Props) {
+  const { year, onChangeYear, month, onChangeMonth, day, onChangeDay } =
+    selectValueProps;
   const {
     open,
     anchorEl,
@@ -51,11 +40,10 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
     getLabel,
     dateLabel,
   } = DateSelectMenuButtonLogic({
-    selectYear,
-    selectMonth,
-    selectDay,
+    year,
+    month,
+    day,
   });
-
   return (
     <>
       <Button aria-label={name} onClick={handleClick} disabled={disabled}>
@@ -74,8 +62,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 name={`${name}-year-select`}
                 aria-label={`${name}-year-select`}
                 variant="standard"
-                value={selectYear}
-                onChange={(e) => onChangeSelectYear(Number(e.target.value))}
+                value={year}
+                onChange={(e) => onChangeYear(Number(e.target.value))}
               >
                 {yearSelectList.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -89,8 +77,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 name={`${name}-month-select`}
                 aria-label={`${name}-month-select`}
                 variant="standard"
-                value={selectMonth}
-                onChange={(e) => onChangeSelectMonth(Number(e.target.value))}
+                value={month}
+                onChange={(e) => onChangeMonth(Number(e.target.value))}
               >
                 {monthSelectList.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -104,8 +92,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 name={`${name}-day-select`}
                 aria-label={`${name}-day-select`}
                 variant="standard"
-                value={selectDay}
-                onChange={(e) => onChangeSelectDay(Number(e.target.value))}
+                value={day}
+                onChange={(e) => onChangeDay(Number(e.target.value))}
               >
                 {daySelectList.map((v) => (
                   <MenuItem key={v} value={v}>

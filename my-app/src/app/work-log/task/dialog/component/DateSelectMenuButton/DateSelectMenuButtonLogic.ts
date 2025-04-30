@@ -3,21 +3,17 @@ import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** 選択中の年 */
-  selectYear: number;
+  year: number;
   /** 選択中の月 */
-  selectMonth: number;
+  month: number;
   /** 選択中の日 */
-  selectDay: number;
+  day: number;
 };
 
 /**
  * 日付選択のメニュー及びそれを開閉するボタンのコンポーネントのロジック
  */
-export const DateSelectMenuButtonLogic = ({
-  selectYear,
-  selectMonth,
-  selectDay,
-}: Props) => {
+export const DateSelectMenuButtonLogic = ({ year, month, day }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,28 +30,28 @@ export const DateSelectMenuButtonLogic = ({
     const today = new Date();
     const todayYear = today.getFullYear();
     // 選択年が今年の場合は1~今月まで
-    if (selectYear === todayYear) {
+    if (year === todayYear) {
       const todayMonth = today.getMonth() + 1;
       return Array.from({ length: todayMonth }, (_, i) => i + 1);
     }
     // それ以外は1~12
     return Array.from({ length: 12 }, (_, i) => i + 1);
-  }, [selectYear]);
+  }, [year]);
   const daySelectList = useMemo(() => {
     const today = new Date();
     const todayYear = today.getFullYear();
     // 年月が今日の値であれば今日の日付まで
-    if (selectYear === todayYear) {
+    if (year === todayYear) {
       const todayMonth = today.getMonth() + 1;
-      if (selectMonth === todayMonth) {
+      if (month === todayMonth) {
         const todayDay = today.getDate();
         return Array.from({ length: todayDay }, (_, i) => i + 1);
       }
     }
     // それ以外なら現在の年月の日数分
-    const days = getDaysInMonth(new Date(selectYear, selectMonth));
+    const days = getDaysInMonth(new Date(year, month));
     return Array.from({ length: days }, (_, i) => i + 1);
-  }, [selectMonth, selectYear]);
+  }, [month, year]);
 
   const getLabel = useCallback((v: number) => {
     const label = String(v);
@@ -64,11 +60,11 @@ export const DateSelectMenuButtonLogic = ({
   }, []);
 
   const dateLabel = useMemo(() => {
-    const year = getLabel(selectYear);
-    const month = getLabel(selectMonth);
-    const day = getLabel(selectDay);
-    return `${year}/${month}/${day}`;
-  }, [getLabel, selectDay, selectMonth, selectYear]);
+    const yearString = getLabel(year);
+    const monthString = getLabel(month);
+    const dayString = getLabel(day);
+    return `${yearString}/${monthString}/${dayString}`;
+  }, [getLabel, day, month, year]);
 
   return {
     /** メニューの開閉状態 */
