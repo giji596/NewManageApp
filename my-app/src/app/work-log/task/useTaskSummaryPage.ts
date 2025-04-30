@@ -8,10 +8,10 @@ import {
   useState,
 } from "react";
 import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLogic";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
-import { TaskSummary } from "@/type/Task";
+import { TaskSummary, TaskSummaryRangeQuery } from "@/type/Task";
 import { mutate } from "swr";
 
 /**
@@ -19,12 +19,23 @@ import { mutate } from "swr";
  */
 export default function useTaskSummaryPage() {
   const router = useRouter();
+  const params = useSearchParams();
+  const query: TaskSummaryRangeQuery = useMemo(() => {
+    const progress = params.get("progress") ?? undefined;
+    const startDate = params.get("startDate") ?? undefined;
+    const lastDate = params.get("lastDate") ?? undefined;
+    const activeOnly = params.get("activeOnly") ?? undefined;
+    return {
+      ...(progress !== undefined && { progress }),
+      ...(startDate !== undefined && { startDate }),
+      ...(lastDate !== undefined && { lastDate }),
+      ...(activeOnly !== undefined && { activeOnly }),
+    };
+  }, [params]);
   const { data, isLoading, isValidating } = useAspidaSWR(
     apiClient.work_log.tasks,
     "get",
-    {
-      key: "api/work-log/tasks",
-    }
+    { query, key: ["api/work-log/tasks?", query] }
   );
   // TODO:データフェッチさせる
   const rawData = useMemo(() => data?.body ?? [], [data?.body]);
