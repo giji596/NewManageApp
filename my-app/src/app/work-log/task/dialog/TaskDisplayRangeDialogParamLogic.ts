@@ -87,7 +87,7 @@ export const TaskDisplayRangeDialogParamLogic = ({
     setIsCheckedUnActiveFilter((prev) => !prev);
   }, []);
 
-  const onClickAdapt = useCallback(() => {
+  const onClickAdapt = () => {
     // 空のクエリ
     const params = new URLSearchParams();
     // 稼働記録なしかのチェック
@@ -97,9 +97,11 @@ export const TaskDisplayRangeDialogParamLogic = ({
     switch (displayRange) {
       case "in-progress": {
         params.set("progress", "0,90");
+        break;
       }
       case "completed": {
         params.set("progress", "100,100");
+        break;
       }
       case "custom": {
         if (isProgressEnable)
@@ -113,20 +115,7 @@ export const TaskDisplayRangeDialogParamLogic = ({
     // replaceで同様のページを保持して(戻るできる必要ないので)クエリ置き換え
     router.replace(params.toString());
     onClose();
-  }, [
-    displayRange,
-    isCheckedUnActiveFilter,
-    isLastDateEnable,
-    isProgressEnable,
-    isStartDateEnable,
-    lastMaxParam,
-    lastMixParam,
-    onClose,
-    progressRange,
-    router,
-    startMaxParam,
-    startMinParam,
-  ]);
+  };
   return {
     /** 表示範囲(ラジオグループ) */
     displayRange,
