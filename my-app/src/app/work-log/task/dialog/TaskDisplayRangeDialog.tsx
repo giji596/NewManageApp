@@ -14,7 +14,8 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import DateSelectMenuButton from "./component/DateSelectMenuButton/DateSelectMenuButton";
-import { TaskDisplayRangeDialogLogic } from "./TaskDisplayRangeDialogLogic";
+import { TaskDisplayRangeDialogParamLogic } from "./TaskDisplayRangeDialogParamLogic";
+import { TaskDisplayRangeDialogDisplayLogic } from "./TaskDisplayRangeDialogDisplayLogic";
 
 type Props = {
   /**　開閉状態 */
@@ -30,6 +31,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
   open,
   onClose,
 }: Props) {
+  // パラメータ関連
   const {
     displayRange,
     handleChangeDisplayRange,
@@ -39,6 +41,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     startMaxSelectRangeParams,
     lastMinSelectRangeParams,
     lastMaxSelectRangeParams,
+    isCheckedUnActiveFilter,
+    toggleUnActiveFilter,
+    onClickAdapt,
+  } = TaskDisplayRangeDialogParamLogic({ onClose });
+
+  // 表示関連
+  const {
     isProgressEnable,
     toggleProgressEnable,
     isStartDateEnable,
@@ -49,10 +58,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     disabledProgress,
     disabledStartDate,
     disabledLastDate,
-    isCheckedUnActiveFilter,
-    toggleUnActiveFilter,
-    onClickAdapt,
-  } = TaskDisplayRangeDialogLogic({ onClose });
+  } = TaskDisplayRangeDialogDisplayLogic({ displayRange });
   return (
     <Dialog open={open} onClose={onClose}>
       {/** 表示設定のラジオボタン */}

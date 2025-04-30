@@ -1,9 +1,9 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDateSelectMenuButton } from "./component/DateSelectMenuButton/out-side-logic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 
 const RadioSelectRange = ["in-progress", "completed", "custom"] as const;
-type RadioSelectRange = (typeof RadioSelectRange)[number];
+export type RadioSelectRange = (typeof RadioSelectRange)[number];
 
 // 開始/終了日の範囲選択の初期値(全て今日の日付からで) TODO: 後で修正するかも
 const initYear = getTodayYear();
@@ -18,7 +18,7 @@ type Props = {
 /**
  * タスクの表示範囲を設定するダイアログのロジック
  */
-export const TaskDisplayRangeDialogLogic = ({ onClose }: Props) => {
+export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
   // 表示範囲
   const [displayRange, setDisplayRange] =
     useState<RadioSelectRange>("in-progress");
@@ -62,37 +62,6 @@ export const TaskDisplayRangeDialogLogic = ({ onClose }: Props) => {
     initDay,
   });
 
-  // disabled関連
-  const [isProgressEnable, setIsProgressEnable] = useState<boolean>(false);
-  const [isStartDateEnable, setIsStartDateEnable] = useState<boolean>(false);
-  const [isLastDateEnable, setIsLastDateEnable] = useState<boolean>(false);
-  const toggleProgressEnable = useCallback(() => {
-    setIsProgressEnable((prev) => !prev);
-  }, []);
-  const toggleStartDateEnable = useCallback(() => {
-    setIsStartDateEnable((prev) => !prev);
-  }, []);
-  const toggleLastDateEnable = useCallback(() => {
-    setIsLastDateEnable((prev) => !prev);
-  }, []);
-
-  const disableCustomRange = useMemo(
-    () => displayRange !== "custom",
-    [displayRange]
-  );
-  const disabledProgress = useMemo(
-    () => disableCustomRange || !isProgressEnable,
-    [disableCustomRange, isProgressEnable]
-  );
-  const disabledStartDate = useMemo(
-    () => disableCustomRange || !isStartDateEnable,
-    [disableCustomRange, isStartDateEnable]
-  );
-  const disabledLastDate = useMemo(
-    () => disableCustomRange || !isLastDateEnable,
-    [disableCustomRange, isLastDateEnable]
-  );
-
   // 稼働記録なしのを表示するかのチェックボックス
   const [isCheckedUnActiveFilter, setIsCheckedUnActiveFilter] =
     useState<boolean>();
@@ -121,26 +90,6 @@ export const TaskDisplayRangeDialogLogic = ({ onClose }: Props) => {
     lastMinSelectRangeParams,
     /** 最終日の最小値のパラメータ群 */
     lastMaxSelectRangeParams,
-    /** 進捗の範囲指定の有効かどうか */
-    isProgressEnable,
-    /** 進捗の範囲指定の有効を切り替える関数 */
-    toggleProgressEnable,
-    /** 開始日の範囲指定の有効かどうか */
-    isStartDateEnable,
-    /** 開始日の範囲指定の有効を切り替える関数 */
-    toggleStartDateEnable,
-    /** 最終日の範囲指定の有効かどうか */
-    isLastDateEnable,
-    /** 最終日の範囲指定の有効を切り替える関数 */
-    toggleLastDateEnable,
-    /** メインコンテンツ部分のdisabled */
-    disableCustomRange,
-    /** 進捗のdisabled */
-    disabledProgress,
-    /** 開始日のdisabled */
-    disabledStartDate,
-    /** 最終日のdisabled */
-    disabledLastDate,
     /** 稼働のないタスクの表示設定のうむ */
     isCheckedUnActiveFilter,
     /** 稼働のないタスクの表示設定の切り替え関数 */
