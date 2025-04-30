@@ -1,9 +1,10 @@
 import { ReplaceDateWithString } from "@/type/common";
-import { TaskOption, TaskSummary } from "@/type/Task";
+import { TaskOption, TaskSummary, TaskSummaryRangeQuery } from "@/type/Task";
 import { DefineMethods } from "aspida";
 
 export type Methods = DefineMethods<{
   get: {
+    query: TaskSummaryRangeQuery;
     resBody: ReplaceDateWithString<TaskSummary>[];
   };
   post: {
