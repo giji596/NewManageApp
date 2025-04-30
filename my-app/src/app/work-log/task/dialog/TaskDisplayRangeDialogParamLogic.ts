@@ -119,8 +119,10 @@ export const TaskDisplayRangeDialogParamLogic = ({
     });
 
   // 稼働記録なしのを表示するかのチェックボックス
+  // 初期値(あればtrue,なければfalse)
+  const initCheckUnActive = useMemo(() => !!param.get("activeOnly"), [param]);
   const [isCheckedUnActiveFilter, setIsCheckedUnActiveFilter] =
-    useState<boolean>();
+    useState<boolean>(initCheckUnActive);
   const toggleUnActiveFilter = useCallback(() => {
     setIsCheckedUnActiveFilter((prev) => !prev);
   }, []);
