@@ -27,7 +27,7 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
   selectValueProps,
   disabled,
 }: Props) {
-  const { year, onChangeYear, month, onChangeMonth, onChangeDay } =
+  const { year, onChangeYear, month, onChangeMonth, day, onChangeDay } =
     selectValueProps;
   const {
     open,
@@ -40,9 +40,9 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
     getLabel,
     dateLabel,
   } = DateSelectMenuButtonLogic({
-    selectYear,
-    selectMonth,
-    selectDay,
+    year,
+    month,
+    day,
   });
   return (
     <>
@@ -62,8 +62,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 name={`${name}-year-select`}
                 aria-label={`${name}-year-select`}
                 variant="standard"
-                value={selectYear}
-                onChange={(e) => onChangeSelectYear(Number(e.target.value))}
+                value={year}
+                onChange={(e) => onChangeYear(Number(e.target.value))}
               >
                 {yearSelectList.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -77,8 +77,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 name={`${name}-month-select`}
                 aria-label={`${name}-month-select`}
                 variant="standard"
-                value={selectMonth}
-                onChange={(e) => onChangeSelectMonth(Number(e.target.value))}
+                value={month}
+                onChange={(e) => onChangeMonth(Number(e.target.value))}
               >
                 {monthSelectList.map((v) => (
                   <MenuItem key={v} value={v}>
@@ -92,8 +92,8 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
                 name={`${name}-day-select`}
                 aria-label={`${name}-day-select`}
                 variant="standard"
-                value={selectDay}
-                onChange={(e) => onChangeSelectDay(Number(e.target.value))}
+                value={day}
+                onChange={(e) => onChangeDay(Number(e.target.value))}
               >
                 {daySelectList.map((v) => (
                   <MenuItem key={v} value={v}>
