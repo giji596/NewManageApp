@@ -23,8 +23,32 @@ export const getTaskOptions = async (categoryId: number) => {
 export const getTaskSummary = async (
   query?: TaskSummaryRangeQuery
 ): Promise<TaskSummary[]> => {
-  console.log(query);
+  const { progress, startDate, lastDate, activeOnly } = query ?? {}; // undefinedの場合{}となり、参照keyがないので左辺の全てのkeyはundefinedになる
   const data = await prisma.task.findMany({
+    // クエリがある場合のみ検証(...(false)の場合は検証しない)
+    where: {
+      ...(progress !== undefined && {
+        progress: {
+          gte: progress.split(",").map((v) => Number(v))[0], // クエリ分割した前の方の進捗
+          lte: progress.split(",").map((v) => Number(v))[1], // クエリ分割した後の方の進捗
+        },
+      }),
+      ...(startDate !== undefined && {
+        createdAt: {
+          gte: startDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
+          lte: startDate.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
+        },
+      }),
+      ...(lastDate !== undefined && {
+        updatedAt: {
+          gte: lastDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
+          lte: lastDate.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
+        },
+      }),
+      ...(activeOnly !== undefined && {
+        tasks: { some: {} }, // 1つ以上のログがある場合
+      }),
+    },
     select: {
       id: true,
       name: true,
