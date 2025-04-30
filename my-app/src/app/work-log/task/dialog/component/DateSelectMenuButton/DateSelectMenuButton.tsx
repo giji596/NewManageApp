@@ -10,7 +10,10 @@ import { memo } from "react";
 import { DateSelectMenuButtonLogic } from "./DateSelectMenuButtonLogic";
 import { useDateSelectMenuButton } from "./out-side-logic";
 
-type SelectValueProps = ReturnType<typeof useDateSelectMenuButton>;
+type SelectValueProps = Omit<
+  ReturnType<typeof useDateSelectMenuButton>,
+  "dateParam"
+>;
 type Props = {
   /** 名称(識別/アクセシビリティ用) */
   name: string;
