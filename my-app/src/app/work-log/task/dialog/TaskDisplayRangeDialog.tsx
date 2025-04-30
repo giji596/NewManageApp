@@ -15,11 +15,14 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import DateSelectMenuButton from "./component/DateSelectMenuButton/DateSelectMenuButton";
+import { TaskDisplayRangeDialogLogic } from "./TaskDisplayRangeDialogLogic";
 
 /**
  * タスクの表示範囲を設定するダイアログ
  */
 const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
+  const { displayRange, handleChangeDisplayRange } =
+    TaskDisplayRangeDialogLogic();
   return (
     <Dialog open={true /** TODO:後々修正 */}>
       {/** 表示設定のラジオボタン */}
@@ -29,10 +32,21 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
           aria-labelledby="display-range-label"
           name="display-range"
           row
+          value={displayRange}
+          onChange={(e) => handleChangeDisplayRange(e.target.value)}
         >
-          <FormControlLabel control={<Radio />} label="進行中" />
-          <FormControlLabel control={<Radio />} label="完了済み" />
-          <FormControlLabel control={<Radio />} label="カスタム" />
+          <FormControlLabel
+            control={<Radio value="in-progress" />}
+            label="進行中"
+          />
+          <FormControlLabel
+            control={<Radio value="completed" />}
+            label="完了済み"
+          />
+          <FormControlLabel
+            control={<Radio value="custom" />}
+            label="カスタム"
+          />
         </RadioGroup>
       </FormControl>
       {/** カスタム設定部分(メインコンテンツ) */}
