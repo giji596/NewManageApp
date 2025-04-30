@@ -8,23 +8,24 @@ import {
   useState,
 } from "react";
 import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLogic";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
 import { TaskSummary } from "@/type/Task";
 import { mutate } from "swr";
+import { getTaskSummaryQuery } from "@/lib/query";
 
 /**
  * タスク一覧ページのパラメータ関連
  */
 export default function useTaskSummaryPage() {
   const router = useRouter();
+  const params = useSearchParams();
+  const query = useMemo(() => getTaskSummaryQuery(params), [params]);
   const { data, isLoading, isValidating } = useAspidaSWR(
     apiClient.work_log.tasks,
     "get",
-    {
-      key: "api/work-log/tasks",
-    }
+    { query, key: ["api/work-log/tasks?", query], revalidateIfStale: false }
   );
   // TODO:データフェッチさせる
   const rawData = useMemo(() => data?.body ?? [], [data?.body]);
@@ -94,7 +95,7 @@ export default function useTaskSummaryPage() {
     // データをまとめて変更
     await apiClient.work_log.tasks.bulk_update.patch({ body: result });
     // 再検証
-    mutate("api/work-log/tasks"); // undefinedにすることでテーブルを一度アンマウント
+    mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
   }, [getTargetKeys]);
 
   const handleResetAll = useCallback(() => {

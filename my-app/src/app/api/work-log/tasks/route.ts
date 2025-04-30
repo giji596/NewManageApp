@@ -1,8 +1,16 @@
 import { createTask, getTaskSummary } from "@/lib/services/taskService";
+import { TaskSummaryRangeQuery } from "@/type/Task";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  const data = await getTaskSummary();
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const query: TaskSummaryRangeQuery = {
+    progress: searchParams.get("progress") ?? undefined,
+    startDate: searchParams.get("startDate") ?? undefined,
+    lastDate: searchParams.get("lastDate") ?? undefined,
+    activeOnly: searchParams.get("activeOnly") ?? undefined,
+  };
+  const data = await getTaskSummary(query);
   return NextResponse.json(data);
 }
 
