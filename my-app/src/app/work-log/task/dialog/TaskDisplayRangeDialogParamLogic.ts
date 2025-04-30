@@ -45,7 +45,17 @@ export const TaskDisplayRangeDialogParamLogic = ({
   }, []);
 
   // 進捗
-  const [progressRange, setProgressRange] = useState<number[]>([0, 90]);
+  const initProgressRange = useMemo(
+    () =>
+      // パラメータあれば(0,90など)splitでstring[]化 -> mapでnumber[]化して初期値
+      param
+        .get("progress")
+        ?.split(",")
+        .map((v) => Number(v)) ?? [0, 90], // なければ[0,90]渡す
+    [param]
+  );
+  const [progressRange, setProgressRange] =
+    useState<number[]>(initProgressRange);
   const handleChangeProgressRange = useCallback(
     (_: Event, newValue: number | number[]) => {
       if (typeof newValue === "object") {
