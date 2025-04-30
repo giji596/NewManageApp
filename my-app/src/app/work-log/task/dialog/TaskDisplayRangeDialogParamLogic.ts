@@ -36,8 +36,24 @@ export const TaskDisplayRangeDialogParamLogic = ({
   // パラメータ
   const param = useSearchParams();
   // 表示範囲
+  const initDisplayRange: RadioSelectRange = useMemo(() => {
+    // startDate/lastDateがある場合はcustom
+    if (!!param.get("startDate") || !!param.get("lastDate")) return "custom";
+    const progressParam = param.get("progress");
+    switch (progressParam) {
+      // progressの値に応じて分岐
+      // nullの場合(未設定)の場合もin-progressとする
+      case null:
+      case "0,90":
+        return "in-progress";
+      case "100,100":
+        return "completed";
+      default:
+        return "custom";
+    }
+  }, [param]);
   const [displayRange, setDisplayRange] =
-    useState<RadioSelectRange>("in-progress");
+    useState<RadioSelectRange>(initDisplayRange);
   const handleChangeDisplayRange = useCallback((v: string) => {
     if (RadioSelectRange.includes(v as RadioSelectRange)) {
       setDisplayRange(v as RadioSelectRange);
