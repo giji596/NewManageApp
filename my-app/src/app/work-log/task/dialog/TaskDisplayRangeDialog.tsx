@@ -31,6 +31,20 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
   open,
   onClose,
 }: Props) {
+  // 表示関連
+  const {
+    isProgressEnable,
+    toggleProgressEnable,
+    isStartDateEnable,
+    toggleStartDateEnable,
+    isLastDateEnable,
+    toggleLastDateEnable,
+    disableCustomRange,
+    disabledProgress,
+    disabledStartDate,
+    disabledLastDate,
+  } = TaskDisplayRangeDialogDisplayLogic();
+
   // パラメータ関連
   const {
     displayRange,
@@ -44,21 +58,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     isCheckedUnActiveFilter,
     toggleUnActiveFilter,
     onClickAdapt,
-  } = TaskDisplayRangeDialogParamLogic({ onClose });
-
-  // 表示関連
-  const {
+  } = TaskDisplayRangeDialogParamLogic({
+    onClose,
     isProgressEnable,
-    toggleProgressEnable,
     isStartDateEnable,
-    toggleStartDateEnable,
     isLastDateEnable,
-    toggleLastDateEnable,
-    disableCustomRange,
-    disabledProgress,
-    disabledStartDate,
-    disabledLastDate,
-  } = TaskDisplayRangeDialogDisplayLogic({ displayRange });
+  });
+
   return (
     <Dialog open={open} onClose={onClose}>
       {/** 表示設定のラジオボタン */}
@@ -94,7 +100,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <Switch
               onChange={toggleProgressEnable}
               value={isProgressEnable}
-              disabled={disableCustomRange}
+              disabled={disableCustomRange(displayRange)}
             />
             <Typography id="slider-label">進捗</Typography>
           </Stack>
@@ -117,7 +123,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
               onChange={handleChangeProgressRange}
               step={10}
               valueLabelDisplay="auto"
-              disabled={disabledProgress}
+              disabled={disabledProgress(displayRange)}
             />
             <Typography
               sx={{
@@ -138,7 +144,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <Switch
               onChange={toggleStartDateEnable}
               value={isStartDateEnable}
-              disabled={disableCustomRange}
+              disabled={disableCustomRange(displayRange)}
             />
             <Typography>開始日</Typography>
           </Stack>
@@ -151,13 +157,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <DateSelectMenuButton
               name={"min-start-date"}
               selectValueProps={startMinSelectRangeParams}
-              disabled={disabledStartDate}
+              disabled={disabledStartDate(displayRange)}
             />
             ~
             <DateSelectMenuButton
               name={"max-start-date"}
               selectValueProps={startMaxSelectRangeParams}
-              disabled={disabledStartDate}
+              disabled={disabledStartDate(displayRange)}
             />
           </Stack>
         </Stack>
@@ -168,7 +174,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <Switch
               onChange={toggleLastDateEnable}
               value={isLastDateEnable}
-              disabled={disableCustomRange}
+              disabled={disableCustomRange(displayRange)}
             />
             <Typography>最終日</Typography>
           </Stack>
@@ -181,13 +187,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <DateSelectMenuButton
               name={"min-last-date"}
               selectValueProps={lastMinSelectRangeParams}
-              disabled={disabledLastDate}
+              disabled={disabledLastDate(displayRange)}
             />
             ~
             <DateSelectMenuButton
               name={"max-last-date"}
               selectValueProps={lastMaxSelectRangeParams}
-              disabled={disabledLastDate}
+              disabled={disabledLastDate(displayRange)}
             />
           </Stack>
         </Stack>

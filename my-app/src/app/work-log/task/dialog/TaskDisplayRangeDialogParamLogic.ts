@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useDateSelectMenuButton } from "./component/DateSelectMenuButton/out-side-logic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
+import { useRouter } from "next/navigation";
 
 const RadioSelectRange = ["in-progress", "completed", "custom"] as const;
 export type RadioSelectRange = (typeof RadioSelectRange)[number];
@@ -13,12 +14,25 @@ const initDay = getTodayDay();
 type Props = {
   /** 閉じるハンドラー */
   onClose: () => void;
+  /** 進捗の範囲指定の有効かどうか */
+  isProgressEnable: boolean;
+  /** 開始日の範囲指定の有効かどうか */
+  isStartDateEnable: boolean;
+  /** 最終日の範囲指定の有効かどうか */
+  isLastDateEnable: boolean;
 };
 
 /**
  * タスクの表示範囲を設定するダイアログのロジック
  */
-export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
+export const TaskDisplayRangeDialogParamLogic = ({
+  onClose,
+  isProgressEnable,
+  isStartDateEnable,
+  isLastDateEnable,
+}: Props) => {
+  // ナビゲーション関連
+  const router = useRouter();
   // 表示範囲
   const [displayRange, setDisplayRange] =
     useState<RadioSelectRange>("in-progress");
@@ -73,11 +87,35 @@ export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
     setIsCheckedUnActiveFilter((prev) => !prev);
   }, []);
 
-  const onClickAdapt = useCallback(() => {
-    // TODO:設定に応じてクエリパラメータを変更する
-    console.log(startMinParam, startMaxParam, lastMixParam, lastMaxParam);
+  const onClickAdapt = () => {
+    // 空のクエリ
+    const params = new URLSearchParams();
+    // 稼働記録なしかのチェック
+    if (isCheckedUnActiveFilter) {
+      params.set("activeOnly", "true");
+    }
+    switch (displayRange) {
+      case "in-progress": {
+        params.set("progress", "0,90");
+        break;
+      }
+      case "completed": {
+        params.set("progress", "100,100");
+        break;
+      }
+      case "custom": {
+        if (isProgressEnable)
+          params.set("progress", `${progressRange[0]},${progressRange[1]}`);
+        if (isStartDateEnable)
+          params.set("startDate", `${startMinParam},${startMaxParam}`);
+        if (isLastDateEnable)
+          params.set("lastDate", `${lastMixParam},${lastMaxParam}`);
+      }
+    }
+    // replaceで同様のページを保持して(戻るできる必要ないので)クエリ置き換え
+    router.replace(params.toString());
     onClose();
-  }, [lastMaxParam, lastMixParam, onClose, startMaxParam, startMinParam]);
+  };
   return {
     /** 表示範囲(ラジオグループ) */
     displayRange,
