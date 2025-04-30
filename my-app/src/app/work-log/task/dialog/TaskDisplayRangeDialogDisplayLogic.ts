@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { RadioSelectRange } from "./TaskDisplayRangeDialogLogic";
+import { RadioSelectRange } from "./TaskDisplayRangeDialogParamLogic";
 
 type Props = {
   /** 表示範囲を表す文言 */

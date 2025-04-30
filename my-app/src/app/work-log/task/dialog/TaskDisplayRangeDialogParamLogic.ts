@@ -18,7 +18,7 @@ type Props = {
 /**
  * タスクの表示範囲を設定するダイアログのロジック
  */
-export const TaskDisplayRangeDialogLogic = ({ onClose }: Props) => {
+export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
   // 表示範囲
   const [displayRange, setDisplayRange] =
     useState<RadioSelectRange>("in-progress");

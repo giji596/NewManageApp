@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import DateSelectMenuButton from "./component/DateSelectMenuButton/DateSelectMenuButton";
-import { TaskDisplayRangeDialogLogic } from "./TaskDisplayRangeDialogLogic";
+import { TaskDisplayRangeDialogParamLogic } from "./TaskDisplayRangeDialogParamLogic";
 import { TaskDisplayRangeDialogDisplayLogic } from "./TaskDisplayRangeDialogDisplayLogic";
 
 type Props = {
@@ -44,7 +44,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     isCheckedUnActiveFilter,
     toggleUnActiveFilter,
     onClickAdapt,
-  } = TaskDisplayRangeDialogLogic({ onClose });
+  } = TaskDisplayRangeDialogParamLogic({ onClose });
 
   // 表示関連
   const {
