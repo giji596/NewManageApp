@@ -7,7 +7,7 @@ import {
   isTodayMonth,
   isTodayYear,
 } from "@/lib/date";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** 初期値(year) */
@@ -87,6 +87,13 @@ export const useDateSelectMenuButton = ({
     setDay(v);
   }, []);
 
+  const dateParam = useMemo(() => {
+    const yearString = year.toString();
+    const monthString = month.toString().padStart(2, "0");
+    const dayString = day.toString().padStart(2, "0");
+    return `${yearString}-${monthString}-${dayString}`;
+  }, [day, month, year]);
+
   return {
     /** 年 */
     year,
@@ -100,5 +107,7 @@ export const useDateSelectMenuButton = ({
     day,
     /** 日を変更する関数 */
     onChangeDay,
+    /** 日付パラメータ形式 */
+    dateParam,
   };
 };
