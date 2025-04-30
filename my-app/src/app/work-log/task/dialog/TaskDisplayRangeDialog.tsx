@@ -21,8 +21,12 @@ import { TaskDisplayRangeDialogLogic } from "./TaskDisplayRangeDialogLogic";
  * タスクの表示範囲を設定するダイアログ
  */
 const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
-  const { displayRange, handleChangeDisplayRange } =
-    TaskDisplayRangeDialogLogic();
+  const {
+    displayRange,
+    handleChangeDisplayRange,
+    progressRange,
+    handleChangeProgressRange,
+  } = TaskDisplayRangeDialogLogic();
   return (
     <Dialog open={true /** TODO:後々修正 */}>
       {/** 表示設定のラジオボタン */}
@@ -64,6 +68,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
               sx={{ width: 80 }}
               aria-label="min-progress-range"
               name="min-progress-range"
+              value={progressRange[0]}
               inputProps={{
                 step: 10,
                 min: 0,
@@ -74,13 +79,16 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
             <Slider
               aria-labelledby="slider-label"
               name="progress-slider"
-              value={[30, 70]}
+              value={progressRange}
+              onChange={handleChangeProgressRange}
+              step={10}
               valueLabelDisplay="auto"
             />
             <Input
               sx={{ width: 80 }}
               aria-label="max-progress-range"
               name="max-progress-range"
+              value={progressRange[1]}
               inputProps={{
                 step: 10,
                 min: 0,
