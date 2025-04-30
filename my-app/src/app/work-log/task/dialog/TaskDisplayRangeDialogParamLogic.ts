@@ -169,7 +169,7 @@ export const TaskDisplayRangeDialogParamLogic = ({
       }
     }
     // replaceで同様のページを保持して(戻るできる必要ないので)クエリ置き換え
-    router.replace(params.toString());
+    router.replace(`?${params.toString()}`);
     onClose();
   };
   return {
