@@ -1,3 +1,4 @@
+import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 import { getDaysInMonth } from "date-fns";
 import { useCallback, useMemo, useState } from "react";
 
@@ -23,33 +24,31 @@ export const DateSelectMenuButtonLogic = ({ year, month, day }: Props) => {
     setAnchorEl(null);
   };
   const yearSelectList = useMemo(() => {
-    const todayYear = new Date().getFullYear();
+    const todayYear = getTodayYear();
     return Array.from({ length: 10 }, (_, i) => todayYear - i);
   }, []);
   const monthSelectList = useMemo(() => {
-    const today = new Date();
-    const todayYear = today.getFullYear();
+    const todayYear = getTodayYear();
     // 選択年が今年の場合は1~今月まで
     if (year === todayYear) {
-      const todayMonth = today.getMonth() + 1;
+      const todayMonth = getTodayMonth();
       return Array.from({ length: todayMonth }, (_, i) => i + 1);
     }
     // それ以外は1~12
     return Array.from({ length: 12 }, (_, i) => i + 1);
   }, [year]);
   const daySelectList = useMemo(() => {
-    const today = new Date();
-    const todayYear = today.getFullYear();
+    const todayYear = getTodayYear();
     // 年月が今日の値であれば今日の日付まで
     if (year === todayYear) {
-      const todayMonth = today.getMonth() + 1;
+      const todayMonth = getTodayMonth();
       if (month === todayMonth) {
-        const todayDay = today.getDate();
+        const todayDay = getTodayDay();
         return Array.from({ length: todayDay }, (_, i) => i + 1);
       }
     }
     // それ以外なら現在の年月の日数分
-    const days = getDaysInMonth(new Date(year, month));
+    const days = getDaysInMonth(new Date(year, month - 1));
     return Array.from({ length: days }, (_, i) => i + 1);
   }, [month, year]);
 
