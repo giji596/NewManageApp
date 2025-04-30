@@ -6,12 +6,15 @@ const meta = {
   component: DateSelectMenuButton,
   args: {
     name: "name",
-    selectYear: 2024,
-    selectMonth: 5,
-    selectDay: 22,
-    onChangeSelectYear: () => {},
-    onChangeSelectMonth: () => {},
-    onChangeSelectDay: () => {},
+    selectValueProps: {
+      year: 2024,
+      month: 5,
+      day: 22,
+      onChangeYear: () => {},
+      onChangeMonth: () => {},
+      onChangeDay: () => {},
+    },
+    disabled: false,
   },
 } satisfies Meta<typeof DateSelectMenuButton>;
 
