@@ -59,6 +59,8 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
     disabledProgress,
     disabledStartDate,
     disabledLastDate,
+    isCheckedUnActiveFilter,
+    toggleUnActiveFilter,
   } = TaskDisplayRangeDialogLogic();
   return (
     <Dialog open={true /** TODO:後々修正 */}>
@@ -217,7 +219,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
       <Stack pb={2} px={3} direction="row" justifyContent={"space-between"}>
         {/** 左部分(チェックボックス) */}
         <FormControlLabel
-          control={<Checkbox size="small" />}
+          control={
+            <Checkbox
+              size="small"
+              onChange={toggleUnActiveFilter}
+              value={isCheckedUnActiveFilter}
+            />
+          }
           label={
             <Typography fontSize="0.8rem">
               稼働記録のないタスクを表示しない

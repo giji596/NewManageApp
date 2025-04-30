@@ -99,6 +99,14 @@ export const TaskDisplayRangeDialogLogic = () => {
     () => disableCustomRange || !isLastDateEnable,
     [disableCustomRange, isLastDateEnable]
   );
+
+  // 稼働記録なしのを表示するかのチェックボックス
+  const [isCheckedUnActiveFilter, setIsCheckedUnActiveFilter] =
+    useState<boolean>();
+  const toggleUnActiveFilter = useCallback(() => {
+    setIsCheckedUnActiveFilter((prev) => !prev);
+  }, []);
+
   return {
     /** 表示範囲(ラジオグループ) */
     displayRange,
@@ -176,5 +184,9 @@ export const TaskDisplayRangeDialogLogic = () => {
     disabledStartDate,
     /** 最終日のdisabled */
     disabledLastDate,
+    /** 稼働のないタスクの表示設定のうむ */
+    isCheckedUnActiveFilter,
+    /** 稼働のないタスクの表示設定の切り替え関数 */
+    toggleUnActiveFilter,
   };
 };
