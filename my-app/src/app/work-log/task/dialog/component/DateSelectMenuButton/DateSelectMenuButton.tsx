@@ -8,22 +8,14 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import { DateSelectMenuButtonLogic } from "./DateSelectMenuButtonLogic";
+import { useDateSelectMenuButton } from "./out-side-logic";
 
+type SelectValueProps = ReturnType<typeof useDateSelectMenuButton>;
 type Props = {
   /** 名称(識別/アクセシビリティ用) */
   name: string;
-  /** 選択中の年 */
-  selectYear: number;
-  /** 選択中の月 */
-  selectMonth: number;
-  /** 選択中の日 */
-  selectDay: number;
-  /** 年の選択変える関数 */
-  onChangeSelectYear: (v: number) => void;
-  /** 月の選択変える関数 */
-  onChangeSelectMonth: (v: number) => void;
-  /** 日の選択変える関数 */
-  onChangeSelectDay: (v: number) => void;
+  /** 選択中の値に関するパラメータ */
+  selectValueProps: SelectValueProps;
   /** disabledかどうか */
   disabled: boolean;
 };
@@ -32,14 +24,11 @@ type Props = {
  */
 const DateSelectMenuButton = memo(function DateSelectMenuButton({
   name,
-  selectYear,
-  selectMonth,
-  selectDay,
-  onChangeSelectYear,
-  onChangeSelectMonth,
-  onChangeSelectDay,
+  selectValueProps,
   disabled,
 }: Props) {
+  const { year, onChangeYear, month, onChangeMonth, onChangeDay } =
+    selectValueProps;
   const {
     open,
     anchorEl,
@@ -55,7 +44,6 @@ const DateSelectMenuButton = memo(function DateSelectMenuButton({
     selectMonth,
     selectDay,
   });
-
   return (
     <>
       <Button aria-label={name} onClick={handleClick} disabled={disabled}>
