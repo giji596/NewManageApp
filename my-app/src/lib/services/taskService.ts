@@ -1,4 +1,9 @@
-import { TaskDetail, TaskOption, TaskSummary } from "@/type/Task";
+import {
+  TaskDetail,
+  TaskOption,
+  TaskSummary,
+  TaskSummaryRangeQuery,
+} from "@/type/Task";
 import prisma from "../prisma";
 
 /**
@@ -15,7 +20,10 @@ export const getTaskOptions = async (categoryId: number) => {
 /**
  * タスク一覧ページのデータを取得する関数
  */
-export const getTaskSummary = async (): Promise<TaskSummary[]> => {
+export const getTaskSummary = async (
+  query?: TaskSummaryRangeQuery
+): Promise<TaskSummary[]> => {
+  console.log(query);
   const data = await prisma.task.findMany({
     select: {
       id: true,
