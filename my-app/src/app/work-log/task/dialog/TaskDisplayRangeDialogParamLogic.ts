@@ -14,12 +14,23 @@ const initDay = getTodayDay();
 type Props = {
   /** 閉じるハンドラー */
   onClose: () => void;
+  /** 進捗の範囲指定の有効かどうか */
+  isProgressEnable: boolean;
+  /** 開始日の範囲指定の有効かどうか */
+  isStartDateEnable: boolean;
+  /** 最終日の範囲指定の有効かどうか */
+  isLastDateEnable: boolean;
 };
 
 /**
  * タスクの表示範囲を設定するダイアログのロジック
  */
-export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
+export const TaskDisplayRangeDialogParamLogic = ({
+  onClose,
+  isProgressEnable,
+  isStartDateEnable,
+  isLastDateEnable,
+}: Props) => {
   // ナビゲーション関連
   const router = useRouter();
   // 表示範囲
@@ -85,24 +96,33 @@ export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
     }
     switch (displayRange) {
       case "in-progress": {
-        params.set("progress", "0-90");
+        params.set("progress", "0,90");
       }
       case "completed": {
-        params.set("progress", "100-100");
+        params.set("progress", "100,100");
       }
       case "custom": {
+        if (isProgressEnable)
+          params.set("progress", `${progressRange[0]},${progressRange[1]}`);
+        if (isStartDateEnable)
+          params.set("startDate", `${startMinParam},${startMaxParam}`);
+        if (isLastDateEnable)
+          params.set("lastDate", `${lastMixParam},${lastMaxParam}`);
       }
     }
     // replaceで同様のページを保持して(戻るできる必要ないので)クエリ置き換え
     router.replace(params.toString());
     onClose();
-    console.log(startMinParam, startMaxParam, lastMixParam, lastMaxParam);
   }, [
     displayRange,
     isCheckedUnActiveFilter,
+    isLastDateEnable,
+    isProgressEnable,
+    isStartDateEnable,
     lastMaxParam,
     lastMixParam,
     onClose,
+    progressRange,
     router,
     startMaxParam,
     startMinParam,

@@ -58,7 +58,12 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     isCheckedUnActiveFilter,
     toggleUnActiveFilter,
     onClickAdapt,
-  } = TaskDisplayRangeDialogParamLogic({ onClose });
+  } = TaskDisplayRangeDialogParamLogic({
+    onClose,
+    isProgressEnable,
+    isStartDateEnable,
+    isLastDateEnable,
+  });
 
   return (
     <Dialog open={open} onClose={onClose}>
