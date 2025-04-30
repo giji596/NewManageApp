@@ -25,6 +25,30 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
     handleChangeDisplayRange,
     progressRange,
     handleChangeProgressRange,
+    startMinYear,
+    onChangeStartMinYear,
+    startMinMonth,
+    onChangeStartMinMonth,
+    startMinDay,
+    onChangeStartMinDay,
+    startMaxYear,
+    onChangeStartMaxYear,
+    startMaxMonth,
+    onChangeStartMaxMonth,
+    startMaxDay,
+    onChangeStartMaxDay,
+    lastMinDay,
+    onChangeLastMinDay,
+    lastMinYear,
+    onChangeLastMinYear,
+    lastMinMonth,
+    onChangeLastMinMonth,
+    lastMaxDay,
+    onChangeLastMaxDay,
+    lastMaxYear,
+    onChangeLastMaxYear,
+    lastMaxMonth,
+    onChangeLastMaxMonth,
   } = TaskDisplayRangeDialogLogic();
   return (
     <Dialog open={true /** TODO:後々修正 */}>
@@ -93,42 +117,74 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
             </Typography>
           </Stack>
         </Stack>
-        {/** 開始日/終了日 */}
-        {["startDate", "lastDate"].map((v) => (
-          <Stack key={v}>
-            {/** 上部(switch/タイトル) */}
-            <Stack direction="row" alignItems={"center"} spacing={1}>
-              <Switch />
-              <Typography>{v === "startDate" ? "開始日" : "最終日"}</Typography>
-            </Stack>
-            {/** フォームエリア */}
-            <Stack
-              direction={"row"}
-              justifyContent={"space-around"}
-              alignItems={"center"}
-            >
-              <DateSelectMenuButton
-                name={`min-${v}`}
-                selectYear={2025}
-                selectMonth={4}
-                selectDay={22}
-                onChangeSelectYear={() => {}}
-                onChangeSelectMonth={() => {}}
-                onChangeSelectDay={() => {}}
-              />
-              ~
-              <DateSelectMenuButton
-                name={`max-${v}`}
-                selectYear={2025}
-                selectMonth={4}
-                selectDay={22}
-                onChangeSelectYear={() => {}}
-                onChangeSelectMonth={() => {}}
-                onChangeSelectDay={() => {}}
-              />
-            </Stack>
+        {/** 開始日*/}
+        <Stack>
+          {/** 上部(switch/タイトル) */}
+          <Stack direction="row" alignItems={"center"} spacing={1}>
+            <Switch />
+            <Typography>開始日</Typography>
           </Stack>
-        ))}
+          {/** フォームエリア */}
+          <Stack
+            direction={"row"}
+            justifyContent={"space-around"}
+            alignItems={"center"}
+          >
+            <DateSelectMenuButton
+              name={"min-start-date"}
+              selectYear={startMinYear}
+              selectMonth={startMinMonth}
+              selectDay={startMinDay}
+              onChangeSelectYear={onChangeStartMinYear}
+              onChangeSelectMonth={onChangeStartMinMonth}
+              onChangeSelectDay={onChangeStartMinDay}
+            />
+            ~
+            <DateSelectMenuButton
+              name={"max-start-date"}
+              selectYear={startMaxYear}
+              selectMonth={startMaxMonth}
+              selectDay={startMaxDay}
+              onChangeSelectYear={onChangeStartMaxYear}
+              onChangeSelectMonth={onChangeStartMaxMonth}
+              onChangeSelectDay={onChangeStartMaxDay}
+            />
+          </Stack>
+        </Stack>
+        {/** 終了日*/}
+        <Stack>
+          {/** 上部(switch/タイトル) */}
+          <Stack direction="row" alignItems={"center"} spacing={1}>
+            <Switch />
+            <Typography>最終日</Typography>
+          </Stack>
+          {/** フォームエリア */}
+          <Stack
+            direction={"row"}
+            justifyContent={"space-around"}
+            alignItems={"center"}
+          >
+            <DateSelectMenuButton
+              name={"min-last-date"}
+              selectYear={lastMinYear}
+              selectMonth={lastMinMonth}
+              selectDay={lastMinDay}
+              onChangeSelectYear={onChangeLastMinYear}
+              onChangeSelectMonth={onChangeLastMinMonth}
+              onChangeSelectDay={onChangeLastMinDay}
+            />
+            ~
+            <DateSelectMenuButton
+              name={"max-last-date"}
+              selectYear={lastMaxYear}
+              selectMonth={lastMaxMonth}
+              selectDay={lastMaxDay}
+              onChangeSelectYear={onChangeLastMaxYear}
+              onChangeSelectMonth={onChangeLastMaxMonth}
+              onChangeSelectDay={onChangeLastMaxDay}
+            />
+          </Stack>
+        </Stack>
       </Stack>
       {/** 下部(稼働なし省くかのチェック/ ボタン群) */}
       <Stack pb={2} px={3} direction="row" justifyContent={"space-between"}>
