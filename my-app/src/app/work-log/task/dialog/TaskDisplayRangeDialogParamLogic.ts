@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDateSelectMenuButton } from "./component/DateSelectMenuButton/out-side-logic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RadioSelectRange = ["in-progress", "completed", "custom"] as const;
 export type RadioSelectRange = (typeof RadioSelectRange)[number];
@@ -33,6 +33,8 @@ export const TaskDisplayRangeDialogParamLogic = ({
 }: Props) => {
   // ナビゲーション関連
   const router = useRouter();
+  // パラメータ
+  const param = useSearchParams();
   // 表示範囲
   const [displayRange, setDisplayRange] =
     useState<RadioSelectRange>("in-progress");
@@ -52,32 +54,58 @@ export const TaskDisplayRangeDialogParamLogic = ({
     },
     []
   );
+
+  // 日付範囲
+  const getInitDateParam = useCallback(
+    (name: string, isMin: boolean) => {
+      const target = param.get(name);
+      if (target !== null && target !== "") {
+        const param = target.split(",")[isMin ? 0 : 1].split("-");
+        return {
+          initYear: Number(param[0]),
+          initMonth: Number(param[1]),
+          initDay: Number(param[2]),
+        };
+      }
+      return { initYear, initMonth, initDay };
+    },
+    [param]
+  );
+  // 初期値 TODO: 実装時に要テスト(クエリと一致してるか)
+  const initStartMinParam = useMemo(
+    () => getInitDateParam("startDate", true),
+    [getInitDateParam]
+  );
+  const initStartMaxParam = useMemo(
+    () => getInitDateParam("startDate", false),
+    [getInitDateParam]
+  );
+  const initLastMinParam = useMemo(
+    () => getInitDateParam("lastDate", true),
+    [getInitDateParam]
+  );
+  const initLastMaxParam = useMemo(
+    () => getInitDateParam("lastDate", false),
+    [getInitDateParam]
+  );
   // 開始日
   const { dateParam: startMinParam, ...startMinSelectRangeParams } =
     useDateSelectMenuButton({
-      initYear,
-      initMonth,
-      initDay,
+      ...initStartMinParam,
     });
   const { dateParam: startMaxParam, ...startMaxSelectRangeParams } =
     useDateSelectMenuButton({
-      initYear,
-      initMonth,
-      initDay,
+      ...initStartMaxParam,
     });
 
   // 最終日
   const { dateParam: lastMixParam, ...lastMinSelectRangeParams } =
     useDateSelectMenuButton({
-      initYear,
-      initMonth,
-      initDay,
+      ...initLastMinParam,
     });
   const { dateParam: lastMaxParam, ...lastMaxSelectRangeParams } =
     useDateSelectMenuButton({
-      initYear,
-      initMonth,
-      initDay,
+      ...initLastMaxParam,
     });
 
   // 稼働記録なしのを表示するかのチェックボックス
