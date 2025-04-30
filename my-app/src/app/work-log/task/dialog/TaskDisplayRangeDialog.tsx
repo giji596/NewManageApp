@@ -16,10 +16,20 @@ import { memo } from "react";
 import DateSelectMenuButton from "./component/DateSelectMenuButton/DateSelectMenuButton";
 import { TaskDisplayRangeDialogLogic } from "./TaskDisplayRangeDialogLogic";
 
+type Props = {
+  /**　開閉状態 */
+  open: boolean;
+  /** 閉じるハンドラー */
+  onClose: () => void;
+};
+
 /**
  * タスクの表示範囲を設定するダイアログ
  */
-const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
+const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
+  open,
+  onClose,
+}: Props) {
   const {
     displayRange,
     handleChangeDisplayRange,
@@ -62,9 +72,9 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
     isCheckedUnActiveFilter,
     toggleUnActiveFilter,
     onClickAdapt,
-  } = TaskDisplayRangeDialogLogic();
+  } = TaskDisplayRangeDialogLogic({ onClose });
   return (
-    <Dialog open={true /** TODO:後々修正 */}>
+    <Dialog open={open} onClose={onClose}>
       {/** 表示設定のラジオボタン */}
       <FormControl sx={{ px: 3, pt: 2 }}>
         <FormLabel id="display-range-label">表示設定</FormLabel>
@@ -235,7 +245,9 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         />
         {/** 右部分(ボタン) */}
         <Stack direction="row">
-          <Button color="error">キャンセル</Button>
+          <Button color="error" onClick={onClose}>
+            キャンセル
+          </Button>
           <Button onClick={onClickAdapt}>適応</Button>
         </Stack>
       </Stack>

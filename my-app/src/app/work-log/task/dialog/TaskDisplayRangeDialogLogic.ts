@@ -9,10 +9,16 @@ type RadioSelectRange = (typeof RadioSelectRange)[number];
 const initYear = getTodayYear();
 const initMonth = getTodayMonth();
 const initDay = getTodayDay();
+
+type Props = {
+  /** 閉じるハンドラー */
+  onClose: () => void;
+};
+
 /**
  * タスクの表示範囲を設定するダイアログのロジック
  */
-export const TaskDisplayRangeDialogLogic = () => {
+export const TaskDisplayRangeDialogLogic = ({ onClose }: Props) => {
   // 表示範囲
   const [displayRange, setDisplayRange] =
     useState<RadioSelectRange>("in-progress");
@@ -109,7 +115,8 @@ export const TaskDisplayRangeDialogLogic = () => {
 
   const onClickAdapt = useCallback(() => {
     // TODO:設定に応じてクエリパラメータを変更する
-  }, []);
+    onClose();
+  }, [onClose]);
   return {
     /** 表示範囲(ラジオグループ) */
     displayRange,
