@@ -5,7 +5,6 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Input,
   Radio,
   RadioGroup,
   Slider,
@@ -64,18 +63,16 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
           </Stack>
           {/** フォームエリア */}
           <Stack direction={"row"} spacing={4}>
-            <Input
-              sx={{ width: 80 }}
-              aria-label="min-progress-range"
-              name="min-progress-range"
-              value={progressRange[0]}
-              inputProps={{
-                step: 10,
-                min: 0,
-                max: 100,
-                type: "number",
+            <Typography
+              sx={{
+                width: 80,
+                borderBlockEnd: "1px solid #666",
+                textAlign: "right",
               }}
-            />
+              aria-label="min-progress-range"
+            >
+              {progressRange[0]}%
+            </Typography>
             <Slider
               aria-labelledby="slider-label"
               name="progress-slider"
@@ -84,18 +81,16 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
               step={10}
               valueLabelDisplay="auto"
             />
-            <Input
-              sx={{ width: 80 }}
-              aria-label="max-progress-range"
-              name="max-progress-range"
-              value={progressRange[1]}
-              inputProps={{
-                step: 10,
-                min: 0,
-                max: 100,
-                type: "number",
+            <Typography
+              sx={{
+                width: 80,
+                borderBlockEnd: "1px solid #666",
+                textAlign: "right",
               }}
-            />
+              aria-label="max-progress-range"
+            >
+              {progressRange[1]}%
+            </Typography>
           </Stack>
         </Stack>
         {/** 開始日/終了日 */}
