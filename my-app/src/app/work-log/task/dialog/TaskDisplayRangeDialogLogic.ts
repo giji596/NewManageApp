@@ -107,6 +107,9 @@ export const TaskDisplayRangeDialogLogic = () => {
     setIsCheckedUnActiveFilter((prev) => !prev);
   }, []);
 
+  const onClickAdapt = useCallback(() => {
+    // TODO:設定に応じてクエリパラメータを変更する
+  }, []);
   return {
     /** 表示範囲(ラジオグループ) */
     displayRange,
@@ -188,5 +191,7 @@ export const TaskDisplayRangeDialogLogic = () => {
     isCheckedUnActiveFilter,
     /** 稼働のないタスクの表示設定の切り替え関数 */
     toggleUnActiveFilter,
+    /** 適応を押した際のハンドラー(クエリの変更 -> 表示データを変更させる(SWRで自動的に)) */
+    onClickAdapt,
   };
 };

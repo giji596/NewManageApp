@@ -61,6 +61,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
     disabledLastDate,
     isCheckedUnActiveFilter,
     toggleUnActiveFilter,
+    onClickAdapt,
   } = TaskDisplayRangeDialogLogic();
   return (
     <Dialog open={true /** TODO:後々修正 */}>
@@ -235,7 +236,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         {/** 右部分(ボタン) */}
         <Stack direction="row">
           <Button color="error">キャンセル</Button>
-          <Button>適応</Button>
+          <Button onClick={onClickAdapt}>適応</Button>
         </Stack>
       </Stack>
     </Dialog>
