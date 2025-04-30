@@ -3,12 +3,15 @@ import { Button, Stack } from "@mui/material";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import TuneIcon from "@mui/icons-material/Tune";
 
 type Props = {
   /** 変更の有無 */
   isDirty: boolean;
   /** 選択中のデータの有無 */
   isSelected: boolean;
+  /** 表示範囲変えるボタン押した時のハンドラー */
+  onClickChangeDisplayRange: () => void;
   /** 変更を保存するハンドラー */
   onClickSave: () => void;
   /** 変更を破棄するハンドラー */
@@ -23,6 +26,7 @@ type Props = {
 export default function TaskSummaryHeader({
   isDirty,
   isSelected,
+  onClickChangeDisplayRange,
   onClickSave,
   onClickReset,
   onClickNavigateDetail,
@@ -35,7 +39,15 @@ export default function TaskSummaryHeader({
       justifyContent={"space-between"}
     >
       {/** 左側(ナビゲーション) */}
-      <Stack>
+      <Stack spacing={2}>
+        <Button
+          sx={{ width: 200 }}
+          startIcon={<TuneIcon />}
+          variant="contained"
+          onClick={onClickChangeDisplayRange}
+        >
+          表示範囲を変更する
+        </Button>
         <Button
           disabled={!isSelected}
           startIcon={<NavigateNextIcon />}

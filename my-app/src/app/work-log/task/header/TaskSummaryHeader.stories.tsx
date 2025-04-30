@@ -7,6 +7,7 @@ const meta = {
   args: {
     isDirty: false,
     isSelected: false,
+    onClickChangeDisplayRange: () => {},
     onClickSave: () => {},
     onClickReset: () => {},
     onClickNavigateDetail: () => {},
