@@ -11,8 +11,9 @@ import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLog
 import { useRouter, useSearchParams } from "next/navigation";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
-import { TaskSummary, TaskSummaryRangeQuery } from "@/type/Task";
+import { TaskSummary } from "@/type/Task";
 import { mutate } from "swr";
+import { getTaskSummaryQuery } from "@/lib/query";
 
 /**
  * タスク一覧ページのパラメータ関連
@@ -20,18 +21,7 @@ import { mutate } from "swr";
 export default function useTaskSummaryPage() {
   const router = useRouter();
   const params = useSearchParams();
-  const query: TaskSummaryRangeQuery = useMemo(() => {
-    const progress = params.get("progress") ?? undefined;
-    const startDate = params.get("startDate") ?? undefined;
-    const lastDate = params.get("lastDate") ?? undefined;
-    const activeOnly = params.get("activeOnly") ?? undefined;
-    return {
-      ...(progress !== undefined && { progress }),
-      ...(startDate !== undefined && { startDate }),
-      ...(lastDate !== undefined && { lastDate }),
-      ...(activeOnly !== undefined && { activeOnly }),
-    };
-  }, [params]);
+  const query = useMemo(() => getTaskSummaryQuery(params), [params]);
   const { data, isLoading, isValidating } = useAspidaSWR(
     apiClient.work_log.tasks,
     "get",
