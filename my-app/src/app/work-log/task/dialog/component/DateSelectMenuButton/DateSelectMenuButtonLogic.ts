@@ -48,7 +48,7 @@ export const DateSelectMenuButtonLogic = ({ year, month, day }: Props) => {
       }
     }
     // それ以外なら現在の年月の日数分
-    const days = getDaysInMonth(new Date(year, month));
+    const days = getDaysInMonth(new Date(year, month - 1));
     return Array.from({ length: days }, (_, i) => i + 1);
   }, [month, year]);
 
