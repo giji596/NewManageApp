@@ -101,3 +101,15 @@ export type TaskLogSummary = {
   /** タスク名 */
   taskName: string;
 };
+
+/** タスク一覧ページ　データ範囲のクエリ型 */
+export type TaskSummaryRangeQuery = {
+  /** 進捗 [min,max] 例:0,90 */
+  progress?: string;
+  /** 開始日 [min,max] 例:2025-11-20,2025-12-30 */
+  startDate?: string;
+  /** 最終日 [min,max] 例:2025-11-20,2025-12-30  */
+  lastDate?: string;
+  /** 稼働あるのだけかどうか "true"のみ */
+  activeOnly?: string;
+};
