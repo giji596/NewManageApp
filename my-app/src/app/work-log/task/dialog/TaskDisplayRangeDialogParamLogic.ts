@@ -36,8 +36,24 @@ export const TaskDisplayRangeDialogParamLogic = ({
   // パラメータ
   const param = useSearchParams();
   // 表示範囲
+  const initDisplayRange: RadioSelectRange = useMemo(() => {
+    // startDate/lastDateがある場合はcustom
+    if (!!param.get("startDate") || !!param.get("lastDate")) return "custom";
+    const progressParam = param.get("progress");
+    switch (progressParam) {
+      // progressの値に応じて分岐
+      // nullの場合(未設定)の場合もin-progressとする
+      case null:
+      case "0,90":
+        return "in-progress";
+      case "100,100":
+        return "completed";
+      default:
+        return "custom";
+    }
+  }, [param]);
   const [displayRange, setDisplayRange] =
-    useState<RadioSelectRange>("in-progress");
+    useState<RadioSelectRange>(initDisplayRange);
   const handleChangeDisplayRange = useCallback((v: string) => {
     if (RadioSelectRange.includes(v as RadioSelectRange)) {
       setDisplayRange(v as RadioSelectRange);
@@ -45,7 +61,17 @@ export const TaskDisplayRangeDialogParamLogic = ({
   }, []);
 
   // 進捗
-  const [progressRange, setProgressRange] = useState<number[]>([0, 90]);
+  const initProgressRange = useMemo(
+    () =>
+      // パラメータあれば(0,90など)splitでstring[]化 -> mapでnumber[]化して初期値
+      param
+        .get("progress")
+        ?.split(",")
+        .map((v) => Number(v)) ?? [0, 90], // なければ[0,90]渡す
+    [param]
+  );
+  const [progressRange, setProgressRange] =
+    useState<number[]>(initProgressRange);
   const handleChangeProgressRange = useCallback(
     (_: Event, newValue: number | number[]) => {
       if (typeof newValue === "object") {
@@ -109,8 +135,10 @@ export const TaskDisplayRangeDialogParamLogic = ({
     });
 
   // 稼働記録なしのを表示するかのチェックボックス
+  // 初期値(あればtrue,なければfalse)
+  const initCheckUnActive = useMemo(() => !!param.get("activeOnly"), [param]);
   const [isCheckedUnActiveFilter, setIsCheckedUnActiveFilter] =
-    useState<boolean>();
+    useState<boolean>(initCheckUnActive);
   const toggleUnActiveFilter = useCallback(() => {
     setIsCheckedUnActiveFilter((prev) => !prev);
   }, []);

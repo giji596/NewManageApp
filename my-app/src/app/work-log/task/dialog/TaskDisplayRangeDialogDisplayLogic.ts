@@ -1,14 +1,26 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { RadioSelectRange } from "./TaskDisplayRangeDialogParamLogic";
+import { useSearchParams } from "next/navigation";
 
 /**
  * タスクの表示範囲を設定するダイアログの表示状態(disabledなど)のロジック
  */
 export const TaskDisplayRangeDialogDisplayLogic = () => {
+  // パラメータ
+  const param = useSearchParams();
   // disabled関連
-  const [isProgressEnable, setIsProgressEnable] = useState<boolean>(false);
-  const [isStartDateEnable, setIsStartDateEnable] = useState<boolean>(false);
-  const [isLastDateEnable, setIsLastDateEnable] = useState<boolean>(false);
+  // 初期値
+  const initProgressEnable = useMemo(() => !!param.get("progress"), [param]);
+  const initStartDateEnable = useMemo(() => !!param.get("startDate"), [param]);
+  const initLastDateEnable = useMemo(() => !!param.get("lastDate"), [param]);
+  // state
+  const [isProgressEnable, setIsProgressEnable] =
+    useState<boolean>(initProgressEnable);
+  const [isStartDateEnable, setIsStartDateEnable] =
+    useState<boolean>(initStartDateEnable);
+  const [isLastDateEnable, setIsLastDateEnable] =
+    useState<boolean>(initLastDateEnable);
+  // ハンドラー
   const toggleProgressEnable = useCallback(() => {
     setIsProgressEnable((prev) => !prev);
   }, []);
