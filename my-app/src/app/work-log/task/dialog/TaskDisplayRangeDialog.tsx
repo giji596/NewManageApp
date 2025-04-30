@@ -99,7 +99,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch
               onChange={toggleProgressEnable}
-              value={isProgressEnable}
+              checked={isProgressEnable}
               disabled={disableCustomRange(displayRange)}
             />
             <Typography id="slider-label">進捗</Typography>
@@ -143,7 +143,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch
               onChange={toggleStartDateEnable}
-              value={isStartDateEnable}
+              checked={isStartDateEnable}
               disabled={disableCustomRange(displayRange)}
             />
             <Typography>開始日</Typography>
@@ -173,7 +173,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch
               onChange={toggleLastDateEnable}
-              value={isLastDateEnable}
+              checked={isLastDateEnable}
               disabled={disableCustomRange(displayRange)}
             />
             <Typography>最終日</Typography>
