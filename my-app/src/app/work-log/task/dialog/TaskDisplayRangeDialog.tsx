@@ -35,30 +35,10 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     handleChangeDisplayRange,
     progressRange,
     handleChangeProgressRange,
-    startMinYear,
-    onChangeStartMinYear,
-    startMinMonth,
-    onChangeStartMinMonth,
-    startMinDay,
-    onChangeStartMinDay,
-    startMaxYear,
-    onChangeStartMaxYear,
-    startMaxMonth,
-    onChangeStartMaxMonth,
-    startMaxDay,
-    onChangeStartMaxDay,
-    lastMinDay,
-    onChangeLastMinDay,
-    lastMinYear,
-    onChangeLastMinYear,
-    lastMinMonth,
-    onChangeLastMinMonth,
-    lastMaxDay,
-    onChangeLastMaxDay,
-    lastMaxYear,
-    onChangeLastMaxYear,
-    lastMaxMonth,
-    onChangeLastMaxMonth,
+    startMinSelectRangeParams,
+    startMaxSelectRangeParams,
+    lastMinSelectRangeParams,
+    lastMaxSelectRangeParams,
     isProgressEnable,
     toggleProgressEnable,
     isStartDateEnable,
@@ -164,23 +144,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           >
             <DateSelectMenuButton
               name={"min-start-date"}
-              selectYear={startMinYear}
-              selectMonth={startMinMonth}
-              selectDay={startMinDay}
-              onChangeSelectYear={onChangeStartMinYear}
-              onChangeSelectMonth={onChangeStartMinMonth}
-              onChangeSelectDay={onChangeStartMinDay}
+              selectValueProps={startMinSelectRangeParams}
               disabled={disabledStartDate}
             />
             ~
             <DateSelectMenuButton
               name={"max-start-date"}
-              selectYear={startMaxYear}
-              selectMonth={startMaxMonth}
-              selectDay={startMaxDay}
-              onChangeSelectYear={onChangeStartMaxYear}
-              onChangeSelectMonth={onChangeStartMaxMonth}
-              onChangeSelectDay={onChangeStartMaxDay}
+              selectValueProps={startMaxSelectRangeParams}
               disabled={disabledStartDate}
             />
           </Stack>
@@ -204,23 +174,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           >
             <DateSelectMenuButton
               name={"min-last-date"}
-              selectYear={lastMinYear}
-              selectMonth={lastMinMonth}
-              selectDay={lastMinDay}
-              onChangeSelectYear={onChangeLastMinYear}
-              onChangeSelectMonth={onChangeLastMinMonth}
-              onChangeSelectDay={onChangeLastMinDay}
+              selectValueProps={lastMinSelectRangeParams}
               disabled={disabledLastDate}
             />
             ~
             <DateSelectMenuButton
               name={"max-last-date"}
-              selectYear={lastMaxYear}
-              selectMonth={lastMaxMonth}
-              selectDay={lastMaxDay}
-              onChangeSelectYear={onChangeLastMaxYear}
-              onChangeSelectMonth={onChangeLastMaxMonth}
-              onChangeSelectDay={onChangeLastMaxDay}
+              selectValueProps={lastMaxSelectRangeParams}
               disabled={disabledLastDate}
             />
           </Stack>
