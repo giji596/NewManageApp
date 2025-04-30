@@ -1,15 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { RadioSelectRange } from "./TaskDisplayRangeDialogParamLogic";
-
-type Props = {
-  /** 表示範囲を表す文言 */
-  displayRange: RadioSelectRange;
-};
 
 /**
  * タスクの表示範囲を設定するダイアログの表示状態(disabledなど)のロジック
  */
-export const TaskDisplayRangeDialogDisplayLogic = ({ displayRange }: Props) => {
+export const TaskDisplayRangeDialogDisplayLogic = () => {
   // disabled関連
   const [isProgressEnable, setIsProgressEnable] = useState<boolean>(false);
   const [isStartDateEnable, setIsStartDateEnable] = useState<boolean>(false);
@@ -24,20 +19,23 @@ export const TaskDisplayRangeDialogDisplayLogic = ({ displayRange }: Props) => {
     setIsLastDateEnable((prev) => !prev);
   }, []);
 
-  const disableCustomRange = useMemo(
-    () => displayRange !== "custom",
-    [displayRange]
+  const disableCustomRange = useCallback(
+    (displayRange: RadioSelectRange) => displayRange !== "custom",
+    []
   );
-  const disabledProgress = useMemo(
-    () => disableCustomRange || !isProgressEnable,
+  const disabledProgress = useCallback(
+    (displayRange: RadioSelectRange) =>
+      disableCustomRange(displayRange) || !isProgressEnable,
     [disableCustomRange, isProgressEnable]
   );
-  const disabledStartDate = useMemo(
-    () => disableCustomRange || !isStartDateEnable,
+  const disabledStartDate = useCallback(
+    (displayRange: RadioSelectRange) =>
+      disableCustomRange(displayRange) || !isStartDateEnable,
     [disableCustomRange, isStartDateEnable]
   );
-  const disabledLastDate = useMemo(
-    () => disableCustomRange || !isLastDateEnable,
+  const disabledLastDate = useCallback(
+    (displayRange: RadioSelectRange) =>
+      disableCustomRange(displayRange) || !isLastDateEnable,
     [disableCustomRange, isLastDateEnable]
   );
   return {
