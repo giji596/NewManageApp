@@ -1,4 +1,12 @@
-import { lastDayOfMonth } from "date-fns";
+import {
+  getLastDay,
+  getTodayDay,
+  getTodayMonth,
+  isOverTodayDay,
+  isOverTodayMonth,
+  isTodayMonth,
+  isTodayYear,
+} from "@/lib/date";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -8,16 +16,6 @@ type Props = {
   initMonth: number;
   /** 初期値(day) */
   initDay: number;
-};
-
-const today = new Date();
-const todayYear = today.getFullYear();
-const todayMonth = today.getMonth() + 1;
-const todayDay = today.getDate();
-
-const getLastDay = (year: number, month: number) => {
-  const lastDate = lastDayOfMonth(new Date(year, month - 1));
-  return lastDate.getDate();
 };
 
 /**
@@ -37,12 +35,14 @@ export const useDateSelectMenuButton = ({
       // 年を変更
       setYear(v);
       // 今年に変えた場合,範囲外(今日の日付以降)になるなら変更させる
-      if (v === todayYear) {
+      if (isTodayYear(v)) {
         // month>todayMonthとなる場合todayMonthに変更させる
-        if (month > todayMonth) {
+        if (isOverTodayMonth(month)) {
+          const todayMonth = getTodayMonth();
           setMonth(todayMonth);
           // 加えて、day>todayDayとなる場合はtodayDayに変更する
-          if (day > todayDay) {
+          if (isOverTodayDay(day)) {
+            const todayDay = getTodayDay();
             setDay(todayDay);
           }
         }
@@ -62,11 +62,12 @@ export const useDateSelectMenuButton = ({
       // 月を変更
       setMonth(v);
       // 今月に変えた場合、dayが範囲外にいかないかチェックする
-      if (v === todayMonth) {
+      if (isTodayMonth(v)) {
         // 年が今年かチェック
-        if (year === todayYear) {
+        if (isTodayYear(year)) {
           // day>todayDayとなる場合はtodayDayに変更する
-          if (day > todayDay) {
+          if (isOverTodayDay(day)) {
+            const todayDay = getTodayDay();
             setDay(todayDay);
           }
         }
