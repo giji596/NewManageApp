@@ -10,6 +10,8 @@ type Props = {
   isDirty: boolean;
   /** 選択中のデータの有無 */
   isSelected: boolean;
+  /** 表示範囲変えるボタン押した時のハンドラー */
+  onClickChangeDisplayRange: () => void;
   /** 変更を保存するハンドラー */
   onClickSave: () => void;
   /** 変更を破棄するハンドラー */
@@ -24,6 +26,7 @@ type Props = {
 export default function TaskSummaryHeader({
   isDirty,
   isSelected,
+  onClickChangeDisplayRange,
   onClickSave,
   onClickReset,
   onClickNavigateDetail,
@@ -41,6 +44,7 @@ export default function TaskSummaryHeader({
           sx={{ width: 200 }}
           startIcon={<TuneIcon />}
           variant="contained"
+          onClick={onClickChangeDisplayRange}
         >
           表示範囲を変更する
         </Button>
