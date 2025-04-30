@@ -16,6 +16,9 @@ import {
 import { memo } from "react";
 import DateSelectMenuButton from "./component/DateSelectMenuButton/DateSelectMenuButton";
 
+/**
+ * タスクの表示範囲を設定するダイアログ
+ */
 const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
   return (
     <Dialog open={true /** TODO:後々修正 */}>
