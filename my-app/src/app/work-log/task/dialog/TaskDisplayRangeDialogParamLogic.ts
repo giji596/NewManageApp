@@ -39,28 +39,32 @@ export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
     []
   );
   // 開始日
-  const startMinSelectRangeParams = useDateSelectMenuButton({
-    initYear,
-    initMonth,
-    initDay,
-  });
-  const startMaxSelectRangeParams = useDateSelectMenuButton({
-    initYear,
-    initMonth,
-    initDay,
-  });
+  const { dateParam: startMinParam, ...startMinSelectRangeParams } =
+    useDateSelectMenuButton({
+      initYear,
+      initMonth,
+      initDay,
+    });
+  const { dateParam: startMaxParam, ...startMaxSelectRangeParams } =
+    useDateSelectMenuButton({
+      initYear,
+      initMonth,
+      initDay,
+    });
 
   // 最終日
-  const lastMinSelectRangeParams = useDateSelectMenuButton({
-    initYear,
-    initMonth,
-    initDay,
-  });
-  const lastMaxSelectRangeParams = useDateSelectMenuButton({
-    initYear,
-    initMonth,
-    initDay,
-  });
+  const { dateParam: lastMixParam, ...lastMinSelectRangeParams } =
+    useDateSelectMenuButton({
+      initYear,
+      initMonth,
+      initDay,
+    });
+  const { dateParam: lastMaxParam, ...lastMaxSelectRangeParams } =
+    useDateSelectMenuButton({
+      initYear,
+      initMonth,
+      initDay,
+    });
 
   // 稼働記録なしのを表示するかのチェックボックス
   const [isCheckedUnActiveFilter, setIsCheckedUnActiveFilter] =
@@ -71,8 +75,9 @@ export const TaskDisplayRangeDialogParamLogic = ({ onClose }: Props) => {
 
   const onClickAdapt = useCallback(() => {
     // TODO:設定に応じてクエリパラメータを変更する
+    console.log(startMinParam, startMaxParam, lastMixParam, lastMaxParam);
     onClose();
-  }, [onClose]);
+  }, [lastMaxParam, lastMixParam, onClose, startMaxParam, startMinParam]);
   return {
     /** 表示範囲(ラジオグループ) */
     displayRange,
