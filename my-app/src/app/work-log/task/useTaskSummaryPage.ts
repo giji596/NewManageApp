@@ -25,7 +25,7 @@ export default function useTaskSummaryPage() {
   const { data, isLoading, isValidating } = useAspidaSWR(
     apiClient.work_log.tasks,
     "get",
-    { query, key: ["api/work-log/tasks?", query] }
+    { query, key: ["api/work-log/tasks?", query], revalidateIfStale: false }
   );
   // TODO:データフェッチさせる
   const rawData = useMemo(() => data?.body ?? [], [data?.body]);
