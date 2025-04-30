@@ -49,6 +49,16 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
     onChangeLastMaxYear,
     lastMaxMonth,
     onChangeLastMaxMonth,
+    isProgressEnable,
+    toggleProgressEnable,
+    isStartDateEnable,
+    toggleStartDateEnable,
+    isLastDateEnable,
+    toggleLastDateEnable,
+    disableCustomRange,
+    disabledProgress,
+    disabledStartDate,
+    disabledLastDate,
   } = TaskDisplayRangeDialogLogic();
   return (
     <Dialog open={true /** TODO:後々修正 */}>
@@ -82,7 +92,11 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         <Stack>
           {/** 上部(switch/タイトル) */}
           <Stack direction="row" alignItems={"center"} spacing={1}>
-            <Switch />
+            <Switch
+              onChange={toggleProgressEnable}
+              value={isProgressEnable}
+              disabled={disableCustomRange}
+            />
             <Typography id="slider-label">進捗</Typography>
           </Stack>
           {/** フォームエリア */}
@@ -104,6 +118,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
               onChange={handleChangeProgressRange}
               step={10}
               valueLabelDisplay="auto"
+              disabled={disabledProgress}
             />
             <Typography
               sx={{
@@ -121,7 +136,11 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         <Stack>
           {/** 上部(switch/タイトル) */}
           <Stack direction="row" alignItems={"center"} spacing={1}>
-            <Switch />
+            <Switch
+              onChange={toggleStartDateEnable}
+              value={isStartDateEnable}
+              disabled={disableCustomRange}
+            />
             <Typography>開始日</Typography>
           </Stack>
           {/** フォームエリア */}
@@ -155,7 +174,11 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog() {
         <Stack>
           {/** 上部(switch/タイトル) */}
           <Stack direction="row" alignItems={"center"} spacing={1}>
-            <Switch />
+            <Switch
+              onChange={toggleLastDateEnable}
+              value={isLastDateEnable}
+              disabled={disableCustomRange}
+            />
             <Typography>最終日</Typography>
           </Stack>
           {/** フォームエリア */}
