@@ -3,6 +3,8 @@
 import TaskSummaryHeader from "./header/TaskSummaryHeader";
 import useTaskSummaryPage from "./useTaskSummaryPage";
 import TaskSummaryTable from "./table/TaskSummaryTable";
+import useDialog from "@/hook/useDialog";
+import TaskDisplayRangeDialog from "./dialog/TaskDisplayRangeDialog";
 
 /**
  * タスク一覧ページ
@@ -22,11 +24,13 @@ export default function TaskSummaryPage() {
     isAnyItemSelected,
     navigateToDetail,
   } = useTaskSummaryPage();
+  const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <TaskSummaryHeader
         isDirty={isDirty}
         isSelected={isAnyItemSelected}
+        onClickChangeDisplayRange={onOpen}
         onClickSave={handleSaveAll}
         onClickReset={handleResetAll}
         onClickNavigateDetail={navigateToDetail}
@@ -40,6 +44,7 @@ export default function TaskSummaryPage() {
           onDirtyChange={onDirtyChange}
         />
       )}
+      {open && <TaskDisplayRangeDialog open={open} onClose={onClose} />}
     </>
   );
 }
