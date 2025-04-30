@@ -3,6 +3,7 @@ import { Button, Stack } from "@mui/material";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import TuneIcon from "@mui/icons-material/Tune";
 
 type Props = {
   /** 変更の有無 */
@@ -35,7 +36,14 @@ export default function TaskSummaryHeader({
       justifyContent={"space-between"}
     >
       {/** 左側(ナビゲーション) */}
-      <Stack>
+      <Stack spacing={2}>
+        <Button
+          sx={{ width: 200 }}
+          startIcon={<TuneIcon />}
+          variant="contained"
+        >
+          表示範囲を変更する
+        </Button>
         <Button
           disabled={!isSelected}
           startIcon={<NavigateNextIcon />}
