@@ -206,7 +206,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <Checkbox
               size="small"
               onChange={toggleUnActiveFilter}
-              value={isCheckedUnActiveFilter}
+              checked={isCheckedUnActiveFilter}
             />
           }
           label={
