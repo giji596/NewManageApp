@@ -95,7 +95,7 @@ export default function useTaskSummaryPage() {
     // データをまとめて変更
     await apiClient.work_log.tasks.bulk_update.patch({ body: result });
     // 再検証
-    mutate("api/work-log/tasks"); // undefinedにすることでテーブルを一度アンマウント
+    mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
   }, [getTargetKeys]);
 
   const handleResetAll = useCallback(() => {
