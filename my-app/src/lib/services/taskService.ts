@@ -82,7 +82,8 @@ export const getTaskSummary = async (
 export const createTask = async (
   name: string,
   categoryId: number,
-  isFavorite: boolean
+  isFavorite: boolean,
+  createdAt: Date
 ) => {
   // 重複チェック
   const existing = await prisma.task.findFirst({
@@ -95,7 +96,7 @@ export const createTask = async (
   if (existing !== null) return null;
   // くりえーとする
   const data: TaskOption = await prisma.task.create({
-    data: { name, categoryId, isFavorite, progress: 0 },
+    data: { name, categoryId, isFavorite, progress: 0, createdAt },
     select: {
       id: true,
       name: true,
