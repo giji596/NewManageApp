@@ -8540,7 +8540,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutTasksInput
     tasks?: TaskLogCreateNestedManyWithoutTaskInput
@@ -8552,7 +8552,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     tasks?: TaskLogUncheckedCreateNestedManyWithoutTaskInput
   }
@@ -8584,7 +8584,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
   }
 
@@ -9639,7 +9639,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutTasksInput
   }
@@ -9650,7 +9650,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
   }
 
@@ -9846,7 +9846,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     tasks?: TaskLogCreateNestedManyWithoutTaskInput
   }
@@ -9856,7 +9856,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     tasks?: TaskLogUncheckedCreateNestedManyWithoutTaskInput
   }
@@ -10095,7 +10095,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
   }
 
