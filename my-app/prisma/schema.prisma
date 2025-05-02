@@ -38,7 +38,7 @@ model Task {
   isFavorite Boolean
   tasks TaskLog[]
 
-  createdAt DateTime @default(now())
+  createdAt DateTime 
   updatedAt DateTime @updatedAt
 }
 
