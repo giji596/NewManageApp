@@ -5,11 +5,17 @@ import useTaskSummaryPage from "./useTaskSummaryPage";
 import TaskSummaryTable from "./table/TaskSummaryTable";
 import useDialog from "@/hook/useDialog";
 import TaskDisplayRangeDialog from "./dialog/TaskDisplayRangeDialog";
+import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
 
 /**
  * タスク一覧ページ
  */
 export default function TaskSummaryPage() {
+  const {
+    open: openComplete,
+    onClose: onCloseComplete,
+    onOpen: onOpenComplete,
+  } = useDialog();
   const {
     taskSummaryData,
     isLoading,
@@ -17,14 +23,16 @@ export default function TaskSummaryPage() {
     rowRefs,
     handleSaveAll,
     handleResetAll,
+    handleConfirmComplete,
     onDirtyChange,
     isDirty,
     selectedItemId,
     handleSelectItem,
     isAnyItemSelected,
     navigateToDetail,
-  } = useTaskSummaryPage();
+  } = useTaskSummaryPage({ onOpenComplete });
   const { open, onClose, onOpen } = useDialog();
+
   return (
     <>
       <TaskSummaryHeader
@@ -45,6 +53,13 @@ export default function TaskSummaryPage() {
         />
       )}
       {open && <TaskDisplayRangeDialog open={open} onClose={onClose} />}
+      {openComplete && (
+        <CompleteConfirmDialog
+          open={openComplete}
+          onClose={onCloseComplete}
+          onAccept={handleConfirmComplete}
+        />
+      )}
     </>
   );
 }

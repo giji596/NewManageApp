@@ -15,10 +15,15 @@ import { TaskSummary } from "@/type/Task";
 import { mutate } from "swr";
 import { getTaskSummaryQuery } from "@/lib/query";
 
+type Props = {
+  /** 完了確認ダイアログ開くハンドラー */
+  onOpenComplete: () => void;
+};
+
 /**
  * タスク一覧ページのパラメータ関連
  */
-export default function useTaskSummaryPage() {
+export default function useTaskSummaryPage({ onOpenComplete }: Props) {
   const router = useRouter();
   const params = useSearchParams();
   const query = useMemo(() => getTaskSummaryQuery(params), [params]);
@@ -76,6 +81,10 @@ export default function useTaskSummaryPage() {
     }
   }, [getInitialRef, taskSummaryData]);
 
+  // 送信データ
+  const sendData = useRef<
+    { id: number; progress?: number; isFavorite?: boolean }[] | null
+  >(null);
   // 変更のある対象のキーを取得する関数
   const getTargetKeys = useCallback(() => {
     const keys = Object.keys(rowRefs.current);
@@ -83,6 +92,15 @@ export default function useTaskSummaryPage() {
     return filtered;
   }, [isDirtyRecord]);
 
+  const updateAll = useCallback(
+    async (data: { id: number; progress?: number; isFavorite?: boolean }[]) => {
+      // データをまとめて変更
+      await apiClient.work_log.tasks.bulk_update.patch({ body: data });
+      // 再検証
+      mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
+    },
+    []
+  );
   const handleSaveAll = useCallback(async () => {
     const result = [];
     const targetKeys = getTargetKeys(); // 変更のあるキーのみを取得
@@ -92,11 +110,22 @@ export default function useTaskSummaryPage() {
       const data = ref.current?.getFormData();
       result.push({ id: Number(key), ...data }); // 判別ようにidを付与
     }
-    // データをまとめて変更
-    await apiClient.work_log.tasks.bulk_update.patch({ body: result });
-    // 再検証
-    mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
-  }, [getTargetKeys]);
+    // いずれかのデータの進捗が100%になる場合はダイアログ表示
+    const isAnyCompleted = result.some((v) => v.progress === 100);
+    if (isAnyCompleted) {
+      sendData.current = result; // refに送信データを一時保存
+      onOpenComplete();
+    } else {
+      updateAll(result);
+    }
+  }, [getTargetKeys, onOpenComplete, updateAll]);
+
+  const handleConfirmComplete = useCallback(async () => {
+    if (sendData.current) {
+      await updateAll(sendData.current);
+      sendData.current = null;
+    }
+  }, [updateAll]);
 
   const handleResetAll = useCallback(() => {
     const targetKeys = getTargetKeys();
@@ -140,6 +169,8 @@ export default function useTaskSummaryPage() {
     handleSaveAll,
     /** まとめてリセットを行う関数 */
     handleResetAll,
+    /** 完了確認時のハンドラー(データ保存を行う) */
+    handleConfirmComplete,
     /** 選択中のアイテムid */
     selectedItemId,
     /** アイテム選択時のハンドラー */
