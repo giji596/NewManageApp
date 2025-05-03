@@ -4,18 +4,12 @@ import CategoryTaskTable from "./table/CategoryTaskTable";
 import CategoryTaskListHeader from "./header/CategoryTaskListHeader";
 import CategoryTaskListLogic from "./CategoryTaskListLogic";
 
-type Props = {
-  /** カテゴリid */
-  categoryId: number;
-};
-
 /**
  * カテゴリのタスク一覧表示コンポーネント
  */
-const CategoryTaskList = memo(function CategoryTaskList({ categoryId }: Props) {
-  const { data, selectedValue, onChangeSelectedValue } = CategoryTaskListLogic({
-    categoryId,
-  });
+const CategoryTaskList = memo(function CategoryTaskList() {
+  const { data, selectedValue, onChangeSelectedValue } =
+    CategoryTaskListLogic();
   return (
     <>
       <CategoryTaskListHeader
