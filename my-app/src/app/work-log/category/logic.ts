@@ -1,18 +1,23 @@
 import { SelectChangeEvent } from "@mui/material";
-import { useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
 /**
  * カテゴリページのロジック
  */
 export default function CategoryPageLogic() {
   const searchParams = useSearchParams();
-  const initialId = Number(searchParams.get("id") ?? 1);
-  const [selectedId, setSelectedId] = useState<number>(initialId);
-  const onChangeSelectedId = useCallback((e: SelectChangeEvent) => {
-    const newId = Number(e.target.value);
-    setSelectedId(newId);
-  }, []);
+  const router = useRouter();
+  const selectedId = Number(searchParams.get("id") ?? 1);
+  const onChangeSelectedId = useCallback(
+    (e: SelectChangeEvent) => {
+      const newId = e.target.value;
+      const param = new URLSearchParams();
+      param.set("id", newId);
+      router.replace(`?${param}`);
+    },
+    [router]
+  );
   return {
     /** 選択中のid */
     selectedId,
