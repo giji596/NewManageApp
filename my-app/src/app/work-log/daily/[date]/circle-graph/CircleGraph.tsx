@@ -16,31 +16,33 @@ type Props = {
 export default function CircleGraph({ data }: Props) {
   const { isNoData, getLabel } = CircleGraphLogic({ data });
   return (
-    <PieChart width={500} height={300}>
-      <Pie
-        data={data}
-        dataKey="value"
-        cx="50%"
-        cy="50%"
-        outerRadius={90}
-        fill={"#8884d8"}
-        label={getLabel}
-      />
-      <Tooltip
-        content={
-          <CustomToolTipWrapper>
-            {(dataItem: DailyCategoryCircleGraph) =>
-              dataItem.task.map((item) => (
-                <CustomToolTipContent
-                  key={item.id}
-                  name={item.name}
-                  value={item.percent}
-                />
-              ))
-            }
-          </CustomToolTipWrapper>
-        }
-      />
-    </PieChart>
+    <>
+      <PieChart width={500} height={300}>
+        <Pie
+          data={data}
+          dataKey="value"
+          cx="50%"
+          cy="50%"
+          outerRadius={90}
+          fill={"#8884d8"}
+          label={getLabel}
+        />
+        <Tooltip
+          content={
+            <CustomToolTipWrapper>
+              {(dataItem: DailyCategoryCircleGraph) =>
+                dataItem.task.map((item) => (
+                  <CustomToolTipContent
+                    key={item.id}
+                    name={item.name}
+                    value={item.percent}
+                  />
+                ))
+              }
+            </CustomToolTipWrapper>
+          }
+        />
+      </PieChart>
+    </>
   );
 }
