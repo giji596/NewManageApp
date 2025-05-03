@@ -12,25 +12,27 @@ import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteC
  */
 export default function TaskSummaryPage() {
   const {
+    open: openComplete,
+    onClose: onCloseComplete,
+    onOpen: onOpenComplete,
+  } = useDialog();
+  const {
     taskSummaryData,
     isLoading,
     isValidating,
     rowRefs,
     handleSaveAll,
     handleResetAll,
+    handleConfirmComplete,
     onDirtyChange,
     isDirty,
     selectedItemId,
     handleSelectItem,
     isAnyItemSelected,
     navigateToDetail,
-  } = useTaskSummaryPage();
+  } = useTaskSummaryPage({ onOpenComplete });
   const { open, onClose, onOpen } = useDialog();
-  const {
-    open: openComplete,
-    onClose: onCloseComplete,
-    onOpen: onOpenComplete,
-  } = useDialog();
+
   return (
     <>
       <TaskSummaryHeader
@@ -55,7 +57,7 @@ export default function TaskSummaryPage() {
         <CompleteConfirmDialog
           open={openComplete}
           onClose={onCloseComplete}
-          onAccept={() => {}} // TODO: あとで修正
+          onAccept={handleConfirmComplete}
         />
       )}
     </>
