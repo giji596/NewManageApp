@@ -39,6 +39,7 @@ export default function TaskDetailPage({ params }: Props) {
     startDateString,
     lastDateString,
     memoList,
+    isCompleted,
     handleComplete,
     handleDelete,
     navigateCategoryPage,

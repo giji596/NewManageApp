@@ -65,6 +65,7 @@ export default function useTaskDetailPage({ id }: Props) {
   );
   const memoList = useMemo(() => data.memo, [data.memo]); // タスク名の更新時の再フェッチ時に更新しないように設定
 
+  const isCompleted = useMemo(() => progress === 100, [progress]);
   const handleComplete = useCallback(async () => {
     await apiClient.work_log.tasks._id(id).patch({ body: { progress: 100 } });
     // データ更新後に再検証してUIに即時反映
@@ -115,6 +116,8 @@ export default function useTaskDetailPage({ id }: Props) {
     lastDateString,
     /** メモリスト */
     memoList,
+    /** 完了状態かどうか(progress===100) */
+    isCompleted,
     /** 完了処理を行うハンドラー */
     handleComplete,
     /** 削除処理を行うハンドラー */
