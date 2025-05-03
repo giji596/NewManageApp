@@ -30,7 +30,7 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
   const { data, isLoading, isValidating } = useAspidaSWR(
     apiClient.work_log.tasks,
     "get",
-    { query, key: ["api/work-log/tasks?", query], revalidateIfStale: false }
+    { query, key: ["api/work-log/tasks", query], revalidateIfStale: false }
   );
   // TODO:データフェッチさせる
   const rawData = useMemo(() => data?.body ?? [], [data?.body]);
