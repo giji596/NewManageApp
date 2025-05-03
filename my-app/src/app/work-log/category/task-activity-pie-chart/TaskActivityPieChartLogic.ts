@@ -47,7 +47,7 @@ export default function TaskActivityPieChartLogic() {
         return { range: selectedRange };
     }
   }, [endDate, selectedRange, startDate]);
-  const { data: rawData } = useAspidaSWR(
+  const { data: rawData, isLoading } = useAspidaSWR(
     apiClient.work_log.categories._id(categoryId).activity,
     "get",
     {
@@ -70,5 +70,7 @@ export default function TaskActivityPieChartLogic() {
     handleSetSelectedRange,
     /** タスクの稼働データ */
     data,
+    /** タスク稼働データのロード状態 */
+    isLoading,
   };
 }
