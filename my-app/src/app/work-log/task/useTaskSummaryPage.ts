@@ -83,6 +83,15 @@ export default function useTaskSummaryPage() {
     return filtered;
   }, [isDirtyRecord]);
 
+  const updateAll = useCallback(
+    async (data: { id: number; progress?: number; isFavorite?: boolean }[]) => {
+      // データをまとめて変更
+      await apiClient.work_log.tasks.bulk_update.patch({ body: data });
+      // 再検証
+      mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
+    },
+    []
+  );
   const handleSaveAll = useCallback(async () => {
     const result = [];
     const targetKeys = getTargetKeys(); // 変更のあるキーのみを取得
@@ -92,11 +101,8 @@ export default function useTaskSummaryPage() {
       const data = ref.current?.getFormData();
       result.push({ id: Number(key), ...data }); // 判別ようにidを付与
     }
-    // データをまとめて変更
-    await apiClient.work_log.tasks.bulk_update.patch({ body: result });
-    // 再検証
-    mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
-  }, [getTargetKeys]);
+    updateAll(result);
+  }, [getTargetKeys, updateAll]);
 
   const handleResetAll = useCallback(() => {
     const targetKeys = getTargetKeys();
