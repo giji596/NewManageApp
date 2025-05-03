@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Typography,
 } from "@mui/material";
 
 type Props = {
@@ -29,6 +30,11 @@ export default function CompleteConfirmDialog({
       <DialogContent>
         <DialogContentText>
           タスクを完了してもよろしいですか？
+          <br />
+          <Typography color="error" variant="caption">
+            * 一度完了すると、稼働状態に戻すことはできません
+            <br />* 完了済みのタスクは、稼働タスクに設定できなくなります。
+          </Typography>
         </DialogContentText>
         <DialogActions>
           <Button
