@@ -1,16 +1,14 @@
 import { DUMMY_TASK_ACTIVITY_DATA } from "@/dummy/category-page";
 import { subMonths } from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-
-type Props = {
-  /** かてごりid */
-  categoryId: number;
-};
 
 /**
  * 設定した期間のタスク稼働率を円グラフで表示するコンポーネントのロジック
  */
-export default function TaskActivityPieChartLogic({ categoryId }: Props) {
+export default function TaskActivityPieChartLogic() {
+  const searchParams = useSearchParams();
+  const categoryId = Number(searchParams.get("id") ?? 1);
   // 日付選択のロジック
   const [selectedRange, setSelectedRange] = useState<
     "last-month" | "all" | "select"

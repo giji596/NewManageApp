@@ -19,24 +19,22 @@ const TaskActivityPieChart = dynamic(
   }
 );
 import CategoryTaskList from "./category-task-list/CategoryTaskList";
-import CategoryPageLogic from "./logic";
 import dynamic from "next/dynamic";
 
 /**
  * カテゴリページ
  */
 export default function CategoryPage() {
-  const { selectedId, onChangeSelectedId } = CategoryPageLogic();
   return (
     <Stack direction="row" p={4}>
       {/** 左側(カテゴリ選択/期間グラフ) */}
       <Stack width="50%" justifyContent={"space-around"}>
         <CategorySelect />
-        <TaskActivityPieChart categoryId={selectedId} />
+        <TaskActivityPieChart />
       </Stack>
       {/** 右側(カテゴリ内タスクリスト) */}
       <Stack width="50%" height={500} pt={10}>
-        <CategoryTaskList categoryId={selectedId} />
+        <CategoryTaskList />
       </Stack>
     </Stack>
   );

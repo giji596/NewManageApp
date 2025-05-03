@@ -1,15 +1,13 @@
 import { DUMMY_CATEGORY_TASK_LIST } from "@/dummy/category-page";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-
-type Props = {
-  /** カテゴリid */
-  categoryId: number;
-};
 
 /**
  * カテゴリのタスク一覧表示コンポーネントのロジック
  */
-export default function CategoryTaskListLogic({ categoryId }: Props) {
+export default function CategoryTaskListLogic() {
+  const searchParams = useSearchParams();
+  const categoryId = Number(searchParams.get("id") ?? 1);
   // TODO:カテゴリidを使ってデータふぇっち SWR使うので実際はuseMemoは不要
   const rowData = useMemo(() => {
     console.log("でーた元のカテゴリid", categoryId);

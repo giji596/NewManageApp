@@ -5,17 +5,10 @@ import PeriodSelector from "./period-selector/PeriodSelector";
 import TaskActivityPieChartLogic from "./TaskActivityPieChartLogic";
 import { Stack } from "@mui/material";
 
-type Props = {
-  /** カテゴリid */
-  categoryId: number;
-};
-
 /**
  * 設定した期間のタスク稼働率を円グラフで表示するコンポーネント
  */
-const TaskActivityPieChart = memo(function TaskActivityPieChart({
-  categoryId,
-}: Props) {
+const TaskActivityPieChart = memo(function TaskActivityPieChart() {
   const {
     selectedRange,
     onChangeSelectedRange,
@@ -23,7 +16,7 @@ const TaskActivityPieChart = memo(function TaskActivityPieChart({
     endDate,
     handleSetSelectedRange,
     data,
-  } = TaskActivityPieChartLogic({ categoryId });
+  } = TaskActivityPieChartLogic();
   return (
     <Stack>
       <PeriodSelector
