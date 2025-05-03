@@ -8,7 +8,12 @@ export type Methods = DefineMethods<{
     resBody: ReplaceDateWithString<TaskSummary>[];
   };
   post: {
-    reqBody: { name: string; categoryId: number; isFavorite: boolean };
+    reqBody: {
+      name: string;
+      categoryId: number;
+      isFavorite: boolean;
+      startDate: string;
+    };
     resBody: TaskOption;
   };
 }>;
