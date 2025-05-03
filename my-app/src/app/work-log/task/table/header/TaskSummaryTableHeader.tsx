@@ -58,7 +58,7 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
         {/** カテゴリ名 */}
-        <TableCell width={"20%"}>
+        <TableCell width={"17%"}>
           <CustomHeaderSortCheckLabel
             title={"カテゴリ名"}
             isSelected={isSelected("カテゴリ名")}
@@ -70,7 +70,7 @@ export default function TaskSummaryTableHeader({
           />
         </TableCell>
         {/** 進捗*/}
-        <TableCell width={"10%"}>
+        <TableCell width={"13%"}>
           <CustomHeaderSortLabel
             title={"進捗"}
             isSelected={isSelected("進捗")}
