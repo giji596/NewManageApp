@@ -5,6 +5,7 @@ import useTaskSummaryPage from "./useTaskSummaryPage";
 import TaskSummaryTable from "./table/TaskSummaryTable";
 import useDialog from "@/hook/useDialog";
 import TaskDisplayRangeDialog from "./dialog/TaskDisplayRangeDialog";
+import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
 
 /**
  * タスク一覧ページ
@@ -25,6 +26,11 @@ export default function TaskSummaryPage() {
     navigateToDetail,
   } = useTaskSummaryPage();
   const { open, onClose, onOpen } = useDialog();
+  const {
+    open: openComplete,
+    onClose: onCloseComplete,
+    onOpen: onOpenComplete,
+  } = useDialog();
   return (
     <>
       <TaskSummaryHeader
@@ -45,6 +51,13 @@ export default function TaskSummaryPage() {
         />
       )}
       {open && <TaskDisplayRangeDialog open={open} onClose={onClose} />}
+      {openComplete && (
+        <CompleteConfirmDialog
+          open={openComplete}
+          onClose={onCloseComplete}
+          onAccept={() => {}} // TODO: あとで修正
+        />
+      )}
     </>
   );
 }
