@@ -1,4 +1,5 @@
-import { DUMMY_CATEGORY_TASK_LIST } from "@/dummy/category-page";
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
@@ -8,11 +9,11 @@ import { useCallback, useMemo, useState } from "react";
 export default function CategoryTaskListLogic() {
   const searchParams = useSearchParams();
   const categoryId = Number(searchParams.get("id") ?? 1);
-  // TODO:カテゴリidを使ってデータふぇっち SWR使うので実際はuseMemoは不要
-  const rowData = useMemo(() => {
-    console.log("でーた元のカテゴリid", categoryId);
-    return DUMMY_CATEGORY_TASK_LIST;
-  }, [categoryId]);
+  const { data: fetchData } = useAspidaSWR(
+    apiClient.work_log.categories._id(categoryId).tasks,
+    "get",
+    { key: `api/work-log/categories/${categoryId}/tasks` }
+  );
 
   const [selectedValue, setSelectedValue] = useState<
     "in-progress" | "all" | "completed"
@@ -28,16 +29,17 @@ export default function CategoryTaskListLogic() {
   );
 
   const data = useMemo(() => {
+    const rawData = fetchData?.body ?? [];
     switch (selectedValue) {
       case "in-progress":
-        return rowData.filter((v) => v.progress !== 100);
+        return rawData.filter((v) => v.progress !== 100);
       case "completed":
-        return rowData.filter((v) => v.progress === 100);
+        return rawData.filter((v) => v.progress === 100);
       case "all":
       default:
-        return rowData;
+        return rawData;
     }
-  }, [rowData, selectedValue]);
+  }, [fetchData?.body, selectedValue]);
   return {
     /** タスクテーブル用のデータ */
     data,
