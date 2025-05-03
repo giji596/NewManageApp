@@ -31,7 +31,7 @@ export default function MainDisplay({
   totalHours,
   onClickNavigateCategoryPage,
 }: Props) {
-  const { progressGrayBarWidth } = MainDisplayLogic({ progress });
+  const { growAnimation } = MainDisplayLogic({ progress });
   return (
     <Stack spacing={0.5}>
       {/** タスク/ おきにいり */}
@@ -75,13 +75,7 @@ export default function MainDisplay({
               height: "100%",
               width: "0%",
               backgroundColor: "#eee",
-              animation: "grow 1s ease-out forwards",
-              "@keyframes grow": {
-                "0%": { width: "100%" },
-                "100%": {
-                  width: `${progressGrayBarWidth}%`,
-                },
-              },
+              animation: `${growAnimation} 1s ease-out forwards`,
             }}
           />
         </Stack>
