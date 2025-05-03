@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { Pie, PieChart } from "recharts";
 
 type Props = {
   /** 半径 */
@@ -19,15 +18,8 @@ const NoDataPieGraph = memo(function NoDataPieGraph({
   height,
 }: Props) {
   return (
-    <PieChart width={width} height={height}>
-      <Pie
-        data={[{ name: "", value: 1 }]}
-        dataKey="value"
-        cx="50%"
-        cy="50%"
-        outerRadius={radius}
-        fill={"#ccc"}
-      />
+    <svg width={width} height={height}>
+      <circle cx="50%" cy="50%" r={radius} fill="#ccc" />
       <text
         x="50%"
         y="50%"
@@ -38,7 +30,7 @@ const NoDataPieGraph = memo(function NoDataPieGraph({
       >
         データがありません
       </text>
-    </PieChart>
+    </svg>
   );
 });
 export default NoDataPieGraph;
