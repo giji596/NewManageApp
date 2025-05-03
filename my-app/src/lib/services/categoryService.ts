@@ -76,18 +76,21 @@ export const getCategoryActivity = async (
                 lte: lastDate,
               },
             }),
+          workTime: { not: 0 }, // 稼働のないデータを含めない
         },
         select: { workTime: true },
       },
     },
   });
-  const result: CategoryTaskActivity[] = data.map((v) => {
-    const totalHours = v.tasks.reduce((a, b) => b.workTime + a, 0);
-    return {
-      taskName: v.name,
-      totalHours: totalHours,
-    };
-  });
+  const result: CategoryTaskActivity[] = data
+    .filter((v) => v.tasks.length !== 0) // 稼働データのないタスクは除外
+    .map((v) => {
+      const totalHours = v.tasks.reduce((a, b) => b.workTime + a, 0);
+      return {
+        taskName: v.name,
+        totalHours: totalHours,
+      };
+    });
   return result;
 };
 
