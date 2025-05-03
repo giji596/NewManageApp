@@ -107,6 +107,7 @@ export default function TaskDetailPage({ params }: Props) {
             {/** アクションボタン */}
             <Stack>
               <ActionButtons
+                isCompleted={isCompleted}
                 onClickEdit={onOpenEdit}
                 onClickComplete={onOpenComplete}
                 onClickDelete={onOpenDelete}

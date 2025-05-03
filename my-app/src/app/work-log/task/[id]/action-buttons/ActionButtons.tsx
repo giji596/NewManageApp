@@ -5,6 +5,8 @@ import DoneIcon from "@mui/icons-material/Done";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 type Props = {
+  /** 完了状態かどうか */
+  isCompleted: boolean;
   /** 編集ボタンを押した際のハンドラー */
   onClickEdit: () => void;
   /** 完了ボタンを押した際のハンドラー */
@@ -17,6 +19,7 @@ type Props = {
  * タスク詳細　右下のボタン群
  */
 export default function ActionButtons({
+  isCompleted,
   onClickEdit,
   onClickComplete,
   onClickDelete,
@@ -35,6 +38,7 @@ export default function ActionButtons({
         color="success"
         startIcon={<DoneIcon />}
         onClick={onClickComplete}
+        disabled={isCompleted}
       >
         完了状態にする
       </Button>
