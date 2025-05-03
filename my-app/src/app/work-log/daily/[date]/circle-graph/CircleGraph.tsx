@@ -14,16 +14,16 @@ type Props = {
  * 日付詳細 - 円グラフコンポーネント
  */
 export default function CircleGraph({ data }: Props) {
-  const { isNoData, displayData, color, getLabel } = CircleGraphLogic({ data });
+  const { isNoData, getLabel } = CircleGraphLogic({ data });
   return (
     <PieChart width={500} height={300}>
       <Pie
-        data={displayData}
+        data={data}
         dataKey="value"
         cx="50%"
         cy="50%"
         outerRadius={90}
-        fill={color}
+        fill={"#8884d8"}
         label={getLabel}
       />
       <Tooltip
