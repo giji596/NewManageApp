@@ -3,27 +3,17 @@ import {
   FormControl,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material";
 import CategorySelectLogic from "./CategorySelectLogic";
 
-type Props = {
-  /** 選択中のカテゴリid */
-  selectedCategoryId: number;
-  /** 選択中のカテゴリを変更する関数 */
-  onChangeCategoryId: (e: SelectChangeEvent) => void;
-};
-
 /**
  * カテゴリページのカテゴリ選択部分
  */
-export default function CategorySelect({
-  selectedCategoryId,
-  onChangeCategoryId,
-}: Props) {
-  const { categoryOptions } = CategorySelectLogic();
+export default function CategorySelect() {
+  const { categoryOptions, selectedCategoryId, onChangeCategoryId } =
+    CategorySelectLogic();
   return (
     <Stack direction={"row"} alignItems={"center"}>
       <Typography id="category-select-label">表示中のカテゴリ：</Typography>
