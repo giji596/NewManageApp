@@ -13,7 +13,7 @@ import ActionButtons from "./action-buttons/ActionButtons";
 import useTaskDetailPage from "./useTaskDetailPage";
 import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
-import CompleteConfirmDialog from "./dialog/complete-confirm/CompleteConfirmDialog";
+import CompleteConfirmDialog from "../../../../component/dialog/complete-confirm/CompleteConfirmDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import { use } from "react";
 
