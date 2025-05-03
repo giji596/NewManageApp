@@ -11,7 +11,10 @@ import prisma from "../prisma";
  */
 export const getTaskOptions = async (categoryId: number) => {
   const data: TaskOption[] = await prisma.task.findMany({
-    where: { categoryId: categoryId },
+    where: {
+      categoryId: categoryId,
+      progress: { not: 100 /** 完了済みは取得しない */ },
+    },
     select: { id: true, name: true },
   });
   return data;
