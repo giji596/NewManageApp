@@ -27,12 +27,10 @@ export const getTaskSummary = async (
   const data = await prisma.task.findMany({
     // クエリがある場合のみ検証(...(false)の場合は検証しない)
     where: {
-      ...(progress !== undefined && {
-        progress: {
-          gte: progress.split(",").map((v) => Number(v))[0], // クエリ分割した前の方の進捗
-          lte: progress.split(",").map((v) => Number(v))[1], // クエリ分割した後の方の進捗
-        },
-      }),
+      progress: {
+        gte: progress?.split(",").map((v) => Number(v))[0] ?? 0, // クエリ分割した前の方の進捗
+        lte: progress?.split(",").map((v) => Number(v))[1] ?? 90, // クエリ分割した後の方の進捗
+      },
       ...(startDate !== undefined && {
         createdAt: {
           gte: startDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付

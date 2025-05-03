@@ -162,10 +162,22 @@ export const TaskDisplayRangeDialogParamLogic = ({
       case "custom": {
         if (isProgressEnable)
           params.set("progress", `${progressRange[0]},${progressRange[1]}`);
-        if (isStartDateEnable)
-          params.set("startDate", `${startMinParam},${startMaxParam}`);
-        if (isLastDateEnable)
-          params.set("lastDate", `${lastMixParam},${lastMaxParam}`);
+        if (isStartDateEnable) {
+          // min<maxかどうかチェック(逆なら逆にする)
+          const startDateParam =
+            startMinParam < startMaxParam
+              ? `${startMinParam},${startMaxParam}`
+              : `${startMaxParam},${startMinParam}`;
+          params.set("startDate", startDateParam);
+        }
+        if (isLastDateEnable) {
+          // min<maxかどうかチェック(逆なら逆にする)
+          const lastDateParam =
+            lastMixParam < lastMaxParam
+              ? `${lastMixParam},${lastMaxParam}`
+              : `${lastMixParam},${startMinParam}`;
+          params.set("lastDate", lastDateParam);
+        }
       }
     }
     // replaceで同様のページを保持して(戻るできる必要ないので)クエリ置き換え
