@@ -96,6 +96,7 @@ export default function TaskSummaryTableBody({
                 {...field}
                 labelId="progress-select-label"
                 id="progress-select"
+                disabled={taskItem.progress === 100}
                 onClick={(e) => e.stopPropagation()}
                 label={"進捗"}
               >
