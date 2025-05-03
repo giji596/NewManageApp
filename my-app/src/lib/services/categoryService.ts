@@ -1,7 +1,7 @@
 import { CategoryOption } from "@/type/Category";
 import prisma from "../prisma";
 import { subMonths } from "date-fns";
-import { CategoryTaskActivity } from "@/type/Task";
+import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -89,4 +89,15 @@ export const getCategoryActivity = async (
     };
   });
   return result;
+};
+
+/**
+ * カテゴリないのタスク一覧取得するロジック
+ */
+export const getCategoryTasks = async (id: number) => {
+  const data: CategoryTaskList[] = await prisma.task.findMany({
+    where: { categoryId: id },
+    select: { id: true, name: true, progress: true, isFavorite: true },
+  });
+  return data;
 };
