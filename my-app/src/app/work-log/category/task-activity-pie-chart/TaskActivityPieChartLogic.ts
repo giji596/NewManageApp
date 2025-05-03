@@ -1,5 +1,6 @@
-import { DUMMY_TASK_ACTIVITY_DATA } from "@/dummy/category-page";
-import { subMonths } from "date-fns";
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
+import { format, subMonths } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
@@ -34,19 +35,27 @@ export default function TaskActivityPieChartLogic() {
     setEndDate(end);
   }, []);
 
-  // TODO:データフェッチする(実際はSWR使う予定なのでmemo化は不要) エンドポイントをこんな感じで分岐させる
-  const data = useMemo(() => {
-    console.log("でーたふぇっち対象:", categoryId);
-    if (selectedRange === "select") {
-      // TODO:selectedRange=="select"の場合は範囲を使う
-      console.log("selectedRange:", selectedRange);
-      console.log("でーた範囲:", startDate, "~", endDate);
-      return DUMMY_TASK_ACTIVITY_DATA;
-    } else {
-      console.log("selectedRange:", selectedRange);
-      return DUMMY_TASK_ACTIVITY_DATA;
+  const fetchQuery = useMemo(() => {
+    switch (selectedRange) {
+      case "select":
+        return {
+          range: selectedRange,
+          start: format(startDate, "yyyy-MM-dd"),
+          end: format(endDate, "yyyy-MM-dd"),
+        };
+      default:
+        return { range: selectedRange };
     }
-  }, [categoryId, endDate, selectedRange, startDate]);
+  }, [endDate, selectedRange, startDate]);
+  const { data: rawData } = useAspidaSWR(
+    apiClient.work_log.categories._id(categoryId).activity,
+    "get",
+    {
+      query: fetchQuery,
+      key: [`api/work-log/categories/${categoryId}/activity`, fetchQuery],
+    }
+  );
+  const data = rawData?.body ?? [];
 
   return {
     /** 選択中の範囲("last-month" | "all" | "select"のいずれか) */
