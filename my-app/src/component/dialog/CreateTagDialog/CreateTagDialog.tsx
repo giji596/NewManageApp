@@ -17,8 +17,16 @@ const CreateTagDialog = memo(function CreateTagDialog() {
     <Dialog open={true /** TODO:あとで */} fullWidth>
       <DialogTitle>新規タグを作成</DialogTitle>
       <DialogContent>
-        <TextField label="タグ名" variant="standard" />
-        <Typography variant="caption" color="error">
+        <TextField
+          label="タグ名"
+          variant="standard"
+          slotProps={{
+            input: {
+              "aria-describedby": true ? "duplicate-error" : undefined, // TODO:エラーで分岐
+            },
+          }}
+        />
+        <Typography id="duplicate-error" variant="caption" color="error">
           *エラーメッセージ
         </Typography>
       </DialogContent>
