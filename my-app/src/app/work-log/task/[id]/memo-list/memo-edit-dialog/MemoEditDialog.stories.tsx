@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import MemoListDialog from "./MemoListDialog";
+import MemoListDialog from "./MemoEditDialog";
 
 const meta = {
   component: MemoListDialog,

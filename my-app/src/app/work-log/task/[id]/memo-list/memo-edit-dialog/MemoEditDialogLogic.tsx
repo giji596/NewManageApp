@@ -27,9 +27,9 @@ type Props = {
 };
 
 /**
- * タスク詳細 メモのダイアログのロジック
+ * メモ編集のダイアログのロジック
  */
-export default function MemoListDialogLogic({
+export default function MemoEditDialogLogic({
   id,
   tagName,
   title,
