@@ -2,6 +2,7 @@ import apiClient from "@/lib/apiClient";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type Props = {
   /** 閉じるハンドラー */
@@ -31,6 +32,7 @@ export const CreateTagDialogLogic = ({ onClose }: Props) => {
         await apiClient.work_log.memos.tags.post({
           body: { tagName: data.tagName },
         });
+        mutate("api/work-log/memos/tags");
         onClose();
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
