@@ -1,5 +1,10 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+
+type Props = {
+  /** 閉じるハンドラー */
+  onClose: () => void;
+};
 
 type SubmitData = {
   /** タグ名 */
@@ -8,7 +13,8 @@ type SubmitData = {
 /**
  * タグを作成するダイアログのロジック
  */
-export const CreateTagDialogLogic = () => {
+export const CreateTagDialogLogic = ({ onClose }: Props) => {
+  const [duplicateError, setDuplicateError] = useState<boolean>(false);
   const {
     control,
     handleSubmit,
@@ -16,9 +22,16 @@ export const CreateTagDialogLogic = () => {
   } = useForm<SubmitData>({ defaultValues: { tagName: "" } });
   const isSendable = isDirty;
 
-  const onSubmit = useCallback(async (data: SubmitData) => {
-    console.log("でーた", data); // TODO:BE繋ぎ込み時に
-  }, []);
+  const onSubmit = useCallback(
+    async (data: SubmitData) => {
+      console.log("でーた", data); // TODO:BE繋ぎ込み時に
+      onClose();
+      if (false) {
+        setDuplicateError(true); // TODO:BE繋ぎ込み時に
+      }
+    },
+    [onClose]
+  );
   return {
     /** RHFのコントロールオブジェクト */
     control,
@@ -26,5 +39,7 @@ export const CreateTagDialogLogic = () => {
     isSendable,
     /** 送信ハンドラー */
     onSubmit: handleSubmit(onSubmit),
+    /** 重複エラーの有無 */
+    duplicateError,
   };
 };
