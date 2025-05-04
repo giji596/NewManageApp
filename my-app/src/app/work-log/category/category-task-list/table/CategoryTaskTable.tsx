@@ -10,6 +10,8 @@ import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoI
 type Props = {
   /** タスク一覧 */
   taskItemList: CategoryTaskList[];
+  /** タスク一覧のロード状態 */
+  isLoading: boolean;
 };
 
 /**
