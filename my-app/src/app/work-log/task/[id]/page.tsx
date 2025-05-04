@@ -11,7 +11,7 @@ import MemoList from "./memo-list/MemoList";
 import DateDisplay from "./date-display/DateDisplay";
 import ActionButtons from "./action-buttons/ActionButtons";
 import useTaskDetailPage from "./useTaskDetailPage";
-import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
+import TaskEditDialog from "../../../../component/dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompleteConfirmDialog from "../../../../component/dialog/complete-confirm/CompleteConfirmDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
