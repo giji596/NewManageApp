@@ -7,7 +7,7 @@ import { useCallback } from "react";
  * メインページのタスクテーブルコンポーネントのロジック
  */
 export default function TaskTableLogic() {
-  const { data: rawData } = useAspidaSWR(
+  const { data: rawData, isLoading } = useAspidaSWR(
     apiClient.work_log.tasks.progress.last_month,
     "get",
     { key: "api/work-log/tasks/progress/last-month" }
@@ -22,6 +22,8 @@ export default function TaskTableLogic() {
   return {
     /** 表示するデータ */
     data,
+    /** データのロード状態 */
+    isLoading,
     /** タスク詳細ページへ飛ぶハンドラー */
     navigateToDetail,
   };
