@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import { CreateTagDialogLogic } from "./CreateTagDialogLogic";
+import { Controller } from "react-hook-form";
 
 type Props = {
   /** 開閉状態 */
@@ -23,20 +24,27 @@ const CreateTagDialog = memo(function CreateTagDialog({
   open,
   onClose,
 }: Props) {
-  const { onSubmit } = CreateTagDialogLogic({ onClose });
+  const { control, onSubmit } = CreateTagDialogLogic({ onClose });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <form onSubmit={onSubmit}>
         <DialogTitle>新規タグを作成</DialogTitle>
         <DialogContent>
-          <TextField
-            label="タグ名"
-            variant="standard"
-            slotProps={{
-              input: {
-                "aria-describedby": true ? "duplicate-error" : undefined, // TODO:エラーで分岐
-              },
-            }}
+          <Controller
+            control={control}
+            name="tagName"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="タグ名"
+                variant="standard"
+                slotProps={{
+                  input: {
+                    "aria-describedby": true ? "duplicate-error" : undefined, // TODO:エラーで分岐
+                  },
+                }}
+              />
+            )}
           />
           <Typography id="duplicate-error" variant="caption" color="error">
             *エラーメッセージ
