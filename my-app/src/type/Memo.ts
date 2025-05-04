@@ -42,6 +42,8 @@ export type MemoDailyTask = {
   summary: string;
   /** 関連する日付のタスク */
   task: TaskOption;
+  /** タグ */
+  tagName: string;
 };
 
 export type MemoTaskDetail = {
