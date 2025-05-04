@@ -13,6 +13,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import SaveIcon from "@mui/icons-material/Save";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Controller } from "react-hook-form";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
@@ -48,6 +49,7 @@ export default function MemoEditDialog({
     isLoading,
     isSending,
     handleEdit,
+    handleReset,
     handleDelete,
     onSubmit,
   } = MemoEditDialogLogic({
@@ -116,23 +118,34 @@ export default function MemoEditDialog({
               </Stack>
               {/** アイコンボタン */}
               <Stack direction="row" spacing={2} pr={3}>
-                <IconButton onClick={onOpenDelete} color="error">
-                  <DeleteIcon />
-                </IconButton>
-                {/** 編集中かどうかで保存/編集ボタンを切り替え */}
+                {/** 編集中かどうかで保存/編集ボタン 削除/リセットボタン を切り替え */}
                 {isEdit && (
-                  <IconButton type="submit" color="primary" loading={isSending}>
-                    <SaveIcon />
-                  </IconButton>
+                  <>
+                    <IconButton onClick={handleReset} color="error">
+                      <RestartAltIcon />
+                    </IconButton>
+                    <IconButton
+                      type="submit"
+                      color="primary"
+                      loading={isSending}
+                    >
+                      <SaveIcon />
+                    </IconButton>
+                  </>
                 )}
                 {!isEdit && (
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={handleEdit}
-                    color="primary"
-                  >
-                    <EditNoteIcon />
-                  </IconButton>
+                  <>
+                    <IconButton onClick={onOpenDelete} color="error">
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton
+                      disabled={isLoading}
+                      onClick={handleEdit}
+                      color="primary"
+                    >
+                      <EditNoteIcon />
+                    </IconButton>
+                  </>
                 )}
               </Stack>
             </Stack>
