@@ -9,7 +9,7 @@ import { useCallback, useMemo, useState } from "react";
 export default function CategoryTaskListLogic() {
   const searchParams = useSearchParams();
   const categoryId = Number(searchParams.get("id") ?? 1);
-  const { data: fetchData } = useAspidaSWR(
+  const { data: fetchData, isLoading } = useAspidaSWR(
     apiClient.work_log.categories._id(categoryId).tasks,
     "get",
     { key: `api/work-log/categories/${categoryId}/tasks` }
@@ -43,6 +43,8 @@ export default function CategoryTaskListLogic() {
   return {
     /** タスクテーブル用のデータ */
     data,
+    /** データのロード状態 */
+    isLoading,
     /** 選択中の値(ヘッダー) */
     selectedValue,
     /** 選択中の値を変更する関数(ヘッダー) */

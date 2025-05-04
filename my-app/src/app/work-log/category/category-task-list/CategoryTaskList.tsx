@@ -8,7 +8,7 @@ import CategoryTaskListLogic from "./CategoryTaskListLogic";
  * カテゴリのタスク一覧表示コンポーネント
  */
 const CategoryTaskList = memo(function CategoryTaskList() {
-  const { data, selectedValue, onChangeSelectedValue } =
+  const { data, isLoading, selectedValue, onChangeSelectedValue } =
     CategoryTaskListLogic();
   return (
     <>
@@ -16,7 +16,7 @@ const CategoryTaskList = memo(function CategoryTaskList() {
         selectedValue={selectedValue}
         onChange={onChangeSelectedValue}
       />
-      <CategoryTaskTable taskItemList={data} />
+      <CategoryTaskTable taskItemList={data} isLoading={isLoading} />
     </>
   );
 });
