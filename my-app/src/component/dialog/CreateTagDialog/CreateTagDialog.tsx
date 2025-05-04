@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
 } from "@mui/material";
 import { memo } from "react";
 
@@ -17,6 +18,9 @@ const CreateTagDialog = memo(function CreateTagDialog() {
       <DialogTitle>新規タグを作成</DialogTitle>
       <DialogContent>
         <TextField label="タグ名" variant="standard" />
+        <Typography variant="caption" color="error">
+          *エラーメッセージ
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button>キャンセル</Button>
