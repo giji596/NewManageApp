@@ -1,5 +1,8 @@
+import apiClient from "@/lib/apiClient";
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type Props = {
   /** 閉じるハンドラー */
@@ -24,10 +27,20 @@ export const CreateTagDialogLogic = ({ onClose }: Props) => {
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
-      console.log("でーた", data); // TODO:BE繋ぎ込み時に
-      onClose();
-      if (false) {
-        setDuplicateError(true); // TODO:BE繋ぎ込み時に
+      try {
+        // ここでリクエスト エラーがあればonCloseせずにcatchする
+        await apiClient.work_log.memos.tags.post({
+          body: { tagName: data.tagName },
+        });
+        mutate("api/work-log/memos/tags");
+        onClose();
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          // エラーコードが400の場合は重複エラーであるとする
+          if (error.response.status === 400) {
+            setDuplicateError(true);
+          }
+        }
       }
     },
     [onClose]
