@@ -13,6 +13,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import SaveIcon from "@mui/icons-material/Save";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Controller } from "react-hook-form";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
@@ -119,6 +120,9 @@ export default function MemoEditDialog({
                 {/** 編集中かどうかで保存/編集ボタン 削除/リセットボタン を切り替え */}
                 {isEdit && (
                   <>
+                    <IconButton onClick={() => {}} color="error">
+                      <RestartAltIcon />
+                    </IconButton>
                     <IconButton
                       type="submit"
                       color="primary"
