@@ -15,6 +15,7 @@ import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
 import type { Methods as Methods_1pplcpu } from './work-log/tasks/_id';
+import type { Methods as Methods_272j0j } from './work-log/tasks/activities/last-month';
 import type { Methods as Methods_oqgfc } from './work-log/tasks/bulk-update';
 import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
 
@@ -32,8 +33,9 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH9 = '/body';
   const PATH10 = '/work-log/memos/tags';
   const PATH11 = '/work-log/tasks';
-  const PATH12 = '/work-log/tasks/bulk-update';
-  const PATH13 = '/work-log/tasks/options';
+  const PATH12 = '/work-log/tasks/activities/last-month';
+  const PATH13 = '/work-log/tasks/bulk-update';
+  const PATH14 = '/work-log/tasks/options';
   const GET = 'GET';
   const POST = 'POST';
   const DELETE = 'DELETE';
@@ -183,20 +185,29 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             $path: () => `${prefix}${prefix2}`,
           };
         },
+        activities: {
+          last_month: {
+            get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_272j0j['get']['resBody']>(prefix, PATH12, GET, option).json(),
+            $get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_272j0j['get']['resBody']>(prefix, PATH12, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${PATH12}`,
+          },
+        },
         bulk_update: {
           patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
-            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH12, PATCH, option).json(),
+            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH13, PATCH, option).json(),
           $patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
-            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH12, PATCH, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH12}`,
+            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH13, PATCH, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH13}`,
         },
         options: {
           get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH13, GET, option).json(),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH14, GET, option).json(),
           $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH13, GET, option).json().then(r => r.body),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH14, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
-            `${prefix}${PATH13}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH14}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
         get: (option: { query: Methods_161gw75['get']['query'], config?: T | undefined }) =>
           fetch<Methods_161gw75['get']['resBody']>(prefix, PATH11, GET, option).json(),
