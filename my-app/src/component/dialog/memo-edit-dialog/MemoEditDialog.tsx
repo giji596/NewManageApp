@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import SaveIcon from "@mui/icons-material/Save";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Controller } from "react-hook-form";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
@@ -114,6 +115,9 @@ export default function MemoEditDialog({
                       />
                     </FormControl>
                   )}
+                  <IconButton>
+                    <AddCircleIcon />
+                  </IconButton>
                 </Stack>
               </Stack>
               {/** アイコンボタン */}
