@@ -25,6 +25,18 @@ export default function MemoListLogic({ memoItemList }: Props) {
       }, {}),
     [memoItemList]
   );
+  // タグ一覧
+  const defaultTagFilterList = useMemo(
+    () =>
+      memoItemList.reduce((a: Record<string, boolean>, b) => {
+        const tagName = b.tagName;
+        if (!(tagName in a)) {
+          a[tagName] = false;
+        }
+        return a;
+      }, {}),
+    [memoItemList]
+  );
 
   // ソート関数
   const getSortTarget = useCallback(
@@ -56,6 +68,11 @@ export default function MemoListLogic({ memoItemList }: Props) {
   } = useTableFilter({ initialFilterList: defaultTaskFilterList });
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
 
+  const {
+    filterList: tagFilterList,
+    toggleFilterCheckBox: toggleTagFilterCheckBox,
+    doFilterByFilterList: doFilterByTagFilterList,
+  } = useTableFilter({ initialFilterList: defaultTagFilterList });
   const isActiveRow = useCallback(
     (id: number) => selectedRowId === id,
     [selectedRowId]
@@ -73,8 +90,18 @@ export default function MemoListLogic({ memoItemList }: Props) {
   );
 
   const doFilterByFilterList = useCallback(
-    (item: MemoDailyTask) => doFilterByTaskFilterList(item.task.name),
-    [doFilterByTaskFilterList]
+    (item: MemoDailyTask) => {
+      let result: boolean;
+      // タスク名でフィルターする
+      result = doFilterByTaskFilterList(item.task.name);
+      // フィルター対象外(true)の場合はタグでも検証
+      if (result) {
+        result = doFilterByTagFilterList(item.tagName);
+      }
+      // フィルター結果(false=フィルター対象)
+      return result;
+    },
+    [doFilterByTagFilterList, doFilterByTaskFilterList]
   );
 
   return {
@@ -97,6 +124,10 @@ export default function MemoListLogic({ memoItemList }: Props) {
     taskFilterList,
     /** タスクのフィルターリストのチェックボックスを切り替える関数 */
     toggleTaskFilterCheckBox,
+    /** タグのフィルター対象の一覧(key:value=string:booleanのオブジェクト) */
+    tagFilterList,
+    /** タグのフィルターリストのチェックボックスを切り替える関数 */
+    toggleTagFilterCheckBox,
     /** フィルターリストに応じてフィルターする関数 */
     doFilterByFilterList,
   };

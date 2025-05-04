@@ -29,6 +29,8 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
     doSort,
     taskFilterList,
     toggleTaskFilterCheckBox,
+    tagFilterList,
+    toggleTagFilterCheckBox,
     doFilterByFilterList,
   } = MemoListLogic({ memoItemList });
   return (
@@ -70,6 +72,15 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
         <CustomMenuCheckBox
           checkList={taskFilterList}
           onClickSelect={toggleTaskFilterCheckBox}
+        />
+      </CustomMenuWrapper>
+      {/** タグ名にホバー時に表示するメニュー(フィルター関連) */}
+      <CustomMenuWrapper
+        logic={{ handleMouseEnter, handleMouseLeave, ...prev }}
+      >
+        <CustomMenuCheckBox
+          checkList={tagFilterList}
+          onClickSelect={toggleTagFilterCheckBox}
         />
       </CustomMenuWrapper>
     </>
