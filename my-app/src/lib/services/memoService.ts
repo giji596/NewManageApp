@@ -77,3 +77,14 @@ export const deleteMemo = async (id: number) => {
   });
   return data;
 };
+
+/**
+ * メモのタグを作成するメソッド
+ */
+export const createTag = async (tagName: string) => {
+  const data = await prisma.memoTag.create({
+    data: { name: tagName },
+    select: { id: true },
+  });
+  return data;
+};
