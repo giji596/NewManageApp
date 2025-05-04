@@ -1,3 +1,4 @@
+import apiClient from "@/lib/apiClient";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -24,7 +25,9 @@ export const CreateTagDialogLogic = ({ onClose }: Props) => {
 
   const onSubmit = useCallback(
     async (data: SubmitData) => {
-      console.log("でーた", data); // TODO:BE繋ぎ込み時に
+      await apiClient.work_log.memos.tags.post({
+        body: { tagName: data.tagName },
+      });
       onClose();
       if (false) {
         setDuplicateError(true); // TODO:BE繋ぎ込み時に
