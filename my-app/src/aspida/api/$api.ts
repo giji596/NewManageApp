@@ -18,6 +18,7 @@ import type { Methods as Methods_1pplcpu } from './work-log/tasks/_id';
 import type { Methods as Methods_272j0j } from './work-log/tasks/activities/last-month';
 import type { Methods as Methods_oqgfc } from './work-log/tasks/bulk-update';
 import type { Methods as Methods_16ypfr8 } from './work-log/tasks/options';
+import type { Methods as Methods_wq17vx } from './work-log/tasks/progress/last-month';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:3000' : baseURL).replace(/\/$/, '');
@@ -36,6 +37,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH12 = '/work-log/tasks/activities/last-month';
   const PATH13 = '/work-log/tasks/bulk-update';
   const PATH14 = '/work-log/tasks/options';
+  const PATH15 = '/work-log/tasks/progress/last-month';
   const GET = 'GET';
   const POST = 'POST';
   const DELETE = 'DELETE';
@@ -208,6 +210,15 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH14, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
             `${prefix}${PATH14}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+        },
+        progress: {
+          last_month: {
+            get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_wq17vx['get']['resBody']>(prefix, PATH15, GET, option).json(),
+            $get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_wq17vx['get']['resBody']>(prefix, PATH15, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${PATH15}`,
+          },
         },
         get: (option: { query: Methods_161gw75['get']['query'], config?: T | undefined }) =>
           fetch<Methods_161gw75['get']['resBody']>(prefix, PATH11, GET, option).json(),
