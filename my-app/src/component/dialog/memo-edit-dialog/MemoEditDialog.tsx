@@ -49,6 +49,7 @@ export default function MemoEditDialog({
     isLoading,
     isSending,
     handleEdit,
+    handleReset,
     handleDelete,
     onSubmit,
   } = MemoEditDialogLogic({
@@ -120,7 +121,7 @@ export default function MemoEditDialog({
                 {/** 編集中かどうかで保存/編集ボタン 削除/リセットボタン を切り替え */}
                 {isEdit && (
                   <>
-                    <IconButton onClick={() => {}} color="error">
+                    <IconButton onClick={handleReset} color="error">
                       <RestartAltIcon />
                     </IconButton>
                     <IconButton

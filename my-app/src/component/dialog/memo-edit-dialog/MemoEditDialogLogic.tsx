@@ -76,7 +76,7 @@ export default function MemoEditDialogLogic({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
   // RHF
-  const { control, handleSubmit, setValue } = useForm<SubmitData>({
+  const { control, handleSubmit, setValue, reset } = useForm<SubmitData>({
     defaultValues: { text: "", tagId: 0, title: title },
   });
   // ロード完了時にsetValueで初期値をセットする
@@ -110,6 +110,10 @@ export default function MemoEditDialogLogic({
     },
     [id, taskId]
   );
+  const handleReset = useCallback(() => {
+    reset(init.current);
+    setIsEdit(false);
+  }, [reset]);
 
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.memos._id(id).delete();
@@ -133,6 +137,8 @@ export default function MemoEditDialogLogic({
     onSubmit: handleSubmit(onSubmit),
     /** 編集状態に入るときのハンドラー */
     handleEdit,
+    /** リセット時のハンドラー */
+    handleReset,
     /** 削除時のハンドラー */
     handleDelete,
   };
