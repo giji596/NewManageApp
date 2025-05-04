@@ -159,6 +159,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH10, GET, option).json(),
           $get: (option?: { config?: T | undefined } | undefined) =>
             fetch<Methods_qs49n8['get']['resBody']>(prefix, PATH10, GET, option).json().then(r => r.body),
+          post: (option: { body: Methods_qs49n8['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods_qs49n8['post']['resBody']>(prefix, PATH10, POST, option).json(),
+          $post: (option: { body: Methods_qs49n8['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods_qs49n8['post']['resBody']>(prefix, PATH10, POST, option).json().then(r => r.body),
           $path: () => `${prefix}${PATH10}`,
         },
         post: (option: { body: Methods_y7y0f0['post']['reqBody'], config?: T | undefined }) =>
