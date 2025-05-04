@@ -5,6 +5,8 @@ import {
   TaskSummaryRangeQuery,
 } from "@/type/Task";
 import prisma from "../prisma";
+import { subMonths } from "date-fns";
+import { MainPagePieChart } from "@/type/Main";
 
 /**
  * タスク選択賜一覧げっとする関数
@@ -221,4 +223,66 @@ export const deleteTask = async (id: number) => {
     select: { id: true },
   });
   return data;
+};
+
+/**
+ * メインページ用の一ヶ月分のカテゴリ別の稼働をとってくるロジック
+ */
+export const getLastMonthTaskActivities = async () => {
+  const data = await prisma.category.findMany({
+    select: {
+      name: true,
+      tasks: {
+        select: {
+          name: true,
+          tasks: {
+            where: {
+              date: {
+                gte: subMonths(new Date(), 1),
+                lte: new Date(),
+              },
+            },
+            select: { workTime: true },
+          },
+        },
+      },
+    },
+  });
+
+  // 全体の合計時間を取得
+  const totalHours = data.reduce(
+    (a, b) =>
+      a +
+      b.tasks.reduce(
+        (c, d) => c + d.tasks.reduce((e, f) => e + f.workTime, 0),
+        0
+      ),
+    0
+  );
+
+  const result: MainPagePieChart[] = data.map((v) => {
+    // カテゴリの時間を取得して全体の割合からvalueを求める
+    const categoryHours = v.tasks.reduce(
+      (a, b) => a + b.tasks.reduce((c, d) => c + d.workTime, 0),
+      0
+    );
+    const value = (categoryHours * 1000) / totalHours;
+    // タスクを整形
+    const task = v.tasks.map((item) => {
+      const name = item.name;
+      // 時間はstring ("00(h)"の形式)
+      const taskHours = item.tasks.reduce((a, b) => a + b.workTime, 0);
+      const hours = `${taskHours}(h)`;
+      return {
+        name,
+        hours,
+      };
+    });
+    return {
+      name: v.name,
+      value,
+      task,
+    };
+  });
+  return result;
 };
