@@ -1,4 +1,5 @@
 import {
+  MainPageTaskTable,
   TaskDetail,
   TaskOption,
   TaskSummary,
@@ -284,5 +285,28 @@ export const getLastMonthTaskActivities = async () => {
       task,
     };
   });
+  return result;
+};
+
+/**
+ * メインページで過去一ヶ月に稼働があるタスクの進捗を取得するロジック
+ */
+export const getLastMonthTaskProgress = async () => {
+  const data = await prisma.task.findMany({
+    where: {
+      // 一ヶ月以内に更新があるタスクに絞る
+      updatedAt: { gte: subMonths(new Date(), 1), lte: new Date() },
+    },
+    select: {
+      id: true,
+      name: true,
+      progress: true,
+    },
+  });
+  const result: MainPageTaskTable[] = data
+    .sort((a, b) => b.progress - a.progress)
+    .map((v) => {
+      return { ...v, progress: `${v.progress}%` };
+    });
   return result;
 };
