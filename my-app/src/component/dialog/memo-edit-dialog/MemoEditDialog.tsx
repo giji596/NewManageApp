@@ -118,7 +118,7 @@ export default function MemoEditDialog({
                     </FormControl>
                   )}
                   {/** タグ作成ボタン */}
-                  <IconButton onClick={onOpenTag}>
+                  <IconButton onClick={onOpenTag} disabled={!isEdit}>
                     <AddCircleIcon />
                   </IconButton>
                 </Stack>
