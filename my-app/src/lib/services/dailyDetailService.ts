@@ -20,6 +20,7 @@ export const getDailyDetailData = async (date: Date) => {
               id: true,
               title: true,
               text: true,
+              tag: { select: { name: true } },
               taskLog: {
                 select: { task: { select: { id: true, name: true } } },
               },
@@ -65,6 +66,7 @@ export const getDailyDetailData = async (date: Date) => {
           id: memo.taskLog.task.id,
           name: memo.taskLog.task.name,
         },
+        tagName: memo.tag?.name ?? "未選択",
       });
     });
   });
