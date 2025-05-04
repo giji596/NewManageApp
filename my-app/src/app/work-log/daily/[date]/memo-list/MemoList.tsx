@@ -43,9 +43,9 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
             onLeaveHoverTitle={handleMouseLeave}
           />
           <TableBody>
-            {isLoading && <TableBodyLoading colCount={2} />}
+            {isLoading && <TableBodyLoading colCount={4} />}
             {!isLoading && memoItemList.length === 0 && (
-              <TableBodyNoItem colCount={2} />
+              <TableBodyNoItem colCount={4} />
             )}
             {!isLoading &&
               memoItemList.length !== 0 &&
