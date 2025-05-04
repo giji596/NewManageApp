@@ -82,6 +82,13 @@ export const deleteMemo = async (id: number) => {
  * メモのタグを作成するメソッド
  */
 export const createTag = async (tagName: string) => {
+  // 被りのチェック(同様の名前のタグがある場合はnullを返す)
+  const exist = await prisma.memoTag.findFirst({
+    where: { name: tagName },
+  });
+  if (exist) {
+    return null;
+  }
   const data = await prisma.memoTag.create({
     data: { name: tagName },
     select: { id: true },
