@@ -81,7 +81,7 @@ export default function CustomTableBody({
         <MemoEditDialog
           id={memoItem.id}
           title={memoItem.title}
-          tagName={""}
+          tagName={memoItem.tagName}
           open={open}
           onClose={onClose}
         />
