@@ -51,7 +51,7 @@ const CreateTagDialog = memo(function CreateTagDialog({
           />
           {duplicateError && (
             <Typography id="duplicate-error" variant="caption" color="error">
-              *エラーメッセージ
+              * 同名のタグがすでに存在します
             </Typography>
           )}
         </DialogContent>
