@@ -9,12 +9,21 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 
+type Props = {
+  /** 開閉状態 */
+  open: boolean;
+  /** 閉じるハンドラー */
+  onClose: () => void;
+};
 /**
  * タグを作成するダイアログ
  */
-const CreateTagDialog = memo(function CreateTagDialog() {
+const CreateTagDialog = memo(function CreateTagDialog({
+  open,
+  onClose,
+}: Props) {
   return (
-    <Dialog open={true /** TODO:あとで */} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>新規タグを作成</DialogTitle>
       <DialogContent>
         <TextField
@@ -31,7 +40,9 @@ const CreateTagDialog = memo(function CreateTagDialog() {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button color="error">キャンセル</Button>
+        <Button color="error" onClick={onClose}>
+          キャンセル
+        </Button>
         <Button>作成</Button>
       </DialogActions>
     </Dialog>
