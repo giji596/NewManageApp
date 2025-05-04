@@ -23,7 +23,7 @@ const CreateTagDialog = memo(function CreateTagDialog() {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button>キャンセル</Button>
+        <Button color="error">キャンセル</Button>
         <Button>作成</Button>
       </DialogActions>
     </Dialog>
