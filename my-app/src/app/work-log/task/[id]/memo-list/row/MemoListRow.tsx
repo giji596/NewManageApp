@@ -3,7 +3,7 @@ import { TableCell, TableRow, Collapse, Box, IconButton } from "@mui/material";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import { MemoTaskDetail } from "@/type/Memo";
 import MemoListRowLogic from "./MemoListRowLogic";
-import MemoEditDialog from "../memo-edit-dialog/MemoEditDialog";
+import MemoEditDialog from "../../../../../../component/dialog/memo-edit-dialog/MemoEditDialog";
 import useDialog from "@/hook/useDialog";
 
 type Props = {
