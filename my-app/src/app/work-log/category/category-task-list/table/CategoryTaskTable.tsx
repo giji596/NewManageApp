@@ -6,6 +6,7 @@ import CategoryTaskTableBody from "./body/CategoryTaskTableBody";
 import { CategoryTaskList } from "@/type/Task";
 import CategoryTaskTableLogic from "./CategoryTaskTableLogic";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
+import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 
 type Props = {
   /** タスク一覧 */
@@ -19,6 +20,7 @@ type Props = {
  */
 const CategoryTaskTable = memo(function CategoryTaskTable({
   taskItemList,
+  isLoading,
 }: Props) {
   const {
     isAsc,
@@ -42,8 +44,12 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
           />
         </TableHead>
         <TableBody>
-          {taskItemList.length === 0 && <TableBodyNoItem colCount={4} />}
-          {taskItemList.length !== 0 &&
+          {isLoading && <TableBodyLoading colCount={4} />}
+          {!isLoading && taskItemList.length === 0 && (
+            <TableBodyNoItem colCount={4} />
+          )}
+          {!isLoading &&
+            taskItemList.length !== 0 &&
             taskItemList
               .sort(doSort)
               .map((item) => (
