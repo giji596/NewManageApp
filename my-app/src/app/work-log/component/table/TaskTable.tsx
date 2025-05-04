@@ -12,12 +12,14 @@ import {
 import { memo } from "react";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import TaskTableLogic from "./TaskTableLogic";
+import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
+import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 
 /**
  * メインページのタスクテーブルコンポーネント
  */
 const TaskTable = memo(function TaskTable() {
-  const { data, navigateToDetail } = TaskTableLogic();
+  const { data, isLoading, navigateToDetail } = TaskTableLogic();
   return (
     <>
       <Typography textAlign={"center"} variant="h6" color="text.secondary">
@@ -42,20 +44,26 @@ const TaskTable = memo(function TaskTable() {
           </TableHead>
           {/** ボディ */}
           <TableBody>
-            {data.map((item) => (
-              <TableRow key={item.id}>
-                {/** タスク名 */}
-                <TableCell sx={{ py: 1 }}>{item.name}</TableCell>
-                {/** 進捗 */}
-                <TableCell sx={{ py: 1 }}>{item.progress}</TableCell>
-                {/** ボタン部分 */}
-                <TableCell sx={{ py: 1 }}>
-                  <IconButton onClick={() => navigateToDetail(item.id)}>
-                    <DoubleArrowIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {isLoading && <TableBodyLoading colCount={3} />}
+            {!isLoading && data.length === 0 && (
+              <TableBodyNoItem colCount={3} />
+            )}
+            {!isLoading &&
+              data.length !== 0 &&
+              data.map((item) => (
+                <TableRow key={item.id}>
+                  {/** タスク名 */}
+                  <TableCell sx={{ py: 1 }}>{item.name}</TableCell>
+                  {/** 進捗 */}
+                  <TableCell sx={{ py: 1 }}>{item.progress}</TableCell>
+                  {/** ボタン部分 */}
+                  <TableCell sx={{ py: 1 }}>
+                    <IconButton onClick={() => navigateToDetail(item.id)}>
+                      <DoubleArrowIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
