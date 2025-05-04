@@ -16,7 +16,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Controller } from "react-hook-form";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
-import MemoListDialogLogic from "./MemoListDialogLogic";
+import MemoEditDialogLogic from "./MemoEditDialogLogic";
 
 type Props = {
   /** メモid */
@@ -32,9 +32,9 @@ type Props = {
 };
 
 /**
- * タスク詳細 メモのダイアログ
+ * メモ編集のダイアログ
  */
-export default function MemoListDialog({
+export default function MemoEditDialog({
   id,
   title,
   tagName,
@@ -50,7 +50,7 @@ export default function MemoListDialog({
     handleEdit,
     handleDelete,
     onSubmit,
-  } = MemoListDialogLogic({
+  } = MemoEditDialogLogic({
     id,
     title,
     tagName,

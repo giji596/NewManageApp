@@ -3,7 +3,7 @@ import { TableCell, TableRow, Collapse, Box, IconButton } from "@mui/material";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import { MemoTaskDetail } from "@/type/Memo";
 import MemoListRowLogic from "./MemoListRowLogic";
-import MemoListDialog from "../dialog/MemoListDialog";
+import MemoEditDialog from "../../../../../../component/dialog/memo-edit-dialog/MemoEditDialog";
 import useDialog from "@/hook/useDialog";
 
 type Props = {
@@ -79,7 +79,7 @@ export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
       </TableRow>
       {/** 詳細のダイアログ */}
       {open && (
-        <MemoListDialog
+        <MemoEditDialog
           id={memoItem.id}
           title={memoItem.title}
           tagName={memoItem.tag}

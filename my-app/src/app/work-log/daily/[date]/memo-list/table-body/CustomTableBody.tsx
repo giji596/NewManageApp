@@ -3,7 +3,7 @@ import { MemoDailyTask } from "@/type/Memo";
 import { TableRow, TableCell, Collapse, Box, IconButton } from "@mui/material";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import useDialog from "@/hook/useDialog";
-import MemoDetailDialog from "../dialog/MemoDetailDialog";
+import MemoEditDialog from "@/component/dialog/memo-edit-dialog/MemoEditDialog";
 
 type Props = {
   /** メモ */
@@ -68,10 +68,10 @@ export default function CustomTableBody({
         </TableCell>
       </TableRow>
       {open && (
-        <MemoDetailDialog
+        <MemoEditDialog
           id={memoItem.id}
           title={memoItem.title}
-          taskName={memoItem.task.name}
+          tagName={""}
           open={open}
           onClose={onClose}
         />
