@@ -16,7 +16,7 @@ const CreateTagDialog = memo(function CreateTagDialog() {
     <Dialog open={true /** TODO:あとで */} fullWidth>
       <DialogTitle>新規タグを作成</DialogTitle>
       <DialogContent>
-        <TextField />
+        <TextField label="タグ名" variant="standard" />
       </DialogContent>
       <DialogActions>
         <Button>キャンセル</Button>
