@@ -49,7 +49,17 @@ export default function CustomTableHeader({
               onLeaveTitle={onLeaveHoverTitle}
             />
           </TableCell>
-          <TableCell width="15%">タグ</TableCell>
+          <TableCell width="15%">
+            <CustomHeaderSortCheckLabel
+              title={"タグ"}
+              isSelected={isSelected("タグ")}
+              isAsc={isAsc}
+              refId={10003}
+              onClickTitle={onClickTitle}
+              onHoverTitle={onHoverTitle}
+              onLeaveTitle={onLeaveHoverTitle}
+            />
+          </TableCell>
           <TableCell width="10%">{/** ボタン用の空白 */}</TableCell>
         </TableRow>
       </TableHead>
