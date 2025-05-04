@@ -5,6 +5,7 @@ import CategoryTaskTableHeader from "./header/CategoryTaskTableHeader";
 import CategoryTaskTableBody from "./body/CategoryTaskTableBody";
 import { CategoryTaskList } from "@/type/Task";
 import CategoryTaskTableLogic from "./CategoryTaskTableLogic";
+import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
 type Props = {
   /** タスク一覧 */
@@ -39,13 +40,17 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
           />
         </TableHead>
         <TableBody>
-          {taskItemList.sort(doSort).map((item) => (
-            <CategoryTaskTableBody
-              key={item.id}
-              item={item}
-              onClickNavigate={navigateToTaskDetail}
-            />
-          ))}
+          {taskItemList.length === 0 && <TableBodyNoItem colCount={4} />}
+          {taskItemList.length !== 0 &&
+            taskItemList
+              .sort(doSort)
+              .map((item) => (
+                <CategoryTaskTableBody
+                  key={item.id}
+                  item={item}
+                  onClickNavigate={navigateToTaskDetail}
+                />
+              ))}
         </TableBody>
       </Table>
     </TableContainer>
