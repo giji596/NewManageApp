@@ -24,7 +24,7 @@ const CreateTagDialog = memo(function CreateTagDialog({
   open,
   onClose,
 }: Props) {
-  const { control, onSubmit } = CreateTagDialogLogic({ onClose });
+  const { control, isSendable, onSubmit } = CreateTagDialogLogic({ onClose });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <form onSubmit={onSubmit}>
@@ -54,7 +54,9 @@ const CreateTagDialog = memo(function CreateTagDialog({
           <Button color="error" onClick={onClose}>
             キャンセル
           </Button>
-          <Button type="submit">作成</Button>
+          <Button type="submit" disabled={!isSendable}>
+            作成
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
