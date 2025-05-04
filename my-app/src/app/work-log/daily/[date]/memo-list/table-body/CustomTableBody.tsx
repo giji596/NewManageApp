@@ -49,6 +49,16 @@ export default function CustomTableBody({
         >
           {memoItem.task.name}
         </TableCell>
+        {/** タグ名 */}
+        <TableCell
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {memoItem.tagName}
+        </TableCell>
         <TableCell>
           <IconButton
             onClick={(e) => {
@@ -71,7 +81,7 @@ export default function CustomTableBody({
         <MemoEditDialog
           id={memoItem.id}
           title={memoItem.title}
-          tagName={""}
+          tagName={memoItem.tagName}
           open={open}
           onClose={onClose}
         />
