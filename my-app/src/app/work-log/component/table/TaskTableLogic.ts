@@ -1,18 +1,19 @@
+import apiClient from "@/lib/apiClient";
 import { MainPageTaskTable } from "@/type/Task";
+import useAspidaSWR from "@aspida/swr";
 import { useCallback } from "react";
 
 /**
  * メインページのタスクテーブルコンポーネントのロジック
  */
 export default function TaskTableLogic() {
+  const { data: rawData } = useAspidaSWR(
+    apiClient.work_log.tasks.progress.last_month,
+    "get",
+    { key: "api/work-log/tasks/progress/last-month" }
+  );
   // TODO:実際はデータフェッチさせる
-  const data: MainPageTaskTable[] = [
-    { id: 1, name: "タスク1", progress: "80%" },
-    { id: 2, name: "タスク2", progress: "80%" },
-    { id: 3, name: "タスク3", progress: "70%" },
-    { id: 4, name: "タスク4", progress: "65%" },
-    { id: 5, name: "タスク5", progress: "20%" },
-  ];
+  const data: MainPageTaskTable[] = rawData?.body ?? [];
 
   const navigateToDetail = useCallback((id: number) => {
     // TODO: ページ移動のハンドラ追加
