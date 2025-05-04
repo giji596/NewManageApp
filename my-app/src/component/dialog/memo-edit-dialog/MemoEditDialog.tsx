@@ -19,6 +19,7 @@ import { Controller } from "react-hook-form";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
 import MemoEditDialogLogic from "./MemoEditDialogLogic";
+import CreateTagDialog from "../CreateTagDialog/CreateTagDialog";
 
 type Props = {
   /** メモid */
@@ -64,6 +65,7 @@ export default function MemoEditDialog({
     onClose: onCloseDelete,
     onOpen: onOpenDelete,
   } = useDialog();
+  const { open: openTag, onClose: onCloseTag, onOpen: onOpenTag } = useDialog();
   return (
     <>
       <Dialog open={open} onClose={isEdit ? () => {} : onClose} fullWidth>
@@ -115,7 +117,8 @@ export default function MemoEditDialog({
                       />
                     </FormControl>
                   )}
-                  <IconButton>
+                  {/** タグ作成ボタン */}
+                  <IconButton onClick={onOpenTag}>
                     <AddCircleIcon />
                   </IconButton>
                 </Stack>
@@ -183,11 +186,13 @@ export default function MemoEditDialog({
           </form>
         </Stack>
       </Dialog>
+      {/** ダイアログ群 */}
       <ConfirmDeleteDialog
         open={openDelete}
         onClose={onCloseDelete}
         onAccept={handleDelete}
       />
+      {openTag && <CreateTagDialog open={openTag} onClose={onCloseTag} />}
     </>
   );
 }
