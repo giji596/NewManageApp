@@ -24,7 +24,8 @@ const CreateTagDialog = memo(function CreateTagDialog({
   open,
   onClose,
 }: Props) {
-  const { control, isSendable, onSubmit } = CreateTagDialogLogic({ onClose });
+  const { control, isSendable, onSubmit, duplicateError } =
+    CreateTagDialogLogic({ onClose });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <form onSubmit={onSubmit}>
@@ -40,15 +41,19 @@ const CreateTagDialog = memo(function CreateTagDialog({
                 variant="standard"
                 slotProps={{
                   input: {
-                    "aria-describedby": true ? "duplicate-error" : undefined, // TODO:エラーで分岐
+                    "aria-describedby": duplicateError
+                      ? "duplicate-error"
+                      : undefined,
                   },
                 }}
               />
             )}
           />
-          <Typography id="duplicate-error" variant="caption" color="error">
-            *エラーメッセージ
-          </Typography>
+          {duplicateError && (
+            <Typography id="duplicate-error" variant="caption" color="error">
+              *エラーメッセージ
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions>
           <Button color="error" onClick={onClose}>
