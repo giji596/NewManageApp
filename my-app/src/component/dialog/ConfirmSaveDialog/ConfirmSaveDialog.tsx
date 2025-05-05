@@ -21,7 +21,7 @@ type Props = {
  */
 export default function ConfirmSaveDialog({ open, onClose, onAccept }: Props) {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={onClose}>
       <DialogContent>
         <DialogContentText>保存してもよろしいですか？</DialogContentText>
         <DialogActions>

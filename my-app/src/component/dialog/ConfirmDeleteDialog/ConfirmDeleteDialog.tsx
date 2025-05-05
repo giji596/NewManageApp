@@ -25,7 +25,7 @@ export default function ConfirmDeleteDialog({
   onAccept,
 }: Props) {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={onClose}>
       <DialogContent>
         <DialogContentText>削除してもよろしいですか？</DialogContentText>
         <DialogActions>
