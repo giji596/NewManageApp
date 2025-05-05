@@ -15,7 +15,6 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import TaskEditDialogLogic from "./TaskEditDialogLogic";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
-import ConfirmSaveDialog from "@/component/dialog/ConfirmSaveDialog/ConfirmSaveDialog";
 import useDialog from "@/hook/useDialog";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
@@ -69,11 +68,6 @@ export default function TaskEditDialog({
     open: openDelete,
     onClose: onCloseDelete,
     onOpen: onOpenDelete,
-  } = useDialog();
-  const {
-    open: openSave,
-    onClose: onCloseSave,
-    onOpen: onOpenSave,
   } = useDialog();
   const {
     open: openCreateTask,
@@ -202,7 +196,7 @@ export default function TaskEditDialog({
               startIcon={<CheckCircleIcon />}
               variant="contained"
               disabled={unSelected}
-              onClick={onOpenSave}
+              onClick={handleSave}
             >
               保存
             </Button>
@@ -215,13 +209,6 @@ export default function TaskEditDialog({
           open={openDelete}
           onClose={onCloseDelete}
           onAccept={handleDelete}
-        />
-      )}
-      {openSave && (
-        <ConfirmSaveDialog
-          open={openSave}
-          onClose={onCloseSave}
-          onAccept={handleSave}
         />
       )}
       {openCreateCategory && (
