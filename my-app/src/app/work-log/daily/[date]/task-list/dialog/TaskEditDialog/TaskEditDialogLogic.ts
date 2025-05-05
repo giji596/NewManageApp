@@ -41,13 +41,13 @@ export default function TaskEditDialogLogic({
   const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
-  const { data: categoryData } = useAspidaSWR(
+  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
     apiClient.work_log.categories.options,
     "get",
     { key: "api/work-log/categories/options" }
   );
   const categoryList = categoryData?.body;
-  const { data: taskData } = useAspidaSWR(
+  const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
     apiClient.work_log.tasks.options,
     "get",
     {
@@ -57,6 +57,16 @@ export default function TaskEditDialogLogic({
     }
   );
   const taskList = taskData?.body;
+  const isLoading = useMemo(
+    () =>
+      // SWRのロード状態
+      isLoadingCategory ||
+      isLoadingTask ||
+      // 値がセットされてない場合もロード中として扱う
+      categoryId === null ||
+      taskId === null,
+    [categoryId, isLoadingCategory, isLoadingTask, taskId]
+  );
   useEffect(() => {
     // 最初のレンダー時は処理しない(初期値を使用させる)
     if (firstRender.current) {
@@ -132,6 +142,8 @@ export default function TaskEditDialogLogic({
     categoryList,
     /** タスク一覧(カテゴリを変更時には再度取得する必要あり) */
     taskList,
+    /** ロード状態(SWRのロード または 選択中の値がnull以外(=初期化済み)) */
+    isLoading,
     /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */
     isTaskSelectAvailable,
     /** 選択したカテゴリーに変更するハンドラー */
