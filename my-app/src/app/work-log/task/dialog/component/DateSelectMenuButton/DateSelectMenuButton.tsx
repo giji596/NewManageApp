@@ -8,12 +8,9 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import { DateSelectMenuButtonLogic } from "./DateSelectMenuButtonLogic";
-import { useDateSelectMenuButton } from "../../../../../../hook/useDateSelect";
+import { useDateSelect } from "@/hook/useDateSelect";
 
-type SelectValueProps = Omit<
-  ReturnType<typeof useDateSelectMenuButton>,
-  "dateParam"
->;
+type SelectValueProps = Omit<ReturnType<typeof useDateSelect>, "dateParam">;
 type Props = {
   /** 名称(識別/アクセシビリティ用) */
   name: string;
