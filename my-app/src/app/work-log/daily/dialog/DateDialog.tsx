@@ -51,9 +51,9 @@ export default function DateDialog({
   } = DataDialogLogic();
   return (
     <Dialog open={open} onClose={onClose}>
-      <Stack width="500px" height="300px" p={3} spacing={7}>
+      <Stack width="500px" height="300px" p={3}>
         {/** 上半分 */}
-        <Stack height="25%">
+        <Stack height="35%" mb={2}>
           <FormControl>
             {/** ラジオボタン */}
             <RadioGroup
@@ -143,7 +143,7 @@ export default function DateDialog({
         </Stack>
         {/** データ表示部分 */}
         {!isLoading && dateDetails && (
-          <Stack height="55%" direction="row">
+          <Stack height="45%" direction="row">
             {/** 左下 */}
             <Stack width="50%" overflow={"auto"} spacing={1}>
               {/** カテゴリ+タスクごとの塊 */}
@@ -205,7 +205,7 @@ export default function DateDialog({
           </Stack>
         )}
         {/** ボタン部分 */}
-        <Stack width="100%" alignItems="flex-end">
+        <Stack width="100%" height="15%" alignItems="flex-end">
           <Button
             onClick={() => {
               onClose();
