@@ -152,6 +152,16 @@ export default function DateDialog({
             <CircularProgress size={25} />
           </Stack>
         )}
+        {!isLoading && dateDetails === null && (
+          <Stack
+            height="45%"
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Typography variant="subtitle2">データがありません</Typography>
+          </Stack>
+        )}
         {!isLoading && dateDetails && (
           <Stack height="45%" direction="row">
             {/** 左下 */}
