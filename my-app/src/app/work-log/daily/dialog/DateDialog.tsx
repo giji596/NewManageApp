@@ -152,54 +152,48 @@ export default function DateDialog({
                 </Stack>
               )}
               {/** カテゴリ+タスクごとの塊 */}
-              {!isLoading &&
-                dateDetails &&
-                dateDetails.categoryList.map((item) => (
-                  <Stack key={item.id} pb={0.5}>
-                    {/* カテゴリタイトル */}
+              {dateDetails.categoryList.map((item) => (
+                <Stack key={item.id} pb={0.5}>
+                  {/* カテゴリタイトル */}
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    pr={5}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      textOverflow={"ellipsis"}
+                      whiteSpace={"nowrap"}
+                      maxWidth={"70%"}
+                      overflow={"hidden"}
+                    >
+                      {item.name}
+                    </Typography>
+                    <Typography variant="subtitle2">{item.percent}</Typography>
+                  </Stack>
+                  {/* タスクタイトル */}
+                  {item.taskList.map((task) => (
                     <Stack
+                      key={task.id}
                       direction={"row"}
                       justifyContent={"space-between"}
                       pr={5}
                     >
                       <Typography
-                        variant="subtitle2"
+                        pl={5}
+                        variant="caption"
                         textOverflow={"ellipsis"}
                         whiteSpace={"nowrap"}
                         maxWidth={"70%"}
                         overflow={"hidden"}
                       >
-                        {item.name}
+                        {task.name}
                       </Typography>
-                      <Typography variant="subtitle2">
-                        {item.percent}
-                      </Typography>
+                      <Typography variant="caption">{task.percent}</Typography>
                     </Stack>
-                    {/* タスクタイトル */}
-                    {item.taskList.map((task) => (
-                      <Stack
-                        key={task.id}
-                        direction={"row"}
-                        justifyContent={"space-between"}
-                        pr={5}
-                      >
-                        <Typography
-                          pl={5}
-                          variant="caption"
-                          textOverflow={"ellipsis"}
-                          whiteSpace={"nowrap"}
-                          maxWidth={"70%"}
-                          overflow={"hidden"}
-                        >
-                          {task.name}
-                        </Typography>
-                        <Typography variant="caption">
-                          {task.percent}
-                        </Typography>
-                      </Stack>
-                    ))}
-                  </Stack>
-                ))}
+                  ))}
+                </Stack>
+              ))}
             </Stack>
             {/** 右下 */}
             <Stack width="50%" justifyContent={"space-between"}>
@@ -210,16 +204,12 @@ export default function DateDialog({
                     <CircularProgress />
                   </Stack>
                 )}
-                {!isLoading && (
-                  <Typography variant="subtitle1">メモ</Typography>
-                )}
-                {!isLoading &&
-                  dateDetails &&
-                  dateDetails.memoList.map((item) => (
-                    <Typography key={item.id} pl={4} variant="caption">
-                      {item.title}
-                    </Typography>
-                  ))}
+                <Typography variant="subtitle1">メモ</Typography>
+                {dateDetails.memoList.map((item) => (
+                  <Typography key={item.id} pl={4} variant="caption">
+                    {item.title}
+                  </Typography>
+                ))}
               </Stack>
               <Stack width="50%" alignSelf={"center"}>
                 <Button
