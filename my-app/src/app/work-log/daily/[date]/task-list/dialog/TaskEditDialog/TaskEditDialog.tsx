@@ -237,12 +237,17 @@ export default function TaskEditDialog({
           onClose={onCloseCreateTask}
         />
       )}
-      {openMemo && (
+      {openMemo && taskList && (
         <MemoAddDialog
-          taskList={[{ id: 1, taskName: "aaa" }]} // TODO:あとで修正
+          taskList={[
+            {
+              id: itemId,
+              taskName: taskList.find((v) => v.id === taskId)?.name ?? "",
+            },
+          ]}
           open={openMemo}
           onClose={onCloseMemo}
-          isTaskSelected={false}
+          isTaskSelected={true}
         />
       )}
     </>
