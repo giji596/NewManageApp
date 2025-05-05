@@ -91,9 +91,9 @@ export default function TaskEditDialog({
           <Stack spacing={3} mt={1}>
             {/** カテゴリ */}
             <Stack direction="row" spacing={1}>
-              <FormControl fullWidth>
-                <InputLabel id="category-select-label">カテゴリ</InputLabel>
-                {categoryList && (
+              {categoryList && (
+                <FormControl fullWidth>
+                  <InputLabel id="category-select-label">カテゴリ</InputLabel>
                   <Select
                     labelId="category-select-label"
                     id="category-select"
@@ -108,8 +108,8 @@ export default function TaskEditDialog({
                       </MenuItem>
                     ))}
                   </Select>
-                )}
-              </FormControl>
+                </FormControl>
+              )}
               {/** アイコンボタン */}
               <IconButton
                 onClick={onOpenCreateCategory}
@@ -121,9 +121,9 @@ export default function TaskEditDialog({
             {/** タスク */}
             <Stack direction="row" spacing={1}>
               {/** セレクト */}
-              <FormControl fullWidth>
-                <InputLabel id="task-select-label">タスク</InputLabel>
-                {isTaskSelectAvailable && (
+              {isTaskSelectAvailable && (
+                <FormControl fullWidth>
+                  <InputLabel id="task-select-label">タスク</InputLabel>
                   <Select
                     labelId="task-select-label"
                     id="task-select"
@@ -143,8 +143,8 @@ export default function TaskEditDialog({
                       </MenuItem>
                     ))}
                   </Select>
-                )}
-              </FormControl>
+                </FormControl>
+              )}
               {/** アイコンボタン */}
               <IconButton
                 onClick={onOpenCreateTask}
