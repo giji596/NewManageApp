@@ -38,9 +38,9 @@ export default function DateDialog({
     isLoading,
     dateParam,
     radioSelect,
-    selectYear,
-    selectMonth,
-    selectDay,
+    year,
+    month,
+    day,
     selectableYearArray,
     selectableMonthArray,
     selectableDayArray,
@@ -88,7 +88,7 @@ export default function DateDialog({
                 labelId="year-select-label"
                 name="year-select"
                 onChange={onSelectYear}
-                value={String(selectYear)}
+                value={String(year)}
                 label="年"
               >
                 {selectableYearArray.map((v) => (
@@ -109,7 +109,7 @@ export default function DateDialog({
                 labelId="month-select-label"
                 name="month-select"
                 onChange={onSelectMonth}
-                value={String(selectMonth)}
+                value={String(month)}
                 label="月"
               >
                 {selectableMonthArray.map((v) => (
@@ -130,7 +130,7 @@ export default function DateDialog({
                 labelId="day-select-label"
                 name="day-select"
                 onChange={onSelectDay}
-                value={String(selectDay)}
+                value={String(day)}
               >
                 {selectableDayArray.map((v) => (
                   <MenuItem key={v} value={v}>
