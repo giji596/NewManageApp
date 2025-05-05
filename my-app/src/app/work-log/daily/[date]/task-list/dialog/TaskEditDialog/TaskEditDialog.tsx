@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AddCommentIcon from "@mui/icons-material/AddComment";
 import TaskEditDialogLogic from "./TaskEditDialogLogic";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import ConfirmSaveDialog from "@/component/dialog/ConfirmSaveDialog/ConfirmSaveDialog";
@@ -171,7 +172,8 @@ export default function TaskEditDialog({
                   ))}
                 </Select>
               </FormControl>
-              <Button>(メモ追加ボタン)</Button>
+              {/** メモ追加ボタン */}
+              <Button startIcon={<AddCommentIcon />}>メモを追加</Button>
             </Stack>
           </Stack>
         </DialogContent>
