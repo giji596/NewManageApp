@@ -120,7 +120,13 @@ export default function MemoAddDialog({
                 />
               </FormControl>
               {/** タグ追加ボタン */}
-              <IconButton>
+              <IconButton
+                sx={{
+                  width: 40,
+                  height: 40,
+                  alignSelf: "center",
+                }}
+              >
                 <AddCircleIcon />
               </IconButton>
             </Stack>
