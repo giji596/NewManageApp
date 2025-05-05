@@ -142,91 +142,99 @@ export default function DateDialog({
           </Stack>
         </Stack>
         {/** 下半分 */}
-        <Stack height="55%" direction="row">
-          {/** 左下 */}
-          <Stack width="50%" overflow={"auto"} spacing={1}>
-            {isLoading && (
-              <Stack alignItems={"center"} pt={5}>
-                <CircularProgress />
-              </Stack>
-            )}
-            {/** カテゴリ+タスクごとの塊 */}
-            {!isLoading &&
-              dateDetails &&
-              dateDetails.categoryList.map((item) => (
-                <Stack key={item.id} pb={0.5}>
-                  {/* カテゴリタイトル */}
-                  <Stack
-                    direction={"row"}
-                    justifyContent={"space-between"}
-                    pr={5}
-                  >
-                    <Typography
-                      variant="subtitle2"
-                      textOverflow={"ellipsis"}
-                      whiteSpace={"nowrap"}
-                      maxWidth={"70%"}
-                      overflow={"hidden"}
-                    >
-                      {item.name}
-                    </Typography>
-                    <Typography variant="subtitle2">{item.percent}</Typography>
-                  </Stack>
-                  {/* タスクタイトル */}
-                  {item.taskList.map((task) => (
+        {!isLoading && dateDetails && (
+          <Stack height="55%" direction="row">
+            {/** 左下 */}
+            <Stack width="50%" overflow={"auto"} spacing={1}>
+              {isLoading && (
+                <Stack alignItems={"center"} pt={5}>
+                  <CircularProgress />
+                </Stack>
+              )}
+              {/** カテゴリ+タスクごとの塊 */}
+              {!isLoading &&
+                dateDetails &&
+                dateDetails.categoryList.map((item) => (
+                  <Stack key={item.id} pb={0.5}>
+                    {/* カテゴリタイトル */}
                     <Stack
-                      key={task.id}
                       direction={"row"}
                       justifyContent={"space-between"}
                       pr={5}
                     >
                       <Typography
-                        pl={5}
-                        variant="caption"
+                        variant="subtitle2"
                         textOverflow={"ellipsis"}
                         whiteSpace={"nowrap"}
                         maxWidth={"70%"}
                         overflow={"hidden"}
                       >
-                        {task.name}
+                        {item.name}
                       </Typography>
-                      <Typography variant="caption">{task.percent}</Typography>
+                      <Typography variant="subtitle2">
+                        {item.percent}
+                      </Typography>
                     </Stack>
-                  ))}
-                </Stack>
-              ))}
-          </Stack>
-          {/** 右下 */}
-          <Stack width="50%" justifyContent={"space-between"}>
-            {/** メモのところ */}
-            <Stack height="70%" overflow="auto" pl={2}>
-              {isLoading && (
-                <Stack alignItems={"center"} pt={2}>
-                  <CircularProgress />
-                </Stack>
-              )}
-              {!isLoading && <Typography variant="subtitle1">メモ</Typography>}
-              {!isLoading &&
-                dateDetails &&
-                dateDetails.memoList.map((item) => (
-                  <Typography key={item.id} pl={4} variant="caption">
-                    {item.title}
-                  </Typography>
+                    {/* タスクタイトル */}
+                    {item.taskList.map((task) => (
+                      <Stack
+                        key={task.id}
+                        direction={"row"}
+                        justifyContent={"space-between"}
+                        pr={5}
+                      >
+                        <Typography
+                          pl={5}
+                          variant="caption"
+                          textOverflow={"ellipsis"}
+                          whiteSpace={"nowrap"}
+                          maxWidth={"70%"}
+                          overflow={"hidden"}
+                        >
+                          {task.name}
+                        </Typography>
+                        <Typography variant="caption">
+                          {task.percent}
+                        </Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
                 ))}
             </Stack>
-            <Stack width="50%" alignSelf={"center"}>
-              <Button
-                onClick={() => {
-                  onClose();
-                  navigatePage(dateParam);
-                }}
-                startIcon={<ArrowCircleRightIcon />}
-              >
-                移動
-              </Button>
+            {/** 右下 */}
+            <Stack width="50%" justifyContent={"space-between"}>
+              {/** メモのところ */}
+              <Stack height="70%" overflow="auto" pl={2}>
+                {isLoading && (
+                  <Stack alignItems={"center"} pt={2}>
+                    <CircularProgress />
+                  </Stack>
+                )}
+                {!isLoading && (
+                  <Typography variant="subtitle1">メモ</Typography>
+                )}
+                {!isLoading &&
+                  dateDetails &&
+                  dateDetails.memoList.map((item) => (
+                    <Typography key={item.id} pl={4} variant="caption">
+                      {item.title}
+                    </Typography>
+                  ))}
+              </Stack>
+              <Stack width="50%" alignSelf={"center"}>
+                <Button
+                  onClick={() => {
+                    onClose();
+                    navigatePage(dateParam);
+                  }}
+                  startIcon={<ArrowCircleRightIcon />}
+                >
+                  移動
+                </Button>
+              </Stack>
             </Stack>
           </Stack>
-        </Stack>
+        )}
       </Stack>
     </Dialog>
   );
