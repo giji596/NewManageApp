@@ -205,13 +205,15 @@ export default function DateDialog({
           </Stack>
         )}
         {/** ボタン部分 */}
-        <Stack width="50%" alignSelf={"center"}>
+        <Stack width="100%" alignItems="flex-end">
           <Button
             onClick={() => {
               onClose();
               navigatePage(dateParam);
             }}
             startIcon={<ArrowCircleRightIcon />}
+            disabled={isLoading}
+            sx={{ width: "30%" }}
           >
             移動
           </Button>
