@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { useDateSelectMenuButton } from "./component/DateSelectMenuButton/out-side-logic";
+import { useDateSelect } from "@/hook/useDateSelect";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -116,21 +116,21 @@ export const TaskDisplayRangeDialogParamLogic = ({
   );
   // 開始日
   const { dateParam: startMinParam, ...startMinSelectRangeParams } =
-    useDateSelectMenuButton({
+    useDateSelect({
       ...initStartMinParam,
     });
   const { dateParam: startMaxParam, ...startMaxSelectRangeParams } =
-    useDateSelectMenuButton({
+    useDateSelect({
       ...initStartMaxParam,
     });
 
   // 最終日
   const { dateParam: lastMixParam, ...lastMinSelectRangeParams } =
-    useDateSelectMenuButton({
+    useDateSelect({
       ...initLastMinParam,
     });
   const { dateParam: lastMaxParam, ...lastMaxSelectRangeParams } =
-    useDateSelectMenuButton({
+    useDateSelect({
       ...initLastMaxParam,
     });
 

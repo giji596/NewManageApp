@@ -19,13 +19,9 @@ type Props = {
 };
 
 /**
- * (ボタン使用側用のカスタムフック)フォームの値の管理に関するロジックまとめ
+ *  日付選択に関するロジック
  */
-export const useDateSelectMenuButton = ({
-  initYear,
-  initMonth,
-  initDay,
-}: Props) => {
+export const useDateSelect = ({ initYear, initMonth, initDay }: Props) => {
   const [year, setYear] = useState<number>(initYear);
   const [month, setMonth] = useState<number>(initMonth);
   const [day, setDay] = useState<number>(initDay);
