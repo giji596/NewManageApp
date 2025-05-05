@@ -17,6 +17,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import MemoAddDialogLogic from "./MemoAddDialogLogic";
 import { Controller } from "react-hook-form";
 import { TaskLogSummary } from "@/type/Task";
+import useDialog from "@/hook/useDialog";
+import CreateTagDialog from "@/component/dialog/CreateTagDialog/CreateTagDialog";
 
 type Props = {
   /** タスクの一覧 */
@@ -42,6 +44,7 @@ export default function MemoAddDialog({
     onClose,
     taskList,
   });
+  const { open: openTag, onOpen: onOpenTag, onClose: onCloseTag } = useDialog();
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth>
@@ -131,6 +134,7 @@ export default function MemoAddDialog({
                     height: 40,
                     alignSelf: "center",
                   }}
+                  onClick={onOpenTag}
                 >
                   <AddCircleIcon />
                 </IconButton>
@@ -167,6 +171,8 @@ export default function MemoAddDialog({
           </DialogActions>
         </form>
       </Dialog>
+      {/** ダイアログ群 */}
+      {openTag && <CreateTagDialog open={openTag} onClose={onCloseTag} />}
     </>
   );
 }
