@@ -150,7 +150,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
             キャンセル
           </Button>
           <Button
-            disabled={isLoading}
+            disabled={isLoading || selectedTaskId === 0}
             variant="contained"
             startIcon={<AddTaskIcon />}
             onClick={handleAddDailyTask}
