@@ -151,24 +151,28 @@ export default function TaskEditDialog({
                 <AddCircleOutlineIcon />
               </IconButton>
             </Stack>
-            {/** 稼働時間 */}
-            <FormControl sx={{ width: "30%" }}>
-              <InputLabel id="hours-select-label">稼働時間(hour)</InputLabel>
-              <Select
-                labelId="hours-select-label"
-                id="hours-select"
-                name="hours-select"
-                value={String(dailyHours)}
-                onChange={onChangeSelectHours}
-                label="稼働時間(hour)"
-              >
-                {[...Array(41)].map((_, i) => (
-                  <MenuItem key={i} value={i * 0.25}>
-                    {i * 0.25}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {/** 稼働時間/メモ追加ボタン */}
+            <Stack direction="row" justifyContent={"space-between"} pr={4}>
+              {/** 稼働時間 */}
+              <FormControl sx={{ width: "30%" }}>
+                <InputLabel id="hours-select-label">稼働時間(hour)</InputLabel>
+                <Select
+                  labelId="hours-select-label"
+                  id="hours-select"
+                  name="hours-select"
+                  value={String(dailyHours)}
+                  onChange={onChangeSelectHours}
+                  label="稼働時間(hour)"
+                >
+                  {[...Array(41)].map((_, i) => (
+                    <MenuItem key={i} value={i * 0.25}>
+                      {i * 0.25}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button>(メモ追加ボタン)</Button>
+            </Stack>
           </Stack>
         </DialogContent>
 
