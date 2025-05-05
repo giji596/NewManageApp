@@ -59,6 +59,8 @@ export default function TaskEditDialog({
     onChangeSelectHours,
     handleSave,
     handleDelete,
+    onCreateTask,
+    onCreateCategory,
   } = TaskEditDialogLogic({
     itemId,
     initialCategoryId,
@@ -224,6 +226,7 @@ export default function TaskEditDialog({
         <CreateCategoryDialog
           open={openCreateCategory}
           onClose={onCloseCreateCategory}
+          onCreateCategory={onCreateCategory}
         />
       )}
       {openCreateTask && categoryId && (
@@ -231,6 +234,7 @@ export default function TaskEditDialog({
           initialCategoryId={categoryId}
           open={openCreateTask}
           onClose={onCloseCreateTask}
+          onCreateTask={onCreateTask}
         />
       )}
       {openMemo && taskList && (

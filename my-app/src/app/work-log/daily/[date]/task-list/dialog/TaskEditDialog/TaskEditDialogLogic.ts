@@ -68,14 +68,18 @@ export default function TaskEditDialogLogic({
     [categoryId, isLoadingCategory, isLoadingTask, taskId]
   );
   useEffect(() => {
-    // 最初のレンダー時は処理しない(初期値を使用させる)
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
     if (taskList) {
       setTaskId((prev) => {
-        if (prev === null) return initialTaskId;
+        // 初期化
+        if (firstRender.current) {
+          firstRender.current = false;
+          return initialTaskId;
+        }
+        // カテゴリ変更時
+        if (prev === null) return taskList[0].id;
+        // 新規カテゴリ追加時
+        const newId = newTaskIdRef.current;
+        if (newId !== null) return newId;
         return prev;
       });
     }
@@ -84,7 +88,11 @@ export default function TaskEditDialogLogic({
   useEffect(() => {
     if (categoryList) {
       setCategoryId((prev) => {
+        // 初期化
         if (prev === null) return initialCategoryId;
+        // 新規カテゴリ追加時
+        const newId = newCategoryIdRef.current;
+        if (newId !== null) return newId;
         return prev;
       });
     }
@@ -129,6 +137,16 @@ export default function TaskEditDialogLogic({
     mutate(`api/work-log/daily/${date}`); // 再検証する
     onClose();
   }, [date, itemId, onClose]);
+
+  const newTaskIdRef = useRef<number | null>(null);
+  const newCategoryIdRef = useRef<number | null>(null);
+  const onCreateTask = useCallback((newTaskId: number) => {
+    newTaskIdRef.current = newTaskId;
+  }, []);
+  const onCreateCategory = useCallback((newCategoryId: number) => {
+    newCategoryIdRef.current = newCategoryId;
+    setTaskId(null); // タスクidを初期化する(初期化後自動的にidはセットされる)
+  }, []);
   return {
     /** 選択中のカテゴリーのid */
     categoryId,
@@ -156,5 +174,9 @@ export default function TaskEditDialogLogic({
     handleSave,
     /** デリートのイベント */
     handleDelete,
+    /** タスク追加時の処理 */
+    onCreateTask,
+    /** カテゴリ追加時の処理 */
+    onCreateCategory,
   };
 }
