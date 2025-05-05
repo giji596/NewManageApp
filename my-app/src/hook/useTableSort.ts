@@ -54,12 +54,12 @@ export default function useTableSort<T extends object>({
             return isAsc ? c.localeCompare(d) : d.localeCompare(c);
         case "number":
           if (typeof c === "number" && typeof d == "number")
-            return isAsc ? c - d : d - c;
+            return isAsc ? d - c : c - d;
         case "object":
           if (c instanceof Date && d instanceof Date)
             return isAsc
-              ? c.getTime() - d.getTime()
-              : d.getTime() - c.getTime();
+              ? d.getTime() - c.getTime()
+              : c.getTime() - d.getTime();
         // デフォで0を与える =>sortメソッドで0は「何もしない」(引数絞ってるので、基本的にはここまでいかないはず)
         default:
           return 0;
