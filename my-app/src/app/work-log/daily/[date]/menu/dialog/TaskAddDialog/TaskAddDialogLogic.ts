@@ -145,5 +145,9 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
     onChangeSelectedTask,
     /** 日付のタスクを追加する関数 */
     handleAddDailyTask,
+    /** タスク追加時の処理 */
+    onCreateTask,
+    /** カテゴリ追加時の処理 */
+    onCreateCategory,
   };
 }
