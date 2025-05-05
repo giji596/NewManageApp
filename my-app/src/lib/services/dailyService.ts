@@ -85,6 +85,7 @@ export const getDailySummaryDetailData = async (date: Date) => {
     select: {
       date: true,
       logs: {
+        where: { workTime: { not: 0 } }, // 稼働時間が0の場合は除外
         select: {
           workTime: true,
           task: {
@@ -99,7 +100,7 @@ export const getDailySummaryDetailData = async (date: Date) => {
       },
     },
   });
-  if (data) {
+  if (data && data.logs.length !== 0) {
     // 取得したデータをDateSummaryDetail型に変換
     const dateSummaryDetail: DateSummaryDetail = {
       date: data.date, // dataがあるので必ず値が取れる
