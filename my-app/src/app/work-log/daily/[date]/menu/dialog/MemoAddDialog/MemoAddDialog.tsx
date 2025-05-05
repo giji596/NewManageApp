@@ -90,10 +90,10 @@ export default function MemoAddDialog({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <TextField {...field} label="タイトル" sx={{ width: "80%" }} />
+                <TextField {...field} label="タイトル" sx={{ width: "70%" }} />
               )}
             />
-            <FormControl sx={{ width: "20%" }}>
+            <FormControl sx={{ width: "30%" }}>
               <InputLabel id="tag-select-label">タグ</InputLabel>
               <Controller
                 name="tagId"
