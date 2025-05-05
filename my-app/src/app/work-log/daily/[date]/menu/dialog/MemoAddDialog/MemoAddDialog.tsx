@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -12,6 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import MemoAddDialogLogic from "./MemoAddDialogLogic";
 import { Controller } from "react-hook-form";
 import { TaskLogSummary } from "@/type/Task";
@@ -93,27 +95,35 @@ export default function MemoAddDialog({
                 <TextField {...field} label="タイトル" sx={{ width: "70%" }} />
               )}
             />
-            <FormControl sx={{ width: "30%" }}>
-              <InputLabel id="tag-select-label">タグ</InputLabel>
-              <Controller
-                name="tagId"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    labelId="tag-select-label"
-                    id="tag-select-label"
-                    label="タグ"
-                  >
-                    {tagList.map((tag) => (
-                      <MenuItem key={tag.id} value={tag.id}>
-                        {tag.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
-              />
-            </FormControl>
+            {/** タグ */}
+            <Stack direction="row" width="30%">
+              {/** タグ選択賜 */}
+              <FormControl sx={{ width: "80%" }}>
+                <InputLabel id="tag-select-label">タグ</InputLabel>
+                <Controller
+                  name="tagId"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      labelId="tag-select-label"
+                      id="tag-select-label"
+                      label="タグ"
+                    >
+                      {tagList.map((tag) => (
+                        <MenuItem key={tag.id} value={tag.id}>
+                          {tag.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+              {/** タグ追加ボタン */}
+              <IconButton>
+                <AddCircleIcon />
+              </IconButton>
+            </Stack>
           </Stack>
           {/**　本文 */}
           <Controller
