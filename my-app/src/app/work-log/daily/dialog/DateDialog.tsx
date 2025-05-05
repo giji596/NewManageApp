@@ -141,7 +141,7 @@ export default function DateDialog({
             </FormControl>
           </Stack>
         </Stack>
-        {/** 下半分 */}
+        {/** データ表示部分 */}
         {!isLoading && dateDetails && (
           <Stack height="55%" direction="row">
             {/** 左下 */}
@@ -201,20 +201,21 @@ export default function DateDialog({
                   </Typography>
                 ))}
               </Stack>
-              <Stack width="50%" alignSelf={"center"}>
-                <Button
-                  onClick={() => {
-                    onClose();
-                    navigatePage(dateParam);
-                  }}
-                  startIcon={<ArrowCircleRightIcon />}
-                >
-                  移動
-                </Button>
-              </Stack>
             </Stack>
           </Stack>
         )}
+        {/** ボタン部分 */}
+        <Stack width="50%" alignSelf={"center"}>
+          <Button
+            onClick={() => {
+              onClose();
+              navigatePage(dateParam);
+            }}
+            startIcon={<ArrowCircleRightIcon />}
+          >
+            移動
+          </Button>
+        </Stack>
       </Stack>
     </Dialog>
   );
