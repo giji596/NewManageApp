@@ -44,13 +44,30 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   // 初期化処理(カテゴリーのデータフェッチ時)
   useEffect(() => {
     if (categoryList) {
-      setSelectedCategoryId(categoryList[0].id);
+      setSelectedCategoryId((prev) => {
+        // 初期化処理(null時)
+        if (prev === null) return categoryList[0].id;
+        // 新規カテゴリ追加時
+        const newId = newCategoryIdRef.current;
+        if (newId !== null) return newId;
+        // 上記どちらでもない場合はprevを返して再レンダーしない
+        return prev;
+      });
     }
   }, [categoryList]);
   // タスク - 初期化及びカテゴリー変更時に呼び出し(keyが変更されてtaskListが更新されるため)
   useEffect(() => {
     if (taskList) {
-      setSelectedTaskId(taskList[0].id);
+      setSelectedTaskId((prev) => {
+        // 初期化処理(null時 -> 最初及びカテゴリ変更時)
+        if (prev === null) return taskList[0].id;
+        // 新規カテゴリ追加時
+        const newId = newTaskIdRef.current;
+        if (newId !== null) return newId;
+
+        // 上記どちらでもない場合はprevを返して再レンダーしない
+        return prev;
+      });
     }
   }, [taskList]);
 
