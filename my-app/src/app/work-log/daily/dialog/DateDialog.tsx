@@ -51,9 +51,9 @@ export default function DateDialog({
   } = DataDialogLogic();
   return (
     <Dialog open={open} onClose={onClose}>
-      <Stack width="500px" height="300px" p={3} spacing={7}>
+      <Stack width="500px" height="300px" p={3}>
         {/** 上半分 */}
-        <Stack height="25%">
+        <Stack height="35%" mb={2}>
           <FormControl>
             {/** ラジオボタン */}
             <RadioGroup
@@ -141,19 +141,33 @@ export default function DateDialog({
             </FormControl>
           </Stack>
         </Stack>
-        {/** 下半分 */}
-        <Stack height="55%" direction="row">
-          {/** 左下 */}
-          <Stack width="50%" overflow={"auto"} spacing={1}>
-            {isLoading && (
-              <Stack alignItems={"center"} pt={5}>
-                <CircularProgress />
-              </Stack>
-            )}
-            {/** カテゴリ+タスクごとの塊 */}
-            {!isLoading &&
-              dateDetails &&
-              dateDetails.categoryList.map((item) => (
+        {/** データ表示部分 */}
+        {isLoading && (
+          <Stack
+            height="45%"
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <CircularProgress size={25} />
+          </Stack>
+        )}
+        {!isLoading && dateDetails === null && (
+          <Stack
+            height="45%"
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Typography variant="subtitle2">データがありません</Typography>
+          </Stack>
+        )}
+        {!isLoading && dateDetails && (
+          <Stack height="45%" direction="row">
+            {/** 左下 */}
+            <Stack width="50%" overflow={"auto"} spacing={1}>
+              {/** カテゴリ+タスクごとの塊 */}
+              {dateDetails.categoryList.map((item) => (
                 <Stack key={item.id} pb={0.5}>
                   {/* カテゴリタイトル */}
                   <Stack
@@ -195,37 +209,34 @@ export default function DateDialog({
                   ))}
                 </Stack>
               ))}
-          </Stack>
-          {/** 右下 */}
-          <Stack width="50%" justifyContent={"space-between"}>
-            {/** メモのところ */}
-            <Stack height="70%" overflow="auto" pl={2}>
-              {isLoading && (
-                <Stack alignItems={"center"} pt={2}>
-                  <CircularProgress />
-                </Stack>
-              )}
-              {!isLoading && <Typography variant="subtitle1">メモ</Typography>}
-              {!isLoading &&
-                dateDetails &&
-                dateDetails.memoList.map((item) => (
+            </Stack>
+            {/** 右下 */}
+            <Stack width="50%" justifyContent={"space-between"}>
+              {/** メモのところ */}
+              <Stack height="70%" overflow="auto" pl={2}>
+                <Typography variant="subtitle1">メモ</Typography>
+                {dateDetails.memoList.map((item) => (
                   <Typography key={item.id} pl={4} variant="caption">
                     {item.title}
                   </Typography>
                 ))}
-            </Stack>
-            <Stack width="50%" alignSelf={"center"}>
-              <Button
-                onClick={() => {
-                  onClose();
-                  navigatePage(dateParam);
-                }}
-                startIcon={<ArrowCircleRightIcon />}
-              >
-                移動
-              </Button>
+              </Stack>
             </Stack>
           </Stack>
+        )}
+        {/** ボタン部分 */}
+        <Stack width="100%" height="15%" alignItems="flex-end">
+          <Button
+            onClick={() => {
+              onClose();
+              navigatePage(dateParam);
+            }}
+            startIcon={<ArrowCircleRightIcon />}
+            disabled={isLoading}
+            sx={{ width: "30%" }}
+          >
+            移動
+          </Button>
         </Stack>
       </Stack>
     </Dialog>
