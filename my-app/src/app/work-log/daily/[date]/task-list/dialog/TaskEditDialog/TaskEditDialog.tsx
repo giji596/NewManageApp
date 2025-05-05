@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AddCommentIcon from "@mui/icons-material/AddComment";
 import TaskEditDialogLogic from "./TaskEditDialogLogic";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import ConfirmSaveDialog from "@/component/dialog/ConfirmSaveDialog/ConfirmSaveDialog";
@@ -19,6 +20,7 @@ import useDialog from "@/hook/useDialog";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
+import MemoAddDialog from "../../../menu/dialog/MemoAddDialog/MemoAddDialog";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -82,6 +84,11 @@ export default function TaskEditDialog({
     open: openCreateCategory,
     onOpen: onOpenCreateCategory,
     onClose: onCloseCreateCategory,
+  } = useDialog();
+  const {
+    open: openMemo,
+    onOpen: onOpenMemo,
+    onClose: onCloseMemo,
   } = useDialog();
   return (
     <>
@@ -151,24 +158,31 @@ export default function TaskEditDialog({
                 <AddCircleOutlineIcon />
               </IconButton>
             </Stack>
-            {/** 稼働時間 */}
-            <FormControl sx={{ width: "30%" }}>
-              <InputLabel id="hours-select-label">稼働時間(hour)</InputLabel>
-              <Select
-                labelId="hours-select-label"
-                id="hours-select"
-                name="hours-select"
-                value={String(dailyHours)}
-                onChange={onChangeSelectHours}
-                label="稼働時間(hour)"
-              >
-                {[...Array(41)].map((_, i) => (
-                  <MenuItem key={i} value={i * 0.25}>
-                    {i * 0.25}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {/** 稼働時間/メモ追加ボタン */}
+            <Stack direction="row" justifyContent={"space-between"} pr={4}>
+              {/** 稼働時間 */}
+              <FormControl sx={{ width: "30%" }}>
+                <InputLabel id="hours-select-label">稼働時間(hour)</InputLabel>
+                <Select
+                  labelId="hours-select-label"
+                  id="hours-select"
+                  name="hours-select"
+                  value={String(dailyHours)}
+                  onChange={onChangeSelectHours}
+                  label="稼働時間(hour)"
+                >
+                  {[...Array(41)].map((_, i) => (
+                    <MenuItem key={i} value={i * 0.25}>
+                      {i * 0.25}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/** メモ追加ボタン */}
+              <Button startIcon={<AddCommentIcon />} onClick={onOpenMemo}>
+                メモを追加
+              </Button>
+            </Stack>
           </Stack>
         </DialogContent>
 
@@ -221,6 +235,19 @@ export default function TaskEditDialog({
           initialCategoryId={categoryId}
           open={openCreateTask}
           onClose={onCloseCreateTask}
+        />
+      )}
+      {openMemo && taskList && (
+        <MemoAddDialog
+          taskList={[
+            {
+              id: itemId,
+              taskName: taskList.find((v) => v.id === taskId)?.name ?? "",
+            },
+          ]}
+          open={openMemo}
+          onClose={onCloseMemo}
+          isTaskSelected={true}
         />
       )}
     </>
