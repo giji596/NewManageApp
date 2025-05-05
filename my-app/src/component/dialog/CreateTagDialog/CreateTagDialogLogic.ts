@@ -34,7 +34,7 @@ export const CreateTagDialogLogic = ({ onClose, onCreateTag }: Props) => {
         const res = await apiClient.work_log.memos.tags.post({
           body: { tagName: data.tagName },
         });
-        mutate("api/work-log/memos/tags");
+        await mutate("api/work-log/memos/tags");
         onCreateTag?.(res.body.id); // 渡された場合のみ実行
         onClose();
       } catch (error) {
