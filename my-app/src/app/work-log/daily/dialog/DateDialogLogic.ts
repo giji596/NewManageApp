@@ -13,6 +13,7 @@ import {
 } from "./params";
 import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
+import { useDateSelect } from "@/hook/useDateSelect";
 
 /**
  * ラジオ選択賜のstringのオブジェクト
@@ -29,27 +30,27 @@ type RadioSelect = (typeof RadioSelectSet)[number];
  */
 export default function DataDialogLogic() {
   const [radioSelect, setRadioSelect] = useState<RadioSelect>("昨日");
-  const [selectYear, setSelectYear] = useState<number>(yesterdayYear);
-  const [selectMonth, setSelectMonth] = useState<number>(yesterdayMonth);
-  const [selectDay, setSelectDay] = useState<number>(yesterdayDate);
+  const {
+    year,
+    onChangeYear,
+    month,
+    onChangeMonth,
+    day,
+    onChangeDay,
+    dateParam,
+  } = useDateSelect({
+    initYear: yesterdayYear,
+    initMonth: yesterdayMonth,
+    initDay: yesterdayDate,
+  });
 
   const selectableYearArray = useMemo(() => getYearSelectArray(), []);
-  const selectableMonthArray = useMemo(
-    () => getMonthSelectArray(selectYear),
-    [selectYear]
-  );
+  const selectableMonthArray = useMemo(() => getMonthSelectArray(year), [year]);
   const selectableDayArray = useMemo(
-    () => getDaySelectArray(selectYear, selectMonth),
-    [selectMonth, selectYear]
+    () => getDaySelectArray(year, month),
+    [year, month]
   );
 
-  const dateParam = useMemo(
-    () =>
-      `${selectYear}-${selectMonth.toString().padStart(2, "0")}-${selectDay
-        .toString()
-        .padStart(2, "0")}`,
-    [selectDay, selectMonth, selectYear]
-  );
   const { data, isLoading } = useAspidaSWR(
     apiClient.work_log.daily.summary.detail,
     "get",
@@ -65,14 +66,14 @@ export default function DataDialogLogic() {
         // 値によって、データフェッチを行う
         switch (target) {
           case "昨日":
-            setSelectYear(yesterdayYear);
-            setSelectMonth(yesterdayMonth);
-            setSelectDay(yesterdayDate);
+            onChangeYear(yesterdayYear);
+            onChangeMonth(yesterdayMonth);
+            onChangeDay(yesterdayDate);
             break;
           case "一昨日":
-            setSelectYear(dayBeforeYesterdayYear);
-            setSelectMonth(dayBeforeYesterdayMonth);
-            setSelectDay(dayBeforeYesterdayDate);
+            onChangeYear(dayBeforeYesterdayYear);
+            onChangeMonth(dayBeforeYesterdayMonth);
+            onChangeDay(dayBeforeYesterdayDate);
             break;
           case "指定する":
             break;
@@ -83,23 +84,32 @@ export default function DataDialogLogic() {
         console.log("ラジオボタンに型定義外の値が与えられとる"); // FIXME:リリース時には削除
       }
     },
-    []
+    [onChangeDay, onChangeMonth, onChangeYear]
   );
 
-  const onSelectYear = useCallback((e: SelectChangeEvent) => {
-    const target = e.target.value;
-    setSelectYear(Number(target));
-  }, []);
+  const onSelectYear = useCallback(
+    (e: SelectChangeEvent) => {
+      const target = e.target.value;
+      onChangeYear(Number(target));
+    },
+    [onChangeYear]
+  );
 
-  const onSelectMonth = useCallback((e: SelectChangeEvent) => {
-    const target = e.target.value;
-    setSelectMonth(Number(target));
-  }, []);
+  const onSelectMonth = useCallback(
+    (e: SelectChangeEvent) => {
+      const target = e.target.value;
+      onChangeMonth(Number(target));
+    },
+    [onChangeMonth]
+  );
 
-  const onSelectDay = useCallback((e: SelectChangeEvent) => {
-    const target = e.target.value;
-    setSelectDay(Number(target));
-  }, []);
+  const onSelectDay = useCallback(
+    (e: SelectChangeEvent) => {
+      const target = e.target.value;
+      onChangeDay(Number(target));
+    },
+    [onChangeDay]
+  );
 
   return {
     /** 特定の日付詳細データのダイアログ用データ */
@@ -111,11 +121,11 @@ export default function DataDialogLogic() {
     /** ラジオボタンの選択中の値 */
     radioSelect,
     /** セレクトの年の値 */
-    selectYear,
+    year,
     /** セレクトの月の値 */
-    selectMonth,
+    month,
     /** セレクトの日の値 */
-    selectDay,
+    day,
     /** 年の選択賜の配列 */
     selectableYearArray,
     /** 月の選択賜の配列 */
