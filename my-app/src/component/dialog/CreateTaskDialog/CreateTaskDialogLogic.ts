@@ -21,6 +21,8 @@ type Props = {
   initialCategoryId: number;
   /** ダイアログ閉じる関数 */
   onClose: () => void;
+  /** タスク作成時のロジック(親で処理が必要な場合のみ) */
+  onCreateTask?: (newTaskId: number) => void;
 };
 
 /**
@@ -29,6 +31,7 @@ type Props = {
 export default function CreateTaskDialogLogic({
   initialCategoryId,
   onClose,
+  onCreateTask,
 }: Props) {
   // パスパラメータ取得
   const pathParam = useParams();
@@ -69,8 +72,8 @@ export default function CreateTaskDialogLogic({
           },
         });
         mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
+        onCreateTask?.(res.body.id);
         onClose();
-        return res.body;
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           // エラーコードが400の場合は重複エラーであるとする
@@ -80,7 +83,7 @@ export default function CreateTaskDialogLogic({
         }
       }
     },
-    [getStartDate, onClose]
+    [getStartDate, onClose, onCreateTask]
   );
 
   return {
