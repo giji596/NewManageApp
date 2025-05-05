@@ -3,7 +3,7 @@ import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mutate } from "swr";
 
 type Props = {
@@ -94,6 +94,16 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
       }
     }
   }, [date, onClose, selectedTaskId]);
+  const newTaskIdRef = useRef<number | null>(null);
+  const newCategoryIdRef = useRef<number | null>(null);
+  const onCreateTask = useCallback((newTaskId: number) => {
+    newTaskIdRef.current = newTaskId;
+  }, []);
+  const onCreateCategory = useCallback((newCategoryId: number) => {
+    newCategoryIdRef.current = newCategoryId;
+    setSelectedTaskId(null); // タスクidを初期化する(初期化後自動的にidはセットされる)
+  }, []);
+
   console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
