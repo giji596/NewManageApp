@@ -146,11 +146,6 @@ export default function DateDialog({
           <Stack height="55%" direction="row">
             {/** 左下 */}
             <Stack width="50%" overflow={"auto"} spacing={1}>
-              {isLoading && (
-                <Stack alignItems={"center"} pt={5}>
-                  <CircularProgress />
-                </Stack>
-              )}
               {/** カテゴリ+タスクごとの塊 */}
               {dateDetails.categoryList.map((item) => (
                 <Stack key={item.id} pb={0.5}>
@@ -199,11 +194,6 @@ export default function DateDialog({
             <Stack width="50%" justifyContent={"space-between"}>
               {/** メモのところ */}
               <Stack height="70%" overflow="auto" pl={2}>
-                {isLoading && (
-                  <Stack alignItems={"center"} pt={2}>
-                    <CircularProgress />
-                  </Stack>
-                )}
                 <Typography variant="subtitle1">メモ</Typography>
                 {dateDetails.memoList.map((item) => (
                   <Typography key={item.id} pl={4} variant="caption">
