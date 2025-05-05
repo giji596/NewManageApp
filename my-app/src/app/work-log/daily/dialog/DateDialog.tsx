@@ -142,6 +142,16 @@ export default function DateDialog({
           </Stack>
         </Stack>
         {/** データ表示部分 */}
+        {isLoading && (
+          <Stack
+            height="45%"
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <CircularProgress size={25} />
+          </Stack>
+        )}
         {!isLoading && dateDetails && (
           <Stack height="45%" direction="row">
             {/** 左下 */}
