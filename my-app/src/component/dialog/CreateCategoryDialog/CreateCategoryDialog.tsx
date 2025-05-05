@@ -17,14 +17,20 @@ type Props = {
   open: boolean;
   /** ダイアログを閉じる関数 */
   onClose: () => void;
+  /** カテゴリ作成時のロジック(親で処理が必要な場合のみ) */
+  onCreateCategory?: (newTaskId: number) => void;
 };
 
 /**
  * 新規カテゴリを作成するダイアログ
  */
-export default function CreateCategoryDialog({ open, onClose }: Props) {
+export default function CreateCategoryDialog({
+  open,
+  onClose,
+  onCreateCategory,
+}: Props) {
   const { control, isValid, duplicateError, onSubmit } =
-    CreateCategoryDialogLogic({ onClose });
+    CreateCategoryDialogLogic({ onClose, onCreateCategory });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       {/** タイトル */}

@@ -43,6 +43,8 @@ export default function TaskAddDialog({ open, onClose }: Props) {
     onChangeSelectedCategory,
     onChangeSelectedTask,
     handleAddDailyTask,
+    onCreateTask,
+    onCreateCategory,
   } = TaskAddDialogLogic({ onClose });
   const {
     open: openCreateTask,
@@ -150,7 +152,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
             キャンセル
           </Button>
           <Button
-            disabled={isLoading}
+            disabled={isLoading || selectedTaskId === 0}
             variant="contained"
             startIcon={<AddTaskIcon />}
             onClick={handleAddDailyTask}
@@ -163,6 +165,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
         <CreateCategoryDialog
           open={openCreateCategory}
           onClose={onCloseCreateCategory}
+          onCreateCategory={onCreateCategory}
         />
       )}
       {openCreateTask && selectedCategoryId && (
@@ -170,6 +173,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
           initialCategoryId={selectedCategoryId}
           open={openCreateTask}
           onClose={onCloseCreateTask}
+          onCreateTask={onCreateTask}
         />
       )}
     </>

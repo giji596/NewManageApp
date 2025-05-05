@@ -3,7 +3,7 @@ import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mutate } from "swr";
 
 type Props = {
@@ -44,13 +44,30 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   // 初期化処理(カテゴリーのデータフェッチ時)
   useEffect(() => {
     if (categoryList) {
-      setSelectedCategoryId(categoryList[0].id);
+      setSelectedCategoryId((prev) => {
+        // 初期化処理(null時)
+        if (prev === null) return categoryList[0].id;
+        // 新規カテゴリ追加時
+        const newId = newCategoryIdRef.current;
+        if (newId !== null) return newId;
+        // 上記どちらでもない場合はprevを返して再レンダーしない
+        return prev;
+      });
     }
   }, [categoryList]);
   // タスク - 初期化及びカテゴリー変更時に呼び出し(keyが変更されてtaskListが更新されるため)
   useEffect(() => {
     if (taskList) {
-      setSelectedTaskId(taskList[0].id);
+      setSelectedTaskId((prev) => {
+        // 初期化処理(null時 -> 最初及びカテゴリ変更時)
+        if (prev === null) return taskList[0].id;
+        // 新規カテゴリ追加時
+        const newId = newTaskIdRef.current;
+        if (newId !== null) return newId;
+
+        // 上記どちらでもない場合はprevを返して再レンダーしない
+        return prev;
+      });
     }
   }, [taskList]);
 
@@ -94,6 +111,16 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
       }
     }
   }, [date, onClose, selectedTaskId]);
+  const newTaskIdRef = useRef<number | null>(null);
+  const newCategoryIdRef = useRef<number | null>(null);
+  const onCreateTask = useCallback((newTaskId: number) => {
+    newTaskIdRef.current = newTaskId;
+  }, []);
+  const onCreateCategory = useCallback((newCategoryId: number) => {
+    newCategoryIdRef.current = newCategoryId;
+    setSelectedTaskId(null); // タスクidを初期化する(初期化後自動的にidはセットされる)
+  }, []);
+
   console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
@@ -118,5 +145,9 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
     onChangeSelectedTask,
     /** 日付のタスクを追加する関数 */
     handleAddDailyTask,
+    /** タスク追加時の処理 */
+    onCreateTask,
+    /** カテゴリ追加時の処理 */
+    onCreateCategory,
   };
 }

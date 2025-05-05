@@ -24,6 +24,8 @@ type Props = {
   open: boolean;
   /** ダイアログ閉じる関数 */
   onClose: () => void;
+  /** タスク作成時のロジック(親で処理が必要な場合のみ) */
+  onCreateTask?: (newTaskId: number) => void;
 };
 
 /**
@@ -33,11 +35,13 @@ export default function CreateTaskDialog({
   initialCategoryId,
   open,
   onClose,
+  onCreateTask,
 }: Props) {
   const { categoryList, control, isValid, duplicateError, onSubmit } =
     CreateTaskDialogLogic({
       initialCategoryId,
       onClose,
+      onCreateTask,
     });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
