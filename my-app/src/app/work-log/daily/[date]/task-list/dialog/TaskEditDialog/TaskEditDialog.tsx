@@ -9,6 +9,7 @@ import {
   InputLabel,
   Stack,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -50,6 +51,7 @@ export default function TaskEditDialog({
     dailyHours,
     unSelected,
     taskList,
+    isLoading,
     isTaskSelectAvailable,
     categoryList,
     onChangeSelectCategory,
@@ -57,6 +59,8 @@ export default function TaskEditDialog({
     onChangeSelectHours,
     handleSave,
     handleDelete,
+    onCreateTask,
+    onCreateCategory,
   } = TaskEditDialogLogic({
     itemId,
     initialCategoryId,
@@ -90,10 +94,11 @@ export default function TaskEditDialog({
         <DialogContent>
           <Stack spacing={3} mt={1}>
             {/** カテゴリ */}
-            <Stack direction="row" spacing={1}>
-              <FormControl fullWidth>
-                <InputLabel id="category-select-label">カテゴリ</InputLabel>
-                {categoryList && (
+            <Stack direction="row" justifyContent={"space-between"}>
+              {isLoading && <CircularProgress />}
+              {!isLoading && categoryList && (
+                <FormControl fullWidth>
+                  <InputLabel id="category-select-label">カテゴリ</InputLabel>
                   <Select
                     labelId="category-select-label"
                     id="category-select"
@@ -108,8 +113,8 @@ export default function TaskEditDialog({
                       </MenuItem>
                     ))}
                   </Select>
-                )}
-              </FormControl>
+                </FormControl>
+              )}
               {/** アイコンボタン */}
               <IconButton
                 onClick={onOpenCreateCategory}
@@ -119,17 +124,19 @@ export default function TaskEditDialog({
               </IconButton>
             </Stack>
             {/** タスク */}
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" justifyContent={"space-between"}>
               {/** セレクト */}
-              <FormControl fullWidth>
-                <InputLabel id="task-select-label">タスク</InputLabel>
-                {isTaskSelectAvailable && (
+              {isLoading && <CircularProgress />}
+              {!isLoading && isTaskSelectAvailable && (
+                <FormControl fullWidth>
+                  <InputLabel id="task-select-label">タスク</InputLabel>
                   <Select
                     labelId="task-select-label"
                     id="task-select"
                     name="task-select"
                     value={String(taskId)}
                     onChange={onChangeSelectTask}
+                    disabled={unSelected}
                     label="タスク"
                   >
                     {taskList!.map((task) => (
@@ -142,8 +149,8 @@ export default function TaskEditDialog({
                       </MenuItem>
                     ))}
                   </Select>
-                )}
-              </FormControl>
+                </FormControl>
+              )}
               {/** アイコンボタン */}
               <IconButton
                 onClick={onOpenCreateTask}
@@ -173,7 +180,11 @@ export default function TaskEditDialog({
                 </Select>
               </FormControl>
               {/** メモ追加ボタン */}
-              <Button startIcon={<AddCommentIcon />} onClick={onOpenMemo}>
+              <Button
+                startIcon={<AddCommentIcon />}
+                onClick={onOpenMemo}
+                disabled={unSelected}
+              >
                 メモを追加
               </Button>
             </Stack>
@@ -215,13 +226,15 @@ export default function TaskEditDialog({
         <CreateCategoryDialog
           open={openCreateCategory}
           onClose={onCloseCreateCategory}
+          onCreateCategory={onCreateCategory}
         />
       )}
-      {openCreateTask && (
+      {openCreateTask && categoryId && (
         <CreateTaskDialog
           initialCategoryId={categoryId}
           open={openCreateTask}
           onClose={onCloseCreateTask}
+          onCreateTask={onCreateTask}
         />
       )}
       {openMemo && taskList && (

@@ -36,18 +36,18 @@ export default function TaskEditDialogLogic({
     dailyHours: initialHours,
   });
   // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
-  const firstRender = useRef<boolean>(true);
-  const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
-  const [taskId, setTaskId] = useState<number | null>(initialTaskId);
+  const [hasInitialized, setHasInitialized] = useState<boolean>(false);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
-  const { data: categoryData } = useAspidaSWR(
+  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
     apiClient.work_log.categories.options,
     "get",
     { key: "api/work-log/categories/options" }
   );
   const categoryList = categoryData?.body;
-  const { data: taskData } = useAspidaSWR(
+  const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
     apiClient.work_log.tasks.options,
     "get",
     {
@@ -57,16 +57,47 @@ export default function TaskEditDialogLogic({
     }
   );
   const taskList = taskData?.body;
+  const isLoading = useMemo(
+    () =>
+      // SWRのロード状態
+      isLoadingCategory ||
+      isLoadingTask ||
+      // 値がセットされてない場合もロード中として扱う
+      categoryId === null ||
+      taskId === null,
+    [categoryId, isLoadingCategory, isLoadingTask, taskId]
+  );
   useEffect(() => {
-    // 最初のレンダー時は処理しない(初期値を使用させる)
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
     if (taskList) {
-      setTaskId(taskList[0].id);
+      setTaskId((prev) => {
+        // 初期化
+        if (!hasInitialized) {
+          setHasInitialized(true);
+          return initialTaskId;
+        }
+        // カテゴリ変更時
+        if (prev === null) return taskList[0].id;
+        // 新規カテゴリ追加時
+        const newId = newTaskIdRef.current;
+        if (newId !== null) return newId;
+        // hasInitialized=false かつ newId===nullの場合(初期化後の次のレンダー時の呼び出し時)
+        return prev;
+      });
     }
-  }, [taskList]);
+  }, [hasInitialized, initialTaskId, taskList]);
+  // カテゴリidの初期化
+  useEffect(() => {
+    if (categoryList) {
+      setCategoryId((prev) => {
+        // 初期化
+        if (prev === null) return initialCategoryId;
+        // 新規カテゴリ追加時
+        const newId = newCategoryIdRef.current;
+        if (newId !== null) return newId;
+        return prev;
+      });
+    }
+  }, [categoryList, initialCategoryId]);
   const isTaskSelectAvailable = useMemo(
     () => taskList && taskList.some((v) => v.id === taskId),
     [taskId, taskList]
@@ -107,6 +138,16 @@ export default function TaskEditDialogLogic({
     mutate(`api/work-log/daily/${date}`); // 再検証する
     onClose();
   }, [date, itemId, onClose]);
+
+  const newTaskIdRef = useRef<number | null>(null);
+  const newCategoryIdRef = useRef<number | null>(null);
+  const onCreateTask = useCallback((newTaskId: number) => {
+    newTaskIdRef.current = newTaskId;
+  }, []);
+  const onCreateCategory = useCallback((newCategoryId: number) => {
+    newCategoryIdRef.current = newCategoryId;
+    setTaskId(null); // タスクidを初期化する(初期化後自動的にidはセットされる)
+  }, []);
   return {
     /** 選択中のカテゴリーのid */
     categoryId,
@@ -120,6 +161,8 @@ export default function TaskEditDialogLogic({
     categoryList,
     /** タスク一覧(カテゴリを変更時には再度取得する必要あり) */
     taskList,
+    /** ロード状態(SWRのロード または 選択中の値がnull以外(=初期化済み)) */
+    isLoading,
     /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */
     isTaskSelectAvailable,
     /** 選択したカテゴリーに変更するハンドラー */
@@ -132,5 +175,9 @@ export default function TaskEditDialogLogic({
     handleSave,
     /** デリートのイベント */
     handleDelete,
+    /** タスク追加時の処理 */
+    onCreateTask,
+    /** カテゴリ追加時の処理 */
+    onCreateCategory,
   };
 }
