@@ -36,7 +36,7 @@ export default function TaskEditDialogLogic({
     dailyHours: initialHours,
   });
   // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
-  const firstRender = useRef<boolean>(true);
+  const [hasInitialized, setHasInitialized] = useState<boolean>(false);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
@@ -71,8 +71,8 @@ export default function TaskEditDialogLogic({
     if (taskList) {
       setTaskId((prev) => {
         // 初期化
-        if (firstRender.current) {
-          firstRender.current = false;
+        if (!hasInitialized) {
+          setHasInitialized(true);
           return initialTaskId;
         }
         // カテゴリ変更時
@@ -80,10 +80,11 @@ export default function TaskEditDialogLogic({
         // 新規カテゴリ追加時
         const newId = newTaskIdRef.current;
         if (newId !== null) return newId;
+        // hasInitialized=false かつ newId===nullの場合(初期化後の次のレンダー時の呼び出し時)
         return prev;
       });
     }
-  }, [initialTaskId, taskList]);
+  }, [hasInitialized, initialTaskId, taskList]);
   // カテゴリidの初期化
   useEffect(() => {
     if (categoryList) {
