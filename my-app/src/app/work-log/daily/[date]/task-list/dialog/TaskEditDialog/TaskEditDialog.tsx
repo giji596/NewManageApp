@@ -130,6 +130,7 @@ export default function TaskEditDialog({
                     name="task-select"
                     value={String(taskId)}
                     onChange={onChangeSelectTask}
+                    disabled={unSelected}
                     label="タスク"
                   >
                     {taskList!.map((task) => (
@@ -173,7 +174,11 @@ export default function TaskEditDialog({
                 </Select>
               </FormControl>
               {/** メモ追加ボタン */}
-              <Button startIcon={<AddCommentIcon />} onClick={onOpenMemo}>
+              <Button
+                startIcon={<AddCommentIcon />}
+                onClick={onOpenMemo}
+                disabled={unSelected}
+              >
                 メモを追加
               </Button>
             </Stack>
