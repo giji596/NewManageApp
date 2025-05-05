@@ -20,6 +20,7 @@ import useDialog from "@/hook/useDialog";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
+import MemoAddDialog from "../../../menu/dialog/MemoAddDialog/MemoAddDialog";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -83,6 +84,11 @@ export default function TaskEditDialog({
     open: openCreateCategory,
     onOpen: onOpenCreateCategory,
     onClose: onCloseCreateCategory,
+  } = useDialog();
+  const {
+    open: openMemo,
+    onOpen: onOpenMemo,
+    onClose: onCloseMemo,
   } = useDialog();
   return (
     <>
@@ -173,7 +179,9 @@ export default function TaskEditDialog({
                 </Select>
               </FormControl>
               {/** メモ追加ボタン */}
-              <Button startIcon={<AddCommentIcon />}>メモを追加</Button>
+              <Button startIcon={<AddCommentIcon />} onClick={onOpenMemo}>
+                メモを追加
+              </Button>
             </Stack>
           </Stack>
         </DialogContent>
@@ -227,6 +235,14 @@ export default function TaskEditDialog({
           initialCategoryId={categoryId}
           open={openCreateTask}
           onClose={onCloseCreateTask}
+        />
+      )}
+      {openMemo && (
+        <MemoAddDialog
+          taskList={[{ id: 1, taskName: "aaa" }]} // TODO:あとで修正
+          open={openMemo}
+          onClose={onCloseMemo}
+          isTaskSelected={false}
         />
       )}
     </>
