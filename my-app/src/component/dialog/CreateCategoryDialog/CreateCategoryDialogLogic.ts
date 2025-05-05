@@ -12,11 +12,16 @@ type SubmitData = {
 type Props = {
   /** ダイアログを閉じる関数 */
   onClose: () => void;
+  /** カテゴリ作成時のロジック(親で処理が必要な場合のみ) */
+  onCreateCategory?: (newTaskId: number) => void;
 };
 /**
  * 新規カテゴリを作成するダイアログのロジック
  */
-export default function CreateCategoryDialogLogic({ onClose }: Props) {
+export default function CreateCategoryDialogLogic({
+  onClose,
+  onCreateCategory,
+}: Props) {
   const {
     control,
     handleSubmit,
@@ -31,8 +36,8 @@ export default function CreateCategoryDialogLogic({ onClose }: Props) {
           body: { name: data.name },
         });
         mutate("api/work-log/categories/options");
+        onCreateCategory?.(res.body.id);
         onClose();
-        return res.body;
       } catch (error) {
         // AxiosErrorの場合
         if (axios.isAxiosError(error) && error.response) {
@@ -43,7 +48,7 @@ export default function CreateCategoryDialogLogic({ onClose }: Props) {
         }
       }
     },
-    [onClose]
+    [onClose, onCreateCategory]
   );
 
   return {
