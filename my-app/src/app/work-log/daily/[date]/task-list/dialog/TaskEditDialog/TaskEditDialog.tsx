@@ -9,6 +9,7 @@ import {
   InputLabel,
   Stack,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -50,6 +51,7 @@ export default function TaskEditDialog({
     dailyHours,
     unSelected,
     taskList,
+    isLoading,
     isTaskSelectAvailable,
     categoryList,
     onChangeSelectCategory,
@@ -90,8 +92,9 @@ export default function TaskEditDialog({
         <DialogContent>
           <Stack spacing={3} mt={1}>
             {/** カテゴリ */}
-            <Stack direction="row" spacing={1}>
-              {categoryList && (
+            <Stack direction="row" justifyContent={"space-between"}>
+              {isLoading && <CircularProgress />}
+              {!isLoading && categoryList && (
                 <FormControl fullWidth>
                   <InputLabel id="category-select-label">カテゴリ</InputLabel>
                   <Select
@@ -119,9 +122,10 @@ export default function TaskEditDialog({
               </IconButton>
             </Stack>
             {/** タスク */}
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" justifyContent={"space-between"}>
               {/** セレクト */}
-              {isTaskSelectAvailable && (
+              {isLoading && <CircularProgress />}
+              {!isLoading && isTaskSelectAvailable && (
                 <FormControl fullWidth>
                   <InputLabel id="task-select-label">タスク</InputLabel>
                   <Select
