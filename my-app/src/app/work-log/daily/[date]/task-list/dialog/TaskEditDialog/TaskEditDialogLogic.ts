@@ -37,8 +37,8 @@ export default function TaskEditDialogLogic({
   });
   // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
   const firstRender = useRef<boolean>(true);
-  const [categoryId, setCategoryId] = useState<number>(initialCategoryId);
-  const [taskId, setTaskId] = useState<number | null>(initialTaskId);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
   const { data: categoryData } = useAspidaSWR(
@@ -64,9 +64,21 @@ export default function TaskEditDialogLogic({
       return;
     }
     if (taskList) {
-      setTaskId(taskList[0].id);
+      setTaskId((prev) => {
+        if (prev === null) return initialTaskId;
+        return prev;
+      });
     }
-  }, [taskList]);
+  }, [initialTaskId, taskList]);
+  // カテゴリidの初期化
+  useEffect(() => {
+    if (categoryList) {
+      setCategoryId((prev) => {
+        if (prev === null) return initialCategoryId;
+        return prev;
+      });
+    }
+  }, [categoryList, initialCategoryId]);
   const isTaskSelectAvailable = useMemo(
     () => taskList && taskList.some((v) => v.id === taskId),
     [taskId, taskList]

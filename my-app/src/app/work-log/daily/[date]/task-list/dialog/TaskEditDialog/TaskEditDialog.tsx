@@ -222,7 +222,7 @@ export default function TaskEditDialog({
           onClose={onCloseCreateCategory}
         />
       )}
-      {openCreateTask && (
+      {openCreateTask && categoryId && (
         <CreateTaskDialog
           initialCategoryId={categoryId}
           open={openCreateTask}
