@@ -54,6 +54,7 @@ export default function MemoEditDialog({
     handleReset,
     handleDelete,
     onSubmit,
+    setNewTag,
   } = MemoEditDialogLogic({
     id,
     title,
@@ -192,7 +193,13 @@ export default function MemoEditDialog({
         onClose={onCloseDelete}
         onAccept={handleDelete}
       />
-      {openTag && <CreateTagDialog open={openTag} onClose={onCloseTag} />}
+      {openTag && (
+        <CreateTagDialog
+          open={openTag}
+          onClose={onCloseTag}
+          onCreateTag={setNewTag}
+        />
+      )}
     </>
   );
 }
