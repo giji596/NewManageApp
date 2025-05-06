@@ -147,7 +147,7 @@ export default function CategoryHeader() {
       <CreateTaskDialog
         open={openTask}
         onClose={onCloseTask}
-        categoryId={0 /** TODO */}
+        categoryId={selectedCategoryId}
       />
       <ConfirmDeleteDialog
         open={openDelete}
