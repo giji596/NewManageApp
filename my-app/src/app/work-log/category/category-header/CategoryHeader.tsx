@@ -2,7 +2,6 @@
 import {
   FormControl,
   FormLabel,
-  keyframes,
   MenuItem,
   Select,
   Stack,
@@ -21,17 +20,13 @@ import useDialog from "@/hook/useDialog";
  * カテゴリページのヘッダー部分
  */
 export default function CategoryHeader() {
-  const { categoryOptions, selectedCategoryId, onChangeCategoryId } =
-    CategoryHeaderLogic();
-  // TODO: ロジックに移動させる
-  const growAnimation = keyframes`
-       0% {
-         width: 100%;
-       }
-       100% {
-         width: ${40}%;
-       }
-     `;
+  const {
+    growAnimation,
+    categoryOptions,
+    selectedCategoryId,
+    onChangeCategoryId,
+  } = CategoryHeaderLogic();
+
   const {
     open: openPeriod,
     onOpen: onOpenPeriod,

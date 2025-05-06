@@ -1,9 +1,9 @@
 import apiClient from "@/lib/apiClient";
 import { CategoryOption } from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
-import { SelectChangeEvent } from "@mui/material";
+import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * カテゴリページのヘッダー部分のロジック
@@ -13,6 +13,17 @@ export default function CategoryHeaderLogic() {
     key: "api/work-log/categories/options",
   });
   const categoryOptions: CategoryOption[] = data?.body ?? [];
+  const growAnimation = useMemo(
+    () => keyframes`
+         0% {
+           width: 100%;
+         }
+         100% {
+           width: ${40}%;
+         }
+       `,
+    []
+  );
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -27,6 +38,8 @@ export default function CategoryHeaderLogic() {
     [router]
   );
   return {
+    /** グラフのアニメーション */
+    growAnimation,
     /** カテゴリの選択賜一覧 */
     categoryOptions,
     /** 選択中のカテゴリid */
