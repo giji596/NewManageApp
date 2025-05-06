@@ -1,15 +1,15 @@
 "use client";
 import {
-  Button,
   FormControl,
   FormLabel,
+  IconButton,
   keyframes,
   MenuItem,
   Select,
   Stack,
   Typography,
 } from "@mui/material";
-import DoneIcon from "@mui/icons-material/Done";
+import MenuIcon from "@mui/icons-material/Menu";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
 
@@ -79,7 +79,7 @@ export default function CategoryHeader() {
         </Stack>
       </Stack>
       {/** 右部分(カテゴリ選択/完了ボタン) */}
-      <Stack spacing={1}>
+      <Stack spacing={1} direction="row">
         <FormControl>
           <FormLabel>カテゴリを選択</FormLabel>
           <Select
@@ -97,9 +97,9 @@ export default function CategoryHeader() {
             ))}
           </Select>
         </FormControl>
-        <Button startIcon={<DoneIcon />} variant="outlined" color="success">
-          完了する
-        </Button>
+        <IconButton sx={{ width: 40, height: 40, alignSelf: "center" }}>
+          <MenuIcon />
+        </IconButton>
       </Stack>
     </Stack>
   );
