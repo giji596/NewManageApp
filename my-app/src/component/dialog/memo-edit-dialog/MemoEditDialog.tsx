@@ -78,7 +78,11 @@ export default function MemoEditDialog({
               {/** タイトル情報 */}
               <Stack spacing={1} width="350px" pl={1} pb={2}>
                 {/** タイトル */}
-                <Stack direction="row" spacing="2" alignItems={"center"}>
+                <Stack
+                  direction="row"
+                  justifyContent={"end"}
+                  alignItems={"center"}
+                >
                   <Typography>タイトル：</Typography>
                   <Controller
                     name="title"
@@ -87,18 +91,22 @@ export default function MemoEditDialog({
                       <TextField
                         {...field}
                         variant="standard"
-                        sx={{ flexGrow: 1 }}
+                        sx={{ width: 250 }}
                         disabled={!isEdit}
                       />
                     )}
                   />
                 </Stack>
                 {/** タグ */}
-                <Stack direction="row" spacing="2" alignItems={"center"}>
+                <Stack
+                  direction="row"
+                  justifyContent={"end"}
+                  alignItems={"center"}
+                >
                   <Typography> タグ：</Typography>
                   {isLoading && <CircularProgress />}
                   {!isLoading && (
-                    <FormControl sx={{ flexGrow: 1 }}>
+                    <FormControl>
                       <Controller
                         name="tagId"
                         control={control}
@@ -107,6 +115,7 @@ export default function MemoEditDialog({
                             {...field}
                             variant="standard"
                             disabled={!isEdit}
+                            sx={{ width: 210 }}
                           >
                             {tagList.map((tag) => (
                               <MenuItem key={tag.id} value={tag.id}>
@@ -125,17 +134,28 @@ export default function MemoEditDialog({
                 </Stack>
               </Stack>
               {/** アイコンボタン */}
-              <Stack direction="row" spacing={2} pr={3}>
+              <Stack direction="row" spacing={2} pr={3} alignItems="center">
                 {/** 編集中かどうかで保存/編集ボタン 削除/リセットボタン を切り替え */}
                 {isEdit && (
                   <>
-                    <IconButton onClick={handleReset} color="error">
+                    <IconButton
+                      onClick={handleReset}
+                      color="error"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    >
                       <RestartAltIcon />
                     </IconButton>
                     <IconButton
                       type="submit"
                       color="primary"
                       loading={isSending}
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
                     >
                       <SaveIcon />
                     </IconButton>
@@ -143,13 +163,24 @@ export default function MemoEditDialog({
                 )}
                 {!isEdit && (
                   <>
-                    <IconButton onClick={onOpenDelete} color="error">
+                    <IconButton
+                      onClick={onOpenDelete}
+                      color="error"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    >
                       <DeleteIcon />
                     </IconButton>
                     <IconButton
                       disabled={isLoading}
                       onClick={handleEdit}
                       color="primary"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
                     >
                       <EditNoteIcon />
                     </IconButton>
