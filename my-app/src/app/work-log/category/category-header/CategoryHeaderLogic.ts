@@ -25,17 +25,6 @@ export default function CategoryHeaderLogic() {
     () => data?.body ?? [],
     [data?.body]
   );
-  const growAnimation = useMemo(
-    () => keyframes`
-         0% {
-           width: 100%;
-         }
-         100% {
-           width: ${40}%;
-         }
-       `,
-    []
-  );
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -67,6 +56,19 @@ export default function CategoryHeaderLogic() {
     // TODO:BE繋ぎ込みの時にリクエスト送る
     console.log("完了状態に移行");
   }, []);
+
+  const growAnimation = useMemo(
+    // TODO: widthどのくらいで100%いかせるか？　とりあえず100hで100%の扱いで
+    () => keyframes`
+         0% {
+           width: 100%;
+         }
+         100% {
+           width: ${100 - totalHours}%;
+         }
+       `,
+    [totalHours]
+  );
   return {
     /** グラフのアニメーション */
     growAnimation,
