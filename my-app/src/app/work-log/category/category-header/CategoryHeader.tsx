@@ -28,6 +28,8 @@ export default function CategoryHeader() {
     categoryOptions,
     selectedCategoryId,
     onChangeCategoryId,
+    handleComplete,
+    handleDelete,
   } = CategoryHeaderLogic();
 
   const {
@@ -140,7 +142,7 @@ export default function CategoryHeader() {
       <CompleteConfirmDialog
         open={openComplete}
         onClose={onCloseComplete}
-        onAccept={() => {}} // TODO
+        onAccept={handleComplete}
       />
       <CreateTaskDialog
         open={openTask}
@@ -150,7 +152,7 @@ export default function CategoryHeader() {
       <ConfirmDeleteDialog
         open={openDelete}
         onClose={onCloseDelete}
-        onAccept={() => {}} // TODO
+        onAccept={handleDelete}
       />
     </>
   );

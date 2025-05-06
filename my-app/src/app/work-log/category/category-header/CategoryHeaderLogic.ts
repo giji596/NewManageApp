@@ -45,6 +45,15 @@ export default function CategoryHeaderLogic() {
     },
     [router]
   );
+
+  const handleComplete = useCallback(async () => {
+    // TODO:BE繋ぎ込みの時にリクエスト送る
+    console.log("完了状態に移行");
+  }, []);
+  const handleDelete = useCallback(async () => {
+    // TODO:BE繋ぎ込みの時にリクエスト送る
+    console.log("完了状態に移行");
+  }, []);
   return {
     /** グラフのアニメーション */
     growAnimation,
@@ -60,5 +69,9 @@ export default function CategoryHeaderLogic() {
     selectedCategoryId,
     /** 選択中のカテゴリを変更する関数 */
     onChangeCategoryId,
+    /** 完了状態に移行するハンドラー */
+    handleComplete,
+    /** 削除するハンドラー */
+    handleDelete,
   };
 }
