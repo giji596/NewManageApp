@@ -18,8 +18,8 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import CreateTaskDialogLogic from "./CreateTaskDialogLogic";
 
 type Props = {
-  /** カテゴリidの初期値 */
-  initialCategoryId: number;
+  /** カテゴリid(固定) */
+  categoryId?: number;
   /** ダイアログ開閉状態 */
   open: boolean;
   /** ダイアログ閉じる関数 */
@@ -32,14 +32,14 @@ type Props = {
  * タスクを新規作成するダイアログ
  */
 export default function CreateTaskDialog({
-  initialCategoryId,
+  categoryId,
   open,
   onClose,
   onCreateTask,
 }: Props) {
   const { categoryList, control, isValid, duplicateError, onSubmit } =
     CreateTaskDialogLogic({
-      initialCategoryId,
+      categoryId,
       onClose,
       onCreateTask,
     });
@@ -57,7 +57,11 @@ export default function CreateTaskDialog({
                 name="categoryId"
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} label="カテゴリ名">
+                  <Select
+                    {...field}
+                    label="カテゴリ名"
+                    disabled={categoryId !== undefined} // カテゴリ指定時は固定
+                  >
                     {categoryList.map((category) => (
                       <MenuItem key={category.id} value={category.id}>
                         {category.name}

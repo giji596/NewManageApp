@@ -5,7 +5,7 @@ import CreateTaskDialog from "./CreateTaskDialog";
 const meta = {
   component: CreateTaskDialog,
   args: {
-    initialCategoryId: 1,
+    categoryId: 1,
     open: true,
     onClose: () => {},
   },
