@@ -97,6 +97,7 @@ export default function CategoryHeader() {
           </Select>
         </FormControl>
         <CategoryActionMenuButton
+          isCompleted={false}
           onClickDisplayRange={() => {}}
           onClickComplete={() => {}}
           onClickAddTask={() => {}}

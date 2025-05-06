@@ -5,6 +5,7 @@ import CategoryActionMenuButton from "./CategoryActionMenuButton";
 const meta = {
   component: CategoryActionMenuButton,
   args: {
+    isCompleted: false,
     onClickDisplayRange: () => {},
     onClickComplete: () => {},
     onClickAddTask: () => {},
@@ -16,6 +17,5 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {},
-};
+export const Default: Story = {};
+export const Completed: Story = { args: { isCompleted: true } };

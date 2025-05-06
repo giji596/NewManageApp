@@ -14,6 +14,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CategoryActionMenuButtonLogic } from "./CategoryActionMenuButtonLogic";
 
 type Props = {
+  /** 完了状態かどうか(表示項目の分岐に利用) */
+  isCompleted: boolean;
   /** 表示範囲変更クリックした際のハンドラー */
   onClickDisplayRange: () => void;
   /** カテゴリ完了クリックした際のハンドラー */
@@ -27,6 +29,7 @@ type Props = {
  * カテゴリヘッダーのアクションを格納したメニューと開閉ボタンのコンポーネント
  */
 const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
+  isCompleted,
   onClickDisplayRange,
   onClickComplete,
   onClickAddTask,
@@ -45,28 +48,36 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
       </IconButton>
       {/** めにゅー */}
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {/** 表示範囲 */}
         <MenuItem onClick={onClickDisplayRange}>
           <ListItemIcon>
             <TuneIcon />
           </ListItemIcon>
           <Typography variant="body2">表示範囲を変更</Typography>
         </MenuItem>
-        <MenuItem onClick={onClickComplete}>
-          <ListItemIcon>
-            <DoneIcon color="success" />
-          </ListItemIcon>
-          <Typography variant="body2" color="success">
-            カテゴリを完了する
-          </Typography>
-        </MenuItem>
-        <MenuItem onClick={onClickAddTask}>
-          <ListItemIcon>
-            <AddTaskIcon color="primary" />
-          </ListItemIcon>
-          <Typography variant="body2" color="primary">
-            タスクを追加する
-          </Typography>
-        </MenuItem>
+        {/** 完了 */}
+        {!isCompleted && (
+          <MenuItem onClick={onClickComplete}>
+            <ListItemIcon>
+              <DoneIcon color="success" />
+            </ListItemIcon>
+            <Typography variant="body2" color="success">
+              カテゴリを完了する
+            </Typography>
+          </MenuItem>
+        )}
+        {/** タスク追加 */}
+        {!isCompleted && (
+          <MenuItem onClick={onClickAddTask}>
+            <ListItemIcon>
+              <AddTaskIcon color="primary" />
+            </ListItemIcon>
+            <Typography variant="body2" color="primary">
+              タスクを追加する
+            </Typography>
+          </MenuItem>
+        )}
+        {/** 削除 */}
         <MenuItem onClick={onClickDelete}>
           <ListItemIcon>
             <DeleteIcon color="error" />
