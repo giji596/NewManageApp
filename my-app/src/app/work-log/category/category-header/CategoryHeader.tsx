@@ -27,6 +27,10 @@ export default function CategoryHeader() {
     setDateRange,
     categoryOptions,
     selectedCategoryId,
+    selectedCategoryName,
+    isCompleted,
+    totalHours,
+    activeDate,
     onChangeCategoryId,
     handleComplete,
     handleDelete,
@@ -62,19 +66,26 @@ export default function CategoryHeader() {
             <Typography width="120px" textAlign={"end"} variant="h6">
               カテゴリ名:
             </Typography>
-            <Typography variant="h6">ここにカテゴリ名を入れる</Typography>
-            {/** TODO:完了かどうかで分岐 完了の文章 */}
-            <CheckCircleIcon color="success" />
-            <Typography color="success" variant="subtitle1" fontWeight={700}>
-              完了済み
-            </Typography>
+            <Typography variant="h6">{selectedCategoryName}</Typography>
+            {isCompleted && (
+              <>
+                <CheckCircleIcon color="success" />
+                <Typography
+                  color="success"
+                  variant="subtitle1"
+                  fontWeight={700}
+                >
+                  完了済み
+                </Typography>
+              </>
+            )}
           </Stack>
           {/** 合計稼働時間 */}
           <Stack direction="row" spacing={1} alignItems="center">
             <Typography width="120px" textAlign={"end"} variant="h6">
               総稼働時間:
             </Typography>
-            <Typography variant="h6">x(h)</Typography>
+            <Typography variant="h6">{totalHours}(h)</Typography>
             <Stack
               direction="row-reverse"
               sx={{
@@ -100,7 +111,7 @@ export default function CategoryHeader() {
             <Typography width="120px" textAlign={"end"} variant="h6">
               稼働期間:
             </Typography>
-            <Typography variant="h6">開始~最終更新日</Typography>
+            <Typography variant="h6">{activeDate}</Typography>
           </Stack>
         </Stack>
         {/** 右部分(カテゴリ選択/完了ボタン) */}

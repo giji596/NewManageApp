@@ -17,6 +17,7 @@ export default function CategoryHeaderLogic() {
     setEndDate(end);
   }, []);
   // TODO:日付範囲をクエリに追加して一覧取得させる
+  // TODO:エンドポイント別で用意してデータもまとめて取得
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     key: "api/work-log/categories/options",
   });
@@ -36,6 +37,15 @@ export default function CategoryHeaderLogic() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const selectedCategoryId = Number(searchParams.get("id") ?? 1);
+  const selectedCategoryName = useMemo(
+    () => categoryOptions.find((v) => v.id === selectedCategoryId)?.name ?? "",
+    [categoryOptions, selectedCategoryId]
+  );
+  // TODO: 上のデータフェッチ時に取得させるように変更
+  const isCompleted = true;
+  const totalHours = 80;
+  const activeDate = "2025/04/29~2025/05/04";
+
   const onChangeCategoryId = useCallback(
     (e: SelectChangeEvent) => {
       const newId = e.target.value;
@@ -67,6 +77,14 @@ export default function CategoryHeaderLogic() {
     categoryOptions,
     /** 選択中のカテゴリid */
     selectedCategoryId,
+    /** 選択中のカテゴリ名 */
+    selectedCategoryName,
+    /** 完了状態 */
+    isCompleted,
+    /** 総稼働時間 */
+    totalHours,
+    /** 稼働の"開始~終了"の日付string */
+    activeDate,
     /** 選択中のカテゴリを変更する関数 */
     onChangeCategoryId,
     /** 完了状態に移行するハンドラー */
