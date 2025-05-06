@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  keyframes,
   MenuItem,
   Select,
   Stack,
@@ -18,8 +19,17 @@ import CategoryHeaderLogic from "./CategoryHeaderLogic";
 export default function CategoryHeader() {
   const { categoryOptions, selectedCategoryId, onChangeCategoryId } =
     CategoryHeaderLogic();
+  // TODO: ロジックに移動させる
+  const growAnimation = keyframes`
+       0% {
+         width: 100%;
+       }
+       100% {
+         width: ${40}%;
+       }
+     `;
   return (
-    <Stack direction="row" p={4} justifyContent={"space-between"}>
+    <Stack direction="row" px={4} py={2} justifyContent={"space-between"}>
       {/** 左部分(カテゴリ情報) */}
       <Stack spacing={0.5}>
         {/** カテゴリ名 + Completed? */}
@@ -40,7 +50,25 @@ export default function CategoryHeader() {
             総稼働時間:
           </Typography>
           <Typography variant="h6">x(h)</Typography>
-          <Typography>[----グラフ?---]</Typography>
+          <Stack
+            direction="row-reverse"
+            sx={{
+              width: "70%",
+              height: 20,
+              background:
+                "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
+              borderRadius: 1,
+            }}
+          >
+            <Stack
+              sx={{
+                height: "100%",
+                width: "0%",
+                backgroundColor: "#eee",
+                animation: `${growAnimation} 1s ease-out forwards`,
+              }}
+            />
+          </Stack>
         </Stack>
         {/**  */}
         <Stack direction="row" spacing={1}>
