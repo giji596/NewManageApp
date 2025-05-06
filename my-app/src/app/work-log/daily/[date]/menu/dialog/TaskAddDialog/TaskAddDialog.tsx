@@ -170,7 +170,7 @@ export default function TaskAddDialog({ open, onClose }: Props) {
       )}
       {openCreateTask && selectedCategoryId && (
         <CreateTaskDialog
-          initialCategoryId={selectedCategoryId}
+          categoryId={selectedCategoryId}
           open={openCreateTask}
           onClose={onCloseCreateTask}
           onCreateTask={onCreateTask}
