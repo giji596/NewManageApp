@@ -60,7 +60,7 @@ export const updateMemo = async (
       // あるデータだけ更新 (左辺falseだと処理なし)
       ...(title !== undefined && { title }),
       ...(text !== undefined && { text }),
-      ...(tagId !== undefined && { nullableTagId }),
+      ...(tagId !== undefined && { tagId: nullableTagId }),
     },
     select: { id: true },
   });

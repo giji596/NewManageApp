@@ -35,7 +35,7 @@ export default function MemoEditDialogLogic({
   title,
   onClose,
 }: Props) {
-  const { id: taskId } = useParams<{ id: string }>();
+  const { id: taskId, date } = useParams<{ id: string; date: string }>();
   // 初期値を保持(更新時のチェック用)
   const init = useRef<{ title: string; text: string; tagId: number }>({
     title: title,
@@ -103,12 +103,13 @@ export default function MemoEditDialogLogic({
       init.current = data;
       // 再検証して表示データに即時適応
       mutate(`api/work-log/tasks/${taskId}`);
+      mutate(`api/work-log/daily/${date}`);
       // TODO: データのレスポンスに応じて分岐
       // どうするかは今後の使用感で考える(isSendingいらんかも？)
       setIsSending(false);
       setIsEdit(false);
     },
-    [id, taskId]
+    [date, id, taskId]
   );
   const handleReset = useCallback(() => {
     reset(init.current);
