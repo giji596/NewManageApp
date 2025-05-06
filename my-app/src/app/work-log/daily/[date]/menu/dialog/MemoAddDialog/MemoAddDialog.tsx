@@ -40,10 +40,12 @@ export default function MemoAddDialog({
   isTaskSelected,
   onClose,
 }: Props) {
-  const { tagList, onSubmit, control, isValid } = MemoAddDialogLogic({
-    onClose,
-    taskList,
-  });
+  const { tagList, onSubmit, control, isValid, setNewTag } = MemoAddDialogLogic(
+    {
+      onClose,
+      taskList,
+    }
+  );
   const { open: openTag, onOpen: onOpenTag, onClose: onCloseTag } = useDialog();
   return (
     <>
@@ -172,7 +174,13 @@ export default function MemoAddDialog({
         </form>
       </Dialog>
       {/** ダイアログ群 */}
-      {openTag && <CreateTagDialog open={openTag} onClose={onCloseTag} />}
+      {openTag && (
+        <CreateTagDialog
+          open={openTag}
+          onClose={onCloseTag}
+          onCreateTag={setNewTag}
+        />
+      )}
     </>
   );
 }
