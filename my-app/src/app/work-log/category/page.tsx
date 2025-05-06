@@ -28,15 +28,16 @@ export default function CategoryPage() {
   return (
     <Stack>
       {/** 上部 */}
-      <Stack></Stack>
+      <Stack>
+        <CategorySelect />
+      </Stack>
       {/** 下部 */}
       <Stack direction="row" p={4}>
-        {/** 左側(カテゴリ選択/期間グラフ) */}
+        {/** 下左側(期間グラフ) */}
         <Stack width="50%" justifyContent={"space-around"}>
-          <CategorySelect />
           <TaskActivityPieChart />
         </Stack>
-        {/** 右側(カテゴリ内タスクリスト) */}
+        {/** 下右側(カテゴリ内タスクリスト) */}
         <Stack width="50%" height={500} pt={10}>
           <CategoryTaskList />
         </Stack>
