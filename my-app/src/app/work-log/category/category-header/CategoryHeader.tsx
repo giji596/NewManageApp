@@ -11,6 +11,11 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
 import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
+import PeriodSelectDialog from "@/component/dialog/PeriodSelectDialog/PeriodSelectDialog";
+import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
+import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
+import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
+import useDialog from "@/hook/useDialog";
 
 /**
  * カテゴリページのヘッダー部分
@@ -27,6 +32,26 @@ export default function CategoryHeader() {
          width: ${40}%;
        }
      `;
+  const {
+    open: openPeriod,
+    onOpen: onOpenPeriod,
+    onClose: onClosePeriod,
+  } = useDialog();
+  const {
+    open: openComplete,
+    onOpen: onOpenComplete,
+    onClose: onCloseComplete,
+  } = useDialog();
+  const {
+    open: openTask,
+    onOpen: onOpenTask,
+    onClose: onCloseTask,
+  } = useDialog();
+  const {
+    open: openDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDialog();
   return (
     <>
       <Stack direction="row" px={4} py={2} justifyContent={"space-between"}>
@@ -99,13 +124,36 @@ export default function CategoryHeader() {
           </FormControl>
           <CategoryActionMenuButton
             isCompleted={false}
-            onClickDisplayRange={() => {}}
-            onClickComplete={() => {}}
-            onClickAddTask={() => {}}
-            onClickDelete={() => {}}
+            onClickDisplayRange={onOpenPeriod}
+            onClickComplete={onOpenComplete}
+            onClickAddTask={onOpenTask}
+            onClickDelete={onOpenDelete}
           />
         </Stack>
       </Stack>
+      {/** ダイアログ群 */}
+      <PeriodSelectDialog
+        open={openPeriod}
+        onClose={onClosePeriod}
+        initialStartDate={new Date()} // TODO
+        initialEndDate={new Date()} // TODO
+        getDataSelectRange={() => {}} // TODO
+      />
+      <CompleteConfirmDialog
+        open={openComplete}
+        onClose={onCloseComplete}
+        onAccept={() => {}} // TODO
+      />
+      <CreateTaskDialog
+        open={openTask}
+        onClose={onCloseTask}
+        categoryId={0 /** TODO */}
+      />
+      <ConfirmDeleteDialog
+        open={openDelete}
+        onClose={onCloseDelete}
+        onAccept={() => {}} // TODO
+      />
     </>
   );
 }
