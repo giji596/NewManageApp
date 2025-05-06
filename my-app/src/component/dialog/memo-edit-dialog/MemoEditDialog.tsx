@@ -138,13 +138,24 @@ export default function MemoEditDialog({
                 {/** 編集中かどうかで保存/編集ボタン 削除/リセットボタン を切り替え */}
                 {isEdit && (
                   <>
-                    <IconButton onClick={handleReset} color="error">
+                    <IconButton
+                      onClick={handleReset}
+                      color="error"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    >
                       <RestartAltIcon />
                     </IconButton>
                     <IconButton
                       type="submit"
                       color="primary"
                       loading={isSending}
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
                     >
                       <SaveIcon />
                     </IconButton>
@@ -152,13 +163,24 @@ export default function MemoEditDialog({
                 )}
                 {!isEdit && (
                   <>
-                    <IconButton onClick={onOpenDelete} color="error">
+                    <IconButton
+                      onClick={onOpenDelete}
+                      color="error"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    >
                       <DeleteIcon />
                     </IconButton>
                     <IconButton
                       disabled={isLoading}
                       onClick={handleEdit}
                       color="primary"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                      }}
                     >
                       <EditNoteIcon />
                     </IconButton>
