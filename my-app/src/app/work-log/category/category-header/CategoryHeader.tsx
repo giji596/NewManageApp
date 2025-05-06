@@ -2,16 +2,15 @@
 import {
   FormControl,
   FormLabel,
-  IconButton,
   keyframes,
   MenuItem,
   Select,
   Stack,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
+import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
 
 /**
  * カテゴリページのヘッダー部分
@@ -97,9 +96,12 @@ export default function CategoryHeader() {
             ))}
           </Select>
         </FormControl>
-        <IconButton sx={{ width: 40, height: 40, alignSelf: "center" }}>
-          <MenuIcon />
-        </IconButton>
+        <CategoryActionMenuButton
+          onClickDisplayRange={() => {}}
+          onClickComplete={() => {}}
+          onClickAddTask={() => {}}
+          onClickDelete={() => {}}
+        />
       </Stack>
     </Stack>
   );
