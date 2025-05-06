@@ -78,7 +78,11 @@ export default function MemoEditDialog({
               {/** タイトル情報 */}
               <Stack spacing={1} width="350px" pl={1} pb={2}>
                 {/** タイトル */}
-                <Stack direction="row" spacing="2" alignItems={"center"}>
+                <Stack
+                  direction="row"
+                  justifyContent={"end"}
+                  alignItems={"center"}
+                >
                   <Typography>タイトル：</Typography>
                   <Controller
                     name="title"
@@ -87,18 +91,22 @@ export default function MemoEditDialog({
                       <TextField
                         {...field}
                         variant="standard"
-                        sx={{ flexGrow: 1 }}
+                        sx={{ width: 250 }}
                         disabled={!isEdit}
                       />
                     )}
                   />
                 </Stack>
                 {/** タグ */}
-                <Stack direction="row" spacing="2" alignItems={"center"}>
+                <Stack
+                  direction="row"
+                  justifyContent={"end"}
+                  alignItems={"center"}
+                >
                   <Typography> タグ：</Typography>
                   {isLoading && <CircularProgress />}
                   {!isLoading && (
-                    <FormControl sx={{ flexGrow: 1 }}>
+                    <FormControl>
                       <Controller
                         name="tagId"
                         control={control}
@@ -107,6 +115,7 @@ export default function MemoEditDialog({
                             {...field}
                             variant="standard"
                             disabled={!isEdit}
+                            sx={{ width: 210 }}
                           >
                             {tagList.map((tag) => (
                               <MenuItem key={tag.id} value={tag.id}>
