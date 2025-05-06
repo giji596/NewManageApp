@@ -11,6 +11,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import DoneIcon from "@mui/icons-material/Done";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { CategoryActionMenuButtonLogic } from "./CategoryActionMenuButtonLogic";
 
 type Props = {
   /** 表示範囲変更クリックした際のハンドラー */
@@ -31,14 +32,19 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
   onClickAddTask,
   onClickDelete,
 }: Props) {
+  const { anchorEl, open, handleOpen, handleClose } =
+    CategoryActionMenuButtonLogic();
   return (
     <>
       {/** ボタン部分 */}
-      <IconButton sx={{ width: 40, height: 40, alignSelf: "center" }}>
+      <IconButton
+        onClick={handleOpen}
+        sx={{ width: 40, height: 40, alignSelf: "center" }}
+      >
         <MenuIcon />
       </IconButton>
       {/** めにゅー */}
-      <Menu open={true /** TODO:あとで修正 */}>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={onClickDisplayRange}>
           <ListItemIcon>
             <TuneIcon />
