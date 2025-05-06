@@ -4,6 +4,7 @@ import MemoListHeader from "./header/MemoListHeader";
 import { MemoTaskDetail } from "@/type/Memo";
 import MemoListRow from "./row/MemoListRow";
 import MemoListLogic from "./MemoListLogic";
+import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
 type Props = {
   /** メモアイテムリスト */
@@ -40,17 +41,19 @@ export default function MemoList({ memoItemList }: Props) {
           />
         </TableHead>
         <TableBody>
-          {memoItemList
-            .filter(doFilterByFilterList)
-            .sort(doSort)
-            .map((item) => (
-              <MemoListRow
-                key={item.id}
-                memoItem={item}
-                isActive={activeRowId === item.id}
-                onClickRow={handleClickRow}
-              />
-            ))}
+          {memoItemList.length === 0 && <TableBodyNoItem colCount={4} />}
+          {memoItemList.length !== 0 &&
+            memoItemList
+              .filter(doFilterByFilterList)
+              .sort(doSort)
+              .map((item) => (
+                <MemoListRow
+                  key={item.id}
+                  memoItem={item}
+                  isActive={activeRowId === item.id}
+                  onClickRow={handleClickRow}
+                />
+              ))}
         </TableBody>
       </Table>
     </TableContainer>
