@@ -42,7 +42,7 @@ export default function PeriodSelector({
     <>
       <Stack direction="row">
         <FormControl>
-          <FormLabel id="display-range-label">表示期間</FormLabel>
+          <FormLabel id="display-range-label">稼働時間の分布</FormLabel>
           <RadioGroup
             aria-labelledby="display-range-label"
             name="display-range"
@@ -92,6 +92,7 @@ export default function PeriodSelector({
                     variant="contained"
                     color={"secondary"}
                     sx={{ paddingY: 0, paddingX: 1 }}
+                    disabled={selectRange !== "select"}
                     onClick={onOpen}
                   >
                     {selectDateString}
