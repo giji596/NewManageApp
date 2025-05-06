@@ -92,6 +92,7 @@ export default function PeriodSelector({
                     variant="contained"
                     color={"secondary"}
                     sx={{ paddingY: 0, paddingX: 1 }}
+                    disabled={selectRange !== "select"}
                     onClick={onOpen}
                   >
                     {selectDateString}
