@@ -28,8 +28,12 @@ export default function CategoryPage() {
   return (
     <Stack>
       {/** 上部 */}
-      <Stack>
-        <CategorySelect />
+      <Stack direction="row" justifyContent={"space-between"}>
+        <Stack>カテゴリ関連の情報</Stack>
+        <Stack>
+          <CategorySelect />
+          <div>完了ボタン的な</div>
+        </Stack>
       </Stack>
       {/** 下部 */}
       <Stack direction="row" p={4}>
