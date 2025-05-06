@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import PeriodSelectDialog from "./dialog/PeriodSelectDialog";
+import PeriodSelectDialog from "@/component/dialog/PeriodSelectDialog/PeriodSelectDialog";
 import useDialog from "@/hook/useDialog";
 import PeriodSelectorLogic from "./PeriodSelectorLogic";
 
