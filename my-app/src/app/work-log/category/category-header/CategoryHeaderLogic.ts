@@ -21,7 +21,10 @@ export default function CategoryHeaderLogic() {
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     key: "api/work-log/categories/options",
   });
-  const categoryOptions: CategoryOption[] = data?.body ?? [];
+  const categoryOptions: CategoryOption[] = useMemo(
+    () => data?.body ?? [],
+    [data?.body]
+  );
   const growAnimation = useMemo(
     () => keyframes`
          0% {
