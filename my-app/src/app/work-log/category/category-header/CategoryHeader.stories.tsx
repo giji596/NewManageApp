@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import CategorySelect from "./CategorySelect";
+import CategoryHeader from "./CategoryHeader";
 
 const meta = {
-  component: CategorySelect,
+  component: CategoryHeader,
   args: {
     selectedCategoryId: 1,
     onChangeCategoryId: () => {},
   },
-} satisfies Meta<typeof CategorySelect>;
+} satisfies Meta<typeof CategoryHeader>;
 
 export default meta;
 

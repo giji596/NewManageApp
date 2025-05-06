@@ -1,7 +1,7 @@
 "use client";
 
 import { CircularProgress, Divider, Stack } from "@mui/material";
-import CategorySelect from "./category-select/CategorySelect";
+import CategoryHeader from "./category-header/CategoryHeader";
 const TaskActivityPieChart = dynamic(
   () => import("./task-activity-pie-chart/TaskActivityPieChart"),
   {
@@ -28,13 +28,7 @@ export default function CategoryPage() {
   return (
     <Stack>
       {/** 上部 */}
-      <Stack direction="row" p={4} justifyContent={"space-between"}>
-        <Stack>カテゴリ関連の情報</Stack>
-        <Stack>
-          <CategorySelect />
-          <div>完了ボタン的な</div>
-        </Stack>
-      </Stack>
+      <CategoryHeader />
       <Divider sx={{ width: "95%", alignSelf: "center" }} />
       {/** 下部 */}
       <Stack direction="row" px={4}>

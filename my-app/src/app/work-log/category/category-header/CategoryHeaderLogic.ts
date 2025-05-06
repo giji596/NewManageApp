@@ -6,9 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
 /**
- * カテゴリページのカテゴリ選択部分のロジック
+ * カテゴリページのヘッダー部分のロジック
  */
-export default function CategorySelectLogic() {
+export default function CategoryHeaderLogic() {
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     key: "api/work-log/categories/options",
   });
