@@ -45,12 +45,14 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
       </IconButton>
       {/** めにゅー */}
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {/** 表示範囲 */}
         <MenuItem onClick={onClickDisplayRange}>
           <ListItemIcon>
             <TuneIcon />
           </ListItemIcon>
           <Typography variant="body2">表示範囲を変更</Typography>
         </MenuItem>
+        {/** 完了 */}
         <MenuItem onClick={onClickComplete}>
           <ListItemIcon>
             <DoneIcon color="success" />
@@ -59,6 +61,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
             カテゴリを完了する
           </Typography>
         </MenuItem>
+        {/** タスク追加 */}
         <MenuItem onClick={onClickAddTask}>
           <ListItemIcon>
             <AddTaskIcon color="primary" />
@@ -67,6 +70,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
             タスクを追加する
           </Typography>
         </MenuItem>
+        {/** 削除 */}
         <MenuItem onClick={onClickDelete}>
           <ListItemIcon>
             <DeleteIcon color="error" />
