@@ -3,12 +3,20 @@ import { CategoryOption } from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 /**
  * カテゴリページのヘッダー部分のロジック
  */
 export default function CategoryHeaderLogic() {
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  const setDateRange = useCallback((start: Date, end: Date) => {
+    setStartDate(start);
+    setEndDate(end);
+  }, []);
+  // TODO:日付範囲をクエリに追加して一覧取得させる
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     key: "api/work-log/categories/options",
   });
@@ -40,6 +48,12 @@ export default function CategoryHeaderLogic() {
   return {
     /** グラフのアニメーション */
     growAnimation,
+    /** 取得範囲の開始日(null時は無効) */
+    startDate,
+    /** 取得範囲の終了日(null時は無効) */
+    endDate,
+    /** 日付範囲を設定する関数 */
+    setDateRange,
     /** カテゴリの選択賜一覧 */
     categoryOptions,
     /** 選択中のカテゴリid */

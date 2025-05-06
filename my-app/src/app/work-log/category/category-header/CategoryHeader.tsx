@@ -22,6 +22,9 @@ import useDialog from "@/hook/useDialog";
 export default function CategoryHeader() {
   const {
     growAnimation,
+    startDate,
+    endDate,
+    setDateRange,
     categoryOptions,
     selectedCategoryId,
     onChangeCategoryId,
@@ -130,9 +133,9 @@ export default function CategoryHeader() {
       <PeriodSelectDialog
         open={openPeriod}
         onClose={onClosePeriod}
-        initialStartDate={new Date()} // TODO
-        initialEndDate={new Date()} // TODO
-        getDataSelectRange={() => {}} // TODO
+        initialStartDate={startDate ?? new Date()}
+        initialEndDate={endDate ?? new Date()}
+        getDataSelectRange={setDateRange}
       />
       <CompleteConfirmDialog
         open={openComplete}
