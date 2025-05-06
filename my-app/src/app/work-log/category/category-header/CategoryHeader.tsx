@@ -6,14 +6,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import CategorySelectLogic from "./CategorySelectLogic";
+import CategoryHeaderLogic from "./CategoryHeaderLogic";
 
 /**
  * カテゴリページのカテゴリ選択部分
  */
-export default function CategorySelect() {
+export default function CategoryHeader() {
   const { categoryOptions, selectedCategoryId, onChangeCategoryId } =
-    CategorySelectLogic();
+    CategoryHeaderLogic();
   return (
     <Stack direction={"row"} alignItems={"center"}>
       <Typography id="category-select-label">表示中のカテゴリ：</Typography>
