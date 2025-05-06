@@ -134,7 +134,7 @@ export default function MemoEditDialog({
                 </Stack>
               </Stack>
               {/** アイコンボタン */}
-              <Stack direction="row" spacing={2} pr={3}>
+              <Stack direction="row" spacing={2} pr={3} alignItems="center">
                 {/** 編集中かどうかで保存/編集ボタン 削除/リセットボタン を切り替え */}
                 {isEdit && (
                   <>
