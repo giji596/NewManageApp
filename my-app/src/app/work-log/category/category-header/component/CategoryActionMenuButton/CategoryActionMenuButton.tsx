@@ -11,10 +11,26 @@ import TuneIcon from "@mui/icons-material/Tune";
 import DoneIcon from "@mui/icons-material/Done";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+type Props = {
+  /** 表示範囲変更クリックした際のハンドラー */
+  onClickDisplayRange: () => void;
+  /** カテゴリ完了クリックした際のハンドラー */
+  onClickComplete: () => void;
+  /** タスク追加クリックした際のハンドラー */
+  onClickAddTask: () => void;
+  /** 削除するクリックした際のハンドラー */
+  onClickDelete: () => void;
+};
 /**
  * カテゴリヘッダーのアクションを格納したメニューと開閉ボタンのコンポーネント
  */
-const CategoryActionMenuButton = memo(function CategoryActionMenuButton() {
+const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
+  onClickDisplayRange,
+  onClickComplete,
+  onClickAddTask,
+  onClickDelete,
+}: Props) {
   return (
     <>
       {/** ボタン部分 */}
@@ -23,13 +39,13 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton() {
       </IconButton>
       {/** めにゅー */}
       <Menu open={true /** TODO:あとで修正 */}>
-        <MenuItem>
+        <MenuItem onClick={onClickDisplayRange}>
           <ListItemIcon>
             <TuneIcon />
           </ListItemIcon>
           <Typography variant="body2">表示範囲を変更</Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={onClickComplete}>
           <ListItemIcon>
             <DoneIcon color="success" />
           </ListItemIcon>
@@ -37,7 +53,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton() {
             カテゴリを完了する
           </Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={onClickAddTask}>
           <ListItemIcon>
             <AddTaskIcon color="primary" />
           </ListItemIcon>
@@ -45,7 +61,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton() {
             タスクを追加する
           </Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={onClickDelete}>
           <ListItemIcon>
             <DeleteIcon color="error" />
           </ListItemIcon>
