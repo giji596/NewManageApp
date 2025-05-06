@@ -31,7 +31,7 @@ export default function CategoryHeader() {
   return (
     <Stack direction="row" px={4} py={2} justifyContent={"space-between"}>
       {/** 左部分(カテゴリ情報) */}
-      <Stack spacing={0.5}>
+      <Stack spacing={0.5} width="550px">
         {/** カテゴリ名 + Completed? */}
         <Stack direction="row" spacing={1}>
           <Typography width="120px" textAlign={"end"} variant="h6">
@@ -45,7 +45,7 @@ export default function CategoryHeader() {
           </Typography>
         </Stack>
         {/** 合計稼働時間 */}
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={1} alignItems="center">
           <Typography width="120px" textAlign={"end"} variant="h6">
             総稼働時間:
           </Typography>
