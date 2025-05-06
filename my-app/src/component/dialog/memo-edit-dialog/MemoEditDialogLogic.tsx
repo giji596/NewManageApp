@@ -122,6 +122,10 @@ export default function MemoEditDialogLogic({
   }, [id, onClose, taskId]);
 
   const handleEdit = useCallback(() => setIsEdit(true), []);
+  const setNewTag = useCallback(
+    (newId: number) => setValue("tagId", newId),
+    [setValue]
+  );
   return {
     /** タグ一覧 */
     tagList,
@@ -141,5 +145,7 @@ export default function MemoEditDialogLogic({
     handleReset,
     /** 削除時のハンドラー */
     handleDelete,
+    /** 新規作成したタグをRHFの値に入れる関数 */
+    setNewTag,
   };
 }

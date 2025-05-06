@@ -16,6 +16,8 @@ type Props = {
   open: boolean;
   /** 閉じるハンドラー */
   onClose: () => void;
+  /** タグ作成後に呼び出しする関数(親で必要な場合のみ) */
+  onCreateTag?: (newId: number) => void;
 };
 /**
  * タグを作成するダイアログ
@@ -23,9 +25,10 @@ type Props = {
 const CreateTagDialog = memo(function CreateTagDialog({
   open,
   onClose,
+  onCreateTag,
 }: Props) {
   const { control, isSendable, onSubmit, duplicateError } =
-    CreateTagDialogLogic({ onClose });
+    CreateTagDialogLogic({ onClose, onCreateTag });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <form onSubmit={onSubmit}>

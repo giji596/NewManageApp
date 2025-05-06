@@ -7,6 +7,8 @@ import { mutate } from "swr";
 type Props = {
   /** 閉じるハンドラー */
   onClose: () => void;
+  /** タグ作成後に呼び出しする関数(親で必要な場合のみ) */
+  onCreateTag?: (newId: number) => void;
 };
 
 type SubmitData = {
@@ -16,7 +18,7 @@ type SubmitData = {
 /**
  * タグを作成するダイアログのロジック
  */
-export const CreateTagDialogLogic = ({ onClose }: Props) => {
+export const CreateTagDialogLogic = ({ onClose, onCreateTag }: Props) => {
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
   const {
     control,
@@ -29,10 +31,11 @@ export const CreateTagDialogLogic = ({ onClose }: Props) => {
     async (data: SubmitData) => {
       try {
         // ここでリクエスト エラーがあればonCloseせずにcatchする
-        await apiClient.work_log.memos.tags.post({
+        const res = await apiClient.work_log.memos.tags.post({
           body: { tagName: data.tagName },
         });
-        mutate("api/work-log/memos/tags");
+        await mutate("api/work-log/memos/tags");
+        onCreateTag?.(res.body.id); // 渡された場合のみ実行
         onClose();
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -43,7 +46,7 @@ export const CreateTagDialogLogic = ({ onClose }: Props) => {
         }
       }
     },
-    [onClose]
+    [onClose, onCreateTag]
   );
   return {
     /** RHFのコントロールオブジェクト */

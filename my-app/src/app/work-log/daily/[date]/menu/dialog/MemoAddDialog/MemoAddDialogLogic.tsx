@@ -37,6 +37,7 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { isValid },
   } = useForm<SubmitData>({
     defaultValues: {
@@ -67,6 +68,11 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     },
     [date, onClose]
   );
+
+  const setNewTag = useCallback(
+    (newId: number) => setValue("tagId", newId),
+    [setValue]
+  );
   return {
     /** タスクの一覧 */
     taskList,
@@ -78,5 +84,7 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     control,
     /** バリデーション状況(onBlurで制御) */
     isValid,
+    /** 新規作成したタグをRHFの値に入れる関数 */
+    setNewTag,
   };
 }
