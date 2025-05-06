@@ -9,7 +9,7 @@ import {
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
 
 /**
- * カテゴリページのカテゴリ選択部分
+ * カテゴリページのヘッダー部分
  */
 export default function CategoryHeader() {
   const { categoryOptions, selectedCategoryId, onChangeCategoryId } =
