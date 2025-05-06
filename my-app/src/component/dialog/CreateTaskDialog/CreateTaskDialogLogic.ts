@@ -18,7 +18,7 @@ type SubmitData = {
 
 type Props = {
   /** カテゴリidの初期値 */
-  initialCategoryId: number;
+  categoryId?: number;
   /** ダイアログ閉じる関数 */
   onClose: () => void;
   /** タスク作成時のロジック(親で処理が必要な場合のみ) */
@@ -29,7 +29,7 @@ type Props = {
  * タスクを新規作成するダイアログのロジック
  */
 export default function CreateTaskDialogLogic({
-  initialCategoryId,
+  categoryId,
   onClose,
   onCreateTask,
 }: Props) {
@@ -54,7 +54,7 @@ export default function CreateTaskDialogLogic({
     formState: { isValid },
   } = useForm<SubmitData>({
     defaultValues: {
-      categoryId: initialCategoryId,
+      categoryId: categoryId ?? 1,
       taskName: "",
       isFavorite: false,
     },
