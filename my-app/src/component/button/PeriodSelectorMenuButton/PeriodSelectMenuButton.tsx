@@ -6,38 +6,23 @@ import {
   Menu,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Stack,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PeriodSelectMenuButtonLogic from "./PeriodSelectMenuButtonLogic";
+import { SelectRangeLogic } from "@/hook/useDateSelect";
 
 type Props = {
-  /** 年 */
-  year: number;
-  /** 月 */
-  month: number;
-  /** 日 */
-  day: number;
-  /** 年のセレクトを変えた時のハンドラー */
-  onChangeYear: (e: SelectChangeEvent) => void;
-  /** 月のセレクトを変えた時のハンドラー */
-  onChangeMonth: (e: SelectChangeEvent) => void;
-  /** 日のセレクトを変えた時のハンドラー */
-  onChangeDay: (e: SelectChangeEvent) => void;
+  /** 日付選択のロジック */
+  selectRangeLogic: SelectRangeLogic;
 };
 
 /**
  * 期間選択のメニューボタン
  */
-export default function PeriodSelectMenuButton({
-  year,
-  month,
-  day,
-  onChangeYear,
-  onChangeMonth,
-  onChangeDay,
-}: Props) {
+export default function PeriodSelectMenuButton({ selectRangeLogic }: Props) {
+  const { year, month, day, onChangeYear, onChangeMonth, onChangeDay } =
+    selectRangeLogic;
   const {
     open,
     anchorEl,
@@ -86,7 +71,7 @@ export default function PeriodSelectMenuButton({
               name="year-select"
               label="年"
               value={String(year)}
-              onChange={onChangeYear}
+              onChange={(e) => onChangeYear(Number(e.target.value))}
               sx={{ width: 125 }}
             >
               {yearSelect.map((v) => (
@@ -104,7 +89,7 @@ export default function PeriodSelectMenuButton({
               name="month-select"
               label="月"
               value={String(month)}
-              onChange={onChangeMonth}
+              onChange={(e) => onChangeMonth(Number(e.target.value))}
               sx={{ width: 100 }}
             >
               {monthSelect.map((v) => (
@@ -122,7 +107,7 @@ export default function PeriodSelectMenuButton({
               name="day-select"
               label="日"
               value={String(day)}
-              onChange={onChangeDay}
+              onChange={(e) => onChangeDay(Number(e.target.value))}
               sx={{ width: 100 }}
             >
               {daySelect.map((v) => (
