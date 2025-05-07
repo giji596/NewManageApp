@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import PeriodSelectMenuButton from "./select-menu/PeriodSelectMenuButton";
+import PeriodSelectMenuButton from "../../button/PeriodSelectorMenuButton/PeriodSelectMenuButton";
 import PeriodSelectDialogLogic from "./PeriodSelectDialogLogic";
 
 type Props = {

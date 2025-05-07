@@ -1,4 +1,4 @@
-import PeriodSelectMenuButton from "@/component/dialog/PeriodSelectDialog/select-menu/PeriodSelectMenuButton";
+import PeriodSelectMenuButton from "@/component/button/PeriodSelectorMenuButton/PeriodSelectMenuButton";
 import {
   Button,
   Checkbox,
