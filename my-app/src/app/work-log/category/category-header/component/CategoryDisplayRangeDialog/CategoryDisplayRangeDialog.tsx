@@ -6,6 +6,7 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
+  FormLabel,
   Radio,
   RadioGroup,
   Stack,
@@ -23,8 +24,9 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog() {
       <FormControl sx={{ px: 3 }}>
         {/** メイン部分 */}
         {/** 期間ラジオグループ */}
+        <FormLabel>最終稼働日</FormLabel>
         <RadioGroup row>
-          <FormControlLabel control={<Radio />} label="1年以内に更新がある" />
+          <FormControlLabel control={<Radio />} label="過去3ヶ月以内" />
           <FormControlLabel control={<Radio />} label="全て" />
           <FormControlLabel control={<Radio />} label="カスタム" />
         </RadioGroup>
