@@ -5,12 +5,14 @@ import PeriodSelectMenuButton from "./PeriodSelectMenuButton";
 const meta = {
   component: PeriodSelectMenuButton,
   args: {
-    year: 2024,
-    month: 4,
-    day: 22,
-    onChangeYear: () => {},
-    onChangeMonth: () => {},
-    onChangeDay: () => {},
+    selectRangeLogic: {
+      year: 2024,
+      month: 4,
+      day: 22,
+      onChangeYear: () => {},
+      onChangeMonth: () => {},
+      onChangeDay: () => {},
+    },
   },
 } satisfies Meta<typeof PeriodSelectMenuButton>;
 

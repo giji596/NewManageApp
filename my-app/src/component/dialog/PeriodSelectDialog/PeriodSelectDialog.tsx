@@ -34,27 +34,13 @@ export default function PeriodSelectDialog({
   initialEndDate,
   getDataSelectRange,
 }: Props) {
-  const {
-    startYear,
-    startMonth,
-    startDay,
-    handleChangeStartYear,
-    handleChangeStartMonth,
-    handleChangeStartDay,
-    endYear,
-    endMonth,
-    endDay,
-    handleChangeEndYear,
-    handleChangeEndMonth,
-    handleChangeEndDay,
-    onClickSelect,
-    isValid,
-  } = PeriodSelectDialogLogic({
-    onClose,
-    initialStartDate,
-    initialEndDate,
-    getDataSelectRange,
-  });
+  const { startDateLogic, endDateLogic, onClickSelect, isValid } =
+    PeriodSelectDialogLogic({
+      onClose,
+      initialStartDate,
+      initialEndDate,
+      getDataSelectRange,
+    });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogTitle>期間を選択</DialogTitle>
@@ -68,26 +54,12 @@ export default function PeriodSelectDialog({
       <Stack direction="row" px={3} py={1.5} spacing={2} alignItems="center">
         <Stack>
           <Typography variant="caption">開始期間</Typography>
-          <PeriodSelectMenuButton
-            year={startYear}
-            month={startMonth}
-            day={startDay}
-            onChangeYear={handleChangeStartYear}
-            onChangeMonth={handleChangeStartMonth}
-            onChangeDay={handleChangeStartDay}
-          />
+          <PeriodSelectMenuButton selectRangeLogic={startDateLogic} />
         </Stack>
         <Typography variant="h6">〜</Typography>
         <Stack>
           <Typography variant="caption">終了期間</Typography>
-          <PeriodSelectMenuButton
-            year={endYear}
-            month={endMonth}
-            day={endDay}
-            onChangeYear={handleChangeEndYear}
-            onChangeMonth={handleChangeEndMonth}
-            onChangeDay={handleChangeEndDay}
-          />
+          <PeriodSelectMenuButton selectRangeLogic={endDateLogic} />
         </Stack>
       </Stack>
       <DialogActions>
