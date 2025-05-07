@@ -1,4 +1,5 @@
-import PeriodSelectMenuButton from "@/component/dialog/PeriodSelectDialog/select-menu/PeriodSelectMenuButton";
+import PeriodSelectMenuButton from "@/component/button/PeriodSelectorMenuButton/PeriodSelectMenuButton";
+import { SelectRangeLogic } from "@/hook/useDateSelect";
 import {
   Button,
   Checkbox,
@@ -14,10 +15,20 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 
+type Props = {
+  /** 開始の日付範囲ロジック */
+  startDateLogic: SelectRangeLogic;
+  /** 終了の日付範囲ロジック */
+  endDateLogic: SelectRangeLogic;
+};
+
 /**
  * 表示するカテゴリの範囲を設定するダイアログ
  */
-const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog() {
+const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
+  startDateLogic,
+  endDateLogic,
+}: Props) {
   return (
     <Dialog open={true /** TODO */}>
       <DialogTitle>期間を設定</DialogTitle>
@@ -39,23 +50,9 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog() {
         alignItems={"center"}
         spacing={2}
       >
-        <PeriodSelectMenuButton
-          year={2025}
-          month={5}
-          day={4}
-          onChangeYear={() => {}}
-          onChangeMonth={() => {}}
-          onChangeDay={() => {}}
-        />
+        <PeriodSelectMenuButton selectRangeLogic={startDateLogic} />
         <Typography>〜</Typography>
-        <PeriodSelectMenuButton
-          year={2025}
-          month={5}
-          day={4}
-          onChangeYear={() => {}}
-          onChangeMonth={() => {}}
-          onChangeDay={() => {}}
-        />
+        <PeriodSelectMenuButton selectRangeLogic={endDateLogic} />
       </Stack>
       {/** 下部(チェックボックス + ボタン) */}
       <Stack direction="row" justifyContent={"space-between"} px={2} pb={2}>

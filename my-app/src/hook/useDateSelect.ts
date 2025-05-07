@@ -18,6 +18,12 @@ type Props = {
   initDay: number;
 };
 
+/** 日付選択のロジックの型定義(各パラメータ+その更新ハンドラ) */
+export type SelectRangeLogic = Omit<
+  ReturnType<typeof useDateSelect>,
+  "dateParam"
+>;
+
 /**
  *  日付選択に関するロジック
  */
