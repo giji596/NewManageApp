@@ -1,3 +1,4 @@
+import PeriodSelectMenuButton from "@/component/dialog/PeriodSelectDialog/select-menu/PeriodSelectMenuButton";
 import {
   Button,
   Checkbox,
@@ -5,10 +6,8 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   Stack,
   Typography,
 } from "@mui/material";
@@ -32,13 +31,23 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog() {
       </FormControl>
       {/** 日付選択 */}
       <Stack direction="row">
-        <Select defaultValue={"開始日"}>
-          <MenuItem value="開始日">開始日</MenuItem>
-        </Select>
+        <PeriodSelectMenuButton
+          year={2025}
+          month={5}
+          day={4}
+          onChangeYear={() => {}}
+          onChangeMonth={() => {}}
+          onChangeDay={() => {}}
+        />
         <Typography>〜</Typography>
-        <Select defaultValue={"終了日"}>
-          <MenuItem value="終了日">終了日</MenuItem>
-        </Select>
+        <PeriodSelectMenuButton
+          year={2025}
+          month={5}
+          day={4}
+          onChangeYear={() => {}}
+          onChangeMonth={() => {}}
+          onChangeDay={() => {}}
+        />
       </Stack>
       {/** 下部(チェックボックス + ボタン) */}
       <Stack direction="row" justifyContent={"space-between"}>
