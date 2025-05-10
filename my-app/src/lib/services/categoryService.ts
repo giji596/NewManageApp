@@ -1,6 +1,6 @@
-import { CategoryOption } from "@/type/Category";
+import { CategoryOption, CategorySummary } from "@/type/Category";
 import prisma from "../prisma";
-import { subMonths } from "date-fns";
+import { format, subMonths } from "date-fns";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 
 /**
@@ -103,4 +103,56 @@ export const getCategoryTasks = async (id: number) => {
     select: { id: true, name: true, progress: true, isFavorite: true },
   });
   return data;
+};
+
+/**
+ * カテゴリーの概要データを取得するロジック
+ */
+export const getCategorySummary = async (
+  id: number
+): Promise<CategorySummary | null> => {
+  // カテゴリ関連のデータ取得
+  const data = await prisma.category.findUnique({
+    where: { id },
+    select: {
+      name: true,
+      isCompleted: true,
+      tasks: { select: { tasks: { select: { workTime: true } } } },
+    },
+  });
+  // データない場合はnull返す(カテゴリ一覧から指定するはずなので想定されてないエラー)
+  if (data === null) return null;
+  // 通常
+  // 開始日と最終更新日を取得する
+  const startedAt = await prisma.task.findFirst({
+    where: { categoryId: id },
+    orderBy: { createdAt: "asc" },
+    select: { createdAt: true },
+  });
+  const lastAt = await prisma.task.findFirst({
+    where: { categoryId: id },
+    orderBy: { updatedAt: "desc" },
+    select: { updatedAt: true },
+  });
+
+  // stringに変換後にreturnの型定義の形にフォーマットする
+  const startString =
+    startedAt !== null ? format(startedAt.createdAt, "yyyy/MM/dd") : "--------";
+  const lastString =
+    lastAt !== null ? format(lastAt.updatedAt, "yyyy/MM/dd") : "--------";
+  const activeDate = `${startString}~${lastString}`;
+
+  // 総稼働時間を計算
+  const totalHours = data.tasks.reduce(
+    (a, b) => a + b.tasks.reduce((c, d) => c + d.workTime, 0),
+    0
+  );
+
+  // 整形してreturn
+  return {
+    name: data.name,
+    isCompleted: data.isCompleted,
+    totalHours,
+    activeDate,
+  };
 };

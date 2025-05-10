@@ -77,14 +77,27 @@ export default function CategoryHeaderLogic() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const selectedCategoryId = Number(searchParams.get("id") ?? 1);
-  const selectedCategoryName = useMemo(
-    () => categoryOptions.find((v) => v.id === selectedCategoryId)?.name ?? "",
-    [categoryOptions, selectedCategoryId]
-  );
-  // TODO: 上のデータフェッチ時に取得させるように変更
-  const isCompleted = true;
-  const totalHours = 80;
-  const activeDate = "2025/04/29~2025/05/04";
+
+  const { data: rawCategorySummaryData, isLoading: isLoadingCategorySummary } =
+    useAspidaSWR(
+      apiClient.work_log.categories._id(selectedCategoryId).summary,
+      "get",
+      { key: `api/work-log/categories/${selectedCategoryId}/summary` }
+    );
+  const categorySummaryData = rawCategorySummaryData?.body ?? {
+    // 仮データ(実際はisLoadingで非表示)
+    name: "",
+    isCompleted: false,
+    totalHours: 0,
+    activeDate: "",
+  };
+
+  const {
+    name: selectedCategoryName,
+    isCompleted,
+    totalHours,
+    activeDate,
+  } = categorySummaryData;
 
   const onChangeCategoryId = useCallback(
     (e: SelectChangeEvent) => {
@@ -128,6 +141,8 @@ export default function CategoryHeaderLogic() {
     categoryOptions,
     /** 選択中のカテゴリid */
     selectedCategoryId,
+    /** カテゴリの概要のロード状態 */
+    isLoadingCategorySummary,
     /** 選択中のカテゴリ名 */
     selectedCategoryName,
     /** 完了状態 */
