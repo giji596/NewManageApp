@@ -65,7 +65,7 @@ export const CategoryDisplayRangeDialogLogic = ({
     }
     // 完了の非表示設定===trueの場合のみ完了の非表示設定をセット
     if (hideCompleted) result.set("hideCompleted", "true");
-    return result.toString();
+    return result;
   }, [displayRange, endDateParam, hideCompleted, startDateParam]);
   return {
     /** ラジオグループの選択範囲 */

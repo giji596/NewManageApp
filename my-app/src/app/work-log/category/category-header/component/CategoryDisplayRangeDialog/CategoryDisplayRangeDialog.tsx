@@ -32,7 +32,7 @@ type Props = {
   /** 完了の非表示の初期値 */
   initHideCompleted: boolean;
   /** 適応時のハンドラー */
-  onAdapt: (param: string) => void;
+  onAdapt: (param: URLSearchParams) => void;
 };
 
 /**
