@@ -137,7 +137,8 @@ exports.Prisma.TaskScalarFieldEnum = {
 
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  isCompleted: 'isCompleted'
 };
 
 exports.Prisma.MemoScalarFieldEnum = {
