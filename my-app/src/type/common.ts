@@ -9,3 +9,10 @@ export type ReplaceDateWithString<T> = {
     ? ReplaceDateWithString<T[K]> // ← 再帰で中も見に行く
     : T[K];
 };
+
+/** 日付セレクト用　初期値のパラメータ型 */
+export type DateSelectInitValues = {
+  initYear: number;
+  initMonth: number;
+  initDay: number;
+};

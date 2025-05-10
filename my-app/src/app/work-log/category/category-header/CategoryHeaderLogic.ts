@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import { CategoryOption } from "@/type/Category";
+import { CategoryHeaderQueryParams, CategoryOption } from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,12 +15,7 @@ export default function CategoryHeaderLogic() {
 
   const queryParams = useMemo(() => {
     // {queryName:Value,...}
-    const queryValues: {
-      displayRange: DisplayRange;
-      startDate: { initYear: number; initMonth: number; initDay: number };
-      endDate: { initYear: number; initMonth: number; initDay: number };
-      hideCompleted: boolean;
-    } =
+    const queryValues: CategoryHeaderQueryParams =
       // ["queryName=Value",...]
       queryString.split("&").reduce(
         (acc, v) => {
@@ -60,12 +55,7 @@ export default function CategoryHeaderLogic() {
             initDay: getTodayDay(),
           },
           hideCompleted: false,
-        } as {
-          displayRange: DisplayRange;
-          startDate: { initYear: number; initMonth: number; initDay: number };
-          endDate: { initYear: number; initMonth: number; initDay: number };
-          hideCompleted: boolean;
-        }
+        } as CategoryHeaderQueryParams
       );
     return queryValues;
   }, [queryString]);
