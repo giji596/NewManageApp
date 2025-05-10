@@ -112,7 +112,14 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
           <Button color="error" onClick={onClose}>
             キャンセル
           </Button>
-          <Button onClick={() => onAdapt(newParam)}>適応</Button>
+          <Button
+            onClick={() => {
+              onAdapt(newParam);
+              onClose();
+            }}
+          >
+            適応
+          </Button>
         </Stack>
       </Stack>
     </Dialog>
