@@ -54,8 +54,14 @@ export const CategoryDisplayRangeDialogLogic = ({
     result.set("displayRange", displayRange);
     // displayRangeがcustomである場合は日付関連もセット
     if (displayRange === "custom") {
-      result.set("startDate", startDateParam);
-      result.set("endDate", endDateParam);
+      if (startDateParam < endDateParam) {
+        result.set("startDate", startDateParam);
+        result.set("endDate", endDateParam);
+      } else {
+        // startがendより後の日付の場合はクエリとして逆に渡すことで範囲指定できるようにする
+        result.set("startDate", endDateParam);
+        result.set("endDate", startDateParam);
+      }
     }
     // 完了の非表示設定===trueの場合のみ完了の非表示設定をセット
     if (hideCompleted) result.set("hideCompleted", "true");
