@@ -10,11 +10,11 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
 import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
-import PeriodSelectDialog from "@/component/dialog/PeriodSelectDialog/PeriodSelectDialog";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
+import CategoryDisplayRangeDialog from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialog";
 
 /**
  * カテゴリページのヘッダー部分
@@ -22,9 +22,8 @@ import useDialog from "@/hook/useDialog";
 export default function CategoryHeader() {
   const {
     growAnimation,
-    startDate,
-    endDate,
-    setDateRange,
+    queryParams,
+    handleAdaptDisplayRange,
     categoryOptions,
     selectedCategoryId,
     selectedCategoryName,
@@ -143,13 +142,16 @@ export default function CategoryHeader() {
         </Stack>
       </Stack>
       {/** ダイアログ群 */}
-      <PeriodSelectDialog
+      <CategoryDisplayRangeDialog
         open={openPeriod}
         onClose={onClosePeriod}
-        initialStartDate={startDate ?? new Date()}
-        initialEndDate={endDate ?? new Date()}
-        getDataSelectRange={setDateRange}
+        initDisplayRange={queryParams.displayRange}
+        initStartDate={queryParams.startDate}
+        initEndDate={queryParams.endDate}
+        initHideCompleted={queryParams.hideCompleted}
+        onAdapt={handleAdaptDisplayRange}
       />
+
       <CompleteConfirmDialog
         open={openComplete}
         onClose={onCloseComplete}

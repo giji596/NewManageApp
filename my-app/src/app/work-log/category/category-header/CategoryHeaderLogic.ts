@@ -1,21 +1,69 @@
 import apiClient from "@/lib/apiClient";
-import { CategoryOption } from "@/type/Category";
+import { CategoryHeaderQueryParams, CategoryOption } from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
+import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 
 /**
  * カテゴリページのヘッダー部分のロジック
  */
 export default function CategoryHeaderLogic() {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [queryString, setQueryString] = useState<string>("");
 
-  const setDateRange = useCallback((start: Date, end: Date) => {
-    setStartDate(start);
-    setEndDate(end);
+  const queryParams = useMemo(() => {
+    // {queryName:Value,...}
+    const queryValues: CategoryHeaderQueryParams =
+      // ["queryName=Value",...]
+      queryString.split("&").reduce(
+        (acc, v) => {
+          const [key, value] = v.split("=");
+          if (key && value !== undefined) {
+            if (key === "displayRange") {
+              acc[key] = value as DisplayRange;
+            }
+            if (key === "hideCompleted") {
+              acc[key] = value === "true" ? true : false;
+            }
+            if (key === "startDate" || key === "endDate") {
+              // "year-month-day" -> [year,month,day]
+              const formatted = decodeURIComponent(value).split("-");
+              const dateValues = {
+                initYear: Number(formatted[0]),
+                initMonth: Number(formatted[1]),
+                initDay: Number(formatted[2]),
+              };
+              acc[key] = dateValues;
+            }
+          }
+          // {queryName:Value}
+          return acc;
+        },
+        // 初期値
+        {
+          displayRange: "last-3-months",
+          startDate: {
+            initYear: getTodayYear(),
+            initMonth: getTodayMonth(),
+            initDay: getTodayDay(),
+          },
+          endDate: {
+            initYear: getTodayYear(),
+            initMonth: getTodayMonth() - 1,
+            initDay: getTodayDay(),
+          },
+          hideCompleted: false,
+        } as CategoryHeaderQueryParams
+      );
+    return queryValues;
+  }, [queryString]);
+
+  const handleAdaptDisplayRange = useCallback((v: string) => {
+    setQueryString(v);
   }, []);
+
   // TODO:日付範囲をクエリに追加して一覧取得させる
   // TODO:エンドポイント別で用意してデータもまとめて取得
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
@@ -72,12 +120,10 @@ export default function CategoryHeaderLogic() {
   return {
     /** グラフのアニメーション */
     growAnimation,
-    /** 取得範囲の開始日(null時は無効) */
-    startDate,
-    /** 取得範囲の終了日(null時は無効) */
-    endDate,
-    /** 日付範囲を設定する関数 */
-    setDateRange,
+    /** クエリパラメータのオブジェクト */
+    queryParams,
+    /** クエリをセットする関数 */
+    handleAdaptDisplayRange,
     /** カテゴリの選択賜一覧 */
     categoryOptions,
     /** 選択中のカテゴリid */
