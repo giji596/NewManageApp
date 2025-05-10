@@ -15,12 +15,17 @@ import { SelectRangeLogic } from "@/hook/useDateSelect";
 type Props = {
   /** 日付選択のロジック */
   selectRangeLogic: SelectRangeLogic;
+  /** disabled状態 */
+  disabled?: boolean;
 };
 
 /**
  * 期間選択のメニューボタン
  */
-export default function PeriodSelectMenuButton({ selectRangeLogic }: Props) {
+export default function PeriodSelectMenuButton({
+  selectRangeLogic,
+  disabled,
+}: Props) {
   const { year, month, day, onChangeYear, onChangeMonth, onChangeDay } =
     selectRangeLogic;
   const {
@@ -38,6 +43,7 @@ export default function PeriodSelectMenuButton({ selectRangeLogic }: Props) {
       <Button
         onClick={handleOpen}
         endIcon={<ArrowDropDownIcon />}
+        disabled={disabled}
         sx={{
           textTransform: "none",
           borderBottom: "1px solid rgba(0, 0, 0, 0.42)",
