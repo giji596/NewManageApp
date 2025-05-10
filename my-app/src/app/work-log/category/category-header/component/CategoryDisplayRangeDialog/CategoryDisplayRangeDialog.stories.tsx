@@ -11,6 +11,7 @@ const meta = {
     initStartDate: { initYear: 2025, initMonth: 4, initDay: 4 },
     initEndDate: { initYear: 2025, initMonth: 5, initDay: 4 },
     initHideCompleted: false,
+    onAdapt: () => {},
   },
 } satisfies Meta<typeof CategoryDisplayRangeDialog>;
 

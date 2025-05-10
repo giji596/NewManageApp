@@ -31,6 +31,8 @@ type Props = {
   initEndDate: { initYear: number; initMonth: number; initDay: number };
   /** 完了の非表示の初期値 */
   initHideCompleted: boolean;
+  /** 適応時のハンドラー */
+  onAdapt: (param: string) => void;
 };
 
 /**
@@ -43,6 +45,7 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
   initStartDate,
   initEndDate,
   initHideCompleted,
+  onAdapt,
 }: Props) {
   const {
     displayRange,
@@ -108,7 +111,11 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
           <Button color="error" onClick={onClose}>
             キャンセル
           </Button>
-          <Button>適応</Button>
+          <Button
+            onClick={() => onAdapt("param" /** TODO:パラメータ型にして渡す */)}
+          >
+            適応
+          </Button>
         </Stack>
       </Stack>
     </Dialog>
