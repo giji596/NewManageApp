@@ -1,4 +1,8 @@
-import { CategoryOption, CategorySummary } from "@/type/Category";
+import {
+  CategoryHeaderQuery,
+  CategoryOption,
+  CategorySummary,
+} from "@/type/Category";
 import prisma from "../prisma";
 import { format, subMonths } from "date-fns";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
@@ -6,9 +10,41 @@ import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 /**
  * カテゴリ選択賜一覧取得
  */
-export const getCategoryOptions = async () => {
+export const getCategoryOptions = async (query?: CategoryHeaderQuery) => {
+  const hideCompleted = query?.hideCompleted;
+  // 最終更新日関連
+  const startDate =
+    // last-3-monthsなら3ヶ月前の日付
+    query?.displayRange === "last-3-months"
+      ? subMonths(new Date(), 3)
+      : // startDateがある場合(custom)はその日付
+      query?.startDate
+      ? new Date(query.startDate)
+      : // startDateがない場合(all | queryなし)ならundefined
+        undefined;
+  // 上記と同様に求める
+  const endDate =
+    query?.displayRange === "last-3-months"
+      ? new Date()
+      : query?.endDate
+      ? new Date(query.endDate)
+      : undefined;
   const data: CategoryOption[] = await prisma.category.findMany({
-    select: { id: true, name: true },
+    // hideCompleted=trueの場合はisCompleted:falseのものだけ取得する
+    where: { ...(hideCompleted !== undefined && { isCompleted: false }) },
+    select: {
+      id: true,
+      name: true,
+      tasks: {
+        // displayRange=last-3-months, customの場合に更新日でフィルター
+        where: {
+          ...(startDate !== undefined &&
+            endDate !== undefined && {
+              updatedAt: { gte: startDate, lte: endDate },
+            }),
+        },
+      },
+    },
   });
   return data;
 };
