@@ -1,5 +1,6 @@
 "use client";
 import {
+  CircularProgress,
   FormControl,
   FormLabel,
   MenuItem,
@@ -27,6 +28,7 @@ export default function CategoryHeader() {
     categoryOptions,
     selectedCategoryId,
     selectedCategoryName,
+    isLoadingCategorySummary,
     isCompleted,
     totalHours,
     activeDate,
@@ -59,60 +61,72 @@ export default function CategoryHeader() {
     <>
       <Stack direction="row" px={4} py={2} justifyContent={"space-between"}>
         {/** 左部分(カテゴリ情報) */}
-        <Stack spacing={0.5} width="550px">
-          {/** カテゴリ名 + Completed? */}
-          <Stack direction="row" spacing={1}>
-            <Typography width="120px" textAlign={"end"} variant="h6">
-              カテゴリ名:
-            </Typography>
-            <Typography variant="h6">{selectedCategoryName}</Typography>
-            {isCompleted && (
-              <>
-                <CheckCircleIcon color="success" />
-                <Typography
-                  color="success"
-                  variant="subtitle1"
-                  fontWeight={700}
-                >
-                  完了済み
-                </Typography>
-              </>
-            )}
+        {isLoadingCategorySummary && (
+          <Stack
+            width="550px"
+            height="100px"
+            alignItems="center"
+            justifySelf={"center"}
+          >
+            <CircularProgress />
           </Stack>
-          {/** 合計稼働時間 */}
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Typography width="120px" textAlign={"end"} variant="h6">
-              総稼働時間:
-            </Typography>
-            <Typography variant="h6">{totalHours}(h)</Typography>
-            <Stack
-              direction="row-reverse"
-              sx={{
-                width: "70%",
-                height: 20,
-                background:
-                  "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
-                borderRadius: 1,
-              }}
-            >
+        )}
+        {!isLoadingCategorySummary && (
+          <Stack spacing={0.5} width="550px">
+            {/** カテゴリ名 + Completed? */}
+            <Stack direction="row" spacing={1}>
+              <Typography width="120px" textAlign={"end"} variant="h6">
+                カテゴリ名:
+              </Typography>
+              <Typography variant="h6">{selectedCategoryName}</Typography>
+              {isCompleted && (
+                <>
+                  <CheckCircleIcon color="success" />
+                  <Typography
+                    color="success"
+                    variant="subtitle1"
+                    fontWeight={700}
+                  >
+                    完了済み
+                  </Typography>
+                </>
+              )}
+            </Stack>
+            {/** 合計稼働時間 */}
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography width="120px" textAlign={"end"} variant="h6">
+                総稼働時間:
+              </Typography>
+              <Typography variant="h6">{totalHours}(h)</Typography>
               <Stack
+                direction="row-reverse"
                 sx={{
-                  height: "100%",
-                  width: "0%",
-                  backgroundColor: "#eee",
-                  animation: `${growAnimation} 1s ease-out forwards`,
+                  width: "70%",
+                  height: 20,
+                  background:
+                    "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
+                  borderRadius: 1,
                 }}
-              />
+              >
+                <Stack
+                  sx={{
+                    height: "100%",
+                    width: "0%",
+                    backgroundColor: "#eee",
+                    animation: `${growAnimation} 1s ease-out forwards`,
+                  }}
+                />
+              </Stack>
+            </Stack>
+            {/**  */}
+            <Stack direction="row" spacing={1}>
+              <Typography width="120px" textAlign={"end"} variant="h6">
+                稼働期間:
+              </Typography>
+              <Typography variant="h6">{activeDate}</Typography>
             </Stack>
           </Stack>
-          {/**  */}
-          <Stack direction="row" spacing={1}>
-            <Typography width="120px" textAlign={"end"} variant="h6">
-              稼働期間:
-            </Typography>
-            <Typography variant="h6">{activeDate}</Typography>
-          </Stack>
-        </Stack>
+        )}
         {/** 右部分(カテゴリ選択/完了ボタン) */}
         <Stack spacing={1} direction="row">
           <FormControl>
