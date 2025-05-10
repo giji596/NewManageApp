@@ -1,5 +1,4 @@
 import PeriodSelectMenuButton from "@/component/button/PeriodSelectorMenuButton/PeriodSelectMenuButton";
-import { SelectRangeLogic } from "@/hook/useDateSelect";
 import {
   Button,
   Checkbox,
@@ -14,32 +13,75 @@ import {
   Typography,
 } from "@mui/material";
 import { memo } from "react";
+import {
+  CategoryDisplayRangeDialogLogic,
+  DisplayRange,
+} from "./CategoryDisplayRangeDialogLogic";
 
 type Props = {
-  /** 開始の日付範囲ロジック */
-  startDateLogic: SelectRangeLogic;
-  /** 終了の日付範囲ロジック */
-  endDateLogic: SelectRangeLogic;
+  /** ダイアログ開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じるハンドラー */
+  onClose: () => void;
+  /** 表示範囲の初期値 */
+  initDisplayRange: DisplayRange;
+  /** 開始日の初期値 */
+  initStartDate: { initYear: number; initMonth: number; initDay: number };
+  /** 終了日の初期値 */
+  initEndDate: { initYear: number; initMonth: number; initDay: number };
+  /** 完了の非表示の初期値 */
+  initHideCompleted: boolean;
+  /** 適応時のハンドラー */
+  onAdapt: (param: string) => void;
 };
 
 /**
  * 表示するカテゴリの範囲を設定するダイアログ
  */
 const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
-  startDateLogic,
-  endDateLogic,
+  open,
+  onClose,
+  initDisplayRange,
+  initStartDate,
+  initEndDate,
+  initHideCompleted,
+  onAdapt,
 }: Props) {
+  const {
+    displayRange,
+    onChangeDisplayRange,
+    startDateLogic,
+    endDateLogic,
+    hideCompleted,
+    onChangeHideCompleted,
+    newParam,
+  } = CategoryDisplayRangeDialogLogic({
+    initDisplayRange,
+    initStartDate,
+    initEndDate,
+    initHideCompleted,
+  });
   return (
-    <Dialog open={true /** TODO */}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>期間を設定</DialogTitle>
       <FormControl sx={{ px: 3 }}>
         {/** メイン部分 */}
         {/** 期間ラジオグループ */}
         <FormLabel>最終稼働日</FormLabel>
-        <RadioGroup row>
-          <FormControlLabel control={<Radio />} label="過去3ヶ月以内" />
-          <FormControlLabel control={<Radio />} label="全て" />
-          <FormControlLabel control={<Radio />} label="カスタム" />
+        <RadioGroup
+          row
+          onChange={(e) => onChangeDisplayRange(e.target.value)}
+          value={displayRange}
+        >
+          <FormControlLabel
+            control={<Radio value="last-3-months" />}
+            label="過去3ヶ月以内"
+          />
+          <FormControlLabel control={<Radio value="all" />} label="全て" />
+          <FormControlLabel
+            control={<Radio value="custom" />}
+            label="カスタム"
+          />
         </RadioGroup>
       </FormControl>
       {/** 日付選択 */}
@@ -57,10 +99,27 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
       {/** 下部(チェックボックス + ボタン) */}
       <Stack direction="row" justifyContent={"space-between"} px={2} pb={2}>
         {/** 完了込みかのチェックボックス */}
-        <FormControlLabel control={<Checkbox />} label="完了済みを除く" />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={hideCompleted}
+              onChange={onChangeHideCompleted}
+            />
+          }
+          label="完了済みを除く"
+        />
         <Stack direction="row" spacing={1}>
-          <Button color="error">キャンセル</Button>
-          <Button>適応</Button>
+          <Button color="error" onClick={onClose}>
+            キャンセル
+          </Button>
+          <Button
+            onClick={() => {
+              onAdapt(newParam);
+              onClose();
+            }}
+          >
+            適応
+          </Button>
         </Stack>
       </Stack>
     </Dialog>

@@ -5,22 +5,13 @@ import CategoryDisplayRangeDialog from "./CategoryDisplayRangeDialog";
 const meta = {
   component: CategoryDisplayRangeDialog,
   args: {
-    startDateLogic: {
-      year: 2024,
-      month: 4,
-      day: 22,
-      onChangeYear: () => {},
-      onChangeMonth: () => {},
-      onChangeDay: () => {},
-    },
-    endDateLogic: {
-      year: 2024,
-      month: 4,
-      day: 22,
-      onChangeYear: () => {},
-      onChangeMonth: () => {},
-      onChangeDay: () => {},
-    },
+    open: true,
+    onClose: () => {},
+    initDisplayRange: "last-3-months",
+    initStartDate: { initYear: 2025, initMonth: 4, initDay: 4 },
+    initEndDate: { initYear: 2025, initMonth: 5, initDay: 4 },
+    initHideCompleted: false,
+    onAdapt: () => {},
   },
 } satisfies Meta<typeof CategoryDisplayRangeDialog>;
 
