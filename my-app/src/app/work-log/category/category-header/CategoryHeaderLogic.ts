@@ -41,7 +41,7 @@ export default function CategoryHeaderLogic() {
 
   const queryParams: CategoryHeaderQueryParams = useMemo(() => {
     // 初期値
-    if (optionsQuery === null)
+    if (queryValues === undefined)
       return {
         displayRange: "last-3-months",
         startDate: {
@@ -56,9 +56,6 @@ export default function CategoryHeaderLogic() {
         },
         hideCompleted: false,
       };
-    const queryValues = Object.fromEntries(
-      optionsQuery.entries()
-    ) as CategoryHeaderQuery;
     const displayRange = queryValues.displayRange as DisplayRange; // ここクエリの値は必ずDisplayRangeのいずれかなのでasを使う
     const startDate = queryDateToQueryParam(queryValues.startDate);
     const endDate = queryDateToQueryParam(queryValues.endDate);
@@ -69,7 +66,7 @@ export default function CategoryHeaderLogic() {
       endDate,
       hideCompleted,
     };
-  }, [optionsQuery]);
+  }, [queryValues]);
 
   const handleAdaptDisplayRange = useCallback((v: URLSearchParams) => {
     setOptionsQuery(v);
