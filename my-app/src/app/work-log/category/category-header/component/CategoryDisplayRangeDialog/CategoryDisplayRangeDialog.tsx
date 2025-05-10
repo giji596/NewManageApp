@@ -54,6 +54,7 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
     endDateLogic,
     hideCompleted,
     onChangeHideCompleted,
+    newParam,
   } = CategoryDisplayRangeDialogLogic({
     initDisplayRange,
     initStartDate,
@@ -111,11 +112,7 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
           <Button color="error" onClick={onClose}>
             キャンセル
           </Button>
-          <Button
-            onClick={() => onAdapt("param" /** TODO:パラメータ型にして渡す */)}
-          >
-            適応
-          </Button>
+          <Button onClick={() => onAdapt(newParam)}>適応</Button>
         </Stack>
       </Stack>
     </Dialog>

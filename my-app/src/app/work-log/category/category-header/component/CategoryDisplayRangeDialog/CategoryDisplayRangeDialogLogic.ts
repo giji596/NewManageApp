@@ -1,5 +1,5 @@
 import { useDateSelect } from "@/hook/useDateSelect";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 const displayRangeArray = ["last-3-months", "all", "custom"] as const;
 export type DisplayRange = (typeof displayRangeArray)[number];
@@ -46,6 +46,21 @@ export const CategoryDisplayRangeDialogLogic = ({
   const onChangeHideCompleted = useCallback(() => {
     setHideCompleted((prev) => !prev);
   }, []);
+
+  const newParam = useMemo(() => {
+    // からのクエリ作成
+    const result = new URLSearchParams();
+    // displayRangeをセット
+    result.set("displayRange", displayRange);
+    // displayRangeがcustomである場合は日付関連もセット
+    if (displayRange === "custom") {
+      result.set("startDate", startDateParam);
+      result.set("endDate", endDateParam);
+    }
+    // 完了の非表示設定===trueの場合のみ完了の非表示設定をセット
+    if (hideCompleted) result.set("hideCompleted", "true");
+    return result.toString();
+  }, [displayRange, endDateParam, hideCompleted, startDateParam]);
   return {
     /** ラジオグループの選択範囲 */
     displayRange,
@@ -59,5 +74,7 @@ export const CategoryDisplayRangeDialogLogic = ({
     hideCompleted,
     /** 完了の非表示設定を変更するハンドラー */
     onChangeHideCompleted,
+    /** 新しいパラメータの値 */
+    newParam,
   };
 };
