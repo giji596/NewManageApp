@@ -72,8 +72,6 @@ export default function CategoryHeaderLogic() {
     setOptionsQuery(v);
   }, []);
 
-  // TODO:日付範囲をクエリに追加して一覧取得させる
-  // TODO:エンドポイント別で用意してデータもまとめて取得
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     query: queryValues,
     key: `api/work-log/categories/options${
