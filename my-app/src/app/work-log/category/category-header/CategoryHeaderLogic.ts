@@ -12,8 +12,6 @@ import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
  */
 export default function CategoryHeaderLogic() {
   const [queryString, setQueryString] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const queryParams = useMemo(() => {
     // {queryName:Value,...}
@@ -76,10 +74,6 @@ export default function CategoryHeaderLogic() {
     setQueryString(v);
   }, []);
 
-  const setDateRange = useCallback((start: Date, end: Date) => {
-    setStartDate(start);
-    setEndDate(end);
-  }, []);
   // TODO:日付範囲をクエリに追加して一覧取得させる
   // TODO:エンドポイント別で用意してデータもまとめて取得
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
@@ -136,16 +130,10 @@ export default function CategoryHeaderLogic() {
   return {
     /** グラフのアニメーション */
     growAnimation,
-    /** 取得範囲の開始日(null時は無効) */
-    startDate,
-    /** 取得範囲の終了日(null時は無効) */
-    endDate,
     /** クエリパラメータのオブジェクト */
     queryParams,
     /** クエリをセットする関数 */
     handleAdaptDisplayRange,
-    /** 日付範囲を設定する関数 */
-    setDateRange,
     /** カテゴリの選択賜一覧 */
     categoryOptions,
     /** 選択中のカテゴリid */
