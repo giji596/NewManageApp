@@ -34,6 +34,11 @@ export default function CategoryHeaderLogic() {
     null
   );
 
+  const queryValues = useMemo(() => {
+    if (optionsQuery)
+      return Object.fromEntries(optionsQuery.entries()) as CategoryHeaderQuery;
+  }, [optionsQuery]);
+
   const queryParams: CategoryHeaderQueryParams = useMemo(() => {
     // 初期値
     if (optionsQuery === null)
@@ -73,7 +78,10 @@ export default function CategoryHeaderLogic() {
   // TODO:日付範囲をクエリに追加して一覧取得させる
   // TODO:エンドポイント別で用意してデータもまとめて取得
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
-    key: "api/work-log/categories/options",
+    query: queryValues,
+    key: `api/work-log/categories/options${
+      queryValues !== undefined ? `?${queryValues.toString()}` : ""
+    }`,
   });
   const categoryOptions: CategoryOption[] = useMemo(
     () => data?.body ?? [],
