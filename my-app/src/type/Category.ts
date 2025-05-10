@@ -17,6 +17,18 @@ export type CategoryWithPercentage = {
   percent: string;
 };
 
+/** カテゴリページのヘッダーのクエリの一覧 */
+export type CategoryHeaderQuery = {
+  /** last-3-months | "all" | "custom" */
+  displayRange: string;
+  /** yyyy-MM-dd形式(更新日の開始範囲) */
+  startDate?: string;
+  /** yyyy-MM-dd形式(更新日の終了範囲) */
+  endDate?: string;
+  /** "true"のみ */
+  hideCompleted?: string;
+};
+
 /** カテゴリページのヘッダーのクエリのオブジェクト型 */
 export type CategoryHeaderQueryParams = {
   displayRange: DisplayRange;
