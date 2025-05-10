@@ -22,6 +22,7 @@ import CategoryDisplayRangeDialog from "./component/CategoryDisplayRangeDialog/C
 export default function CategoryHeader() {
   const {
     growAnimation,
+    queryParams,
     categoryOptions,
     selectedCategoryId,
     selectedCategoryName,
@@ -143,18 +144,10 @@ export default function CategoryHeader() {
       <CategoryDisplayRangeDialog
         open={openPeriod}
         onClose={onClosePeriod}
-        initDisplayRange={"all"}
-        initStartDate={{
-          initYear: 0,
-          initMonth: 0,
-          initDay: 0,
-        }}
-        initEndDate={{
-          initYear: 0,
-          initMonth: 0,
-          initDay: 0,
-        }}
-        initHideCompleted={false}
+        initDisplayRange={queryParams.displayRange}
+        initStartDate={queryParams.startDate}
+        initEndDate={queryParams.endDate}
+        initHideCompleted={queryParams.hideCompleted}
         onAdapt={() => {}}
       />
 
