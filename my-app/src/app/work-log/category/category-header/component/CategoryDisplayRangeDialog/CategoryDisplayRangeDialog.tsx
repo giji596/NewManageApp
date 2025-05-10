@@ -92,9 +92,15 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
         alignItems={"center"}
         spacing={2}
       >
-        <PeriodSelectMenuButton selectRangeLogic={startDateLogic} />
+        <PeriodSelectMenuButton
+          selectRangeLogic={startDateLogic}
+          disabled={displayRange !== "custom"}
+        />
         <Typography>〜</Typography>
-        <PeriodSelectMenuButton selectRangeLogic={endDateLogic} />
+        <PeriodSelectMenuButton
+          selectRangeLogic={endDateLogic}
+          disabled={displayRange !== "custom"}
+        />
       </Stack>
       {/** 下部(チェックボックス + ボタン) */}
       <Stack direction="row" justifyContent={"space-between"} px={2} pb={2}>
