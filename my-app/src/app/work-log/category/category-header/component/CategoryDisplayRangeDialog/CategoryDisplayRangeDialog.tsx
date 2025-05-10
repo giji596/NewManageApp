@@ -16,6 +16,10 @@ import {
 import { memo } from "react";
 
 type Props = {
+  /** ダイアログ開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じるハンドラー */
+  onClose: () => void;
   /** 開始の日付範囲ロジック */
   startDateLogic: SelectRangeLogic;
   /** 終了の日付範囲ロジック */
@@ -26,11 +30,13 @@ type Props = {
  * 表示するカテゴリの範囲を設定するダイアログ
  */
 const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
+  open,
+  onClose,
   startDateLogic,
   endDateLogic,
 }: Props) {
   return (
-    <Dialog open={true /** TODO */}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>期間を設定</DialogTitle>
       <FormControl sx={{ px: 3 }}>
         {/** メイン部分 */}
@@ -59,7 +65,9 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
         {/** 完了込みかのチェックボックス */}
         <FormControlLabel control={<Checkbox />} label="完了済みを除く" />
         <Stack direction="row" spacing={1}>
-          <Button color="error">キャンセル</Button>
+          <Button color="error" onClick={onClose}>
+            キャンセル
+          </Button>
           <Button>適応</Button>
         </Stack>
       </Stack>

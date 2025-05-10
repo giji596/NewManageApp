@@ -5,6 +5,8 @@ import CategoryDisplayRangeDialog from "./CategoryDisplayRangeDialog";
 const meta = {
   component: CategoryDisplayRangeDialog,
   args: {
+    open: true,
+    onClose: () => {},
     startDateLogic: {
       year: 2024,
       month: 4,
