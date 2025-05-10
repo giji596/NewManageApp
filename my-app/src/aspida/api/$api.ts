@@ -77,11 +77,12 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           };
         },
         options: {
-          get: (option?: { config?: T | undefined } | undefined) =>
+          get: (option?: { query?: Methods_aywlos['get']['query'] | undefined, config?: T | undefined } | undefined) =>
             fetch<Methods_aywlos['get']['resBody']>(prefix, PATH4, GET, option).json(),
-          $get: (option?: { config?: T | undefined } | undefined) =>
+          $get: (option?: { query?: Methods_aywlos['get']['query'] | undefined, config?: T | undefined } | undefined) =>
             fetch<Methods_aywlos['get']['resBody']>(prefix, PATH4, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH4}`,
+          $path: (option?: { method?: 'get' | undefined; query: Methods_aywlos['get']['query'] } | undefined) =>
+            `${prefix}${PATH4}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
         post: (option: { body: Methods_a4q315['post']['reqBody'], config?: T | undefined }) =>
           fetch<Methods_a4q315['post']['resBody']>(prefix, PATH0, POST, option).json(),
