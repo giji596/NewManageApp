@@ -72,6 +72,10 @@ export default function CategoryHeaderLogic() {
     return queryValues;
   }, [queryString]);
 
+  const handleAdaptDisplayRange = useCallback((v: string) => {
+    setQueryString(v);
+  }, []);
+
   const setDateRange = useCallback((start: Date, end: Date) => {
     setStartDate(start);
     setEndDate(end);
@@ -138,6 +142,8 @@ export default function CategoryHeaderLogic() {
     endDate,
     /** クエリパラメータのオブジェクト */
     queryParams,
+    /** クエリをセットする関数 */
+    handleAdaptDisplayRange,
     /** 日付範囲を設定する関数 */
     setDateRange,
     /** カテゴリの選択賜一覧 */

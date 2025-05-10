@@ -23,6 +23,7 @@ export default function CategoryHeader() {
   const {
     growAnimation,
     queryParams,
+    handleAdaptDisplayRange,
     categoryOptions,
     selectedCategoryId,
     selectedCategoryName,
@@ -148,7 +149,7 @@ export default function CategoryHeader() {
         initStartDate={queryParams.startDate}
         initEndDate={queryParams.endDate}
         initHideCompleted={queryParams.hideCompleted}
-        onAdapt={() => {}}
+        onAdapt={handleAdaptDisplayRange}
       />
 
       <CompleteConfirmDialog
