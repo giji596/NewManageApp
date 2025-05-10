@@ -1,5 +1,4 @@
 import PeriodSelectMenuButton from "@/component/button/PeriodSelectorMenuButton/PeriodSelectMenuButton";
-import { SelectRangeLogic } from "@/hook/useDateSelect";
 import {
   Button,
   Checkbox,
@@ -26,10 +25,10 @@ type Props = {
   onClose: () => void;
   /** 表示範囲の初期値 */
   initDisplayRange: DisplayRange;
-  /** 開始の日付範囲ロジック */
-  startDateLogic: SelectRangeLogic;
-  /** 終了の日付範囲ロジック */
-  endDateLogic: SelectRangeLogic;
+  /** 開始日の初期値 */
+  initStartDate: { initYear: number; initMonth: number; initDay: number };
+  /** 終了日の初期値 */
+  initEndDate: { initYear: number; initMonth: number; initDay: number };
 };
 
 /**
@@ -39,11 +38,15 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
   open,
   onClose,
   initDisplayRange,
-  startDateLogic,
-  endDateLogic,
+  initStartDate,
+  initEndDate,
 }: Props) {
-  const { displayRange, onChangeDisplayRange } =
-    CategoryDisplayRangeDialogLogic({ initDisplayRange });
+  const { displayRange, onChangeDisplayRange, startDateLogic, endDateLogic } =
+    CategoryDisplayRangeDialogLogic({
+      initDisplayRange,
+      initStartDate,
+      initEndDate,
+    });
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>期間を設定</DialogTitle>

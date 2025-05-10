@@ -8,22 +8,8 @@ const meta = {
     open: true,
     onClose: () => {},
     initDisplayRange: "last-3-months",
-    startDateLogic: {
-      year: 2024,
-      month: 4,
-      day: 22,
-      onChangeYear: () => {},
-      onChangeMonth: () => {},
-      onChangeDay: () => {},
-    },
-    endDateLogic: {
-      year: 2024,
-      month: 4,
-      day: 22,
-      onChangeYear: () => {},
-      onChangeMonth: () => {},
-      onChangeDay: () => {},
-    },
+    initStartDate: { initYear: 2025, initMonth: 4, initDay: 4 },
+    initEndDate: { initYear: 2025, initMonth: 5, initDay: 4 },
   },
 } satisfies Meta<typeof CategoryDisplayRangeDialog>;
 
