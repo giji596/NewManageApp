@@ -1,6 +1,6 @@
-import { CategoryOption } from "@/type/Category";
+import { CategoryHeaderQuery, CategoryOption } from "@/type/Category";
 import { DefineMethods } from "aspida";
 
 export type Methods = DefineMethods<{
-  get: { resBody: CategoryOption[] };
+  get: { query?: CategoryHeaderQuery; resBody: CategoryOption[] };
 }>;
