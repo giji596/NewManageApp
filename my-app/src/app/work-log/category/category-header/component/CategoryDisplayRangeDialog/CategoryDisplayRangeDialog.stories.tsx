@@ -10,6 +10,7 @@ const meta = {
     initDisplayRange: "last-3-months",
     initStartDate: { initYear: 2025, initMonth: 4, initDay: 4 },
     initEndDate: { initYear: 2025, initMonth: 5, initDay: 4 },
+    initHideCompleted: false,
   },
 } satisfies Meta<typeof CategoryDisplayRangeDialog>;
 

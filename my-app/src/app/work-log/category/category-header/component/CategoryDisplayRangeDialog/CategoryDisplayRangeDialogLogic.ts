@@ -11,6 +11,8 @@ type Props = {
   initStartDate: { initYear: number; initMonth: number; initDay: number };
   /** 終了日の初期値 */
   initEndDate: { initYear: number; initMonth: number; initDay: number };
+  /** 完了の非表示の初期値 */
+  initHideCompleted: boolean;
 };
 
 /**
@@ -20,6 +22,7 @@ export const CategoryDisplayRangeDialogLogic = ({
   initDisplayRange,
   initStartDate,
   initEndDate,
+  initHideCompleted,
 }: Props) => {
   // ラジオグループ　表示範囲関連
   const [displayRange, setDisplayRange] =
@@ -37,6 +40,12 @@ export const CategoryDisplayRangeDialogLogic = ({
   const { dateParam: endDateParam, ...endDateLogic } =
     useDateSelect(initEndDate);
 
+  // 完了の非表示設定
+  const [hideCompleted, setHideCompleted] =
+    useState<boolean>(initHideCompleted);
+  const onChangeHideCompleted = useCallback(() => {
+    setHideCompleted((prev) => !prev);
+  }, []);
   return {
     /** ラジオグループの選択範囲 */
     displayRange,
@@ -46,5 +55,9 @@ export const CategoryDisplayRangeDialogLogic = ({
     startDateLogic,
     /** 終了日のロジック */
     endDateLogic,
+    /** 完了の非表示設定 */
+    hideCompleted,
+    /** 完了の非表示設定を変更するハンドラー */
+    onChangeHideCompleted,
   };
 };

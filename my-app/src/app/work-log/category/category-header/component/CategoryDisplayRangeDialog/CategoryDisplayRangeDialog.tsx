@@ -29,6 +29,8 @@ type Props = {
   initStartDate: { initYear: number; initMonth: number; initDay: number };
   /** 終了日の初期値 */
   initEndDate: { initYear: number; initMonth: number; initDay: number };
+  /** 完了の非表示の初期値 */
+  initHideCompleted: boolean;
 };
 
 /**
@@ -40,13 +42,21 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
   initDisplayRange,
   initStartDate,
   initEndDate,
+  initHideCompleted,
 }: Props) {
-  const { displayRange, onChangeDisplayRange, startDateLogic, endDateLogic } =
-    CategoryDisplayRangeDialogLogic({
-      initDisplayRange,
-      initStartDate,
-      initEndDate,
-    });
+  const {
+    displayRange,
+    onChangeDisplayRange,
+    startDateLogic,
+    endDateLogic,
+    hideCompleted,
+    onChangeHideCompleted,
+  } = CategoryDisplayRangeDialogLogic({
+    initDisplayRange,
+    initStartDate,
+    initEndDate,
+    initHideCompleted,
+  });
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>期間を設定</DialogTitle>
@@ -85,7 +95,15 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
       {/** 下部(チェックボックス + ボタン) */}
       <Stack direction="row" justifyContent={"space-between"} px={2} pb={2}>
         {/** 完了込みかのチェックボックス */}
-        <FormControlLabel control={<Checkbox />} label="完了済みを除く" />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={hideCompleted}
+              onChange={onChangeHideCompleted}
+            />
+          }
+          label="完了済みを除く"
+        />
         <Stack direction="row" spacing={1}>
           <Button color="error" onClick={onClose}>
             キャンセル
