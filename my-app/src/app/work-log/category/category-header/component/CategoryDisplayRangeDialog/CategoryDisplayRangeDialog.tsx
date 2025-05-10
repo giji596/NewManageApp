@@ -14,12 +14,18 @@ import {
   Typography,
 } from "@mui/material";
 import { memo } from "react";
+import {
+  CategoryDisplayRangeDialogLogic,
+  DisplayRange,
+} from "./CategoryDisplayRangeDialogLogic";
 
 type Props = {
   /** ダイアログ開閉状態 */
   open: boolean;
   /** ダイアログ閉じるハンドラー */
   onClose: () => void;
+  /** 表示範囲の初期値 */
+  initDisplayRange: DisplayRange;
   /** 開始の日付範囲ロジック */
   startDateLogic: SelectRangeLogic;
   /** 終了の日付範囲ロジック */
@@ -32,9 +38,12 @@ type Props = {
 const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
   open,
   onClose,
+  initDisplayRange,
   startDateLogic,
   endDateLogic,
 }: Props) {
+  const { displayRange, onChangeDisplayRange } =
+    CategoryDisplayRangeDialogLogic({ initDisplayRange });
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>期間を設定</DialogTitle>
@@ -42,10 +51,20 @@ const CategoryDisplayRangeDialog = memo(function CategoryDisplayRangeDialog({
         {/** メイン部分 */}
         {/** 期間ラジオグループ */}
         <FormLabel>最終稼働日</FormLabel>
-        <RadioGroup row>
-          <FormControlLabel control={<Radio />} label="過去3ヶ月以内" />
-          <FormControlLabel control={<Radio />} label="全て" />
-          <FormControlLabel control={<Radio />} label="カスタム" />
+        <RadioGroup
+          row
+          onChange={(e) => onChangeDisplayRange(e.target.value)}
+          value={displayRange}
+        >
+          <FormControlLabel
+            control={<Radio value="last-3-months" />}
+            label="過去3ヶ月以内"
+          />
+          <FormControlLabel control={<Radio value="all" />} label="全て" />
+          <FormControlLabel
+            control={<Radio value="custom" />}
+            label="カスタム"
+          />
         </RadioGroup>
       </FormControl>
       {/** 日付選択 */}

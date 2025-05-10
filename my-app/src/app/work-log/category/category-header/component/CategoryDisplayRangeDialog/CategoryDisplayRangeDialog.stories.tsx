@@ -7,6 +7,7 @@ const meta = {
   args: {
     open: true,
     onClose: () => {},
+    initDisplayRange: "last-3-months",
     startDateLogic: {
       year: 2024,
       month: 4,
