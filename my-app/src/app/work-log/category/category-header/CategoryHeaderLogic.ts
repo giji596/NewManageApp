@@ -1,5 +1,9 @@
 import apiClient from "@/lib/apiClient";
-import { CategoryHeaderQueryParams, CategoryOption } from "@/type/Category";
+import {
+  CategoryHeaderQuery,
+  CategoryHeaderQueryParams,
+  CategoryOption,
+} from "@/type/Category";
 import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,61 +11,63 @@ import { useCallback, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 
+/** クエリ(yyyy-MM-dd) -> 子のパラメータ用{y,m,d}に変換する関数 */
+const queryDateToQueryParam = (dateString?: string) => {
+  const [initYear, initMonth, initDay] = dateString?.split("-").map(Number) ?? [
+    // クエリがない場合は初期値で今日の日付
+    getTodayYear(),
+    getTodayMonth(),
+    getTodayDay(),
+  ];
+  return {
+    initYear,
+    initMonth,
+    initDay,
+  };
+};
+
 /**
  * カテゴリページのヘッダー部分のロジック
  */
 export default function CategoryHeaderLogic() {
-  const [queryString, setQueryString] = useState<string>("");
+  const [optionsQuery, setOptionsQuery] = useState<URLSearchParams | null>(
+    null
+  );
 
-  const queryParams = useMemo(() => {
-    // {queryName:Value,...}
-    const queryValues: CategoryHeaderQueryParams =
-      // ["queryName=Value",...]
-      queryString.split("&").reduce(
-        (acc, v) => {
-          const [key, value] = v.split("=");
-          if (key && value !== undefined) {
-            if (key === "displayRange") {
-              acc[key] = value as DisplayRange;
-            }
-            if (key === "hideCompleted") {
-              acc[key] = value === "true" ? true : false;
-            }
-            if (key === "startDate" || key === "endDate") {
-              // "year-month-day" -> [year,month,day]
-              const formatted = decodeURIComponent(value).split("-");
-              const dateValues = {
-                initYear: Number(formatted[0]),
-                initMonth: Number(formatted[1]),
-                initDay: Number(formatted[2]),
-              };
-              acc[key] = dateValues;
-            }
-          }
-          // {queryName:Value}
-          return acc;
+  const queryParams: CategoryHeaderQueryParams = useMemo(() => {
+    // 初期値
+    if (optionsQuery === null)
+      return {
+        displayRange: "last-3-months",
+        startDate: {
+          initYear: getTodayYear(),
+          initMonth: getTodayMonth(),
+          initDay: getTodayDay(),
         },
-        // 初期値
-        {
-          displayRange: "last-3-months",
-          startDate: {
-            initYear: getTodayYear(),
-            initMonth: getTodayMonth(),
-            initDay: getTodayDay(),
-          },
-          endDate: {
-            initYear: getTodayYear(),
-            initMonth: getTodayMonth() - 1,
-            initDay: getTodayDay(),
-          },
-          hideCompleted: false,
-        } as CategoryHeaderQueryParams
-      );
-    return queryValues;
-  }, [queryString]);
+        endDate: {
+          initYear: getTodayYear(),
+          initMonth: getTodayMonth() - 1,
+          initDay: getTodayDay(),
+        },
+        hideCompleted: false,
+      };
+    const queryValues = Object.fromEntries(
+      optionsQuery.entries()
+    ) as CategoryHeaderQuery;
+    const displayRange = queryValues.displayRange as DisplayRange; // ここクエリの値は必ずDisplayRangeのいずれかなのでasを使う
+    const startDate = queryDateToQueryParam(queryValues.startDate);
+    const endDate = queryDateToQueryParam(queryValues.endDate);
+    const hideCompleted = queryValues.hideCompleted === "true" ? true : false;
+    return {
+      displayRange,
+      startDate,
+      endDate,
+      hideCompleted,
+    };
+  }, [optionsQuery]);
 
-  const handleAdaptDisplayRange = useCallback((v: string) => {
-    setQueryString(v);
+  const handleAdaptDisplayRange = useCallback((v: URLSearchParams) => {
+    setOptionsQuery(v);
   }, []);
 
   // TODO:日付範囲をクエリに追加して一覧取得させる
