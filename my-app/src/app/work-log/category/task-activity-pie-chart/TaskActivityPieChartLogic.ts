@@ -9,7 +9,7 @@ import { useCallback, useMemo, useState } from "react";
  */
 export default function TaskActivityPieChartLogic() {
   const searchParams = useSearchParams();
-  const categoryId = Number(searchParams.get("id") ?? 1);
+  const categoryId = Number(searchParams.get("id") ?? 0);
   const noCategory = useMemo(() => categoryId === 0, [categoryId]);
 
   // 日付選択のロジック

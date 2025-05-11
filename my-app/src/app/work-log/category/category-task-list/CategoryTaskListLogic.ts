@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from "react";
  */
 export default function CategoryTaskListLogic() {
   const searchParams = useSearchParams();
-  const categoryId = Number(searchParams.get("id") ?? 1);
+  const categoryId = Number(searchParams.get("id") ?? 0);
   const noCategory = useMemo(() => categoryId === 0, [categoryId]);
   const { data: fetchData, isLoading } = useAspidaSWR(
     apiClient.work_log.categories._id(categoryId).tasks,
