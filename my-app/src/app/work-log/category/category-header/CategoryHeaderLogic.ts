@@ -98,7 +98,11 @@ export default function CategoryHeaderLogic() {
     console.log("effect");
     if (optionsQuery && categoryOptions.length > 0) {
       console.log("へんこう！");
-      router.replace(`?id=${categoryOptions[0].id}`);
+      router.replace(
+        categoryOptions[0].id !== 0
+          ? `?id=${categoryOptions[0].id}`
+          : "category" // id=0の場合はクエリなし
+      );
     }
   }, [categoryOptions, optionsQuery, router]);
   const isSelectedIdAvailable = useMemo(
@@ -109,7 +113,13 @@ export default function CategoryHeaderLogic() {
     useAspidaSWR(
       apiClient.work_log.categories._id(selectedCategoryId).summary,
       "get",
-      { key: `api/work-log/categories/${selectedCategoryId}/summary` }
+      {
+        key:
+          // カテゴリ選択が0(カテゴリがない場合の値)であればkeyをnullにしてフェッチさせない
+          selectedCategoryId === 0
+            ? null
+            : `api/work-log/categories/${selectedCategoryId}/summary`,
+      }
     );
   const categorySummaryData = rawCategorySummaryData?.body ?? {
     // 仮データ(実際はisLoadingで非表示)
