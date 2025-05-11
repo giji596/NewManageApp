@@ -156,31 +156,38 @@ export default function CategoryHeader() {
         </Stack>
       </Stack>
       {/** ダイアログ群 */}
-      <CategoryDisplayRangeDialog
-        open={openPeriod}
-        onClose={onClosePeriod}
-        initDisplayRange={queryParams.displayRange}
-        initStartDate={queryParams.startDate}
-        initEndDate={queryParams.endDate}
-        initHideCompleted={queryParams.hideCompleted}
-        onAdapt={handleAdaptDisplayRange}
-      />
-
-      <CompleteConfirmDialog
-        open={openComplete}
-        onClose={onCloseComplete}
-        onAccept={handleComplete}
-      />
-      <CreateTaskDialog
-        open={openTask}
-        onClose={onCloseTask}
-        categoryId={selectedCategoryId}
-      />
-      <ConfirmDeleteDialog
-        open={openDelete}
-        onClose={onCloseDelete}
-        onAccept={handleDelete}
-      />
+      {openPeriod && (
+        <CategoryDisplayRangeDialog
+          open={openPeriod}
+          onClose={onClosePeriod}
+          initDisplayRange={queryParams.displayRange}
+          initStartDate={queryParams.startDate}
+          initEndDate={queryParams.endDate}
+          initHideCompleted={queryParams.hideCompleted}
+          onAdapt={handleAdaptDisplayRange}
+        />
+      )}
+      {openComplete && (
+        <CompleteConfirmDialog
+          open={openComplete}
+          onClose={onCloseComplete}
+          onAccept={handleComplete}
+        />
+      )}
+      {openTask && (
+        <CreateTaskDialog
+          open={openTask}
+          onClose={onCloseTask}
+          categoryId={selectedCategoryId}
+        />
+      )}
+      {openDelete && (
+        <ConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
+          onAccept={handleDelete}
+        />
+      )}
     </>
   );
 }
