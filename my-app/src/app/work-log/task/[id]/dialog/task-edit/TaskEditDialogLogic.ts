@@ -38,7 +38,7 @@ export default function TaskEditDialogLogic({
   const { data, isLoading } = useAspidaSWR(
     apiClient.work_log.categories.options,
     "get",
-    { key: "api/work-log/categories/options" }
+    { key: ["api/work-log/categories/options"] }
   );
   const categoryList: CategoryOption[] = data?.body ?? [];
 
