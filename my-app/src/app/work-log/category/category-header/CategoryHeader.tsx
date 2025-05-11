@@ -18,6 +18,7 @@ import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDial
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
 import CategoryDisplayRangeDialog from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialog";
+import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 
 /**
  * カテゴリページのヘッダー部分
@@ -61,6 +62,11 @@ export default function CategoryHeader() {
     open: openDelete,
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
+  } = useDialog();
+  const {
+    open: openCategory,
+    onOpen: onOpenCategory,
+    onClose: onCloseCategory,
   } = useDialog();
   return (
     <>
@@ -175,6 +181,7 @@ export default function CategoryHeader() {
           )}
           <IconButton
             sx={{ width: 40, height: 40, alignSelf: "center", ml: 0.5 }}
+            onClick={onOpenCategory}
           >
             <AddCircleOutlineIcon />
           </IconButton>
@@ -220,6 +227,9 @@ export default function CategoryHeader() {
           onClose={onCloseDelete}
           onAccept={handleDelete}
         />
+      )}
+      {openCategory && (
+        <CreateCategoryDialog open={openCategory} onClose={onCloseCategory} />
       )}
     </>
   );
