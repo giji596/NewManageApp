@@ -89,10 +89,24 @@ export default function CategoryHeaderLogic() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const selectedCategoryId = Number(
-    searchParams.get("id") ?? categoryOptions[0]?.id ?? 0 // 初期値なしであれば[0]番目の選択賜(データフェッチ前は0(表示はされない))
-  );
+  const selectedCategoryId = Number(searchParams.get("id") ?? 0);
 
+  // パラメータの有無をbooleanで関数化することでuseEffectの依存値から除く
+  const isNoParam = useMemo(
+    () => searchParams.get("id") === null,
+    [searchParams]
+  );
+  // 初期化処理 パラメータが空の場合にセットする
+  useEffect(() => {
+    // パラメータが空(初回 or データなし) かつ カテゴリ一覧をフェッチ後に行う
+    if (isNoParam && categoryOptions.length > 0) {
+      const defaultId = categoryOptions[0].id;
+      // [0]データが0(データなし)でない場合のみパラメータを変更する
+      if (defaultId !== 0) {
+        router.replace(`?id=${defaultId}`);
+      }
+    }
+  }, [categoryOptions, router, isNoParam]);
   // カテゴリ一覧更新時 一番上の値をセットする
   useEffect(() => {
     console.log("effect");
