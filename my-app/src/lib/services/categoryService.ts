@@ -4,13 +4,15 @@ import {
   CategorySummary,
 } from "@/type/Category";
 import prisma from "../prisma";
-import { format, subMonths } from "date-fns";
+import { format, getTime, subMonths } from "date-fns";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 
 /**
  * カテゴリ選択賜一覧取得
  */
-export const getCategoryOptions = async (query?: CategoryHeaderQuery) => {
+export const getCategoryOptions = async (
+  query?: CategoryHeaderQuery
+): Promise<CategoryOption[]> => {
   const hideCompleted = query?.hideCompleted;
   // 最終更新日関連
   const startDate =
@@ -29,25 +31,50 @@ export const getCategoryOptions = async (query?: CategoryHeaderQuery) => {
       : query?.endDate
       ? new Date(query.endDate)
       : undefined;
-  const data: CategoryOption[] = await prisma.category.findMany({
+  const data = await prisma.category.findMany({
     // hideCompleted=trueの場合はisCompleted:falseのものだけ取得する
     where: {
       ...(hideCompleted !== undefined && { isCompleted: false }),
-      tasks: {
-        some: {
-          ...(startDate !== undefined &&
-            endDate !== undefined && {
-              updatedAt: { gte: startDate, lte: endDate },
-            }),
-        },
-      },
     },
     select: {
       id: true,
       name: true,
+      tasks: {
+        select: {
+          updatedAt: true,
+        },
+      },
     },
   });
-  return data;
+  // 最終更新日を含めたフラットなデータに整形
+  const latestData = data.map((v) => {
+    // 最終更新日を取得
+    const latest = v.tasks.reduce(
+      (a, b) => (getTime(a) < getTime(b.updatedAt) ? b.updatedAt : a),
+      new Date("1990-01-01")
+    );
+    return { id: v.id, name: v.name, latestDate: latest };
+  });
+  // 日付範囲が指定されていない場合、新しい順にソートして返す
+  if (!startDate || !endDate) {
+    const sorted = latestData.sort(
+      (a, b) => getTime(b.latestDate) - getTime(a.latestDate)
+    );
+    return sorted.map((v) => {
+      return { id: v.id, name: v.name };
+    });
+  }
+  // 日付範囲が指定されている場合、日付範囲外のものをフィルターする
+  const filtered = latestData.filter(
+    (v) => startDate <= v.latestDate && v.latestDate <= endDate
+  );
+  // 新しい順にソートする
+  const sorted = filtered.sort(
+    (a, b) => getTime(b.latestDate) - getTime(a.latestDate)
+  );
+  return sorted.map((v) => {
+    return { id: v.id, name: v.name };
+  });
 };
 
 /**
