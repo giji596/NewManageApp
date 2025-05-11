@@ -3,12 +3,14 @@ import {
   CircularProgress,
   FormControl,
   FormLabel,
+  IconButton,
   MenuItem,
   Select,
   Stack,
   Typography,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
 import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
@@ -140,7 +142,7 @@ export default function CategoryHeader() {
           </Stack>
         )}
         {/** 右部分(カテゴリ選択/完了ボタン) */}
-        <Stack spacing={1} direction="row">
+        <Stack direction="row">
           {(isLoadingOptions || !isSelectedIdAvailable) && (
             <Stack
               width={113}
@@ -171,6 +173,11 @@ export default function CategoryHeader() {
               </Select>
             </FormControl>
           )}
+          <IconButton
+            sx={{ width: 40, height: 40, alignSelf: "center", ml: 0.5 }}
+          >
+            <AddCircleOutlineIcon />
+          </IconButton>
           <CategoryActionMenuButton
             isCompleted={false}
             isNoCategory={isNoCategory}
