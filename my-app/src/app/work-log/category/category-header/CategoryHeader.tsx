@@ -3,12 +3,14 @@ import {
   CircularProgress,
   FormControl,
   FormLabel,
+  IconButton,
   MenuItem,
   Select,
   Stack,
   Typography,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CategoryHeaderLogic from "./CategoryHeaderLogic";
 import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
@@ -16,6 +18,7 @@ import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDial
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
 import CategoryDisplayRangeDialog from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialog";
+import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 
 /**
  * カテゴリページのヘッダー部分
@@ -59,6 +62,11 @@ export default function CategoryHeader() {
     open: openDelete,
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
+  } = useDialog();
+  const {
+    open: openCategory,
+    onOpen: onOpenCategory,
+    onClose: onCloseCategory,
   } = useDialog();
   return (
     <>
@@ -140,7 +148,7 @@ export default function CategoryHeader() {
           </Stack>
         )}
         {/** 右部分(カテゴリ選択/完了ボタン) */}
-        <Stack spacing={1} direction="row">
+        <Stack direction="row">
           {(isLoadingOptions || !isSelectedIdAvailable) && (
             <Stack
               width={113}
@@ -171,6 +179,12 @@ export default function CategoryHeader() {
               </Select>
             </FormControl>
           )}
+          <IconButton
+            sx={{ width: 40, height: 40, alignSelf: "center", ml: 0.5 }}
+            onClick={onOpenCategory}
+          >
+            <AddCircleOutlineIcon />
+          </IconButton>
           <CategoryActionMenuButton
             isCompleted={false}
             isNoCategory={isNoCategory}
@@ -213,6 +227,9 @@ export default function CategoryHeader() {
           onClose={onCloseDelete}
           onAccept={handleDelete}
         />
+      )}
+      {openCategory && (
+        <CreateCategoryDialog open={openCategory} onClose={onCloseCategory} />
       )}
     </>
   );
