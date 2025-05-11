@@ -26,7 +26,9 @@ export default function CategoryHeader() {
     queryParams,
     handleAdaptDisplayRange,
     categoryOptions,
+    isLoadingOptions,
     selectedCategoryId,
+    isSelectedIdAvailable,
     selectedCategoryName,
     isLoadingCategorySummary,
     isCompleted,
@@ -129,23 +131,35 @@ export default function CategoryHeader() {
         )}
         {/** 右部分(カテゴリ選択/完了ボタン) */}
         <Stack spacing={1} direction="row">
-          <FormControl>
-            <FormLabel>カテゴリを選択</FormLabel>
-            <Select
-              labelId="category-select-label"
-              id="category-select"
-              name="category-select"
-              variant="standard"
-              value={String(selectedCategoryId)}
-              onChange={onChangeCategoryId}
+          {(isLoadingOptions || !isSelectedIdAvailable) && (
+            <Stack
+              width={113}
+              height={104}
+              alignItems={"center"}
+              justifyContent={"center"}
             >
-              {categoryOptions.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <CircularProgress size={30} />
+            </Stack>
+          )}
+          {!isLoadingOptions && isSelectedIdAvailable && (
+            <FormControl>
+              <FormLabel>カテゴリを選択</FormLabel>
+              <Select
+                labelId="category-select-label"
+                id="category-select"
+                name="category-select"
+                variant="standard"
+                value={String(selectedCategoryId)}
+                onChange={onChangeCategoryId}
+              >
+                {categoryOptions.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           <CategoryActionMenuButton
             isCompleted={false}
             onClickDisplayRange={onOpenPeriod}

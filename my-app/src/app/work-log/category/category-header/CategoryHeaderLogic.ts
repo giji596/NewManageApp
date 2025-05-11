@@ -7,7 +7,7 @@ import {
 import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 
@@ -72,12 +72,16 @@ export default function CategoryHeaderLogic() {
     setOptionsQuery(v);
   }, []);
 
-  const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
-    query: queryValues,
-    key: optionsQuery
-      ? ["api/work-log/categories/options", optionsQuery.toString()]
-      : ["api/work-log/categories/options"],
-  });
+  const { data, isLoading: isLoadingOptions } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get",
+    {
+      query: queryValues,
+      key: optionsQuery
+        ? ["api/work-log/categories/options", optionsQuery.toString()]
+        : ["api/work-log/categories/options"],
+    }
+  );
   const categoryOptions: CategoryOption[] = useMemo(
     () => data?.body ?? [],
     [data?.body]
@@ -87,6 +91,18 @@ export default function CategoryHeaderLogic() {
   const router = useRouter();
   const selectedCategoryId = Number(searchParams.get("id") ?? 1);
 
+  // カテゴリ一覧更新時 一番上の値をセットする
+  useEffect(() => {
+    console.log("effect");
+    if (optionsQuery && categoryOptions.length > 0) {
+      console.log("へんこう！");
+      router.replace(`?id=${categoryOptions[0].id}`);
+    }
+  }, [categoryOptions, optionsQuery, router]);
+  const isSelectedIdAvailable = useMemo(
+    () => categoryOptions.some((v) => v.id === selectedCategoryId),
+    [categoryOptions, selectedCategoryId]
+  );
   const { data: rawCategorySummaryData, isLoading: isLoadingCategorySummary } =
     useAspidaSWR(
       apiClient.work_log.categories._id(selectedCategoryId).summary,
@@ -148,8 +164,12 @@ export default function CategoryHeaderLogic() {
     handleAdaptDisplayRange,
     /** カテゴリの選択賜一覧 */
     categoryOptions,
+    /** カテゴリ選択賜のロード状態 */
+    isLoadingOptions,
     /** 選択中のカテゴリid */
     selectedCategoryId,
+    /** 選択中のカテゴリidが存在するか */
+    isSelectedIdAvailable,
     /** カテゴリの概要のロード状態 */
     isLoadingCategorySummary,
     /** 選択中のカテゴリ名 */
