@@ -6,6 +6,7 @@ const meta = {
   component: CategoryActionMenuButton,
   args: {
     isCompleted: false,
+    isNoCategory: false,
     onClickDisplayRange: () => {},
     onClickComplete: () => {},
     onClickAddTask: () => {},

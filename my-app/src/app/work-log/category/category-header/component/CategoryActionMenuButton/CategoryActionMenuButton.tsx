@@ -16,6 +16,8 @@ import { CategoryActionMenuButtonLogic } from "./CategoryActionMenuButtonLogic";
 type Props = {
   /** 完了状態かどうか(表示項目の分岐に利用) */
   isCompleted: boolean;
+  /** カテゴリの有無(表示の分岐に利用) */
+  isNoCategory: boolean;
   /** 表示範囲変更クリックした際のハンドラー */
   onClickDisplayRange: () => void;
   /** カテゴリ完了クリックした際のハンドラー */
@@ -30,6 +32,7 @@ type Props = {
  */
 const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
   isCompleted,
+  isNoCategory,
   onClickDisplayRange,
   onClickComplete,
   onClickAddTask,
@@ -57,7 +60,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
         </MenuItem>
         {/** 完了 */}
         {!isCompleted && (
-          <MenuItem onClick={onClickComplete}>
+          <MenuItem disabled={isNoCategory} onClick={onClickComplete}>
             <ListItemIcon>
               <DoneIcon color="success" />
             </ListItemIcon>
@@ -68,7 +71,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
         )}
         {/** タスク追加 */}
         {!isCompleted && (
-          <MenuItem onClick={onClickAddTask}>
+          <MenuItem disabled={isNoCategory} onClick={onClickAddTask}>
             <ListItemIcon>
               <AddTaskIcon color="primary" />
             </ListItemIcon>
@@ -78,7 +81,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
           </MenuItem>
         )}
         {/** 削除 */}
-        <MenuItem onClick={onClickDelete}>
+        <MenuItem disabled={isNoCategory} onClick={onClickDelete}>
           <ListItemIcon>
             <DeleteIcon color="error" />
           </ListItemIcon>

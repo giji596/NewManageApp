@@ -173,6 +173,7 @@ export default function CategoryHeader() {
           )}
           <CategoryActionMenuButton
             isCompleted={false}
+            isNoCategory={isNoCategory}
             onClickDisplayRange={onOpenPeriod}
             onClickComplete={onOpenComplete}
             onClickAddTask={onOpenTask}
