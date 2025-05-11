@@ -28,6 +28,7 @@ export default function CategoryHeader() {
     categoryOptions,
     isLoadingOptions,
     selectedCategoryId,
+    isSelectedIdAvailable,
     selectedCategoryName,
     isLoadingCategorySummary,
     isCompleted,
@@ -130,7 +131,7 @@ export default function CategoryHeader() {
         )}
         {/** 右部分(カテゴリ選択/完了ボタン) */}
         <Stack spacing={1} direction="row">
-          {isLoadingOptions && (
+          {(isLoadingOptions || !isSelectedIdAvailable) && (
             <Stack
               width={113}
               height={104}
@@ -140,7 +141,7 @@ export default function CategoryHeader() {
               <CircularProgress size={30} />
             </Stack>
           )}
-          {!isLoadingOptions && (
+          {!isLoadingOptions && isSelectedIdAvailable && (
             <FormControl>
               <FormLabel>カテゴリを選択</FormLabel>
               <Select

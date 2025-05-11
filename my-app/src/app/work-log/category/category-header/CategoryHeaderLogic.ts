@@ -99,7 +99,10 @@ export default function CategoryHeaderLogic() {
       router.replace(`?id=${categoryOptions[0].id}`);
     }
   }, [categoryOptions, optionsQuery, router]);
-
+  const isSelectedIdAvailable = useMemo(
+    () => categoryOptions.some((v) => v.id === selectedCategoryId),
+    [categoryOptions, selectedCategoryId]
+  );
   const { data: rawCategorySummaryData, isLoading: isLoadingCategorySummary } =
     useAspidaSWR(
       apiClient.work_log.categories._id(selectedCategoryId).summary,
@@ -165,6 +168,8 @@ export default function CategoryHeaderLogic() {
     isLoadingOptions,
     /** 選択中のカテゴリid */
     selectedCategoryId,
+    /** 選択中のカテゴリidが存在するか */
+    isSelectedIdAvailable,
     /** カテゴリの概要のロード状態 */
     isLoadingCategorySummary,
     /** 選択中のカテゴリ名 */
