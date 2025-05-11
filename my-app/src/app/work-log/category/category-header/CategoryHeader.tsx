@@ -37,6 +37,7 @@ export default function CategoryHeader() {
     onChangeCategoryId,
     handleComplete,
     handleDelete,
+    isNoCategory,
   } = CategoryHeaderLogic();
 
   const {
@@ -73,7 +74,16 @@ export default function CategoryHeader() {
             <CircularProgress />
           </Stack>
         )}
-        {!isLoadingCategorySummary && (
+        {/** データなしの場合 空白のStackを配置 */}
+        {!isLoadingCategorySummary && isNoCategory && (
+          <Stack
+            width="550px"
+            height="100px"
+            alignItems="center"
+            justifySelf={"center"}
+          />
+        )}
+        {!isLoadingCategorySummary && !isNoCategory && (
           <Stack spacing={0.5} width="550px">
             {/** カテゴリ名 + Completed? */}
             <Stack direction="row" spacing={1}>
@@ -151,6 +161,7 @@ export default function CategoryHeader() {
                 variant="standard"
                 value={String(selectedCategoryId)}
                 onChange={onChangeCategoryId}
+                disabled={isNoCategory} // カテゴリ選択賜がない場合はdisabled
               >
                 {categoryOptions.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
@@ -162,6 +173,7 @@ export default function CategoryHeader() {
           )}
           <CategoryActionMenuButton
             isCompleted={false}
+            isNoCategory={isNoCategory}
             onClickDisplayRange={onOpenPeriod}
             onClickComplete={onOpenComplete}
             onClickAddTask={onOpenTask}

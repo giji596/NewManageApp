@@ -89,14 +89,20 @@ export default function CategoryHeaderLogic() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const selectedCategoryId = Number(searchParams.get("id") ?? 1);
+  const selectedCategoryId = Number(
+    searchParams.get("id") ?? categoryOptions[0]?.id ?? 0 // 初期値なしであれば[0]番目の選択賜(データフェッチ前は0(表示はされない))
+  );
 
   // カテゴリ一覧更新時 一番上の値をセットする
   useEffect(() => {
     console.log("effect");
     if (optionsQuery && categoryOptions.length > 0) {
       console.log("へんこう！");
-      router.replace(`?id=${categoryOptions[0].id}`);
+      router.replace(
+        categoryOptions[0].id !== 0
+          ? `?id=${categoryOptions[0].id}`
+          : "category" // id=0の場合はクエリなし
+      );
     }
   }, [categoryOptions, optionsQuery, router]);
   const isSelectedIdAvailable = useMemo(
@@ -107,7 +113,13 @@ export default function CategoryHeaderLogic() {
     useAspidaSWR(
       apiClient.work_log.categories._id(selectedCategoryId).summary,
       "get",
-      { key: `api/work-log/categories/${selectedCategoryId}/summary` }
+      {
+        key:
+          // カテゴリ選択が0(カテゴリがない場合の値)であればkeyをnullにしてフェッチさせない
+          selectedCategoryId === 0
+            ? null
+            : `api/work-log/categories/${selectedCategoryId}/summary`,
+      }
     );
   const categorySummaryData = rawCategorySummaryData?.body ?? {
     // 仮データ(実際はisLoadingで非表示)
@@ -155,6 +167,11 @@ export default function CategoryHeaderLogic() {
        `,
     [totalHours]
   );
+
+  const isNoCategory = useMemo(
+    () => selectedCategoryId === 0,
+    [selectedCategoryId]
+  );
   return {
     /** グラフのアニメーション */
     growAnimation,
@@ -186,5 +203,7 @@ export default function CategoryHeaderLogic() {
     handleComplete,
     /** 削除するハンドラー */
     handleDelete,
+    /** カテゴリーの有無 */
+    isNoCategory,
   };
 }
