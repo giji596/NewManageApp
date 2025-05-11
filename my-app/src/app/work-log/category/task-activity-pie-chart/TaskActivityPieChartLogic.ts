@@ -10,6 +10,8 @@ import { useCallback, useMemo, useState } from "react";
 export default function TaskActivityPieChartLogic() {
   const searchParams = useSearchParams();
   const categoryId = Number(searchParams.get("id") ?? 1);
+  const noCategory = useMemo(() => categoryId === 0, [categoryId]);
+
   // 日付選択のロジック
   const [selectedRange, setSelectedRange] = useState<
     "last-month" | "all" | "select"
@@ -52,7 +54,9 @@ export default function TaskActivityPieChartLogic() {
     "get",
     {
       query: fetchQuery,
-      key: [`api/work-log/categories/${categoryId}/activity`, fetchQuery],
+      key: noCategory
+        ? null
+        : [`api/work-log/categories/${categoryId}/activity`, fetchQuery],
     }
   );
   const data = rawData?.body ?? [];

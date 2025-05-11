@@ -9,10 +9,13 @@ import { useCallback, useMemo, useState } from "react";
 export default function CategoryTaskListLogic() {
   const searchParams = useSearchParams();
   const categoryId = Number(searchParams.get("id") ?? 1);
+  const noCategory = useMemo(() => categoryId === 0, [categoryId]);
   const { data: fetchData, isLoading } = useAspidaSWR(
     apiClient.work_log.categories._id(categoryId).tasks,
     "get",
-    { key: `api/work-log/categories/${categoryId}/tasks` }
+    {
+      key: noCategory ? null : `api/work-log/categories/${categoryId}/tasks`,
+    }
   );
 
   const [selectedValue, setSelectedValue] = useState<
