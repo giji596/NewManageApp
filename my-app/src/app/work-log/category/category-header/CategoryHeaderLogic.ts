@@ -167,6 +167,11 @@ export default function CategoryHeaderLogic() {
        `,
     [totalHours]
   );
+
+  const isNoCategory = useMemo(
+    () => selectedCategoryId === 0,
+    [selectedCategoryId]
+  );
   return {
     /** グラフのアニメーション */
     growAnimation,
@@ -198,5 +203,7 @@ export default function CategoryHeaderLogic() {
     handleComplete,
     /** 削除するハンドラー */
     handleDelete,
+    /** カテゴリーの有無 */
+    isNoCategory,
   };
 }
