@@ -45,6 +45,7 @@ export default function CreateTaskDialogLogic({
   );
   // TODO:でーたふぇっちさせる
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
+    query: { displayRange: "all", hideCompleted: "true" },
     key: ["api/work-log/categories/options"],
   });
   const categoryList = data?.body;
