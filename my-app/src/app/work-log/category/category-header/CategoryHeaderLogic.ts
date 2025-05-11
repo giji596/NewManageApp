@@ -7,7 +7,7 @@ import {
 import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 
@@ -86,6 +86,15 @@ export default function CategoryHeaderLogic() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const selectedCategoryId = Number(searchParams.get("id") ?? 1);
+
+  // カテゴリ一覧更新時 一番上の値をセットする
+  useEffect(() => {
+    console.log("effect");
+    if (optionsQuery && categoryOptions.length > 0) {
+      console.log("へんこう！");
+      router.replace(`?id=${categoryOptions[0].id}`);
+    }
+  }, [categoryOptions, optionsQuery, router]);
 
   const { data: rawCategorySummaryData, isLoading: isLoadingCategorySummary } =
     useAspidaSWR(
