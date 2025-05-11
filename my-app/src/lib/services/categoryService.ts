@@ -4,13 +4,15 @@ import {
   CategorySummary,
 } from "@/type/Category";
 import prisma from "../prisma";
-import { format, subMonths } from "date-fns";
+import { format, getTime, subMonths } from "date-fns";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 
 /**
  * カテゴリ選択賜一覧取得
  */
-export const getCategoryOptions = async (query?: CategoryHeaderQuery) => {
+export const getCategoryOptions = async (
+  query?: CategoryHeaderQuery
+): Promise<CategoryOption[]> => {
   const hideCompleted = query?.hideCompleted;
   // 最終更新日関連
   const startDate =
@@ -29,25 +31,36 @@ export const getCategoryOptions = async (query?: CategoryHeaderQuery) => {
       : query?.endDate
       ? new Date(query.endDate)
       : undefined;
-  const data: CategoryOption[] = await prisma.category.findMany({
+  const data = await prisma.category.findMany({
     // hideCompleted=trueの場合はisCompleted:falseのものだけ取得する
     where: {
       ...(hideCompleted !== undefined && { isCompleted: false }),
-      tasks: {
-        some: {
-          ...(startDate !== undefined &&
-            endDate !== undefined && {
-              updatedAt: { gte: startDate, lte: endDate },
-            }),
-        },
-      },
     },
     select: {
       id: true,
       name: true,
+      tasks: {
+        select: {
+          updatedAt: true,
+        },
+      },
     },
   });
-  return data;
+  // 日付指定がない場合はそのままデータを返す
+  if (!startDate || !endDate) return data;
+  // 日付指定がある場合は日付範囲外のものをフィルターする
+  const filtered = data.filter((v) => {
+    // 最終更新日を取得
+    const latest = v.tasks.reduce(
+      (a, b) => (getTime(a) < getTime(b.updatedAt) ? b.updatedAt : a),
+      new Date("1990-01-01")
+    );
+    // 日付範囲内であるかチェック
+    return startDate <= latest && latest <= endDate;
+  });
+  return filtered.map((v) => {
+    return { id: v.id, name: v.name };
+  });
 };
 
 /**
