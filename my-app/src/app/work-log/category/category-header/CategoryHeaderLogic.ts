@@ -72,12 +72,16 @@ export default function CategoryHeaderLogic() {
     setOptionsQuery(v);
   }, []);
 
-  const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
-    query: queryValues,
-    key: optionsQuery
-      ? ["api/work-log/categories/options", optionsQuery.toString()]
-      : ["api/work-log/categories/options"],
-  });
+  const { data, isLoading: isLoadingOptions } = useAspidaSWR(
+    apiClient.work_log.categories.options,
+    "get",
+    {
+      query: queryValues,
+      key: optionsQuery
+        ? ["api/work-log/categories/options", optionsQuery.toString()]
+        : ["api/work-log/categories/options"],
+    }
+  );
   const categoryOptions: CategoryOption[] = useMemo(
     () => data?.body ?? [],
     [data?.body]
@@ -157,6 +161,8 @@ export default function CategoryHeaderLogic() {
     handleAdaptDisplayRange,
     /** カテゴリの選択賜一覧 */
     categoryOptions,
+    /** カテゴリ選択賜のロード状態 */
+    isLoadingOptions,
     /** 選択中のカテゴリid */
     selectedCategoryId,
     /** カテゴリの概要のロード状態 */
