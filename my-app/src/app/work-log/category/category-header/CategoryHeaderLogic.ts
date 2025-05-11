@@ -89,7 +89,9 @@ export default function CategoryHeaderLogic() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const selectedCategoryId = Number(searchParams.get("id") ?? 1);
+  const selectedCategoryId = Number(
+    searchParams.get("id") ?? categoryOptions[0]?.id ?? 0 // 初期値なしであれば[0]番目の選択賜(データフェッチ前は0(表示はされない))
+  );
 
   // カテゴリ一覧更新時 一番上の値をセットする
   useEffect(() => {
