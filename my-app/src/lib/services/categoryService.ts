@@ -31,19 +31,20 @@ export const getCategoryOptions = async (query?: CategoryHeaderQuery) => {
       : undefined;
   const data: CategoryOption[] = await prisma.category.findMany({
     // hideCompleted=trueの場合はisCompleted:falseのものだけ取得する
-    where: { ...(hideCompleted !== undefined && { isCompleted: false }) },
-    select: {
-      id: true,
-      name: true,
+    where: {
+      ...(hideCompleted !== undefined && { isCompleted: false }),
       tasks: {
-        // displayRange=last-3-months, customの場合に更新日でフィルター
-        where: {
+        some: {
           ...(startDate !== undefined &&
             endDate !== undefined && {
               updatedAt: { gte: startDate, lte: endDate },
             }),
         },
       },
+    },
+    select: {
+      id: true,
+      name: true,
     },
   });
   return data;

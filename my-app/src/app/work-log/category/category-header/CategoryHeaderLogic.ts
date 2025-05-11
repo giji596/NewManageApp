@@ -74,9 +74,9 @@ export default function CategoryHeaderLogic() {
 
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     query: queryValues,
-    key: `api/work-log/categories/options${
-      queryValues !== undefined ? `?${queryValues.toString()}` : ""
-    }`,
+    key: optionsQuery
+      ? ["api/work-log/categories/options", optionsQuery.toString()]
+      : ["api/work-log/categories/options"],
   });
   const categoryOptions: CategoryOption[] = useMemo(
     () => data?.body ?? [],
