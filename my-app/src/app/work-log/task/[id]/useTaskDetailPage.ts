@@ -1,5 +1,4 @@
 import apiClient from "@/lib/apiClient";
-import { TaskDetail } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import axios from "axios";
 import { notFound, useRouter } from "next/navigation";
@@ -29,7 +28,7 @@ export default function useTaskDetailPage({ id }: Props) {
     if (error.status === 404) notFound();
   }
   // 初期ロード時はisLoading=trueとなりdataは利用されないので、null時のデータは利用されない
-  const data: TaskDetail = useMemo(() => {
+  const data = useMemo(() => {
     if (rawData) {
       const memos = rawData.body.memo.map((v) => {
         return { ...v, date: new Date(v.date) };
