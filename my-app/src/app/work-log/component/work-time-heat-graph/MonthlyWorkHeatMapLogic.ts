@@ -57,7 +57,7 @@ function generateLast30DaysLogs(
  * 1ヶ月間の日毎の稼働時間のヒートグラフのロジック
  */
 export const MonthlyWorkHeatMapLogic = () => {
-  /** レイアウト関連 */
+  // レイアウト関連
   const boxSize = 20;
   const gap = 4;
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -81,14 +81,6 @@ export const MonthlyWorkHeatMapLogic = () => {
     []
   );
 
-  /** 時間に応じたグラフのカラーを取得(稼働時間が多いほど濃くなる)
-   * |hours|color|
-   * |:---|:---|
-   * |0~1|cce5ff|
-   * |1.25~3|66b3ff|
-   * |3.25~6|3399ff|
-   * |6.25~|0073e6|
-   */
   const getColorByHours = useCallback((hours: number) => {
     if (hours <= 1) return "#cce5ff";
     if (hours <= 3) return "#66b3ff";
@@ -96,19 +88,16 @@ export const MonthlyWorkHeatMapLogic = () => {
     return "#0073e6";
   }, []);
 
-  /** 時間を整形する関数 */
   const getDisplayTime = useCallback((hours: number) => {
     const h = Math.floor(hours);
     const m = Math.round((hours - h) * 60);
     return `${h}時間${m > 0 ? `${m}分` : ""}`;
   }, []);
 
-  /** ハンドラー */
   const onClick = useCallback((date: string) => {
     console.log("click", date); // TODO: useRouterでページ遷移
   }, []);
 
-  /** データのない部分を0時間で埋める */
   const weeks = useMemo(() => {
     const filled = generateLast30DaysLogs(data);
     return groupByWeek(filled);
@@ -133,7 +122,7 @@ export const MonthlyWorkHeatMapLogic = () => {
     getDisplayTime,
     /** クリック時のハンドラー */
     onClick,
-    /** 整形後の週ごとのデータ */
+    /** 過去1ヶ月間の週ごとに分けられたデータ */
     weeks,
   };
 };
