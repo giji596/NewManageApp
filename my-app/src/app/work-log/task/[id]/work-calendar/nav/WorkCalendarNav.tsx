@@ -12,7 +12,17 @@ const WorkCalendarNav = memo(function WorkCalendarNav() {
   return (
     <Stack direction="row" spacing={3} alignItems={"center"}>
       {/** 戻る方のナビゲーション */}
-      <IconButton>
+      <IconButton
+        sx={{
+          transition: "transform 0.2s ease",
+          "&:hover": {
+            transform: "scale(1.1) translateX(-2px)",
+          },
+          "&:active": {
+            transform: "scale(1.1) translateX(-6px)",
+          },
+        }}
+      >
         <NavigateBeforeIcon />
       </IconButton>
       {/** 表示中の年月について */}
@@ -20,7 +30,17 @@ const WorkCalendarNav = memo(function WorkCalendarNav() {
         {year} 年 {month} 月
       </Typography>
       {/** 進む方のナビゲーション */}
-      <IconButton>
+      <IconButton
+        sx={{
+          transition: "transform 0.2s ease",
+          "&:hover": {
+            transform: "scale(1.1) translateX(2px)",
+          },
+          "&:active": {
+            transform: "scale(1.1) translateX(6px)",
+          },
+        }}
+      >
         <NavigateNextIcon />
       </IconButton>
     </Stack>
