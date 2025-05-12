@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import CompleteConfirmDialog from './CompleteConfirmDialog';
+import CompleteConfirmDialog from "./CompleteConfirmDialog";
 
 const meta = {
   component: CompleteConfirmDialog,
@@ -12,8 +12,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    target: "タスク",
     open: true,
     onClose: () => {},
-    onAccept: () => {}
-  }
+    onAccept: () => {},
+  },
 };

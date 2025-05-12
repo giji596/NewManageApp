@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 
 type Props = {
+  /** 完了する対象名(タスク,カテゴリ) */
+  target: string;
   /** 開閉状態 */
   open: boolean;
   /** 閉じるハンドラー */
@@ -21,6 +23,7 @@ type Props = {
  * タスク詳細　タスクを完了状態にするか確認するためのダイアログ
  */
 export default function CompleteConfirmDialog({
+  target,
   open,
   onClose,
   onAccept,
@@ -29,11 +32,11 @@ export default function CompleteConfirmDialog({
     <Dialog open={open} onClose={onClose}>
       <DialogContent>
         <DialogContentText>
-          タスクを完了してもよろしいですか？
+          {target}を完了してもよろしいですか？
           <br />
           <Typography color="error" variant="caption">
             * 一度完了すると、稼働状態に戻すことはできません
-            <br />* 完了済みのタスクは、稼働タスクに設定できなくなります。
+            <br />* 完了済みの{target}は、新規の稼働に設定できなくなります。
           </Typography>
         </DialogContentText>
         <DialogActions>
