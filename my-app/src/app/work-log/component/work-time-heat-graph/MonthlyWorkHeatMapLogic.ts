@@ -58,8 +58,8 @@ function generateLast30DaysLogs(
  */
 export const MonthlyWorkHeatMapLogic = () => {
   // レイアウト関連
-  const boxSize = 20;
-  const gap = 4;
+  const boxSize = 30;
+  const gap = 6;
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   /** TODO: 仮データ */

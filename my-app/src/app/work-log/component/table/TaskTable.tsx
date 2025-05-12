@@ -25,7 +25,7 @@ const TaskTable = memo(function TaskTable() {
       <Typography textAlign={"center"} variant="h6" color="text.secondary">
         過去一ヶ月の稼働タスク(進捗順)
       </Typography>
-      <TableContainer sx={{ width: 600, height: 300 }}>
+      <TableContainer sx={{ width: 700, height: 300 }}>
         <Table stickyHeader sx={{ tableLayout: "fixed" }}>
           {/** ヘッダー */}
           <TableHead>
