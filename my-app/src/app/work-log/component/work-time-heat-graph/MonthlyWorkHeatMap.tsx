@@ -1,4 +1,4 @@
-import { Tooltip, Box } from "@mui/material";
+import { Tooltip, Box, Typography } from "@mui/material";
 import { memo } from "react";
 import { MonthlyWorkHeatMapLogic } from "./MonthlyWorkHeatMapLogic";
 
@@ -17,7 +17,15 @@ const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
   } = MonthlyWorkHeatMapLogic();
 
   return (
-    <Box display="flex" flexDirection="column" gap={`${gap}px`}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems={"center"}
+      gap={`${gap}px`}
+    >
+      <Typography variant="h6" color="text.secondary">
+        過去一ヶ月の稼働時間
+      </Typography>
       {/* 曜日ラベル */}
       <Box display="flex" gap={`${gap}px`}>
         {daysOfWeek.map((day) => (
