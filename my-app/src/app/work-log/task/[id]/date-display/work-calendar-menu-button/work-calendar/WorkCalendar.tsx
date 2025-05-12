@@ -28,7 +28,7 @@ const WorkCalendar = memo(function WorkCalendar({
   } = WorkCalendarLogic({ startDate, lastDate });
 
   return (
-    <Stack alignItems={"center"} spacing={0.5}>
+    <Stack alignItems={"center"} spacing={0.5} p={2}>
       <WorkCalendarNav
         currentYear={year}
         currentMonth={month}
