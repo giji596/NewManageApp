@@ -3,6 +3,8 @@ import prisma from "../prisma";
 import { DateSummary, DateSummaryDetail } from "@/type/Date";
 import { CategoryWithPercentage } from "@/type/Category";
 import { TaskWithPercentage } from "@/type/Task";
+import { format, subDays } from "date-fns";
+import { DailyWorkTime } from "@/type/Main";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -199,4 +201,26 @@ export const getDailySummaryDetailData = async (date: Date) => {
   }
   console.log(data);
   return null;
+};
+
+/**
+ * 過去一ヶ月の日毎の稼働時間を取得するメソッド
+ */
+export const getMonthlyWorkTime = async () => {
+  const startDate = subDays(new Date(), 29); // 今日を含めて30日分
+  const data = await prisma.dailyData.findMany({
+    where: { date: { gte: startDate } },
+    select: { date: true, logs: { select: { workTime: true } } },
+  });
+
+  const result: DailyWorkTime[] = data.map((v) => {
+    const date = format(v.date, "yyyy-MM-dd");
+    const totalHours = v.logs.reduce((a, b) => a + b.workTime, 0);
+    return {
+      date,
+      totalHours,
+    };
+  });
+  // 合計時間0のデータは不要(FEではデータなしと同等の扱い)なのでフィルターして送らない
+  return result.filter((v) => v.totalHours !== 0);
 };

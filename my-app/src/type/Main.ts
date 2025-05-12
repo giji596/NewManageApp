@@ -14,3 +14,13 @@ export type MainPagePieChart = {
     hours: string;
   }[];
 };
+
+/**
+ * 日ごとの稼働時間のデータ型
+ */
+export type DailyWorkTime = {
+  /**'2025-05-11' */
+  date: string;
+  /**  例: 3.25(3時間15分)  */
+  totalHours: number;
+};

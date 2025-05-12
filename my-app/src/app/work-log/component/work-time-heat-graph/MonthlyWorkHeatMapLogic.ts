@@ -1,11 +1,9 @@
+import apiClient from "@/lib/apiClient";
+import { DailyWorkTime } from "@/type/Main";
+import useAspidaSWR from "@aspida/swr";
 import { format, getDay, isSameDay, parseISO, subDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-
-type DailyWorkTime = {
-  date: string; // '2025-05-11'
-  totalHours: number; // 例: 3.25(3時間15分)
-};
 
 /** 日付データを週ごとにまとめる関数 */
 function groupByWeek(data: DailyWorkTime[]) {
@@ -62,25 +60,13 @@ export const MonthlyWorkHeatMapLogic = () => {
   const boxSize = 30;
   const gap = 6;
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  /** TODO: 仮データ */
-  const data: DailyWorkTime[] = useMemo(
-    () => [
-      { date: "2025-04-13", totalHours: 8 },
-      { date: "2025-04-14", totalHours: 3.5 },
-      { date: "2025-04-15", totalHours: 5.5 },
-      { date: "2025-04-16", totalHours: 3.5 },
-      { date: "2025-04-18", totalHours: 1.5 },
-      { date: "2025-04-19", totalHours: 0.75 },
-      { date: "2025-04-22", totalHours: 2.5 },
-      { date: "2025-04-23", totalHours: 2.5 },
-      { date: "2025-05-03", totalHours: 2.25 },
-      { date: "2025-05-05", totalHours: 0.5 },
-      { date: "2025-05-11", totalHours: 1.5 },
-      { date: "2025-05-12", totalHours: 7.5 },
-    ],
-    []
+  // TODO:ロード時を扱えるようにする
+  const { data: rawData } = useAspidaSWR(
+    apiClient.work_log.daily.monthly_work_time,
+    "get",
+    { key: "api/work-log/daily/monthly-work-time" }
   );
+  const data = useMemo(() => rawData?.body ?? [], [rawData]);
 
   const getColorByHours = useCallback((hours: number) => {
     if (hours <= 1) return "#cce5ff";
