@@ -1,4 +1,5 @@
 import { format, getDay, isSameDay, parseISO, subDays } from "date-fns";
+import { useCallback, useMemo } from "react";
 
 type DailyWorkTime = {
   date: string; // '2025-05-11'
@@ -62,20 +63,23 @@ export const MonthlyWorkHeatMapLogic = () => {
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   /** TODO: 仮データ */
-  const data: DailyWorkTime[] = [
-    { date: "2025-04-13", totalHours: 8 },
-    { date: "2025-04-14", totalHours: 3.5 },
-    { date: "2025-04-15", totalHours: 5.5 },
-    { date: "2025-04-16", totalHours: 3.5 },
-    { date: "2025-04-18", totalHours: 1.5 },
-    { date: "2025-04-19", totalHours: 0.75 },
-    { date: "2025-04-22", totalHours: 2.5 },
-    { date: "2025-04-23", totalHours: 2.5 },
-    { date: "2025-05-03", totalHours: 2.25 },
-    { date: "2025-05-05", totalHours: 0.5 },
-    { date: "2025-05-11", totalHours: 1.5 },
-    { date: "2025-05-12", totalHours: 7.5 },
-  ];
+  const data: DailyWorkTime[] = useMemo(
+    () => [
+      { date: "2025-04-13", totalHours: 8 },
+      { date: "2025-04-14", totalHours: 3.5 },
+      { date: "2025-04-15", totalHours: 5.5 },
+      { date: "2025-04-16", totalHours: 3.5 },
+      { date: "2025-04-18", totalHours: 1.5 },
+      { date: "2025-04-19", totalHours: 0.75 },
+      { date: "2025-04-22", totalHours: 2.5 },
+      { date: "2025-04-23", totalHours: 2.5 },
+      { date: "2025-05-03", totalHours: 2.25 },
+      { date: "2025-05-05", totalHours: 0.5 },
+      { date: "2025-05-11", totalHours: 1.5 },
+      { date: "2025-05-12", totalHours: 7.5 },
+    ],
+    []
+  );
 
   /** 時間に応じたグラフのカラーを取得(稼働時間が多いほど濃くなる)
    * |hours|color|
@@ -85,28 +89,30 @@ export const MonthlyWorkHeatMapLogic = () => {
    * |3.25~6|3399ff|
    * |6.25~|0073e6|
    */
-  const getColorByHours = (hours: number) => {
+  const getColorByHours = useCallback((hours: number) => {
     if (hours <= 1) return "#cce5ff";
     if (hours <= 3) return "#66b3ff";
     if (hours <= 6) return "#3399ff";
     return "#0073e6";
-  };
+  }, []);
 
   /** 時間を整形する関数 */
-  const getDisplayTime = (hours: number) => {
+  const getDisplayTime = useCallback((hours: number) => {
     const h = Math.floor(hours);
     const m = Math.round((hours - h) * 60);
     return `${h}時間${m > 0 ? `${m}分` : ""}`;
-  };
+  }, []);
 
   /** ハンドラー */
-  const onClick = (date: string) => {
-    console.log("click", date);
-  };
+  const onClick = useCallback((date: string) => {
+    console.log("click", date); // TODO: useRouterでページ遷移
+  }, []);
 
-  /** データの変換処理 */
-  const filledData = generateLast30DaysLogs(data);
-  const weeks = groupByWeek(filledData);
+  /** データのない部分を0時間で埋める */
+  const weeks = useMemo(() => {
+    const filled = generateLast30DaysLogs(data);
+    return groupByWeek(filled);
+  }, [data]);
   return {
     /** グラフの1マスのサイズ */
     boxSize,
