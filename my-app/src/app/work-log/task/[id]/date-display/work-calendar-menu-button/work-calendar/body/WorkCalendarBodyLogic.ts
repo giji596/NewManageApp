@@ -1,4 +1,8 @@
+import apiClient from "@/lib/apiClient";
+import { CalendarDateMap } from "@/type/Task";
+import useAspidaSWR from "@aspida/swr";
 import { getDay, getDaysInMonth, startOfMonth } from "date-fns";
+import { useParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 /**月曜を 0 にするために、日曜(0) → 6、月曜(1) → 0...に変換 */
@@ -40,14 +44,26 @@ type Props = {
  * 稼働のカレンダーのボディ(日付表示)部分のロジック
  */
 export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
+  // パラメータ取得
+  const { id } = useParams<{ id: string }>();
   // weeksはレンダー時に必ず変化するのでメモ化不要
   const weeks = generateCalendarWeeks(year, month);
-  // TODO:データフェッチする or 親からもらう 検討する
-  const clickableDays = useMemo(() => [2, 5, 11, 15, 20, 29], []);
+  // このkeyはページでの値と同じため、ここでフェッチするのではなくキャッシュされたデータを取得する
+  const { data } = useAspidaSWR(apiClient.work_log.tasks._id(id), "get", {
+    key: `api/work-log/tasks/${id}`,
+    revalidateIfStale: false, // キャッシュ済みの場合にキャッシュデータを利用
+  });
+  const clickableDays: CalendarDateMap = useMemo(
+    () => data?.body.workDateList ?? {},
+    [data?.body.workDateList]
+  );
+  const clickableDaysKey = `${year}-${month}`;
 
   const isClickable = useCallback(
-    (day: number) => clickableDays.some((d) => d === day),
-    [clickableDays]
+    (day: number) =>
+      clickableDays[clickableDaysKey] && // TODO:念の為配置(本来undefinedにはならないはずだけど テスト環境だとupdatedAtの値がずれたりすることあるので)
+      clickableDays[clickableDaysKey].some((d) => d === day),
+    [clickableDays, clickableDaysKey]
   );
 
   const onClickDay = useCallback(
