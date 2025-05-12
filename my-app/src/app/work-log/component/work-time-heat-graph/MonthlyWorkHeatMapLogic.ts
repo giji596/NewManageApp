@@ -1,4 +1,5 @@
 import { format, getDay, isSameDay, parseISO, subDays } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 type DailyWorkTime = {
@@ -94,9 +95,15 @@ export const MonthlyWorkHeatMapLogic = () => {
     return `${h}時間${m > 0 ? `${m}分` : ""}`;
   }, []);
 
-  const onClick = useCallback((date: string) => {
-    console.log("click", date); // TODO: useRouterでページ遷移
-  }, []);
+  // ナビゲーション関連
+  const router = useRouter();
+
+  const onClick = useCallback(
+    (date: string) => {
+      router.push(`work-log/daily/${date}`);
+    },
+    [router]
+  );
 
   const weeks = useMemo(() => {
     const filled = generateLast30DaysLogs(data);
