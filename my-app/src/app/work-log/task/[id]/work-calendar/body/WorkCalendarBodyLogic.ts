@@ -1,4 +1,5 @@
 import { getDay, getDaysInMonth, startOfMonth } from "date-fns";
+import { useCallback, useMemo } from "react";
 
 // 月曜を 0 にするために、日曜(0) → 6、月曜(1) → 0...に変換
 const getMondayStartIndex = (date: Date) => (getDay(date) + 6) % 7;
@@ -35,10 +36,15 @@ type Props = {
  * 稼働のカレンダーのボディ(日付表示)部分のロジック
  */
 export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
+  // weeksはレンダー時に必ず変化するのでメモ化不要
   const weeks = generateCalendarWeeks(year, month);
-  const clickableDays = [2, 5, 11, 15, 20, 29];
+  // TODO:データフェッチする or 親からもらう 検討する
+  const clickableDays = useMemo(() => [2, 5, 11, 15, 20, 29], []);
 
-  const isClickable = (day: number) => clickableDays.some((d) => d === day);
+  const isClickable = useCallback(
+    (day: number) => clickableDays.some((d) => d === day),
+    [clickableDays]
+  );
   // レイアウト関連
   const boxSize = 40;
   const gap = 6;
