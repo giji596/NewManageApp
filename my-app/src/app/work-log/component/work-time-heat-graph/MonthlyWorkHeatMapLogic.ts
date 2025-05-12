@@ -60,7 +60,7 @@ export const MonthlyWorkHeatMapLogic = () => {
   const boxSize = 30;
   const gap = 6;
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
+  // TODO:ロード時を扱えるようにする
   const { data: rawData } = useAspidaSWR(
     apiClient.work_log.daily.monthly_work_time,
     "get",
