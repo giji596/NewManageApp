@@ -279,13 +279,14 @@ export const getLastMonthTaskActivities = async () => {
         hours,
       };
     });
+    const filteredTask = task.filter((v) => v.hours !== "0(h)");
     return {
       name: v.name,
       value,
-      task,
+      task: filteredTask,
     };
   });
-  return result;
+  return result.filter((v) => v.value !== 0);
 };
 
 /**
