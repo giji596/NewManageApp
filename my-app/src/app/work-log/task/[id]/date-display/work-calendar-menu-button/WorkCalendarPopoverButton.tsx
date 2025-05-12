@@ -1,7 +1,7 @@
 import { memo } from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { IconButton, Popover } from "@mui/material";
-import WorkCalendar from "../work-calendar/WorkCalendar";
+import WorkCalendar from "./work-calendar/WorkCalendar";
 import { WorkCalendarPopoverButtonLogic } from "./WorkCalendarPopoverButtonLogic";
 
 type Props = {
