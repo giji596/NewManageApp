@@ -49,6 +49,8 @@ export type TaskDetail = {
   lastDate: string;
   /** タスクの詳細ページのメモ */
   memo: MemoTaskDetail[];
+  /** タスクの実施日の一覧(カレンダー表示用) */
+  workDateList: CalendarDateMap;
 };
 
 export type TaskWithPercentage = { id: number; name: string; percent: string };
@@ -113,3 +115,6 @@ export type TaskSummaryRangeQuery = {
   /** 稼働あるのだけかどうか "true"のみ */
   activeOnly?: string;
 };
+
+/** カレンダー用のデータ構造 {key:年と月,value:日の配列  例:"2025-04":[1,2,4,6]} */
+export type CalendarDateMap = Record<string, number[]>;
