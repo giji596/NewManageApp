@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { WorkCalendarBody } from "./WorkCalendarBody";
+import WorkCalendarBody from "./WorkCalendarBody";
 
 const meta = {
   component: WorkCalendarBody,

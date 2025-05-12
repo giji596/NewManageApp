@@ -1,6 +1,7 @@
 "use client";
 import { Box } from "@mui/material";
 import { WorkCalendarBodyLogic } from "./WorkCalendarBodyLogic";
+import { memo } from "react";
 
 type Props = {
   /** 表示中の年 */
@@ -12,7 +13,10 @@ type Props = {
 /**
  * 稼働のカレンダーのボディ(日付表示)部分
  */
-export const WorkCalendarBody = ({ year, month }: Props) => {
+const WorkCalendarBody = memo(function WorkCalendarBody({
+  year,
+  month,
+}: Props) {
   const { weeks, isClickable, boxSize, gap, daysOfWeek, onClickDay } =
     WorkCalendarBodyLogic({ year, month });
   return (
@@ -108,4 +112,5 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
       ))}
     </Box>
   );
-};
+});
+export default WorkCalendarBody;
