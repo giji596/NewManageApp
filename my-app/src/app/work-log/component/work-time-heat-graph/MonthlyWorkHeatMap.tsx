@@ -26,7 +26,7 @@ const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
             sx={{
               width: boxSize,
               textAlign: "center",
-              fontSize: 10,
+              fontSize: 12,
               color: "#666",
             }}
           >
@@ -43,6 +43,13 @@ const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
               <Tooltip
                 key={item.date}
                 title={`${item.date}：${getDisplayTime(item.totalHours)}`}
+                slotProps={{
+                  tooltip: {
+                    sx: {
+                      fontSize: 14, // フォントサイズだけを変更
+                    },
+                  },
+                }}
                 arrow
               >
                 {/** 列(表示されるボックスごと) */}
