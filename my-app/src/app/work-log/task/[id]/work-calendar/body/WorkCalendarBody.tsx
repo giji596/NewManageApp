@@ -43,12 +43,12 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
         <Box key={wIdx} display="flex" gap={`${gap}px`}>
           {/** 行 */}
           {week.map((date, i) => {
-            // 日付の有無でチェック(空欄の場合はnull)
+            // 日付の有無で分岐
             if (date) {
               // クリック対象かチェック
               if (isClickable(date)) {
                 return (
-                  /** クリック可能な日付 */
+                  /** クリック可能な日付の場合 */
                   <Box
                     key={i}
                     sx={{
@@ -65,7 +65,7 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
                         transform: "scale(1.1)",
                       },
                     }}
-                    onClick={() => {}}
+                    onClick={() => {}} //TODO:すぐあとで
                   >
                     {date}
                   </Box>
@@ -73,7 +73,7 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
               }
 
               return (
-                /** クリックできない日付 */
+                /** クリックできない日付の場合 */
                 <Box
                   key={i}
                   sx={{
@@ -91,7 +91,7 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
               );
             }
             return (
-              /** 日付なしの空欄 */
+              /** 日付なしの空欄の場合 */
               <Box
                 key={i}
                 sx={{
