@@ -286,7 +286,7 @@ export const getLastMonthTaskActivities = async () => {
       task: filteredTask,
     };
   });
-  return result;
+  return result.filter((v) => v.value !== 0);
 };
 
 /**
