@@ -13,7 +13,7 @@ type Props = {
  * 稼働のカレンダーのボディ(日付表示)部分
  */
 export const WorkCalendarBody = ({ year, month }: Props) => {
-  const { weeks, isClickable, boxSize, gap, daysOfWeek } =
+  const { weeks, isClickable, boxSize, gap, daysOfWeek, onClickDay } =
     WorkCalendarBodyLogic({ year, month });
   return (
     <Box
@@ -42,11 +42,11 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
       {weeks.map((week, wIdx) => (
         <Box key={wIdx} display="flex" gap={`${gap}px`}>
           {/** 行 */}
-          {week.map((date, i) => {
+          {week.map((day, i) => {
             // 日付の有無で分岐
-            if (date) {
+            if (day) {
               // クリック対象かチェック
-              if (isClickable(date)) {
+              if (isClickable(day)) {
                 return (
                   /** クリック可能な日付の場合 */
                   <Box
@@ -65,9 +65,9 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
                         transform: "scale(1.1)",
                       },
                     }}
-                    onClick={() => {}} //TODO:すぐあとで
+                    onClick={() => onClickDay(day)}
                   >
-                    {date}
+                    {day}
                   </Box>
                 );
               }
@@ -86,7 +86,7 @@ export const WorkCalendarBody = ({ year, month }: Props) => {
                     cursor: "default",
                   }}
                 >
-                  {date}
+                  {day}
                 </Box>
               );
             }

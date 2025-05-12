@@ -49,6 +49,13 @@ export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
     (day: number) => clickableDays.some((d) => d === day),
     [clickableDays]
   );
+
+  const onClickDay = useCallback(
+    (day: number) => {
+      console.log("ページ移動", { year: year, month: month, day: day });
+    },
+    [month, year]
+  );
   // レイアウト関連
   const boxSize = 40;
   const gap = 6;
@@ -64,5 +71,7 @@ export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
     gap,
     /** １週間の表示文言の配列 */
     daysOfWeek,
+    /** 日付クリック時のハンドラー(その日付に移動) */
+    onClickDay,
   };
 };
