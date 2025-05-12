@@ -1,4 +1,5 @@
 import {
+  CalendarDateMap,
   MainPageTaskTable,
   TaskDetail,
   TaskOption,
@@ -6,7 +7,7 @@ import {
   TaskSummaryRangeQuery,
 } from "@/type/Task";
 import prisma from "../prisma";
-import { subMonths } from "date-fns";
+import { getDate, getMonth, getYear, subMonths } from "date-fns";
 import { MainPagePieChart } from "@/type/Main";
 
 /**
@@ -163,6 +164,24 @@ export const getTaskDetail = async (id: number) => {
   if (data) {
     // 総稼働時間は計算
     const totalHours = data.tasks.reduce((a, b) => a + b.workTime, 0);
+    // 稼働日付の一覧
+    const dateList = data.tasks.map((v) => v.date);
+    // 送信用のデータを作成
+    const workDateList: CalendarDateMap = {};
+    // 各日付について検証
+    for (const date of dateList) {
+      const year = getYear(date);
+      const month = getMonth(date) + 1; // 1-indexed
+      const day = getDate(date);
+      // 年と月からkeyを作成
+      const key = `${year}-${month}`;
+      // 対応するkeyがなければ新規作成
+      if (!workDateList[key]) {
+        workDateList[key] = [];
+      }
+      // keyに日をpushで追加する
+      workDateList[key].push(day);
+    }
     // メモは整形してflatに
     const memos = data.tasks.flatMap((task) =>
       task.memos.map((memo) => {
@@ -190,6 +209,7 @@ export const getTaskDetail = async (id: number) => {
       startDate: data.createdAt.toISOString(),
       lastDate: data.updatedAt.toISOString(),
       memo: memos,
+      workDateList,
     };
     return result;
   }
