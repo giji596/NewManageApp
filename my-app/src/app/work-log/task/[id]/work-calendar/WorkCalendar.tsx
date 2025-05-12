@@ -4,10 +4,20 @@ import WorkCalendarNav from "./nav/WorkCalendarNav";
 import WorkCalendarBody from "./body/WorkCalendarBody";
 import { WorkCalendarLogic } from "./WorkCalendarLogic";
 
+type Props = {
+  /** 開始日 */
+  startDate: string;
+  /** 最終実施日 */
+  lastDate: string;
+};
+
 /**
  *  稼働のカレンダー
  */
-const WorkCalendar = memo(function WorkCalendar() {
+const WorkCalendar = memo(function WorkCalendar({
+  startDate,
+  lastDate,
+}: Props) {
   const {
     year,
     month,
@@ -15,7 +25,7 @@ const WorkCalendar = memo(function WorkCalendar() {
     handleNextMonth,
     isMinMonth,
     isMaxMonth,
-  } = WorkCalendarLogic();
+  } = WorkCalendarLogic({ startDate, lastDate });
 
   return (
     <Stack alignItems={"center"} spacing={0.5}>

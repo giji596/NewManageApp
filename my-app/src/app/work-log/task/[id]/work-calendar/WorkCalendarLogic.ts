@@ -1,12 +1,27 @@
 import { useCallback, useMemo, useState } from "react";
 
+type Props = {
+  /** 開始日 */
+  startDate: string;
+  /** 最終実施日 */
+  lastDate: string;
+};
+
 /**
  *  稼働のカレンダーのロジック
  */
-export const WorkCalendarLogic = () => {
-  // TODO:親から初期値を受け取るようにする
-  const initYear = 2025;
-  const initMonth = 4;
+export const WorkCalendarLogic = ({ startDate, lastDate }: Props) => {
+  const startYearAndMonth = useMemo(() => {
+    const [y, m] = startDate.split("/");
+    return { year: Number(y), month: Number(m) };
+  }, [startDate]);
+  const lastYearAndMonth = useMemo(() => {
+    const [y, m] = lastDate.split("/");
+    return { year: Number(y), month: Number(m) };
+  }, [lastDate]);
+
+  const initYear = lastYearAndMonth.year;
+  const initMonth = lastYearAndMonth.month;
 
   const [year, setYear] = useState<number>(initYear);
   const [month, setMonth] = useState<number>(initMonth);
@@ -35,17 +50,6 @@ export const WorkCalendarLogic = () => {
     });
   }, []);
 
-  // TODO:親からもらう
-  const startDate = "2025/02/23";
-  const lastDate = "2025/05/08";
-  const startYearAndMonth = useMemo(() => {
-    const [y, m] = startDate.split("/");
-    return { year: Number(y), month: Number(m) };
-  }, []);
-  const lastYearAndMonth = useMemo(() => {
-    const [y, m] = lastDate.split("/");
-    return { year: Number(y), month: Number(m) };
-  }, []);
   const isMinMonth = useMemo(
     () => year === startYearAndMonth.year && month === startYearAndMonth.month,
     [month, startYearAndMonth.month, startYearAndMonth.year, year]
