@@ -1,0 +1,58 @@
+import { getDay, getDaysInMonth, startOfMonth } from "date-fns";
+
+// 月曜を 0 にするために、日曜(0) → 6、月曜(1) → 0...に変換
+const getMondayStartIndex = (date: Date) => (getDay(date) + 6) % 7;
+
+const generateCalendarWeeks = (year: number, month: number) => {
+  const start = startOfMonth(new Date(year, month - 1));
+  const daysInMonth = getDaysInMonth(start);
+
+  const dayList = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  // 始まりの位置をここで取得(月曜日:0番目~ 日曜日:6番目~)
+  const startIndex = getMondayStartIndex(start);
+  const empty: null[] = Array(startIndex).fill(null);
+  const calenderDayList = [...empty, ...dayList];
+  // 週ごとに分ける
+  const weeks: (number | null)[][] = [];
+  while (calenderDayList.length > 0) {
+    const week = calenderDayList.splice(0, 7);
+    while (week.length < 7) {
+      week.push(null);
+    }
+    weeks.push(week);
+  }
+  return weeks;
+};
+
+type Props = {
+  /** 表示中の年 */
+  year: number;
+  /** 表示中の月 */
+  month: number;
+};
+
+/**
+ * 稼働のカレンダーのボディ(日付表示)部分のロジック
+ */
+export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
+  const weeks = generateCalendarWeeks(year, month);
+  const clickableDays = [2, 5, 11, 15, 20, 29];
+
+  const isClickable = (day: number) => clickableDays.some((d) => d === day);
+  // レイアウト関連
+  const boxSize = 40;
+  const gap = 6;
+  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
+  return {
+    /** 週ごとの日付(月~日曜日の7つごとの多重配列) 日付の入らない部分はnull */
+    weeks,
+    /** クリック可能かの判定 */
+    isClickable,
+    /** 日付のBoxのサイズ */
+    boxSize,
+    /** 日付のBox間の距離 */
+    gap,
+    /** １週間の表示文言の配列 */
+    daysOfWeek,
+  };
+};
