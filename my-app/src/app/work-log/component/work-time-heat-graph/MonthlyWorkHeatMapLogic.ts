@@ -1,11 +1,7 @@
+import { DailyWorkTime } from "@/type/Main";
 import { format, getDay, isSameDay, parseISO, subDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-
-type DailyWorkTime = {
-  date: string; // '2025-05-11'
-  totalHours: number; // 例: 3.25(3時間15分)
-};
 
 /** 日付データを週ごとにまとめる関数 */
 function groupByWeek(data: DailyWorkTime[]) {
