@@ -209,6 +209,7 @@ export default function CategoryHeader() {
       )}
       {openComplete && (
         <CompleteConfirmDialog
+          target="カテゴリ"
           open={openComplete}
           onClose={onCloseComplete}
           onAccept={handleComplete}

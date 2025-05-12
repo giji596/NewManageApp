@@ -55,6 +55,7 @@ export default function TaskSummaryPage() {
       {open && <TaskDisplayRangeDialog open={open} onClose={onClose} />}
       {openComplete && (
         <CompleteConfirmDialog
+          target="タスク"
           open={openComplete}
           onClose={onCloseComplete}
           onAccept={handleConfirmComplete}

@@ -127,6 +127,7 @@ export default function TaskDetailPage({ params }: Props) {
       )}
       {openComplete && (
         <CompleteConfirmDialog
+          target="タスク"
           open={openComplete}
           onClose={onCloseComplete}
           onAccept={handleComplete}
