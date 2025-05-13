@@ -132,7 +132,7 @@ exports.Prisma.TaskScalarFieldEnum = {
   progress: 'progress',
   isFavorite: 'isFavorite',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  lastActivityDate: 'lastActivityDate'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
