@@ -49,7 +49,7 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
           return { c: a.totalHours, d: b.totalHours };
         case "稼働開始日":
           return { c: a.firstActivityDate, d: b.firstActivityDate };
-        case "最終稼働日":
+        case "最終実施日":
           return { c: a.lastActivityDate, d: b.lastActivityDate };
         default:
           return { c: a.id, d: b.id };

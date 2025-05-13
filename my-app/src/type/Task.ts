@@ -25,7 +25,7 @@ export type TaskSummary = {
   totalHours: number;
   /** タスクの開始日 */
   firstActivityDate: Date | null;
-  /** 最終稼働日 */
+  /** 最終実施日 */
   lastActivityDate: Date | null;
 };
 
