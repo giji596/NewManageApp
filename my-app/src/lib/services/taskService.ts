@@ -88,8 +88,7 @@ export const getTaskSummary = async (
 export const createTask = async (
   name: string,
   categoryId: number,
-  isFavorite: boolean,
-  firstActivityDate: Date
+  isFavorite: boolean
 ) => {
   // 重複チェック
   const existing = await prisma.task.findFirst({
@@ -107,7 +106,6 @@ export const createTask = async (
       categoryId,
       isFavorite,
       progress: 0,
-      firstActivityDate,
     },
     select: {
       id: true,

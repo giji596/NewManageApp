@@ -15,14 +15,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { name, categoryId, isFavorite, startDate } = (await req.json()) as {
+  const { name, categoryId, isFavorite } = (await req.json()) as {
     name: string;
     categoryId: number;
     isFavorite: boolean;
-    startDate: string;
   };
-  const createdAt = new Date(startDate);
-  const data = await createTask(name, categoryId, isFavorite, createdAt);
+  const data = await createTask(name, categoryId, isFavorite);
   // 重複時
   if (data === null)
     return NextResponse.json({ error: "duplicate error" }, { status: 400 });
