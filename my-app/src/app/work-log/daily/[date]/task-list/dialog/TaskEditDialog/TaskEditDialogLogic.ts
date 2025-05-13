@@ -111,11 +111,13 @@ export default function TaskEditDialogLogic({
     const target = e.target.value;
     setCategoryId(Number(target));
     setTaskId(null);
+    setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
   }, []);
 
   const onChangeSelectTask = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
     setTaskId(Number(target));
+    setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
   }, []);
 
   const onChangeSelectHours = useCallback((e: SelectChangeEvent) => {
