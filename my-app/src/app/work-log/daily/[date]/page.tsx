@@ -8,7 +8,7 @@ const CircleGraph = dynamic(() => import("./circle-graph/CircleGraph"), {
   ssr: false,
   loading: () => (
     <Stack
-      width={600}
+      width={720}
       height={400}
       alignItems={"center"}
       justifyContent={"center"}
