@@ -214,7 +214,6 @@ export default function DateDialog({
             <Stack width="50%" justifyContent={"space-between"}>
               {/** メモのところ */}
               <Stack height="70%" overflow="auto" pl={2}>
-                <Typography variant="subtitle1">メモ</Typography>
                 <ul>
                   {dateDetails.memoList.map((item) => (
                     <li key={item.id}>
