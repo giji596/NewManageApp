@@ -7,6 +7,7 @@ const meta = {
   component: CategoryTaskTable,
   args: {
     taskItemList: DUMMY_CATEGORY_TASK_LIST,
+    isLoading: false,
   },
 } satisfies Meta<typeof CategoryTaskTable>;
 

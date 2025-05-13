@@ -5,8 +5,8 @@ import WorkCalendarPopoverButton from "./WorkCalendarPopoverButton";
 const meta = {
   component: WorkCalendarPopoverButton,
   args: {
-    startDate: "2025/02/22",
-    lastDate: "2025/05/04",
+    firstActivityDate: "2025/02/22",
+    lastActivityDate: "2025/05/04",
   },
 } satisfies Meta<typeof WorkCalendarPopoverButton>;
 
