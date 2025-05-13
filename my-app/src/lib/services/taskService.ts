@@ -107,7 +107,6 @@ export const createTask = async (
       isFavorite,
       progress: 0,
       createdAt,
-      updatedAt: createdAt,
     },
     select: {
       id: true,
