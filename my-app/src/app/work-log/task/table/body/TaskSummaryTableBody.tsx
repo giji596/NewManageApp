@@ -15,7 +15,7 @@ import TaskSummaryTableBodyLogic, {
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Controller } from "react-hook-form";
-import { Ref } from "react";
+import { memo, Ref } from "react";
 
 type Props = {
   /** タスクの一覧データ */
@@ -33,7 +33,7 @@ type Props = {
 /**
  * タスク一覧ページのテーブルボディコンポーネント
  */
-export default function TaskSummaryTableBody({
+const TaskSummaryTableBody = memo(function TaskSummaryTableBody({
   taskItem,
   isSelected,
   ref,
@@ -118,4 +118,5 @@ export default function TaskSummaryTableBody({
       <TableCell>{lastDateString}</TableCell>
     </TableRow>
   );
-}
+});
+export default TaskSummaryTableBody;
