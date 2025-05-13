@@ -39,8 +39,10 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
       rawData.map((v) => {
         return {
           ...v,
-          startDate: new Date(v.startDate),
-          lastDate: v.lastDate ? new Date(v.lastDate) : null,
+          createdAt: new Date(v.createdAt),
+          lastActivityDate: v.lastActivityDate
+            ? new Date(v.lastActivityDate)
+            : null,
         };
       }),
     [rawData]

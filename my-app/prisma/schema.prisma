@@ -39,7 +39,7 @@ model Task {
   tasks TaskLog[]
 
   createdAt DateTime 
-  updatedAt DateTime?
+  lastActivityDate DateTime?
 }
 
 model Category {

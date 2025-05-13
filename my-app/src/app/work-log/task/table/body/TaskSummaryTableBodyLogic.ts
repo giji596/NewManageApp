@@ -33,12 +33,15 @@ export default function TaskSummaryTableBodyLogic({
 }: Props) {
   // メモ化
   const startDateString = useMemo(
-    () => format(taskItem.startDate, "yyyy/MM/dd"),
-    [taskItem.startDate]
+    () => format(taskItem.createdAt, "yyyy/MM/dd"),
+    [taskItem.createdAt]
   );
   const lastDateString = useMemo(
-    () => (taskItem.lastDate ? format(taskItem.lastDate, "yyyy/MM/dd") : "-"),
-    [taskItem.lastDate]
+    () =>
+      taskItem.lastActivityDate
+        ? format(taskItem.lastActivityDate, "yyyy/MM/dd")
+        : "-",
+    [taskItem.lastActivityDate]
   );
   const progressSelects = useMemo(() => {
     return Array.from({ length: 11 }, (_, i) => i * 10);

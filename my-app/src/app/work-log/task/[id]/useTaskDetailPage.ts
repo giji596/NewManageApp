@@ -42,8 +42,8 @@ export default function useTaskDetailPage({ id }: Props) {
         isFavorite: false,
         progress: 70,
         totalHours: 35,
-        startDate: "",
-        lastDate: "",
+        createdAt: "",
+        lastActivityDate: "",
         memo: [],
       };
     }
@@ -55,12 +55,12 @@ export default function useTaskDetailPage({ id }: Props) {
   const progress = data.progress;
   const totalHours = data.totalHours;
   const startDateString = useMemo(
-    () => data.startDate.replaceAll("-", "/").split("T")[0],
-    [data.startDate]
+    () => data.createdAt.replaceAll("-", "/").split("T")[0],
+    [data.createdAt]
   );
   const lastDateString = useMemo(
-    () => data.lastDate?.replaceAll("-", "/").split("T")[0] ?? null,
-    [data.lastDate]
+    () => data.lastActivityDate?.replaceAll("-", "/").split("T")[0] ?? null,
+    [data.lastActivityDate]
   );
   const memoList = useMemo(() => data.memo, [data.memo]); // タスク名の更新時の再フェッチ時に更新しないように設定
 
