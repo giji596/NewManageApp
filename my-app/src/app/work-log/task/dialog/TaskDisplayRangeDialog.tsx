@@ -176,7 +176,7 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
               checked={isLastActivityDateEnable}
               disabled={disableCustomRange(displayRange)}
             />
-            <Typography>最終日</Typography>
+            <Typography>最終実施日</Typography>
           </Stack>
           {/** フォームエリア */}
           <Stack
