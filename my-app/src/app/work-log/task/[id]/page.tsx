@@ -36,8 +36,8 @@ export default function TaskDetailPage({ params }: Props) {
     isFavorite,
     progress,
     totalHours,
-    startDateString,
-    lastDateString,
+    firstActivityDateString,
+    lastActivityDateString,
     memoList,
     isCompleted,
     handleComplete,
@@ -100,8 +100,8 @@ export default function TaskDetailPage({ params }: Props) {
             {/** 日付 */}
             <Stack pt={3}>
               <DateDisplay
-                startDate={startDateString}
-                lastDate={lastDateString}
+                firstActivityDate={firstActivityDateString}
+                lastActivityDate={lastActivityDateString}
               />
             </Stack>
             {/** アクションボタン */}

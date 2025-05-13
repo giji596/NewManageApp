@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 const RadioSelectRange = ["in-progress", "completed", "custom"] as const;
 export type RadioSelectRange = (typeof RadioSelectRange)[number];
 
-// 開始/終了日の範囲選択の初期値(全て今日の日付からで) TODO: 後で修正するかも
+// 開始/最終実施日の範囲選択の初期値(全て今日の日付からで) TODO: 後で修正するかも
 const initYear = getTodayYear();
 const initMonth = getTodayMonth();
 const initDay = getTodayDay();
@@ -17,9 +17,9 @@ type Props = {
   /** 進捗の範囲指定の有効かどうか */
   isProgressEnable: boolean;
   /** 開始日の範囲指定の有効かどうか */
-  isStartDateEnable: boolean;
-  /** 最終日の範囲指定の有効かどうか */
-  isLastDateEnable: boolean;
+  isFirstActivityDateEnable: boolean;
+  /** 最終実施日の範囲指定の有効かどうか */
+  isLastActivityDateEnable: boolean;
 };
 
 /**
@@ -28,8 +28,8 @@ type Props = {
 export const TaskDisplayRangeDialogParamLogic = ({
   onClose,
   isProgressEnable,
-  isStartDateEnable,
-  isLastDateEnable,
+  isFirstActivityDateEnable,
+  isLastActivityDateEnable,
 }: Props) => {
   // ナビゲーション関連
   const router = useRouter();
@@ -37,8 +37,9 @@ export const TaskDisplayRangeDialogParamLogic = ({
   const param = useSearchParams();
   // 表示範囲
   const initDisplayRange: RadioSelectRange = useMemo(() => {
-    // startDate/lastDateがある場合はcustom
-    if (!!param.get("startDate") || !!param.get("lastDate")) return "custom";
+    // firstDate/lastDateがある場合はcustom
+    if (!!param.get("firstActivityDate") || !!param.get("lastActivityDate"))
+      return "custom";
     const progressParam = param.get("progress");
     switch (progressParam) {
       // progressの値に応じて分岐
@@ -98,30 +99,30 @@ export const TaskDisplayRangeDialogParamLogic = ({
     [param]
   );
   // 初期値 TODO: 実装時に要テスト(クエリと一致してるか)
-  const initStartMinParam = useMemo(
-    () => getInitDateParam("startDate", true),
+  const initFirstMinParam = useMemo(
+    () => getInitDateParam("firstActivityDate", true),
     [getInitDateParam]
   );
-  const initStartMaxParam = useMemo(
-    () => getInitDateParam("startDate", false),
+  const initFirstMaxParam = useMemo(
+    () => getInitDateParam("firstActivityDate", false),
     [getInitDateParam]
   );
   const initLastMinParam = useMemo(
-    () => getInitDateParam("lastDate", true),
+    () => getInitDateParam("lastActivityDate", true),
     [getInitDateParam]
   );
   const initLastMaxParam = useMemo(
-    () => getInitDateParam("lastDate", false),
+    () => getInitDateParam("lastActivityDate", false),
     [getInitDateParam]
   );
   // 開始日
-  const { dateParam: startMinParam, ...startMinSelectRangeParams } =
+  const { dateParam: firstMinParam, ...firstMinSelectRangeParams } =
     useDateSelect({
-      ...initStartMinParam,
+      ...initFirstMinParam,
     });
-  const { dateParam: startMaxParam, ...startMaxSelectRangeParams } =
+  const { dateParam: firstMaxParam, ...firstMaxSelectRangeParams } =
     useDateSelect({
-      ...initStartMaxParam,
+      ...initFirstMaxParam,
     });
 
   // 最終日
@@ -162,21 +163,21 @@ export const TaskDisplayRangeDialogParamLogic = ({
       case "custom": {
         if (isProgressEnable)
           params.set("progress", `${progressRange[0]},${progressRange[1]}`);
-        if (isStartDateEnable) {
+        if (isFirstActivityDateEnable) {
           // min<maxかどうかチェック(逆なら逆にする)
-          const startDateParam =
-            startMinParam < startMaxParam
-              ? `${startMinParam},${startMaxParam}`
-              : `${startMaxParam},${startMinParam}`;
-          params.set("startDate", startDateParam);
+          const firstDateParam =
+            firstMinParam < firstMaxParam
+              ? `${firstMinParam},${firstMaxParam}`
+              : `${firstMaxParam},${firstMinParam}`;
+          params.set("firstActivityDate", firstDateParam);
         }
-        if (isLastDateEnable) {
+        if (isLastActivityDateEnable) {
           // min<maxかどうかチェック(逆なら逆にする)
           const lastDateParam =
             lastMixParam < lastMaxParam
               ? `${lastMixParam},${lastMaxParam}`
-              : `${lastMixParam},${startMinParam}`;
-          params.set("lastDate", lastDateParam);
+              : `${lastMixParam},${firstMinParam}`;
+          params.set("lastActivityDate", lastDateParam);
         }
       }
     }
@@ -194,12 +195,12 @@ export const TaskDisplayRangeDialogParamLogic = ({
     /** 進捗の範囲を変えるハンドラー */
     handleChangeProgressRange,
     /** 開始日の最小値のパラメータ群 */
-    startMinSelectRangeParams,
+    firstMinSelectRangeParams,
     /** 開始日の最大値のパラメータ群 */
-    startMaxSelectRangeParams,
-    /** 最終日の最小値のパラメータ群 */
+    firstMaxSelectRangeParams,
+    /** 最終実施日の最小値のパラメータ群 */
     lastMinSelectRangeParams,
-    /** 最終日の最小値のパラメータ群 */
+    /** 最終実施日の最小値のパラメータ群 */
     lastMaxSelectRangeParams,
     /** 稼働のないタスクの表示設定のうむ */
     isCheckedUnActiveFilter,

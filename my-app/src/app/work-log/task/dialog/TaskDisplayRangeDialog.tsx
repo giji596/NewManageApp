@@ -35,14 +35,14 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
   const {
     isProgressEnable,
     toggleProgressEnable,
-    isStartDateEnable,
-    toggleStartDateEnable,
-    isLastDateEnable,
-    toggleLastDateEnable,
+    isFirstActivityDateEnable,
+    toggleFirstActivityDateEnable,
+    isLastActivityDateEnable,
+    toggleLastActivityDateEnable,
     disableCustomRange,
     disabledProgress,
-    disabledStartDate,
-    disabledLastDate,
+    disabledFirstActivityDate,
+    disabledLastActivityDate,
   } = TaskDisplayRangeDialogDisplayLogic();
 
   // パラメータ関連
@@ -51,8 +51,8 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
     handleChangeDisplayRange,
     progressRange,
     handleChangeProgressRange,
-    startMinSelectRangeParams,
-    startMaxSelectRangeParams,
+    firstMinSelectRangeParams,
+    firstMaxSelectRangeParams,
     lastMinSelectRangeParams,
     lastMaxSelectRangeParams,
     isCheckedUnActiveFilter,
@@ -61,8 +61,8 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
   } = TaskDisplayRangeDialogParamLogic({
     onClose,
     isProgressEnable,
-    isStartDateEnable,
-    isLastDateEnable,
+    isFirstActivityDateEnable,
+    isLastActivityDateEnable,
   });
 
   return (
@@ -142,8 +142,8 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           {/** 上部(switch/タイトル) */}
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch
-              onChange={toggleStartDateEnable}
-              checked={isStartDateEnable}
+              onChange={toggleFirstActivityDateEnable}
+              checked={isFirstActivityDateEnable}
               disabled={disableCustomRange(displayRange)}
             />
             <Typography>開始日</Typography>
@@ -155,15 +155,15 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             alignItems={"center"}
           >
             <DateSelectMenuButton
-              name={"min-start-date"}
-              selectValueProps={startMinSelectRangeParams}
-              disabled={disabledStartDate(displayRange)}
+              name={"min-first-date"}
+              selectValueProps={firstMinSelectRangeParams}
+              disabled={disabledFirstActivityDate(displayRange)}
             />
             ~
             <DateSelectMenuButton
-              name={"max-start-date"}
-              selectValueProps={startMaxSelectRangeParams}
-              disabled={disabledStartDate(displayRange)}
+              name={"max-first-date"}
+              selectValueProps={firstMaxSelectRangeParams}
+              disabled={disabledFirstActivityDate(displayRange)}
             />
           </Stack>
         </Stack>
@@ -172,8 +172,8 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
           {/** 上部(switch/タイトル) */}
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Switch
-              onChange={toggleLastDateEnable}
-              checked={isLastDateEnable}
+              onChange={toggleLastActivityDateEnable}
+              checked={isLastActivityDateEnable}
               disabled={disableCustomRange(displayRange)}
             />
             <Typography>最終日</Typography>
@@ -187,13 +187,13 @@ const TaskDisplayRangeDialog = memo(function TaskDisplayRangeDialog({
             <DateSelectMenuButton
               name={"min-last-date"}
               selectValueProps={lastMinSelectRangeParams}
-              disabled={disabledLastDate(displayRange)}
+              disabled={disabledLastActivityDate(displayRange)}
             />
             ~
             <DateSelectMenuButton
               name={"max-last-date"}
               selectValueProps={lastMaxSelectRangeParams}
-              disabled={disabledLastDate(displayRange)}
+              disabled={disabledLastActivityDate(displayRange)}
             />
           </Stack>
         </Stack>

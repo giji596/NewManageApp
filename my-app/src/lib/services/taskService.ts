@@ -30,7 +30,8 @@ export const getTaskOptions = async (categoryId: number) => {
 export const getTaskSummary = async (
   query?: TaskSummaryRangeQuery
 ): Promise<TaskSummary[]> => {
-  const { progress, createdAt, lastActivityDate, activeOnly } = query ?? {}; // undefinedの場合{}となり、参照keyがないので左辺の全てのkeyはundefinedになる
+  const { progress, firstActivityDate, lastActivityDate, activeOnly } =
+    query ?? {}; // undefinedの場合{}となり、参照keyがないので左辺の全てのkeyはundefinedになる
   const data = await prisma.task.findMany({
     // クエリがある場合のみ検証(...(false)の場合は検証しない)
     where: {
@@ -38,10 +39,10 @@ export const getTaskSummary = async (
         gte: progress?.split(",").map((v) => Number(v))[0] ?? 0, // クエリ分割した前の方の進捗
         lte: progress?.split(",").map((v) => Number(v))[1] ?? 90, // クエリ分割した後の方の進捗
       },
-      ...(createdAt !== undefined && {
-        createdAt: {
-          gte: createdAt.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
-          lte: createdAt.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
+      ...(firstActivityDate !== undefined && {
+        firstActivityDate: {
+          gte: firstActivityDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
+          lte: firstActivityDate.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
         },
       }),
       ...(lastActivityDate !== undefined && {
