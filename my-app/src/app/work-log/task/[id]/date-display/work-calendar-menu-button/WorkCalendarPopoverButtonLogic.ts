@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 type Props = {
+  /** 開始日(yyyy/MM/dd) */
+  firstActivityDate: string | null;
   /** 最終実施日(yyyy/MM/dd) 実施記録がない場合はnull */
   lastActivityDate: string | null;
 };
@@ -8,7 +10,10 @@ type Props = {
 /**
  * 稼働カレンダーを含むポップを表示するボタンのロジック
  */
-export const WorkCalendarPopoverButtonLogic = ({ lastActivityDate }: Props) => {
+export const WorkCalendarPopoverButtonLogic = ({
+  firstActivityDate,
+  lastActivityDate,
+}: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,7 +26,7 @@ export const WorkCalendarPopoverButtonLogic = ({ lastActivityDate }: Props) => {
   const open = Boolean(anchorEl);
   const id = open ? "work-calendar-popover" : undefined;
 
-  const noActivity = lastActivityDate === null;
+  const noActivity = lastActivityDate === null || firstActivityDate === null;
 
   return {
     /** ポップの展開位置 */

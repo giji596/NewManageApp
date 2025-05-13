@@ -19,7 +19,7 @@ const WorkCalendarPopoverButton = memo(function WorkCalendarMenuButton({
   lastActivityDate,
 }: Props) {
   const { anchorEl, handleOpen, handleClose, open, id, noActivity } =
-    WorkCalendarPopoverButtonLogic({ lastActivityDate });
+    WorkCalendarPopoverButtonLogic({ firstActivityDate, lastActivityDate });
   return (
     <>
       <IconButton

@@ -17,12 +17,15 @@ export default function DateDisplay({
   firstActivityDate,
   lastActivityDate,
 }: Props) {
-  const { lastDateText } = DateDisplayLogic({ lastActivityDate });
+  const { firstDateText, lastDateText } = DateDisplayLogic({
+    firstActivityDate,
+    lastActivityDate,
+  });
   return (
     <Stack spacing={2}>
       <Stack alignItems={"center"}>
         <Typography variant="subtitle1">開始日</Typography>
-        <Typography variant="h5">{firstActivityDate}</Typography>
+        <Typography variant="h5">{firstDateText}</Typography>
       </Stack>
       <Stack alignItems={"center"} pb={2}>
         <Typography variant="subtitle1">最終実施日</Typography>
