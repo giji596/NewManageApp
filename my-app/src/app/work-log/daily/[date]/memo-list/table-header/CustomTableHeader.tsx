@@ -30,7 +30,7 @@ export default function CustomTableHeader({
     <>
       <TableHead>
         <TableRow>
-          <TableCell width="45%">
+          <TableCell width="45%" sx={{ pb: 1, pt: 0.75 }}>
             <CustomHeaderSortLabel
               title={"タイトル"}
               isSelected={isSelected("タイトル")}
@@ -38,7 +38,7 @@ export default function CustomTableHeader({
               onClickTitle={onClickTitle}
             />
           </TableCell>
-          <TableCell width="30%">
+          <TableCell width="30%" sx={{ pb: 1, pt: 0.75 }}>
             <CustomHeaderSortCheckLabel
               title={"タスク名"}
               isSelected={isSelected("タスク名")}
@@ -49,7 +49,7 @@ export default function CustomTableHeader({
               onLeaveTitle={onLeaveHoverTitle}
             />
           </TableCell>
-          <TableCell width="15%">
+          <TableCell width="15%" sx={{ pb: 1, pt: 0.75 }}>
             <CustomHeaderSortCheckLabel
               title={"タグ"}
               isSelected={isSelected("タグ")}
@@ -60,7 +60,9 @@ export default function CustomTableHeader({
               onLeaveTitle={onLeaveHoverTitle}
             />
           </TableCell>
-          <TableCell width="10%">{/** ボタン用の空白 */}</TableCell>
+          <TableCell width="10%" sx={{ pb: 1, pt: 0.75 }}>
+            {/** ボタン用の空白 */}
+          </TableCell>
         </TableRow>
       </TableHead>
     </>
