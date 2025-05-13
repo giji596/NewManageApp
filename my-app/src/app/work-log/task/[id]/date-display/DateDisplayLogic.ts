@@ -27,7 +27,7 @@ export const DateDisplayLogic = ({
   return {
     /** 開始日のテキスト(null時に-を表示) */
     firstDateText,
-    /** 最終実施日のテキスト(null時に--/--/--を表示) */
+    /** 最終実施日のテキスト(null時に-を表示) */
     lastDateText,
   };
 };
