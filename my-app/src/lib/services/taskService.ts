@@ -213,7 +213,7 @@ export const getTaskDetail = async (id: number) => {
       progress: data.progress,
       totalHours: totalHours,
       startDate: data.createdAt.toISOString(),
-      lastDate: data.updatedAt.toISOString(),
+      lastDate: data.updatedAt?.toISOString() ?? null,
       memo: memos,
       workDateList,
     };
