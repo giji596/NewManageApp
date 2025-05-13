@@ -1,6 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
+import axios from "axios";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mutate } from "swr";
@@ -130,12 +131,21 @@ export default function TaskEditDialogLogic({
     if (initialValues.current.taskId !== taskId && taskId !== null)
       body.taskId = taskId;
     // bodyで必要な値だけ渡す
-    await apiClient.work_log.daily
-      ._date(date)
-      .task_logs._id(itemId)
-      .patch({ body: body });
-    mutate(`api/work-log/daily/${date}`); // 再検証する
-    onClose();
+    try {
+      await apiClient.work_log.daily
+        ._date(date)
+        .task_logs._id(itemId)
+        .patch({ body: body });
+      mutate(`api/work-log/daily/${date}`); // 再検証する
+      onClose();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // エラーコードが400の場合は重複エラーであるとする
+        if (error.response.status === 400) {
+          setDuplicateError(true);
+        }
+      }
+    }
   }, [dailyHours, date, itemId, onClose, taskId]);
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
