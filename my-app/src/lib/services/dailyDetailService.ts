@@ -99,17 +99,26 @@ export const createDailyDetailData = async (date: Date, taskId: number) => {
 
 /**
  * 日付詳細 - 特定のログの更新する時のロジック
+ * タスクを更新する場合に更新先がすでに存在する場合は処理を行わずにnullを返す
  */
 export const updateTaskLog = async (
   id: number,
   taskId?: number,
   workTime?: number
 ) => {
-  // 更新前のデータのタスクidを取得
+  // 更新前のデータを取得
   const previous = await prisma.taskLog.findUnique({
     where: { id },
-    select: { taskId: true },
+    select: { taskId: true, date: true },
   });
+  // タスクを更新する場合
+  if (previous && taskId) {
+    // すでに同じ日付に対象のタスクがある場合は更新処理を行わずにnullを返す
+    const existing = await prisma.taskLog.findFirst({
+      where: { id: { not: id }, date: previous.date, taskId },
+    });
+    if (existing) return null;
+  }
   //　ログデータの更新処理
   const data = await prisma.taskLog.update({
     where: { id },

@@ -15,6 +15,9 @@ export async function PATCH(
     workTime?: number;
   };
   const res = await updateTaskLog(id, taskId, workTime);
+  // null時(重複があって更新処理が行われなかった場合)は400コードを返す
+  if (res === null)
+    return NextResponse.json({ error: "duplicate error" }, { status: 400 });
   return NextResponse.json(res);
 }
 
