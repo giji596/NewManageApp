@@ -1,6 +1,6 @@
 import { ERROR_PAGE_ID } from "@/constant/errorPages";
 import { DailyDetailTaskTableType } from "@/type/Task";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = {
   /** タスクの一覧 */
@@ -14,6 +14,11 @@ export default function TaskListLogic({ taskList }: Props) {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const isItemSelected = !(selectedItemId == null);
 
+  // タスクの一覧に変更があった場合(SWRで再フェッチが行われるタイミング)、選択を解除する
+  useEffect(() => {
+    setSelectedItemId(null);
+    // 長さが変わった場合のみ(create/delete)選択を解除させる
+  }, [taskList.length]);
   const selectedItemTaskId = useMemo(() => {
     const target = taskList.find((item) => item.id === selectedItemId);
     if (target) return target.task.id;
