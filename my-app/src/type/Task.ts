@@ -23,10 +23,10 @@ export type TaskSummary = {
   progress: number;
   /** 稼働合計時間 */
   totalHours: number;
-  /** 稼働開始日 */
-  startDate: Date;
+  /** タスクの作成日 */
+  createdAt: Date;
   /** 最終稼働日 */
-  lastDate: Date | null;
+  lastActivityDate: Date | null;
 };
 
 /** タスクの詳細データの型定義 */
@@ -43,10 +43,10 @@ export type TaskDetail = {
   progress: number;
   /** タスクの稼働合計時間 */
   totalHours: number;
-  /** タスクの開始日 */
-  startDate: string;
+  /** タスクの作成日 */
+  createdAt: string;
   /** タスクの最終更新日 */
-  lastDate: string | null;
+  lastActivityDate: string | null;
   /** タスクの詳細ページのメモ */
   memo: MemoTaskDetail[];
   /** タスクの実施日の一覧(カレンダー表示用) */
@@ -108,10 +108,10 @@ export type TaskLogSummary = {
 export type TaskSummaryRangeQuery = {
   /** 進捗 [min,max] 例:0,90 */
   progress?: string;
-  /** 開始日 [min,max] 例:2025-11-20,2025-12-30 */
-  startDate?: string;
-  /** 最終日 [min,max] 例:2025-11-20,2025-12-30  */
-  lastDate?: string;
+  /** 作成日 [min,max] 例:2025-11-20,2025-12-30 */
+  createdAt?: string;
+  /** 最終更新日 [min,max] 例:2025-11-20,2025-12-30  */
+  lastActivityDate?: string;
   /** 稼働あるのだけかどうか "true"のみ */
   activeOnly?: string;
 };
