@@ -41,7 +41,7 @@ export const getCategoryOptions = async (
       name: true,
       tasks: {
         select: {
-          updatedAt: true,
+          lastActivityDate: true,
         },
       },
     },
@@ -51,7 +51,11 @@ export const getCategoryOptions = async (
     // 最終更新日を取得
     const latest = v.tasks.reduce(
       (a, b) =>
-        b.updatedAt ? (getTime(a) < getTime(b.updatedAt) ? b.updatedAt : a) : a,
+        b.lastActivityDate
+          ? getTime(a) < getTime(b.lastActivityDate)
+            ? b.lastActivityDate
+            : a
+          : a,
       new Date("1990-01-01")
     );
     return { id: v.id, name: v.name, latestDate: latest };
@@ -196,16 +200,16 @@ export const getCategorySummary = async (
   });
   const lastAt = await prisma.task.findFirst({
     where: { categoryId: id },
-    orderBy: { updatedAt: "desc" },
-    select: { updatedAt: true },
+    orderBy: { lastActivityDate: "desc" },
+    select: { lastActivityDate: true },
   });
 
   // stringに変換後にreturnの型定義の形にフォーマットする
   const startString =
     startedAt !== null ? format(startedAt.createdAt, "yyyy/MM/dd") : "--------";
   const lastString =
-    lastAt !== null && lastAt.updatedAt !== null
-      ? format(lastAt.updatedAt, "yyyy/MM/dd")
+    lastAt !== null && lastAt.lastActivityDate !== null
+      ? format(lastAt.lastActivityDate, "yyyy/MM/dd")
       : "--------";
   const activeDate = `${startString}~${lastString}`;
 

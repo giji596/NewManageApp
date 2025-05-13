@@ -62,7 +62,7 @@ export const getTaskSummary = async (
       isFavorite: true,
       tasks: { select: { workTime: true } },
       createdAt: true,
-      updatedAt: true,
+      lastActivityDate: true,
     },
   });
   const result: TaskSummary[] = data.map((task) => {
@@ -75,7 +75,7 @@ export const getTaskSummary = async (
       progress: task.progress,
       totalHours: totalHours,
       startDate: task.createdAt,
-      lastDate: task.updatedAt,
+      lastDate: task.lastActivityDate,
     };
   });
   return result;
@@ -164,7 +164,7 @@ export const getTaskDetail = async (id: number) => {
         },
       },
       createdAt: true,
-      updatedAt: true,
+      lastActivityDate: true,
     },
   });
   if (data) {
@@ -213,7 +213,7 @@ export const getTaskDetail = async (id: number) => {
       progress: data.progress,
       totalHours: totalHours,
       startDate: data.createdAt.toISOString(),
-      lastDate: data.updatedAt?.toISOString() ?? null,
+      lastDate: data.lastActivityDate?.toISOString() ?? null,
       memo: memos,
       workDateList,
     };
@@ -322,7 +322,7 @@ export const getLastMonthTaskProgress = async () => {
   const data = await prisma.task.findMany({
     where: {
       // 一ヶ月以内に更新があるタスクに絞る
-      updatedAt: { gte: subMonths(new Date(), 1), lte: new Date() },
+      lastActivityDate: { gte: subMonths(new Date(), 1), lte: new Date() },
     },
     select: {
       id: true,
@@ -349,16 +349,17 @@ export const updateTaskUpdatedAtIfEarlier = async (
   // タスクの更新日を取得
   const target = await prisma.task.findUnique({
     where: { id: taskId },
-    select: { updatedAt: true },
+    select: { lastActivityDate: true },
   });
   // 対象のタスクが存在し、かつ更新日がないか古い場合に更新処理
   if (
     target &&
-    (target.updatedAt === null || target.updatedAt.getTime() < date.getTime())
+    (target.lastActivityDate === null ||
+      target.lastActivityDate.getTime() < date.getTime())
   ) {
     await prisma.task.update({
       where: { id: taskId },
-      data: { updatedAt: date },
+      data: { lastActivityDate: date },
     });
   }
 };
@@ -375,10 +376,10 @@ export const adjustTaskUpdatedAtIfLogRemoved = async (
   // 現在の updatedAt を取得
   const target = await prisma.task.findUnique({
     where: { id: taskId },
-    select: { updatedAt: true },
+    select: { lastActivityDate: true },
   });
   // 削除された日時と一致していたら、次に新しいログの日時に更新
-  if (target?.updatedAt?.getTime() === deletedDate.getTime()) {
+  if (target?.lastActivityDate?.getTime() === deletedDate.getTime()) {
     const previous = await prisma.taskLog.findFirst({
       where: { taskId },
       orderBy: { date: "desc" },
@@ -386,7 +387,7 @@ export const adjustTaskUpdatedAtIfLogRemoved = async (
     });
     await prisma.task.update({
       where: { id: taskId },
-      data: { updatedAt: previous?.date ?? null },
+      data: { lastActivityDate: previous?.date ?? null },
     });
   }
 };
