@@ -74,7 +74,7 @@ export const getTaskSummary = async (
       categoryName: task.category.name,
       progress: task.progress,
       totalHours: totalHours,
-      createdAt: task.firstActivityDate,
+      firstActivityDate: task.firstActivityDate,
       lastActivityDate: task.lastActivityDate,
     };
   });
@@ -212,7 +212,7 @@ export const getTaskDetail = async (id: number) => {
       category: data.category,
       progress: data.progress,
       totalHours: totalHours,
-      createdAt: data.firstActivityDate?.toISOString() ?? null,
+      firstActivityDate: data.firstActivityDate?.toISOString() ?? null,
       lastActivityDate: data.lastActivityDate?.toISOString() ?? null,
       memo: memos,
       workDateList,

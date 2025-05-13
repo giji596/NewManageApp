@@ -5,7 +5,7 @@ import { DateDisplayLogic } from "./DateDisplayLogic";
 
 type Props = {
   /** 開始日 */
-  startDate: string;
+  startDate: string | null;
   /** 最終実施日(実施記録がない場合はnull) */
   lastDate: string | null;
 };

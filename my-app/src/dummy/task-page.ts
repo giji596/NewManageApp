@@ -10,7 +10,7 @@ export const DUMMY_TASK_SUMMARY_DATA: TaskSummary[] = [
     categoryName: "カテゴリ1",
     progress: 50,
     totalHours: 20,
-    createdAt: new Date("2025-03-24"),
+    firstActivityDate: new Date("2025-03-24"),
     lastActivityDate: new Date("2025-04-10"),
   },
   {
@@ -20,7 +20,7 @@ export const DUMMY_TASK_SUMMARY_DATA: TaskSummary[] = [
     categoryName: "カテゴリ1",
     progress: 40,
     totalHours: 25,
-    createdAt: new Date("2025-03-25"),
+    firstActivityDate: new Date("2025-03-25"),
     lastActivityDate: new Date("2025-04-12"),
   },
   {
@@ -30,7 +30,7 @@ export const DUMMY_TASK_SUMMARY_DATA: TaskSummary[] = [
     categoryName: "カテゴリ2",
     progress: 50,
     totalHours: 20,
-    createdAt: new Date("2025-02-22"),
+    firstActivityDate: new Date("2025-02-22"),
     lastActivityDate: new Date("2025-03-14"),
   },
   {
@@ -40,7 +40,7 @@ export const DUMMY_TASK_SUMMARY_DATA: TaskSummary[] = [
     categoryName: "カテゴリ2",
     progress: 100,
     totalHours: 20,
-    createdAt: new Date("2025-01-14"),
+    firstActivityDate: new Date("2025-01-14"),
     lastActivityDate: new Date("2025-02-05"),
   },
   {
@@ -50,7 +50,7 @@ export const DUMMY_TASK_SUMMARY_DATA: TaskSummary[] = [
     categoryName: "カテゴリ3",
     progress: 100,
     totalHours: 12,
-    createdAt: new Date("2025-04-10"),
+    firstActivityDate: new Date("2025-04-10"),
     lastActivityDate: new Date("2025-04-11"),
   },
 ];

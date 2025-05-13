@@ -55,7 +55,7 @@ export default function useTaskDetailPage({ id }: Props) {
   const progress = data.progress;
   const totalHours = data.totalHours;
   const startDateString = useMemo(
-    () => data.createdAt.replaceAll("-", "/").split("T")[0],
+    () => data.createdAt?.replaceAll("-", "/").split("T")[0] ?? null,
     [data.createdAt]
   );
   const lastDateString = useMemo(
