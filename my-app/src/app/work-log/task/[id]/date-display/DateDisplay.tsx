@@ -5,8 +5,8 @@ import WorkCalendarPopoverButton from "./work-calendar-menu-button/WorkCalendarP
 type Props = {
   /** 開始日 */
   startDate: string;
-  /** 最終実施日 */
-  lastDate: string;
+  /** 最終実施日(実施記録がない場合はnull) */
+  lastDate: string | null;
 };
 
 /**

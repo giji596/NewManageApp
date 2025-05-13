@@ -59,7 +59,7 @@ export default function useTaskDetailPage({ id }: Props) {
     [data.startDate]
   );
   const lastDateString = useMemo(
-    () => data.lastDate.replaceAll("-", "/").split("T")[0],
+    () => data.lastDate?.replaceAll("-", "/").split("T")[0] ?? null,
     [data.lastDate]
   );
   const memoList = useMemo(() => data.memo, [data.memo]); // タスク名の更新時の再フェッチ時に更新しないように設定
