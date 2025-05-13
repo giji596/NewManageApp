@@ -6,8 +6,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query: TaskSummaryRangeQuery = {
     progress: searchParams.get("progress") ?? undefined,
-    startDate: searchParams.get("startDate") ?? undefined,
-    lastDate: searchParams.get("lastDate") ?? undefined,
+    createdAt: searchParams.get("startDate") ?? undefined,
+    lastActivityDate: searchParams.get("lastDate") ?? undefined,
     activeOnly: searchParams.get("activeOnly") ?? undefined,
   };
   const data = await getTaskSummary(query);

@@ -30,7 +30,7 @@ export const getTaskOptions = async (categoryId: number) => {
 export const getTaskSummary = async (
   query?: TaskSummaryRangeQuery
 ): Promise<TaskSummary[]> => {
-  const { progress, startDate, lastDate, activeOnly } = query ?? {}; // undefinedの場合{}となり、参照keyがないので左辺の全てのkeyはundefinedになる
+  const { progress, createdAt, lastActivityDate, activeOnly } = query ?? {}; // undefinedの場合{}となり、参照keyがないので左辺の全てのkeyはundefinedになる
   const data = await prisma.task.findMany({
     // クエリがある場合のみ検証(...(false)の場合は検証しない)
     where: {
@@ -38,16 +38,16 @@ export const getTaskSummary = async (
         gte: progress?.split(",").map((v) => Number(v))[0] ?? 0, // クエリ分割した前の方の進捗
         lte: progress?.split(",").map((v) => Number(v))[1] ?? 90, // クエリ分割した後の方の進捗
       },
-      ...(startDate !== undefined && {
+      ...(createdAt !== undefined && {
         createdAt: {
-          gte: startDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
-          lte: startDate.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
+          gte: createdAt.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
+          lte: createdAt.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
         },
       }),
-      ...(lastDate !== undefined && {
+      ...(lastActivityDate !== undefined && {
         updatedAt: {
-          gte: lastDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
-          lte: lastDate.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
+          gte: lastActivityDate.split(",").map((v) => new Date(v))[0], // クエリ分割した前の方の日付
+          lte: lastActivityDate.split(",").map((v) => new Date(v))[1], // クエリ分割した後の方の日付
         },
       }),
       ...(activeOnly !== undefined && {
@@ -74,8 +74,8 @@ export const getTaskSummary = async (
       categoryName: task.category.name,
       progress: task.progress,
       totalHours: totalHours,
-      startDate: task.createdAt,
-      lastDate: task.lastActivityDate,
+      createdAt: task.createdAt,
+      lastActivityDate: task.lastActivityDate,
     };
   });
   return result;
@@ -212,8 +212,8 @@ export const getTaskDetail = async (id: number) => {
       category: data.category,
       progress: data.progress,
       totalHours: totalHours,
-      startDate: data.createdAt.toISOString(),
-      lastDate: data.lastActivityDate?.toISOString() ?? null,
+      createdAt: data.createdAt.toISOString(),
+      lastActivityDate: data.lastActivityDate?.toISOString() ?? null,
       memo: memos,
       workDateList,
     };
