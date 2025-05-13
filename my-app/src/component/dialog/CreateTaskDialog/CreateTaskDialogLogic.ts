@@ -60,6 +60,7 @@ export default function CreateTaskDialogLogic({
           },
         });
         mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
+        mutate(`api/work-log/categories/${categoryId}/tasks`); // 追加先のカテゴリのタスクも再検証する
         onCreateTask?.(res.body.id);
         onClose();
       } catch (error) {
@@ -71,7 +72,7 @@ export default function CreateTaskDialogLogic({
         }
       }
     },
-    [onClose, onCreateTask]
+    [categoryId, onClose, onCreateTask]
   );
 
   return {
