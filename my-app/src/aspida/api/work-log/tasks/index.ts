@@ -12,7 +12,6 @@ export type Methods = DefineMethods<{
       name: string;
       categoryId: number;
       isFavorite: boolean;
-      startDate: string;
     };
     resBody: TaskOption;
   };
