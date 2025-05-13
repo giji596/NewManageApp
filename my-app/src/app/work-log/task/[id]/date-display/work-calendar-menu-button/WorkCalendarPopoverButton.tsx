@@ -18,13 +18,14 @@ const WorkCalendarPopoverButton = memo(function WorkCalendarMenuButton({
   startDate,
   lastDate,
 }: Props) {
-  const { anchorEl, handleOpen, handleClose, open, id } =
-    WorkCalendarPopoverButtonLogic();
+  const { anchorEl, handleOpen, handleClose, open, id, noActivity } =
+    WorkCalendarPopoverButtonLogic({ lastDate });
   return (
     <>
       <IconButton
         sx={{ width: 60, height: 60, alignSelf: "center" }}
         onClick={handleOpen}
+        disabled={noActivity} // 実施記録がない場合はdisabled
       >
         <CalendarMonthIcon fontSize="large" />
       </IconButton>
