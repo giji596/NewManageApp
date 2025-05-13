@@ -11,8 +11,14 @@ export const TaskDisplayRangeDialogDisplayLogic = () => {
   // disabled関連
   // 初期値
   const initProgressEnable = useMemo(() => !!param.get("progress"), [param]);
-  const initStartDateEnable = useMemo(() => !!param.get("startDate"), [param]);
-  const initLastDateEnable = useMemo(() => !!param.get("lastDate"), [param]);
+  const initStartDateEnable = useMemo(
+    () => !!param.get("firstActivityDate"),
+    [param]
+  );
+  const initLastDateEnable = useMemo(
+    () => !!param.get("lastActivityDate"),
+    [param]
+  );
   // state
   const [isProgressEnable, setIsProgressEnable] =
     useState<boolean>(initProgressEnable);

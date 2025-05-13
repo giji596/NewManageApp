@@ -108,8 +108,8 @@ export type TaskLogSummary = {
 export type TaskSummaryRangeQuery = {
   /** 進捗 [min,max] 例:0,90 */
   progress?: string;
-  /** 作成日 [min,max] 例:2025-11-20,2025-12-30 */
-  createdAt?: string;
+  /** 開始日 [min,max] 例:2025-11-20,2025-12-30 */
+  firstActivityDate?: string;
   /** 最終更新日 [min,max] 例:2025-11-20,2025-12-30  */
   lastActivityDate?: string;
   /** 稼働あるのだけかどうか "true"のみ */

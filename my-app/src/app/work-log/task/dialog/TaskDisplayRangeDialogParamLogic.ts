@@ -38,7 +38,8 @@ export const TaskDisplayRangeDialogParamLogic = ({
   // 表示範囲
   const initDisplayRange: RadioSelectRange = useMemo(() => {
     // startDate/lastDateがある場合はcustom
-    if (!!param.get("startDate") || !!param.get("lastDate")) return "custom";
+    if (!!param.get("firstActivityDate") || !!param.get("lastActivityDate"))
+      return "custom";
     const progressParam = param.get("progress");
     switch (progressParam) {
       // progressの値に応じて分岐
@@ -99,19 +100,19 @@ export const TaskDisplayRangeDialogParamLogic = ({
   );
   // 初期値 TODO: 実装時に要テスト(クエリと一致してるか)
   const initStartMinParam = useMemo(
-    () => getInitDateParam("startDate", true),
+    () => getInitDateParam("firstActivityDate", true),
     [getInitDateParam]
   );
   const initStartMaxParam = useMemo(
-    () => getInitDateParam("startDate", false),
+    () => getInitDateParam("firstActivityDate", false),
     [getInitDateParam]
   );
   const initLastMinParam = useMemo(
-    () => getInitDateParam("lastDate", true),
+    () => getInitDateParam("lastActivityDate", true),
     [getInitDateParam]
   );
   const initLastMaxParam = useMemo(
-    () => getInitDateParam("lastDate", false),
+    () => getInitDateParam("lastActivityDate", false),
     [getInitDateParam]
   );
   // 開始日
@@ -168,7 +169,7 @@ export const TaskDisplayRangeDialogParamLogic = ({
             startMinParam < startMaxParam
               ? `${startMinParam},${startMaxParam}`
               : `${startMaxParam},${startMinParam}`;
-          params.set("startDate", startDateParam);
+          params.set("firstActivityDate", startDateParam);
         }
         if (isLastDateEnable) {
           // min<maxかどうかチェック(逆なら逆にする)
@@ -176,7 +177,7 @@ export const TaskDisplayRangeDialogParamLogic = ({
             lastMixParam < lastMaxParam
               ? `${lastMixParam},${lastMaxParam}`
               : `${lastMixParam},${startMinParam}`;
-          params.set("lastDate", lastDateParam);
+          params.set("lastActivityDate", lastDateParam);
         }
       }
     }
