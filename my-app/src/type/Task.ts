@@ -26,7 +26,7 @@ export type TaskSummary = {
   /** 稼働開始日 */
   startDate: Date;
   /** 最終稼働日 */
-  lastDate: Date;
+  lastDate: Date | null;
 };
 
 /** タスクの詳細データの型定義 */
@@ -46,7 +46,7 @@ export type TaskDetail = {
   /** タスクの開始日 */
   startDate: string;
   /** タスクの最終更新日 */
-  lastDate: string;
+  lastDate: string | null;
   /** タスクの詳細ページのメモ */
   memo: MemoTaskDetail[];
   /** タスクの実施日の一覧(カレンダー表示用) */
