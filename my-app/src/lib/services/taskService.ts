@@ -101,7 +101,14 @@ export const createTask = async (
   if (existing !== null) return null;
   // くりえーとする
   const data: TaskOption = await prisma.task.create({
-    data: { name, categoryId, isFavorite, progress: 0, createdAt },
+    data: {
+      name,
+      categoryId,
+      isFavorite,
+      progress: 0,
+      createdAt,
+      updatedAt: createdAt,
+    },
     select: {
       id: true,
       name: true,
