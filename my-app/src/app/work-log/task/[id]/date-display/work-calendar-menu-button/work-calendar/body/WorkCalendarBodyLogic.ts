@@ -2,7 +2,7 @@ import apiClient from "@/lib/apiClient";
 import { CalendarDateMap } from "@/type/Task";
 import useAspidaSWR from "@aspida/swr";
 import { getDay, getDaysInMonth, startOfMonth } from "date-fns";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
 /**月曜を 0 にするために、日曜(0) → 6、月曜(1) → 0...に変換 */
@@ -44,6 +44,8 @@ type Props = {
  * 稼働のカレンダーのボディ(日付表示)部分のロジック
  */
 export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
+  // ページネーション
+  const router = useRouter();
   // パラメータ取得
   const { id } = useParams<{ id: string }>();
   // weeksはレンダー時に必ず変化するのでメモ化不要
@@ -68,9 +70,13 @@ export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
 
   const onClickDay = useCallback(
     (day: number) => {
-      console.log("ページ移動", { year: year, month: month, day: day });
+      // "2025-05-22"など 一桁の場合はString.padStartで0を付与する
+      const dateParam = `${year}-${String(month).padStart(2, "0")}-${String(
+        day
+      ).padStart(2, "0")}`;
+      router.push(`/work-log/daily/${dateParam}`);
     },
-    [month, year]
+    [month, router, year]
   );
   // レイアウト関連
   const boxSize = 40;
