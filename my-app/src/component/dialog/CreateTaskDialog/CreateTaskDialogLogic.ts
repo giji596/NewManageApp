@@ -61,6 +61,11 @@ export default function CreateTaskDialogLogic({
         });
         mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
         mutate(`api/work-log/categories/${categoryId}/tasks`); // 追加先のカテゴリのタスクも再検証する
+        // 一覧データについて
+        mutate(
+          (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
+          undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
+        );
         onCreateTask?.(res.body.id);
         onClose();
       } catch (error) {

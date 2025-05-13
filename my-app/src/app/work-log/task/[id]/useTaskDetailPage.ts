@@ -69,12 +69,22 @@ export default function useTaskDetailPage({ id }: Props) {
     await apiClient.work_log.tasks._id(id).patch({ body: { progress: 100 } });
     // データ更新後に再検証してUIに即時反映
     mutate(`api/work-log/tasks/${id}`);
+    // 一覧データも再検証
+    mutate(
+      (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
+      undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
+    );
   }, [id]);
   const handleDelete = useCallback(async () => {
     try {
       await apiClient.work_log.tasks._id(id).delete();
       // 現在のページのキャッシュを削除(再検証は不要なのでfalseで)
       mutate(`api/work-log/tasks/${id}`, undefined, { revalidate: false });
+      // 一覧データも再検証
+      mutate(
+        (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
+        undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
+      );
       // 一覧ページへ移動
       router.push("/work-log/task");
     } catch (error) {

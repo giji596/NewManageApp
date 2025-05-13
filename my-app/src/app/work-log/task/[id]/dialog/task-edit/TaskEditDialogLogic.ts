@@ -68,7 +68,14 @@ export default function TaskEditDialogLogic({
       await apiClient.work_log.tasks._id(id).patch({
         body: sendData,
       });
+      // 再検証
+      // このページについて
       mutate(`api/work-log/tasks/${id}`);
+      // 一覧データについて
+      mutate(
+        (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
+        undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
+      );
       onClose();
     },
     [id, initialCategoryId, initialIsFavorite, initialTaskName, onClose]
