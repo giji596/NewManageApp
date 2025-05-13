@@ -37,7 +37,7 @@ export default function TaskSummaryTableBodyLogic({
     [taskItem.startDate]
   );
   const lastDateString = useMemo(
-    () => format(taskItem.lastDate, "yyyy/MM/dd"),
+    () => (taskItem.lastDate ? format(taskItem.lastDate, "yyyy/MM/dd") : "-"),
     [taskItem.lastDate]
   );
   const progressSelects = useMemo(() => {
