@@ -88,8 +88,7 @@ export const getTaskSummary = async (
 export const createTask = async (
   name: string,
   categoryId: number,
-  isFavorite: boolean,
-  firstActivityDate: Date
+  isFavorite: boolean
 ) => {
   // 重複チェック
   const existing = await prisma.task.findFirst({
@@ -107,7 +106,6 @@ export const createTask = async (
       categoryId,
       isFavorite,
       progress: 0,
-      firstActivityDate,
     },
     select: {
       id: true,
@@ -340,55 +338,109 @@ export const getLastMonthTaskProgress = async () => {
 };
 
 /**
- * ログ記録時の処理で使用。
- * 指定された日時が現在の updatedAt より新しい場合に、タスクの updatedAt を更新します。
+ * 指定された日時に基づいて、タスクの firstActivityDate および lastActivityDate を必要に応じて更新します。
+ * - firstActivityDate が未設定、または指定日時より後であれば、指定日時に更新します。
+ * - lastActivityDate が未設定、または指定日時より前であれば、指定日時に更新します。
  */
-export const updateTaskUpdatedAtIfEarlier = async (
+export const updateTaskActivityDatesIfNeeded = async (
   date: Date,
   taskId: number
 ) => {
   // タスクの更新日を取得
   const target = await prisma.task.findUnique({
     where: { id: taskId },
-    select: { lastActivityDate: true },
+    select: { firstActivityDate: true, lastActivityDate: true },
   });
-  // 対象のタスクが存在し、かつ更新日がないか古い場合に更新処理
+  // 更新データ用のオブジェクトを作成
+  const updateData: Record<"first" | "last", Date | null> = {
+    first: null,
+    last: null,
+  };
+  // 開始日について、対象のタスクが存在しかつ開始日がないか未来の日付の場合に更新処理のキューに含める
+  if (
+    target &&
+    (target.firstActivityDate === null ||
+      target.firstActivityDate.getTime() > date.getTime())
+  ) {
+    updateData.first = date; // updateDataに含める
+  }
+  // 最終実施日について、対象のタスクが存在しかつ更新日がないか過去の日付の場合に更新処理のキューに含める
   if (
     target &&
     (target.lastActivityDate === null ||
       target.lastActivityDate.getTime() < date.getTime())
   ) {
+    updateData.last = date; // updateDataに含める
+  }
+  // updateData[key]のいずれかがnullでない場合は以下の更新処理を行う
+  if (updateData.first || updateData.last)
     await prisma.task.update({
       where: { id: taskId },
-      data: { lastActivityDate: date },
+      data: {
+        ...(updateData.first !== null && {
+          firstActivityDate: updateData.first,
+        }),
+        ...(updateData.last !== null && {
+          lastActivityDate: updateData.last,
+        }),
+      },
     });
-  }
 };
 
 /**
- * 指定された日時がタスクの updatedAt と一致する場合、
- * ログの削除や移動（taskIdの変更）に伴い、updatedAt を次に新しい日時に更新します。
- * タスクログの削除・再割当て後の整合性維持に利用されます。
+ * 指定された日時が、タスクの firstActivityDate または lastActivityDate と一致する場合に、
+ * タスクログの削除や移動（taskId の変更）によって失われた日付情報を補うため、
+ * 該当する日付を次に新しい日時に更新します。
+ *
+ * - firstActivityDate と一致する場合は、それより後の最も古い日時に更新します。
+ * - lastActivityDate と一致する場合は、それより前の最も新しい日時に更新します。
+ *
+ * タスクログ削除や再割り当て後の整合性維持に使用されます。
  */
-export const adjustTaskUpdatedAtIfLogRemoved = async (
+export const adjustTaskActivityDatesIfRemoved = async (
   deletedDate: Date,
   taskId: number
 ) => {
-  // 現在の updatedAt を取得
+  // タスクの日付を取得
   const target = await prisma.task.findUnique({
     where: { id: taskId },
-    select: { lastActivityDate: true },
+    select: { firstActivityDate: true, lastActivityDate: true },
   });
-  // 削除された日時と一致していたら、次に新しいログの日時に更新
+  // 更新データをオブジェクトで宣言
+  // undefined: 更新しない, null: nullに更新, Date: 新しい日付で更新
+  const updateData: Record<"first" | "last", Date | null | undefined> = {
+    first: undefined,
+    last: undefined,
+  };
+  // firstActivityDate が削除対象と一致 → 最も古い他のログを探す
+  if (target?.firstActivityDate?.getTime() === deletedDate.getTime()) {
+    const previous = await prisma.taskLog.findFirst({
+      where: { taskId },
+      orderBy: { date: "asc" },
+      select: { date: true },
+    });
+    // 更新のキューに加える(ログが一つもない場合はnullを与える)
+    updateData.first = previous?.date ?? null;
+  }
+  // lastActivityDate が削除対象と一致 → 最も新しい他のログを探す
   if (target?.lastActivityDate?.getTime() === deletedDate.getTime()) {
     const previous = await prisma.taskLog.findFirst({
       where: { taskId },
       orderBy: { date: "desc" },
       select: { date: true },
     });
-    await prisma.task.update({
-      where: { id: taskId },
-      data: { lastActivityDate: previous?.date ?? null },
-    });
+    // 更新のキューに加える(ログが一つもない場合はnullを与える)
+    updateData.last = previous?.date ?? null;
   }
+  await prisma.task.update({
+    where: { id: taskId },
+    data: {
+      ...(typeof updateData.first !== "undefined" && {
+        firstActivityDate: updateData.first,
+      }),
+      ...(typeof updateData.last !== "undefined" && {
+        lastActivityDate: updateData.last,
+      }),
+    },
+  });
 };

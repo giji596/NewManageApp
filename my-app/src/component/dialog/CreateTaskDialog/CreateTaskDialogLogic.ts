@@ -1,8 +1,6 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import axios from "axios";
-import { format } from "date-fns";
-import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { mutate } from "swr";
@@ -33,16 +31,6 @@ export default function CreateTaskDialogLogic({
   onClose,
   onCreateTask,
 }: Props) {
-  // パスパラメータ取得
-  const pathParam = useParams();
-  const dateParam = pathParam.date; // string | string[] | undefined
-  const getStartDate = useCallback(
-    () =>
-      typeof dateParam === "string"
-        ? dateParam // stringの場合はその値を(/[date]/の形式である)
-        : format(new Date(), "yyyy-MM-dd"), // undefinedの場合は今日の日付(string[]の場合は[...date]とした場合のみなのでならない))
-    [dateParam]
-  );
   // TODO:でーたふぇっちさせる
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     query: { displayRange: "all", hideCompleted: "true" },
@@ -69,7 +57,6 @@ export default function CreateTaskDialogLogic({
             name: data.taskName,
             categoryId: data.categoryId,
             isFavorite: data.isFavorite,
-            startDate: getStartDate(),
           },
         });
         mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
@@ -84,7 +71,7 @@ export default function CreateTaskDialogLogic({
         }
       }
     },
-    [getStartDate, onClose, onCreateTask]
+    [onClose, onCreateTask]
   );
 
   return {
