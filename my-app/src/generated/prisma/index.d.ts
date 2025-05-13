@@ -3809,7 +3809,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
     _count: TaskCountAggregateOutputType | null
     _avg: TaskAvgAggregateOutputType | null
     _sum: TaskSumAggregateOutputType | null
@@ -3902,7 +3902,7 @@ export namespace Prisma {
       progress: number
       isFavorite: boolean
       createdAt: Date
-      updatedAt: Date
+      updatedAt: Date | null
     }, ExtArgs["result"]["task"]>
     composites: {}
   }
@@ -8266,7 +8266,7 @@ export namespace Prisma {
     progress?: IntFilter<"Task"> | number
     isFavorite?: BoolFilter<"Task"> | boolean
     createdAt?: DateTimeFilter<"Task"> | Date | string
-    updatedAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     tasks?: TaskLogListRelationFilter
   }
@@ -8278,7 +8278,7 @@ export namespace Prisma {
     progress?: SortOrder
     isFavorite?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     category?: CategoryOrderByWithRelationInput
     tasks?: TaskLogOrderByRelationAggregateInput
   }
@@ -8293,7 +8293,7 @@ export namespace Prisma {
     progress?: IntFilter<"Task"> | number
     isFavorite?: BoolFilter<"Task"> | boolean
     createdAt?: DateTimeFilter<"Task"> | Date | string
-    updatedAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     tasks?: TaskLogListRelationFilter
   }, "id">
@@ -8305,7 +8305,7 @@ export namespace Prisma {
     progress?: SortOrder
     isFavorite?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     _count?: TaskCountOrderByAggregateInput
     _avg?: TaskAvgOrderByAggregateInput
     _max?: TaskMaxOrderByAggregateInput
@@ -8323,7 +8323,7 @@ export namespace Prisma {
     progress?: IntWithAggregatesFilter<"Task"> | number
     isFavorite?: BoolWithAggregatesFilter<"Task"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   }
 
   export type CategoryWhereInput = {
@@ -8560,7 +8560,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutTasksInput
     tasks?: TaskLogCreateNestedManyWithoutTaskInput
   }
@@ -8572,7 +8572,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
     tasks?: TaskLogUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -8581,7 +8581,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
     tasks?: TaskLogUpdateManyWithoutTaskNestedInput
   }
@@ -8593,7 +8593,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tasks?: TaskLogUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -8604,7 +8604,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type TaskUpdateManyMutationInput = {
@@ -8612,7 +8612,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TaskUncheckedUpdateManyInput = {
@@ -8622,7 +8622,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryCreateInput = {
@@ -8928,9 +8928,25 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type CategoryScalarRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type TaskCountOrderByAggregateInput = {
@@ -9000,6 +9016,20 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type TaskListRelationFilter = {
     every?: TaskWhereInput
     some?: TaskWhereInput
@@ -9055,11 +9085,6 @@ export namespace Prisma {
   export type MemoTagNullableScalarRelationFilter = {
     is?: MemoTagWhereInput | null
     isNot?: MemoTagWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type MemoCountOrderByAggregateInput = {
@@ -9295,6 +9320,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type CategoryUpdateOneRequiredWithoutTasksNestedInput = {
@@ -9553,6 +9582,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -9576,6 +9616,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -9669,7 +9723,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutTasksInput
   }
 
@@ -9680,7 +9734,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type TaskCreateOrConnectWithoutTasksInput = {
@@ -9739,7 +9793,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
   }
 
@@ -9750,7 +9804,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type DailyDataUpsertWithoutLogsInput = {
@@ -9880,7 +9934,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
     tasks?: TaskLogCreateNestedManyWithoutTaskInput
   }
 
@@ -9890,7 +9944,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
     tasks?: TaskLogUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -9929,7 +9983,7 @@ export namespace Prisma {
     progress?: IntFilter<"Task"> | number
     isFavorite?: BoolFilter<"Task"> | boolean
     createdAt?: DateTimeFilter<"Task"> | Date | string
-    updatedAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
   }
 
   export type TaskLogCreateWithoutMemosInput = {
@@ -10129,7 +10183,7 @@ export namespace Prisma {
     progress: number
     isFavorite: boolean
     createdAt: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type TaskUpdateWithoutCategoryInput = {
@@ -10137,7 +10191,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tasks?: TaskLogUpdateManyWithoutTaskNestedInput
   }
 
@@ -10147,7 +10201,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tasks?: TaskLogUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -10157,7 +10211,7 @@ export namespace Prisma {
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MemoCreateManyTagInput = {
