@@ -6,7 +6,7 @@ import { WorkCalendarPopoverButtonLogic } from "./WorkCalendarPopoverButtonLogic
 
 type Props = {
   /** 開始日(yyyy/MM/dd) */
-  startDate: string;
+  startDate: string | null;
   /** 最終実施日(yyyy/MM/dd) 実施記録がない場合はnull */
   lastDate: string | null;
 };
@@ -29,7 +29,7 @@ const WorkCalendarPopoverButton = memo(function WorkCalendarMenuButton({
       >
         <CalendarMonthIcon fontSize="large" />
       </IconButton>
-      {open && lastDate && (
+      {open && lastDate && startDate && (
         <Popover
           anchorOrigin={{
             vertical: "bottom",

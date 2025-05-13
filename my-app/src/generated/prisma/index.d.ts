@@ -3647,7 +3647,7 @@ export namespace Prisma {
     categoryId: number | null
     progress: number | null
     isFavorite: boolean | null
-    createdAt: Date | null
+    firstActivityDate: Date | null
     lastActivityDate: Date | null
   }
 
@@ -3657,7 +3657,7 @@ export namespace Prisma {
     categoryId: number | null
     progress: number | null
     isFavorite: boolean | null
-    createdAt: Date | null
+    firstActivityDate: Date | null
     lastActivityDate: Date | null
   }
 
@@ -3667,7 +3667,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: number
-    createdAt: number
+    firstActivityDate: number
     lastActivityDate: number
     _all: number
   }
@@ -3691,7 +3691,7 @@ export namespace Prisma {
     categoryId?: true
     progress?: true
     isFavorite?: true
-    createdAt?: true
+    firstActivityDate?: true
     lastActivityDate?: true
   }
 
@@ -3701,7 +3701,7 @@ export namespace Prisma {
     categoryId?: true
     progress?: true
     isFavorite?: true
-    createdAt?: true
+    firstActivityDate?: true
     lastActivityDate?: true
   }
 
@@ -3711,7 +3711,7 @@ export namespace Prisma {
     categoryId?: true
     progress?: true
     isFavorite?: true
-    createdAt?: true
+    firstActivityDate?: true
     lastActivityDate?: true
     _all?: true
   }
@@ -3808,7 +3808,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt: Date
+    firstActivityDate: Date | null
     lastActivityDate: Date | null
     _count: TaskCountAggregateOutputType | null
     _avg: TaskAvgAggregateOutputType | null
@@ -3837,7 +3837,7 @@ export namespace Prisma {
     categoryId?: boolean
     progress?: boolean
     isFavorite?: boolean
-    createdAt?: boolean
+    firstActivityDate?: boolean
     lastActivityDate?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     tasks?: boolean | Task$tasksArgs<ExtArgs>
@@ -3850,7 +3850,7 @@ export namespace Prisma {
     categoryId?: boolean
     progress?: boolean
     isFavorite?: boolean
-    createdAt?: boolean
+    firstActivityDate?: boolean
     lastActivityDate?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
@@ -3861,7 +3861,7 @@ export namespace Prisma {
     categoryId?: boolean
     progress?: boolean
     isFavorite?: boolean
-    createdAt?: boolean
+    firstActivityDate?: boolean
     lastActivityDate?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
@@ -3872,11 +3872,11 @@ export namespace Prisma {
     categoryId?: boolean
     progress?: boolean
     isFavorite?: boolean
-    createdAt?: boolean
+    firstActivityDate?: boolean
     lastActivityDate?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "categoryId" | "progress" | "isFavorite" | "createdAt" | "lastActivityDate", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "categoryId" | "progress" | "isFavorite" | "firstActivityDate" | "lastActivityDate", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     tasks?: boolean | Task$tasksArgs<ExtArgs>
@@ -3901,7 +3901,7 @@ export namespace Prisma {
       categoryId: number
       progress: number
       isFavorite: boolean
-      createdAt: Date
+      firstActivityDate: Date | null
       lastActivityDate: Date | null
     }, ExtArgs["result"]["task"]>
     composites: {}
@@ -4333,7 +4333,7 @@ export namespace Prisma {
     readonly categoryId: FieldRef<"Task", 'Int'>
     readonly progress: FieldRef<"Task", 'Int'>
     readonly isFavorite: FieldRef<"Task", 'Boolean'>
-    readonly createdAt: FieldRef<"Task", 'DateTime'>
+    readonly firstActivityDate: FieldRef<"Task", 'DateTime'>
     readonly lastActivityDate: FieldRef<"Task", 'DateTime'>
   }
     
@@ -8069,7 +8069,7 @@ export namespace Prisma {
     categoryId: 'categoryId',
     progress: 'progress',
     isFavorite: 'isFavorite',
-    createdAt: 'createdAt',
+    firstActivityDate: 'firstActivityDate',
     lastActivityDate: 'lastActivityDate'
   };
 
@@ -8265,7 +8265,7 @@ export namespace Prisma {
     categoryId?: IntFilter<"Task"> | number
     progress?: IntFilter<"Task"> | number
     isFavorite?: BoolFilter<"Task"> | boolean
-    createdAt?: DateTimeFilter<"Task"> | Date | string
+    firstActivityDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     lastActivityDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     tasks?: TaskLogListRelationFilter
@@ -8277,7 +8277,7 @@ export namespace Prisma {
     categoryId?: SortOrder
     progress?: SortOrder
     isFavorite?: SortOrder
-    createdAt?: SortOrder
+    firstActivityDate?: SortOrderInput | SortOrder
     lastActivityDate?: SortOrderInput | SortOrder
     category?: CategoryOrderByWithRelationInput
     tasks?: TaskLogOrderByRelationAggregateInput
@@ -8292,7 +8292,7 @@ export namespace Prisma {
     categoryId?: IntFilter<"Task"> | number
     progress?: IntFilter<"Task"> | number
     isFavorite?: BoolFilter<"Task"> | boolean
-    createdAt?: DateTimeFilter<"Task"> | Date | string
+    firstActivityDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     lastActivityDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     tasks?: TaskLogListRelationFilter
@@ -8304,7 +8304,7 @@ export namespace Prisma {
     categoryId?: SortOrder
     progress?: SortOrder
     isFavorite?: SortOrder
-    createdAt?: SortOrder
+    firstActivityDate?: SortOrderInput | SortOrder
     lastActivityDate?: SortOrderInput | SortOrder
     _count?: TaskCountOrderByAggregateInput
     _avg?: TaskAvgOrderByAggregateInput
@@ -8322,7 +8322,7 @@ export namespace Prisma {
     categoryId?: IntWithAggregatesFilter<"Task"> | number
     progress?: IntWithAggregatesFilter<"Task"> | number
     isFavorite?: BoolWithAggregatesFilter<"Task"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    firstActivityDate?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
     lastActivityDate?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   }
 
@@ -8559,7 +8559,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
     category: CategoryCreateNestedOneWithoutTasksInput
     tasks?: TaskLogCreateNestedManyWithoutTaskInput
@@ -8571,7 +8571,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
     tasks?: TaskLogUncheckedCreateNestedManyWithoutTaskInput
   }
@@ -8580,7 +8580,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
     tasks?: TaskLogUpdateManyWithoutTaskNestedInput
@@ -8592,7 +8592,7 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tasks?: TaskLogUncheckedUpdateManyWithoutTaskNestedInput
   }
@@ -8603,7 +8603,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
   }
 
@@ -8611,7 +8611,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -8621,7 +8621,7 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -8955,7 +8955,7 @@ export namespace Prisma {
     categoryId?: SortOrder
     progress?: SortOrder
     isFavorite?: SortOrder
-    createdAt?: SortOrder
+    firstActivityDate?: SortOrder
     lastActivityDate?: SortOrder
   }
 
@@ -8971,7 +8971,7 @@ export namespace Prisma {
     categoryId?: SortOrder
     progress?: SortOrder
     isFavorite?: SortOrder
-    createdAt?: SortOrder
+    firstActivityDate?: SortOrder
     lastActivityDate?: SortOrder
   }
 
@@ -8981,7 +8981,7 @@ export namespace Prisma {
     categoryId?: SortOrder
     progress?: SortOrder
     isFavorite?: SortOrder
-    createdAt?: SortOrder
+    firstActivityDate?: SortOrder
     lastActivityDate?: SortOrder
   }
 
@@ -9722,7 +9722,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
     category: CategoryCreateNestedOneWithoutTasksInput
   }
@@ -9733,7 +9733,7 @@ export namespace Prisma {
     categoryId: number
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
   }
 
@@ -9792,7 +9792,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
   }
@@ -9803,7 +9803,7 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -9933,7 +9933,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
     tasks?: TaskLogCreateNestedManyWithoutTaskInput
   }
@@ -9943,7 +9943,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
     tasks?: TaskLogUncheckedCreateNestedManyWithoutTaskInput
   }
@@ -9982,7 +9982,7 @@ export namespace Prisma {
     categoryId?: IntFilter<"Task"> | number
     progress?: IntFilter<"Task"> | number
     isFavorite?: BoolFilter<"Task"> | boolean
-    createdAt?: DateTimeFilter<"Task"> | Date | string
+    firstActivityDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     lastActivityDate?: DateTimeNullableFilter<"Task"> | Date | string | null
   }
 
@@ -10182,7 +10182,7 @@ export namespace Prisma {
     name: string
     progress: number
     isFavorite: boolean
-    createdAt: Date | string
+    firstActivityDate?: Date | string | null
     lastActivityDate?: Date | string | null
   }
 
@@ -10190,7 +10190,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tasks?: TaskLogUpdateManyWithoutTaskNestedInput
   }
@@ -10200,7 +10200,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tasks?: TaskLogUncheckedUpdateManyWithoutTaskNestedInput
   }
@@ -10210,7 +10210,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     isFavorite?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 

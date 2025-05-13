@@ -61,7 +61,7 @@ export const getTaskSummary = async (
       progress: true,
       isFavorite: true,
       tasks: { select: { workTime: true } },
-      createdAt: true,
+      firstActivityDate: true,
       lastActivityDate: true,
     },
   });
@@ -74,7 +74,7 @@ export const getTaskSummary = async (
       categoryName: task.category.name,
       progress: task.progress,
       totalHours: totalHours,
-      createdAt: task.createdAt,
+      firstActivityDate: task.firstActivityDate,
       lastActivityDate: task.lastActivityDate,
     };
   });
@@ -88,7 +88,7 @@ export const createTask = async (
   name: string,
   categoryId: number,
   isFavorite: boolean,
-  createdAt: Date
+  firstActivityDate: Date
 ) => {
   // 重複チェック
   const existing = await prisma.task.findFirst({
@@ -106,7 +106,7 @@ export const createTask = async (
       categoryId,
       isFavorite,
       progress: 0,
-      createdAt,
+      firstActivityDate,
     },
     select: {
       id: true,
@@ -163,7 +163,7 @@ export const getTaskDetail = async (id: number) => {
           },
         },
       },
-      createdAt: true,
+      firstActivityDate: true,
       lastActivityDate: true,
     },
   });
@@ -212,7 +212,7 @@ export const getTaskDetail = async (id: number) => {
       category: data.category,
       progress: data.progress,
       totalHours: totalHours,
-      createdAt: data.createdAt.toISOString(),
+      firstActivityDate: data.firstActivityDate?.toISOString() ?? null,
       lastActivityDate: data.lastActivityDate?.toISOString() ?? null,
       memo: memos,
       workDateList,

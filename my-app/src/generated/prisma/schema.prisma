@@ -38,8 +38,8 @@ model Task {
   isFavorite Boolean
   tasks      TaskLog[]
 
-  createdAt        DateTime
-  lastActivityDate DateTime?
+  firstActivityDate DateTime?
+  lastActivityDate  DateTime?
 }
 
 model Category {

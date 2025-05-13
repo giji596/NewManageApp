@@ -23,8 +23,8 @@ export type TaskSummary = {
   progress: number;
   /** 稼働合計時間 */
   totalHours: number;
-  /** タスクの作成日 */
-  createdAt: Date;
+  /** タスクの開始日 */
+  firstActivityDate: Date | null;
   /** 最終稼働日 */
   lastActivityDate: Date | null;
 };
@@ -43,8 +43,8 @@ export type TaskDetail = {
   progress: number;
   /** タスクの稼働合計時間 */
   totalHours: number;
-  /** タスクの作成日 */
-  createdAt: string;
+  /** タスクの開始日 */
+  firstActivityDate: string | null;
   /** タスクの最終更新日 */
   lastActivityDate: string | null;
   /** タスクの詳細ページのメモ */

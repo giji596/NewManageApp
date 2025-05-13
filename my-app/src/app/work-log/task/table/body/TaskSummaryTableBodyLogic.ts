@@ -33,8 +33,11 @@ export default function TaskSummaryTableBodyLogic({
 }: Props) {
   // メモ化
   const startDateString = useMemo(
-    () => format(taskItem.createdAt, "yyyy/MM/dd"),
-    [taskItem.createdAt]
+    () =>
+      taskItem.firstActivityDate
+        ? format(taskItem.firstActivityDate, "yyyy/MM/dd")
+        : "-",
+    [taskItem.firstActivityDate]
   );
   const lastDateString = useMemo(
     () =>

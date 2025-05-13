@@ -195,8 +195,8 @@ export const getCategorySummary = async (
   // 開始日と最終更新日を取得する
   const startedAt = await prisma.task.findFirst({
     where: { categoryId: id },
-    orderBy: { createdAt: "asc" },
-    select: { createdAt: true },
+    orderBy: { firstActivityDate: "asc" },
+    select: { firstActivityDate: true },
   });
   const lastAt = await prisma.task.findFirst({
     where: { categoryId: id },
@@ -206,7 +206,9 @@ export const getCategorySummary = async (
 
   // stringに変換後にreturnの型定義の形にフォーマットする
   const startString =
-    startedAt !== null ? format(startedAt.createdAt, "yyyy/MM/dd") : "--------";
+    startedAt !== null && startedAt.firstActivityDate !== null
+      ? format(startedAt.firstActivityDate, "yyyy/MM/dd")
+      : "--------";
   const lastString =
     lastAt !== null && lastAt.lastActivityDate !== null
       ? format(lastAt.lastActivityDate, "yyyy/MM/dd")
