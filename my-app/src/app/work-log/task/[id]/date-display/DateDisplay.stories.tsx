@@ -5,8 +5,8 @@ import DateDisplay from "./DateDisplay";
 const meta = {
   component: DateDisplay,
   args: {
-    startDate: "2025/03/24",
-    lastDate: "2025/04/12",
+    firstActivityDate: "2025/03/24",
+    lastActivityDate: "2025/04/12",
   },
 } satisfies Meta<typeof DateDisplay>;
 

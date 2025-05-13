@@ -10,6 +10,7 @@ const meta = {
       summary: "本文の頭の部分の一部を抜粋して表示させます",
       title: "メモ1",
       task: { id: 1, name: "タスク1" },
+      tagName: "",
     },
     isActive: false,
     onClickRow: () => {},
