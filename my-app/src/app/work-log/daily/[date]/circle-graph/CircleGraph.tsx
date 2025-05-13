@@ -19,7 +19,7 @@ export default function CircleGraph({ data }: Props) {
   return (
     <>
       {!isNoData && (
-        <PieChart width={500} height={300}>
+        <PieChart width={720} height={300}>
           <Pie
             data={data}
             dataKey="value"
