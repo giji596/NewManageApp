@@ -42,7 +42,7 @@ export default function useTaskDetailPage({ id }: Props) {
         isFavorite: false,
         progress: 70,
         totalHours: 35,
-        createdAt: "",
+        firstActivityDate: "",
         lastActivityDate: "",
         memo: [],
       };
@@ -54,11 +54,11 @@ export default function useTaskDetailPage({ id }: Props) {
   const isFavorite = data.isFavorite;
   const progress = data.progress;
   const totalHours = data.totalHours;
-  const startDateString = useMemo(
-    () => data.createdAt?.replaceAll("-", "/").split("T")[0] ?? null,
-    [data.createdAt]
+  const firstActivityDateString = useMemo(
+    () => data.firstActivityDate?.replaceAll("-", "/").split("T")[0] ?? null,
+    [data.firstActivityDate]
   );
-  const lastDateString = useMemo(
+  const lastActivityDateString = useMemo(
     () => data.lastActivityDate?.replaceAll("-", "/").split("T")[0] ?? null,
     [data.lastActivityDate]
   );
@@ -110,9 +110,9 @@ export default function useTaskDetailPage({ id }: Props) {
     /** 合計稼働時間 */
     totalHours,
     /** 開始日(string) */
-    startDateString,
+    firstActivityDateString,
     /** 最終実施日(string) */
-    lastDateString,
+    lastActivityDateString,
     /** メモリスト */
     memoList,
     /** 完了状態かどうか(progress===100) */

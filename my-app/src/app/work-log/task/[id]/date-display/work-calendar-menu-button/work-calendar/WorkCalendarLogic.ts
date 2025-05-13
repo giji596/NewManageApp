@@ -2,23 +2,26 @@ import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** 開始日 */
-  startDate: string;
+  firstActivityDate: string;
   /** 最終実施日 */
-  lastDate: string;
+  lastActivityDate: string;
 };
 
 /**
  *  稼働のカレンダーのロジック
  */
-export const WorkCalendarLogic = ({ startDate, lastDate }: Props) => {
+export const WorkCalendarLogic = ({
+  firstActivityDate,
+  lastActivityDate,
+}: Props) => {
   const startYearAndMonth = useMemo(() => {
-    const [y, m] = startDate.split("/");
+    const [y, m] = firstActivityDate.split("/");
     return { year: Number(y), month: Number(m) };
-  }, [startDate]);
+  }, [firstActivityDate]);
   const lastYearAndMonth = useMemo(() => {
-    const [y, m] = lastDate.split("/");
+    const [y, m] = lastActivityDate.split("/");
     return { year: Number(y), month: Number(m) };
-  }, [lastDate]);
+  }, [lastActivityDate]);
 
   const initYear = lastYearAndMonth.year;
   const initMonth = lastYearAndMonth.month;

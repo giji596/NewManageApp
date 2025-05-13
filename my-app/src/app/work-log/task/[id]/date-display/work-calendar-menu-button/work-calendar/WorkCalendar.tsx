@@ -6,17 +6,17 @@ import { WorkCalendarLogic } from "./WorkCalendarLogic";
 
 type Props = {
   /** 開始日 */
-  startDate: string;
+  firstActivityDate: string;
   /** 最終実施日 */
-  lastDate: string;
+  lastActivityDate: string;
 };
 
 /**
  *  稼働のカレンダー
  */
 const WorkCalendar = memo(function WorkCalendar({
-  startDate,
-  lastDate,
+  firstActivityDate,
+  lastActivityDate,
 }: Props) {
   const {
     year,
@@ -25,7 +25,7 @@ const WorkCalendar = memo(function WorkCalendar({
     handleNextMonth,
     isMinMonth,
     isMaxMonth,
-  } = WorkCalendarLogic({ startDate, lastDate });
+  } = WorkCalendarLogic({ firstActivityDate, lastActivityDate });
 
   return (
     <Stack alignItems={"center"} spacing={0.5} p={2}>
