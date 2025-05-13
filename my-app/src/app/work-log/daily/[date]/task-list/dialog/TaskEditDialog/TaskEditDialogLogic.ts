@@ -30,6 +30,7 @@ export default function TaskEditDialogLogic({
 }: Props) {
   // ぱらめーた
   const { date } = useParams<{ date: string }>();
+  const [duplicateError, setDuplicateError] = useState<boolean>(false);
   // 初期値保存(更新処理時に比較に仕様)
   const initialValues = useRef<{ taskId: number; dailyHours: number }>({
     taskId: initialTaskId,
@@ -166,6 +167,8 @@ export default function TaskEditDialogLogic({
     taskList,
     /** ロード状態(SWRのロード または 選択中の値がnull以外(=初期化済み)) */
     isLoading,
+    /** 重複エラー */
+    duplicateError,
     /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */
     isTaskSelectAvailable,
     /** 選択したカテゴリーに変更するハンドラー */

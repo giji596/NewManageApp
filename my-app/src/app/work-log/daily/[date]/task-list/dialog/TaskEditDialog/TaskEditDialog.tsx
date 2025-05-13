@@ -10,6 +10,7 @@ import {
   Stack,
   IconButton,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -52,6 +53,7 @@ export default function TaskEditDialog({
     unSelected,
     taskList,
     isLoading,
+    duplicateError,
     isTaskSelectAvailable,
     categoryList,
     onChangeSelectCategory,
@@ -91,7 +93,7 @@ export default function TaskEditDialog({
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-        <DialogContent>
+        <DialogContent sx={{ pb: 0.5 }}>
           <Stack spacing={3} mt={1}>
             {/** カテゴリ */}
             <Stack direction="row" justifyContent={"space-between"}>
@@ -190,7 +192,14 @@ export default function TaskEditDialog({
             </Stack>
           </Stack>
         </DialogContent>
-
+        {/** エラーメッセージ */}
+        <Typography
+          variant="caption"
+          color={duplicateError ? "error" : "transparent"}
+          pl={4}
+        >
+          * すでに存在するタスクは追加できません。
+        </Typography>
         <Stack direction="row" justifyContent={"space-between"} py={2} px={4}>
           <Stack>
             <Button
