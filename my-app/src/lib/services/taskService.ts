@@ -337,3 +337,56 @@ export const getLastMonthTaskProgress = async () => {
     });
   return result;
 };
+
+/**
+ * ログ記録時の処理で使用。
+ * 指定された日時が現在の updatedAt より新しい場合に、タスクの updatedAt を更新します。
+ */
+export const updateTaskUpdatedAtIfEarlier = async (
+  date: Date,
+  taskId: number
+) => {
+  // タスクの更新日を取得
+  const target = await prisma.task.findUnique({
+    where: { id: taskId },
+    select: { updatedAt: true },
+  });
+  // 対象のタスクが存在し、かつ更新日がないか古い場合に更新処理
+  if (
+    target &&
+    (target.updatedAt === null || target.updatedAt.getTime() < date.getTime())
+  ) {
+    await prisma.task.update({
+      where: { id: taskId },
+      data: { updatedAt: date },
+    });
+  }
+};
+
+/**
+ * 指定された日時がタスクの updatedAt と一致する場合、
+ * ログの削除や移動（taskIdの変更）に伴い、updatedAt を次に新しい日時に更新します。
+ * タスクログの削除・再割当て後の整合性維持に利用されます。
+ */
+export const adjustTaskUpdatedAtIfLogRemoved = async (
+  deletedDate: Date,
+  taskId: number
+) => {
+  // 現在の updatedAt を取得
+  const target = await prisma.task.findUnique({
+    where: { id: taskId },
+    select: { updatedAt: true },
+  });
+  // 削除された日時と一致していたら、次に新しいログの日時に更新
+  if (target?.updatedAt?.getTime() === deletedDate.getTime()) {
+    const previous = await prisma.taskLog.findFirst({
+      where: { taskId },
+      orderBy: { date: "desc" },
+      select: { date: true },
+    });
+    await prisma.task.update({
+      where: { id: taskId },
+      data: { updatedAt: previous?.date ?? null },
+    });
+  }
+};
