@@ -215,11 +215,15 @@ export default function DateDialog({
               {/** メモのところ */}
               <Stack height="70%" overflow="auto" pl={2}>
                 <Typography variant="subtitle1">メモ</Typography>
-                {dateDetails.memoList.map((item) => (
-                  <Typography key={item.id} pl={4} variant="caption">
-                    {item.title}
-                  </Typography>
-                ))}
+                <ul>
+                  {dateDetails.memoList.map((item) => (
+                    <li key={item.id}>
+                      <Typography pl={4} variant="caption">
+                        {item.title}
+                      </Typography>
+                    </li>
+                  ))}
+                </ul>
               </Stack>
             </Stack>
           </Stack>
