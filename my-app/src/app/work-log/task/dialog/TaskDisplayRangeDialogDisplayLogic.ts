@@ -11,7 +11,7 @@ export const TaskDisplayRangeDialogDisplayLogic = () => {
   // disabled関連
   // 初期値
   const initProgressEnable = useMemo(() => !!param.get("progress"), [param]);
-  const initStartDateEnable = useMemo(
+  const initFirstActivityDateEnable = useMemo(
     () => !!param.get("firstActivityDate"),
     [param]
   );
@@ -22,19 +22,19 @@ export const TaskDisplayRangeDialogDisplayLogic = () => {
   // state
   const [isProgressEnable, setIsProgressEnable] =
     useState<boolean>(initProgressEnable);
-  const [isStartDateEnable, setIsStartDateEnable] =
-    useState<boolean>(initStartDateEnable);
-  const [isLastDateEnable, setIsLastDateEnable] =
+  const [isFirstActivityDateEnable, setIsFirstActivityDateEnable] =
+    useState<boolean>(initFirstActivityDateEnable);
+  const [isLastActivityDateEnable, setIsLastActivityDateEnable] =
     useState<boolean>(initLastDateEnable);
   // ハンドラー
   const toggleProgressEnable = useCallback(() => {
     setIsProgressEnable((prev) => !prev);
   }, []);
-  const toggleStartDateEnable = useCallback(() => {
-    setIsStartDateEnable((prev) => !prev);
+  const toggleFirstActivityDateEnable = useCallback(() => {
+    setIsFirstActivityDateEnable((prev) => !prev);
   }, []);
-  const toggleLastDateEnable = useCallback(() => {
-    setIsLastDateEnable((prev) => !prev);
+  const toggleLastActivityDateEnable = useCallback(() => {
+    setIsLastActivityDateEnable((prev) => !prev);
   }, []);
 
   const disableCustomRange = useCallback(
@@ -46,15 +46,15 @@ export const TaskDisplayRangeDialogDisplayLogic = () => {
       disableCustomRange(displayRange) || !isProgressEnable,
     [disableCustomRange, isProgressEnable]
   );
-  const disabledStartDate = useCallback(
+  const disabledFirstActivityDate = useCallback(
     (displayRange: RadioSelectRange) =>
-      disableCustomRange(displayRange) || !isStartDateEnable,
-    [disableCustomRange, isStartDateEnable]
+      disableCustomRange(displayRange) || !isFirstActivityDateEnable,
+    [disableCustomRange, isFirstActivityDateEnable]
   );
-  const disabledLastDate = useCallback(
+  const disabledLastActivityDate = useCallback(
     (displayRange: RadioSelectRange) =>
-      disableCustomRange(displayRange) || !isLastDateEnable,
-    [disableCustomRange, isLastDateEnable]
+      disableCustomRange(displayRange) || !isLastActivityDateEnable,
+    [disableCustomRange, isLastActivityDateEnable]
   );
   return {
     /** 進捗の範囲指定の有効かどうか */
@@ -62,20 +62,20 @@ export const TaskDisplayRangeDialogDisplayLogic = () => {
     /** 進捗の範囲指定の有効を切り替える関数 */
     toggleProgressEnable,
     /** 開始日の範囲指定の有効かどうか */
-    isStartDateEnable,
+    isFirstActivityDateEnable,
     /** 開始日の範囲指定の有効を切り替える関数 */
-    toggleStartDateEnable,
-    /** 最終日の範囲指定の有効かどうか */
-    isLastDateEnable,
-    /** 最終日の範囲指定の有効を切り替える関数 */
-    toggleLastDateEnable,
+    toggleFirstActivityDateEnable,
+    /** 最終実施日の範囲指定の有効かどうか */
+    isLastActivityDateEnable,
+    /** 最終実施日の範囲指定の有効を切り替える関数 */
+    toggleLastActivityDateEnable,
     /** メインコンテンツ部分のdisabled */
     disableCustomRange,
     /** 進捗のdisabled */
     disabledProgress,
     /** 開始日のdisabled */
-    disabledStartDate,
-    /** 最終日のdisabled */
-    disabledLastDate,
+    disabledFirstActivityDate,
+    /** 最終実施日のdisabled */
+    disabledLastActivityDate,
   };
 };
