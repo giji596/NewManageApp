@@ -47,6 +47,10 @@ export default function useTableSort<T extends object>({
   // ラベル状況に応じてソートする関数
   const sortByLabel = useCallback(
     (c: TableSortTargetType, d: TableSortTargetType) => {
+      // nullチェックを最初に行う（isAscなら
+      if (c === null && d === null) return 0;
+      if (c === null) return isAsc ? 1 : -1;
+      if (d === null) return isAsc ? -1 : 1;
       switch (typeof c) {
         // 各タイプの同定を行ったのちにソートする
         case "string":
