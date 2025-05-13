@@ -1,6 +1,7 @@
 import apiClient from "@/lib/apiClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
+import axios from "axios";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mutate } from "swr";
@@ -30,6 +31,7 @@ export default function TaskEditDialogLogic({
 }: Props) {
   // ぱらめーた
   const { date } = useParams<{ date: string }>();
+  const [duplicateError, setDuplicateError] = useState<boolean>(false);
   // 初期値保存(更新処理時に比較に仕様)
   const initialValues = useRef<{ taskId: number; dailyHours: number }>({
     taskId: initialTaskId,
@@ -109,11 +111,13 @@ export default function TaskEditDialogLogic({
     const target = e.target.value;
     setCategoryId(Number(target));
     setTaskId(null);
+    setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
   }, []);
 
   const onChangeSelectTask = useCallback((e: SelectChangeEvent) => {
     const target = e.target.value;
     setTaskId(Number(target));
+    setDuplicateError(false); // 選択を変更時に重複エラーフラグをoffにする
   }, []);
 
   const onChangeSelectHours = useCallback((e: SelectChangeEvent) => {
@@ -129,12 +133,21 @@ export default function TaskEditDialogLogic({
     if (initialValues.current.taskId !== taskId && taskId !== null)
       body.taskId = taskId;
     // bodyで必要な値だけ渡す
-    await apiClient.work_log.daily
-      ._date(date)
-      .task_logs._id(itemId)
-      .patch({ body: body });
-    mutate(`api/work-log/daily/${date}`); // 再検証する
-    onClose();
+    try {
+      await apiClient.work_log.daily
+        ._date(date)
+        .task_logs._id(itemId)
+        .patch({ body: body });
+      mutate(`api/work-log/daily/${date}`); // 再検証する
+      onClose();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // エラーコードが400の場合は重複エラーであるとする
+        if (error.response.status === 400) {
+          setDuplicateError(true);
+        }
+      }
+    }
   }, [dailyHours, date, itemId, onClose, taskId]);
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
@@ -166,6 +179,8 @@ export default function TaskEditDialogLogic({
     taskList,
     /** ロード状態(SWRのロード または 選択中の値がnull以外(=初期化済み)) */
     isLoading,
+    /** 重複エラー */
+    duplicateError,
     /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */
     isTaskSelectAvailable,
     /** 選択したカテゴリーに変更するハンドラー */
