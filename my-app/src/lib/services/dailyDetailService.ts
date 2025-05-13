@@ -2,8 +2,8 @@ import { DailyDetailTaskTableType } from "@/type/Task";
 import prisma from "../prisma";
 import { MemoDailyTask } from "@/type/Memo";
 import {
-  adjustTaskUpdatedAtIfLogRemoved,
-  updateTaskUpdatedAtIfEarlier,
+  adjustTaskActivityDatesIfRemoved,
+  updateTaskActivityDatesIfNeeded,
 } from "./taskService";
 
 /**
@@ -93,7 +93,7 @@ export const createDailyDetailData = async (date: Date, taskId: number) => {
     data: { taskId, date, workTime: 0 },
   });
   // 追加後に必要であればタスクの最終更新日の更新処理を行う
-  await updateTaskUpdatedAtIfEarlier(date, taskId);
+  await updateTaskActivityDatesIfNeeded(date, taskId);
   return data;
 };
 
@@ -126,12 +126,12 @@ export const updateTaskLog = async (
   // タスクの変更を含む場合(taskIdが存在する場合)
   // 必要に応じて最終更新日を更新する(元タスク:次点で新しい日付に変更 新規タスク:現在の日付に変更 )
   if (previous && taskId) {
-    await adjustTaskUpdatedAtIfLogRemoved(data.date, previous.taskId);
-    await updateTaskUpdatedAtIfEarlier(data.date, taskId);
+    await adjustTaskActivityDatesIfRemoved(data.date, previous.taskId);
+    await updateTaskActivityDatesIfNeeded(data.date, taskId);
   }
   if (previous && taskId === undefined)
     // タスクの変更を含まない場合は必要に応じて元タスクの最終更新日を更新する
-    await updateTaskUpdatedAtIfEarlier(data.date, previous.taskId);
+    await updateTaskActivityDatesIfNeeded(data.date, previous.taskId);
   return { id: data.id };
 };
 
@@ -144,6 +144,6 @@ export const deleteTaskLog = async (id: number) => {
     select: { id: true, date: true, taskId: true },
   });
   // 必要に応じて元タスクの最終更新日を引き下げる
-  await adjustTaskUpdatedAtIfLogRemoved(data.date, data.taskId);
+  await adjustTaskActivityDatesIfRemoved(data.date, data.taskId);
   return data;
 };
