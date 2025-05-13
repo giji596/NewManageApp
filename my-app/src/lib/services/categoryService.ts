@@ -50,7 +50,8 @@ export const getCategoryOptions = async (
   const latestData = data.map((v) => {
     // 最終更新日を取得
     const latest = v.tasks.reduce(
-      (a, b) => (getTime(a) < getTime(b.updatedAt) ? b.updatedAt : a),
+      (a, b) =>
+        b.updatedAt ? (getTime(a) < getTime(b.updatedAt) ? b.updatedAt : a) : a,
       new Date("1990-01-01")
     );
     return { id: v.id, name: v.name, latestDate: latest };
@@ -203,7 +204,9 @@ export const getCategorySummary = async (
   const startString =
     startedAt !== null ? format(startedAt.createdAt, "yyyy/MM/dd") : "--------";
   const lastString =
-    lastAt !== null ? format(lastAt.updatedAt, "yyyy/MM/dd") : "--------";
+    lastAt !== null && lastAt.updatedAt !== null
+      ? format(lastAt.updatedAt, "yyyy/MM/dd")
+      : "--------";
   const activeDate = `${startString}~${lastString}`;
 
   // 総稼働時間を計算

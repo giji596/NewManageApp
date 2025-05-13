@@ -40,7 +40,7 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
         return {
           ...v,
           startDate: new Date(v.startDate),
-          lastDate: new Date(v.lastDate),
+          lastDate: v.lastDate ? new Date(v.lastDate) : null,
         };
       }),
     [rawData]
