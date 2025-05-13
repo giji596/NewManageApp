@@ -114,7 +114,7 @@ export default function TaskSummaryTableBody({
       <TableCell>{taskItem.totalHours}</TableCell>
       {/** 開始日(固定) */}
       <TableCell>{startDateString}</TableCell>
-      {/** 最終稼働日(固定) */}
+      {/** 最終実施日(固定) */}
       <TableCell>{lastDateString}</TableCell>
     </TableRow>
   );

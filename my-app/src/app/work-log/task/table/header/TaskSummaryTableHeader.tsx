@@ -96,11 +96,11 @@ export default function TaskSummaryTableHeader({
             onClickTitle={onClickTitle}
           />
         </TableCell>
-        {/** 最終稼働日 */}
+        {/** 最終実施日 */}
         <TableCell width={"12.5%"}>
           <CustomHeaderSortLabel
-            title={"最終稼働日"}
-            isSelected={isSelected("最終稼働日")}
+            title={"最終実施日"}
+            isSelected={isSelected("最終実施日")}
             isAsc={isAsc}
             onClickTitle={onClickTitle}
           />
