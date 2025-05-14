@@ -10,6 +10,8 @@ type Props = {
   memoItem: MemoDailyTask;
   /** アクティブ状態(アクティブであれば詳細を表示可能) */
   isActive: boolean;
+  /** ハイライトされてるか(選択中のタスクのメモであるか) */
+  isHighlighted: boolean;
   /** クリックされた時のハンドラ */
   onClickRow: (id: number) => void;
 };
