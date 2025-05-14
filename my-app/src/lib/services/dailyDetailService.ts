@@ -103,7 +103,8 @@ export const createDailyDetailData = async (date: Date, taskId: number) => {
 export const updateTaskLog = async (
   id: number,
   taskId?: number,
-  workTime?: number
+  workTime?: number,
+  progress?: number
 ) => {
   // 更新前のデータを取得
   const previous = await prisma.taskLog.findUnique({
@@ -131,6 +132,13 @@ export const updateTaskLog = async (
       date: true,
     },
   });
+  // タスクの進捗の更新処理
+  if (previous && progress) {
+    await prisma.task.update({
+      where: { id: previous.taskId },
+      data: { progress },
+    });
+  }
   // タスクの変更を含む場合(taskIdが存在する場合)
   // 必要に応じて最終更新日を更新する(元タスク:次点で新しい日付に変更 新規タスク:現在の日付に変更 )
   if (previous && taskId) {

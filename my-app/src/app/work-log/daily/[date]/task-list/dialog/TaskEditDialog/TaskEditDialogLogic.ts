@@ -15,8 +15,6 @@ type Props = {
   initialTaskId: number;
   /** 稼働時間の初期選択の値 */
   initialHours: number;
-  /** 進捗の初期選択の値 */
-  initProgressRange: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
 };
@@ -29,7 +27,6 @@ export default function TaskEditDialogLogic({
   initialCategoryId,
   initialTaskId,
   initialHours,
-  initProgressRange,
   onClose,
 }: Props) {
   // ぱらめーた
@@ -132,6 +129,7 @@ export default function TaskEditDialogLogic({
   }, []);
 
   // 進捗関連
+  const initProgressRange = 50; // TODO: タスクから取得する
   const [progress, setProgress] = useState<number>(initProgressRange);
   const handleChangeProgress = useCallback(
     (_: Event, newValue: number | number[]) => {
@@ -147,6 +145,7 @@ export default function TaskEditDialogLogic({
       body.workTime = dailyHours;
     if (initialValues.current.taskId !== taskId && taskId !== null)
       body.taskId = taskId;
+    if (initProgressRange !== progress) body.progress = progress;
     // bodyで必要な値だけ渡す
     try {
       await apiClient.work_log.daily
@@ -163,7 +162,7 @@ export default function TaskEditDialogLogic({
         }
       }
     }
-  }, [dailyHours, date, itemId, onClose, taskId]);
+  }, [dailyHours, date, initProgressRange, itemId, onClose, progress, taskId]);
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
