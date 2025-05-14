@@ -19,7 +19,7 @@ const MainPagePieChart = dynamic(
 );
 import TaskTable from "./component/table/TaskTable";
 import dynamic from "next/dynamic";
-import RecentWorkHeatMap from "./component/work-time-heat-graph/MonthlyWorkHeatMap";
+import RecentWorkHeatMap from "./component/work-time-heat-graph/RecentWorkHeatMap";
 
 /**
  * メインページ

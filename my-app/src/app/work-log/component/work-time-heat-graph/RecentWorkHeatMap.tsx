@@ -1,6 +1,6 @@
 import { Tooltip, Box, Typography } from "@mui/material";
 import { memo } from "react";
-import { RecentWorkHeatMapLogic } from "./MonthlyWorkHeatMapLogic";
+import { RecentWorkHeatMapLogic } from "./RecentWorkHeatMapLogic";
 
 /**
  * 最近(29~35日間)の日毎の稼働時間のヒートグラフ

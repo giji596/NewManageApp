@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import RecentWorkHeatMap from "./MonthlyWorkHeatMap";
+import RecentWorkHeatMap from "./RecentWorkHeatMap";
 
 const meta = {
   component: RecentWorkHeatMap,
