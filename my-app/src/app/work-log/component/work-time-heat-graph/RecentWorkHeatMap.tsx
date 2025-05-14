@@ -1,11 +1,11 @@
 import { Tooltip, Box, Typography } from "@mui/material";
 import { memo } from "react";
-import { MonthlyWorkHeatMapLogic } from "./MonthlyWorkHeatMapLogic";
+import { RecentWorkHeatMapLogic } from "./RecentWorkHeatMapLogic";
 
 /**
- * 過去1ヶ月間の日毎の稼働時間のヒートグラフ
+ * 最近(29~35日間)の日毎の稼働時間のヒートグラフ
  */
-const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
+const RecentWorkHeatMap = memo(function RecentWorkHeatMap() {
   const {
     boxSize,
     gap,
@@ -14,7 +14,7 @@ const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
     getDisplayTime,
     onClick,
     weeks,
-  } = MonthlyWorkHeatMapLogic();
+  } = RecentWorkHeatMapLogic();
 
   return (
     <Box
@@ -24,7 +24,7 @@ const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
       gap={`${gap}px`}
     >
       <Typography variant="h6" color="text.secondary">
-        過去一ヶ月の稼働時間
+        最近の稼働時間
       </Typography>
       {/* 曜日ラベル */}
       <Box display="flex" gap={`${gap}px`}>
@@ -95,4 +95,4 @@ const MonthlyWorkHeatMap = memo(function MonthlyWorkHeatMap() {
   );
 });
 
-export default MonthlyWorkHeatMap;
+export default RecentWorkHeatMap;

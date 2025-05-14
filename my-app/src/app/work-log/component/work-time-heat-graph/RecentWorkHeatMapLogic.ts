@@ -30,14 +30,19 @@ function groupByWeek(data: DailyWorkTime[]) {
   return weeks;
 }
 
-/** 直近30日間のログに変換する関数(日付データがない場合は0時間のデータを埋め込む) */
-function generateLast30DaysLogs(
+/** 直近のログに変換する関数(日付データがない場合は0時間のデータを埋め込む) */
+function generateRecentDaysLogs(
   logs: DailyWorkTime[],
   endDate: Date = new Date()
 ): DailyWorkTime[] {
   const result: DailyWorkTime[] = [];
+  // 必要なログの日数を取得
+  const todayDate = getDay(new Date()); // 0 = Sunday, ..., 6 = Saturday
+  const dateStartWithMonday = (todayDate + 6) % 7; // 0 = Monday, ... 6 = Sunday
+  // 現在の曜日に合わせてデータ取得範囲を制限(ヒートグラフの大きさに合わせて制限)
+  const displayDayCount = 28 + dateStartWithMonday; // 月曜=28日間,...日曜=34日間
 
-  for (let i = 29; i >= 0; i--) {
+  for (let i = displayDayCount; i >= 0; i--) {
     const date = subDays(endDate, i);
     const dateStr = format(date, "yyyy-MM-dd");
 
@@ -53,18 +58,18 @@ function generateLast30DaysLogs(
 }
 
 /**
- * 1ヶ月間の日毎の稼働時間のヒートグラフのロジック
+ * 最近(29~35日間)の日毎の稼働時間のヒートグラフのロジック
  */
-export const MonthlyWorkHeatMapLogic = () => {
+export const RecentWorkHeatMapLogic = () => {
   // レイアウト関連
   const boxSize = 30;
   const gap = 6;
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // TODO:ロード時を扱えるようにする
   const { data: rawData } = useAspidaSWR(
-    apiClient.work_log.daily.monthly_work_time,
+    apiClient.work_log.daily.recent_work_time,
     "get",
-    { key: "api/work-log/daily/monthly-work-time" }
+    { key: "api/work-log/daily/recent-work-time" }
   );
   const data = useMemo(() => rawData?.body ?? [], [rawData]);
 
@@ -92,7 +97,7 @@ export const MonthlyWorkHeatMapLogic = () => {
   );
 
   const weeks = useMemo(() => {
-    const filled = generateLast30DaysLogs(data);
+    const filled = generateRecentDaysLogs(data);
     return groupByWeek(filled);
   }, [data]);
   return {
@@ -115,7 +120,7 @@ export const MonthlyWorkHeatMapLogic = () => {
     getDisplayTime,
     /** クリック時のハンドラー */
     onClick,
-    /** 過去1ヶ月間の週ごとに分けられたデータ */
+    /** 最近の週ごとに分けられたデータ */
     weeks,
   };
 };

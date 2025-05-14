@@ -3,7 +3,7 @@ import prisma from "../prisma";
 import { DateSummary, DateSummaryDetail } from "@/type/Date";
 import { CategoryWithPercentage } from "@/type/Category";
 import { TaskWithPercentage } from "@/type/Task";
-import { format, subDays } from "date-fns";
+import { format, getDay, subDays } from "date-fns";
 import { DailyWorkTime } from "@/type/Main";
 
 /**
@@ -204,10 +204,14 @@ export const getDailySummaryDetailData = async (date: Date) => {
 };
 
 /**
- * 過去一ヶ月の日毎の稼働時間を取得するメソッド
+ * 最近(29~35日間)の日毎の稼働時間を取得するメソッド
  */
-export const getMonthlyWorkTime = async () => {
-  const startDate = subDays(new Date(), 29); // 今日を含めて30日分
+export const getRecentWorkTime = async () => {
+  const todayDate = getDay(new Date()); // 0 = Sunday, ..., 6 = Saturday
+  const dateStartWithMonday = (todayDate + 6) % 7; // 0 = Monday, ... 6 = Sunday
+  // 現在の曜日に合わせてデータ取得範囲を制限(ヒートグラフの大きさに合わせて制限)
+  const displayDayCount = 28 + dateStartWithMonday; // 月曜=28日間,...日曜=34日間
+  const startDate = subDays(new Date(), displayDayCount); // 今日の日付　- 28(月曜日)~34(日曜日)の日付
   const data = await prisma.dailyData.findMany({
     where: { date: { gte: startDate } },
     select: { date: true, logs: { select: { workTime: true } } },

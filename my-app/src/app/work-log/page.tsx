@@ -19,7 +19,7 @@ const MainPagePieChart = dynamic(
 );
 import TaskTable from "./component/table/TaskTable";
 import dynamic from "next/dynamic";
-import MonthlyWorkHeatMap from "./component/work-time-heat-graph/MonthlyWorkHeatMap";
+import RecentWorkHeatMap from "./component/work-time-heat-graph/RecentWorkHeatMap";
 
 /**
  * メインページ
@@ -30,7 +30,7 @@ export default function MainPage() {
       <NavMenu />
       <Stack spacing={2}>
         <Stack direction="row" alignItems={"center"} spacing={3}>
-          <MonthlyWorkHeatMap />
+          <RecentWorkHeatMap />
           <MainPagePieChart />
         </Stack>
         <TaskTable />
