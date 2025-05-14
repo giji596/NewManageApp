@@ -58,7 +58,6 @@ export default function PeriodSelectDialogLogic({
     // 依存値から外すために引数に(startDateとendDateは受け渡し時に)
     async (start: Date, end: Date) => {
       await getDataSelectRange(start, end);
-      console.log("送信！", start, end); // FIXME:親のできるまでのチェック用
       onClose();
     },
     [getDataSelectRange, onClose]

@@ -113,9 +113,7 @@ export default function CategoryHeaderLogic() {
   }, [categoryOptions, router, isNoParam]);
   // カテゴリ一覧更新時 一番上の値をセットする
   useEffect(() => {
-    console.log("effect");
     if (optionsQuery && categoryOptions.length > 0) {
-      console.log("へんこう！");
       router.replace(
         categoryOptions[0].id !== 0
           ? `?id=${categoryOptions[0].id}`

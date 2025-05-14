@@ -10,6 +10,5 @@ export async function GET(req: NextRequest) {
   const month = Number(searchParams.get("month") ?? nowMonth);
   // データを取得して返す
   const res = await getDailySummaryData(year, month);
-  console.log(year, month);
   return NextResponse.json(res);
 }

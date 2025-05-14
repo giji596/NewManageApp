@@ -77,11 +77,7 @@ export default function DataDialogLogic() {
             break;
           case "指定する":
             break;
-          default:
-            console.log("ターゲット外なので、どっかおかしい?");
         }
-      } else {
-        console.log("ラジオボタンに型定義外の値が与えられとる"); // FIXME:リリース時には削除
       }
     },
     [onChangeDay, onChangeMonth, onChangeYear]
