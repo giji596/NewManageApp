@@ -38,7 +38,8 @@ export default function MemoList({
     tagFilterList,
     toggleTagFilterCheckBox,
     doFilterByFilterList,
-  } = MemoListLogic({ memoItemList });
+    isSelectedTaskRow,
+  } = MemoListLogic({ memoItemList, selectedItemTaskId });
   return (
     <>
       <TableContainer sx={{ height: 345 }}>
@@ -65,7 +66,7 @@ export default function MemoList({
                     key={item.id}
                     memoItem={item}
                     isActive={isActiveRow(item.id)}
-                    isHighlighted={selectedItemTaskId === item.id} // TODO:外出してもいいかも?
+                    isHighlighted={isSelectedTaskRow(item.task.id)}
                     onClickRow={handleClickRow}
                   />
                 ))}

@@ -78,7 +78,7 @@ export default function CustomTableBody({
           </IconButton>
         </TableCell>
       </TableRow>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
           <Collapse in={isActive} timeout="auto" unmountOnExit>
             <Box margin={1}>{memoItem.summary}</Box>
