@@ -239,6 +239,11 @@ export const updateCategoryCompleted = async (id: number) => {
     data: { isCompleted: true },
     select: { id: true },
   });
+  // 関連するタスクの進捗を全て100(完了)に変更する
+  await prisma.task.updateMany({
+    where: { categoryId: id },
+    data: { progress: 100 },
+  });
   return data;
 };
 

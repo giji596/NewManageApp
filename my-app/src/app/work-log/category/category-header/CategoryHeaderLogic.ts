@@ -168,6 +168,8 @@ export default function CategoryHeaderLogic() {
       .complete.patch();
     // カテゴリページの概要データを再検証
     mutate(`api/work-log/categories/${selectedCategoryId}/summary`);
+    // タスクリストのデータについても再検証
+    mutate(`api/work-log/categories/${selectedCategoryId}/tasks`);
   }, [selectedCategoryId]);
   const handleDelete = useCallback(async () => {
     // 削除処理
