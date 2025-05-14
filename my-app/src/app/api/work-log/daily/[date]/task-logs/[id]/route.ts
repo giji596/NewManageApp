@@ -10,11 +10,12 @@ export async function PATCH(
 ) {
   const { id: idParam } = await params;
   const id = Number(idParam);
-  const { taskId, workTime } = (await req.json()) as {
+  const { taskId, workTime, progress } = (await req.json()) as {
     taskId?: number;
     workTime?: number;
+    progress?: number;
   };
-  const res = await updateTaskLog(id, taskId, workTime);
+  const res = await updateTaskLog(id, taskId, workTime, progress);
   // null時(重複があって更新処理が行われなかった場合)は400コードを返す
   if (res === null)
     return NextResponse.json({ error: "duplicate error" }, { status: 400 });
