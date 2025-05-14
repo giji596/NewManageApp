@@ -11,6 +11,7 @@ import {
   IconButton,
   CircularProgress,
   Typography,
+  Slider,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -34,6 +35,8 @@ type Props = {
   open: boolean;
   /** 稼働時間の初期選択の値 */
   initialHours: number;
+  /** 進捗の初期選択の値 */
+  initProgressRange: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
 };
@@ -43,6 +46,7 @@ export default function TaskEditDialog({
   initialCategoryId,
   initialTaskId,
   initialHours,
+  initProgressRange,
   open,
   onClose,
 }: Props) {
@@ -59,6 +63,8 @@ export default function TaskEditDialog({
     onChangeSelectCategory,
     onChangeSelectTask,
     onChangeSelectHours,
+    progress,
+    handleChangeProgress,
     handleSave,
     handleDelete,
     onCreateTask,
@@ -68,6 +74,7 @@ export default function TaskEditDialog({
     initialCategoryId,
     initialTaskId,
     initialHours,
+    initProgressRange,
     onClose,
   });
   const {
@@ -161,11 +168,21 @@ export default function TaskEditDialog({
                 <AddCircleOutlineIcon />
               </IconButton>
             </Stack>
-            {/** 稼働時間/メモ追加ボタン */}
+            {/** 稼働時間/進捗/メモ追加ボタン */}
             <Stack direction="row" justifyContent={"space-between"} pr={4}>
               {/** 稼働時間 */}
-              <FormControl sx={{ width: "30%" }}>
-                <InputLabel id="hours-select-label">稼働時間(hour)</InputLabel>
+              <FormControl sx={{ width: "20%" }}>
+                <InputLabel
+                  id="hours-select-label"
+                  sx={{
+                    left: 0, // ← 左寄せ
+                    transform: "translate(0, -50%) scale(0.75)", // ← 初期位置に強制
+                    whiteSpace: "nowrap", // 改行させない
+                    overflow: "visible", // はみ出ても切らない
+                  }}
+                >
+                  稼働時間(hour)
+                </InputLabel>
                 <Select
                   labelId="hours-select-label"
                   id="hours-select"
@@ -173,6 +190,7 @@ export default function TaskEditDialog({
                   value={String(dailyHours)}
                   onChange={onChangeSelectHours}
                   label="稼働時間(hour)"
+                  variant="standard"
                 >
                   {[...Array(41)].map((_, i) => (
                     <MenuItem key={i} value={i * 0.25}>
@@ -181,6 +199,43 @@ export default function TaskEditDialog({
                   ))}
                 </Select>
               </FormControl>
+              {/** 進捗 */}
+              <Stack width="50%" justifyContent={"center"}>
+                <Typography
+                  fontSize="0.875rem"
+                  color="text.secondary"
+                  sx={{
+                    pointerEvents: "none", // ← これでカーソル無効化
+                  }}
+                >
+                  進捗
+                </Typography>
+                <Slider
+                  aria-labelledby="slider-label"
+                  name="progress-slider"
+                  value={progress}
+                  onChange={handleChangeProgress}
+                  step={10}
+                  valueLabelDisplay="auto"
+                  sx={{
+                    pt: 0.75,
+                    color: "grey.500",
+                    "& .MuiSlider-track": {
+                      border: "none",
+                    },
+                    "& .MuiSlider-rail": {
+                      opacity: 1,
+                      backgroundColor: "grey.300",
+                    },
+                    "& .MuiSlider-thumb": {
+                      backgroundColor: "grey.500",
+                    },
+                    "& .MuiSlider-valueLabel": {
+                      backgroundColor: "grey.700",
+                    },
+                  }}
+                />
+              </Stack>
               {/** メモ追加ボタン */}
               <Button
                 startIcon={<AddCommentIcon />}
