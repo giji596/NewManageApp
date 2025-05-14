@@ -35,6 +35,8 @@ export default function CategoryHeaderLogic() {
   const [optionsQuery, setOptionsQuery] = useState<URLSearchParams | null>(
     null
   );
+  const [openError, setOpenError] = useState<boolean>(false);
+  const onCloseError = useCallback(() => setOpenError(false), []);
 
   const queryValues = useMemo(() => {
     if (optionsQuery)
@@ -187,7 +189,7 @@ export default function CategoryHeaderLogic() {
       // エラーコードが400の場合に利用中を削除した際のエラーとする
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 400) {
-          // TODO:エラー処理
+          setOpenError(true);
         }
       }
     }
@@ -211,6 +213,10 @@ export default function CategoryHeaderLogic() {
     [selectedCategoryId]
   );
   return {
+    /** エラーメッセージの表示 */
+    openError,
+    /** エラーメッセージ閉じるハンドラ */
+    onCloseError,
     /** グラフのアニメーション */
     growAnimation,
     /** クエリパラメータのオブジェクト */
