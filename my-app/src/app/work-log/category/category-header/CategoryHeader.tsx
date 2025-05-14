@@ -96,7 +96,7 @@ export default function CategoryHeader() {
           />
         )}
         {!isLoadingCategorySummary && !isNoCategory && (
-          <Stack spacing={0.5} width="550px">
+          <Stack spacing={0.5} width="700px">
             {/** カテゴリ名 + Completed? */}
             <Stack direction="row" spacing={1}>
               <Typography width="120px" textAlign={"end"} variant="h6">
