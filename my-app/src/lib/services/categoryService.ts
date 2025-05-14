@@ -241,3 +241,14 @@ export const updateCategoryCompleted = async (id: number) => {
   });
   return data;
 };
+
+/**
+ * カテゴリ削除するロジック
+ */
+export const deleteCategory = async (id: number) => {
+  const data = await prisma.category.delete({
+    where: { id },
+    select: { id: true },
+  });
+  return data;
+};
