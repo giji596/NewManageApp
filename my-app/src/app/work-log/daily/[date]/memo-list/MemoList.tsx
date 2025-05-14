@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function MemoList({ memoItemList, isLoading }: Props) {
-  const { handleMouseEnter, handleMouseLeave, ...prev } =
+  const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   const {
     isActiveRow,
@@ -65,23 +65,23 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/** タスク名にホバー時に表示するメニュー(フィルター関連) */}
       <CustomMenuWrapper
-        logic={{ handleMouseEnter, handleMouseLeave, ...prev }}
+        logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
       >
-        <CustomMenuCheckBox
-          checkList={taskFilterList}
-          onClickSelect={toggleTaskFilterCheckBox}
-        />
-      </CustomMenuWrapper>
-      {/** タグ名にホバー時に表示するメニュー(フィルター関連) */}
-      <CustomMenuWrapper
-        logic={{ handleMouseEnter, handleMouseLeave, ...prev }}
-      >
-        <CustomMenuCheckBox
-          checkList={tagFilterList}
-          onClickSelect={toggleTagFilterCheckBox}
-        />
+        {/** タスク名にホバー時に表示するメニュー(フィルター関連) */}
+        {openTargetIdRef.current === 10002 && (
+          <CustomMenuCheckBox
+            checkList={taskFilterList}
+            onClickSelect={toggleTaskFilterCheckBox}
+          />
+        )}
+        {/** タグ名にホバー時に表示するメニュー(フィルター関連) */}
+        {openTargetIdRef.current === 10003 && (
+          <CustomMenuCheckBox
+            checkList={tagFilterList}
+            onClickSelect={toggleTagFilterCheckBox}
+          />
+        )}
       </CustomMenuWrapper>
     </>
   );
