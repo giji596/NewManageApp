@@ -257,6 +257,7 @@ export const deleteTask = async (id: number) => {
 export const getLastMonthTaskActivities = async () => {
   const data = await prisma.category.findMany({
     select: {
+      id: true,
       name: true,
       tasks: {
         select: {
@@ -306,6 +307,7 @@ export const getLastMonthTaskActivities = async () => {
     });
     const filteredTask = task.filter((v) => v.hours !== "0(h)");
     return {
+      id: v.id,
       name: v.name,
       value,
       task: filteredTask,
