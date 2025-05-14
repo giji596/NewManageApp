@@ -1,6 +1,7 @@
 import type { AspidaClient } from 'aspida';
 import { dataToURLString } from 'aspida';
 import type { Methods as Methods_a4q315 } from './work-log/categories';
+import type { Methods as Methods_1rtupuy } from './work-log/categories/_id';
 import type { Methods as Methods_1jq9xvi } from './work-log/categories/_id/activity';
 import type { Methods as Methods_19co7xo } from './work-log/categories/_id/complete';
 import type { Methods as Methods_occ1ll } from './work-log/categories/_id/summary';
@@ -85,6 +86,11 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                 fetch<Methods_8n8n9b['get']['resBody']>(prefix, `${prefix2}${PATH4}`, GET, option).json().then(r => r.body),
               $path: () => `${prefix}${prefix2}${PATH4}`,
             },
+            delete: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_1rtupuy['delete']['resBody']>(prefix, prefix2, DELETE, option).json(),
+            $delete: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_1rtupuy['delete']['resBody']>(prefix, prefix2, DELETE, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix2}`,
           };
         },
         options: {

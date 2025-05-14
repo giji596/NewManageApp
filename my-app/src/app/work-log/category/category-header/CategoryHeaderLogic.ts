@@ -170,9 +170,16 @@ export default function CategoryHeaderLogic() {
     mutate(`api/work-log/categories/${selectedCategoryId}/summary`);
   }, [selectedCategoryId]);
   const handleDelete = useCallback(async () => {
-    // TODO:BE繋ぎ込みの時にリクエスト送る
-    console.log("完了状態に移行");
-  }, []);
+    // 削除処理
+    await apiClient.work_log.categories._id(selectedCategoryId).delete();
+    // 一覧データを再検証
+    await mutate(
+      (key) =>
+        Array.isArray(key) && key[0] === "api/work-log/categories/options"
+    );
+    // 選択中のidを再検証後のデータの先頭に変更
+    router.replace(`?id=${categoryOptions[0].id}`);
+  }, [categoryOptions, router, selectedCategoryId]);
 
   const growAnimation = useMemo(
     // TODO: widthどのくらいで100%いかせるか？　とりあえず100hで100%の扱いで
