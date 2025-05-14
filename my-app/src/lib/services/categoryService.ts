@@ -229,3 +229,15 @@ export const getCategorySummary = async (
     activeDate,
   };
 };
+
+/**
+ * カテゴリを完了状態にするロジック
+ */
+export const updateCategoryCompleted = async (id: number) => {
+  const data = await prisma.category.update({
+    where: { id },
+    data: { isCompleted: true },
+    select: { id: true },
+  });
+  return data;
+};
