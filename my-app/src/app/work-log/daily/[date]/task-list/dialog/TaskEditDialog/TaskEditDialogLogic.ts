@@ -48,7 +48,10 @@ export default function TaskEditDialogLogic({
     "get",
     {
       query: { displayRange: "all", hideCompleted: "true" },
-      key: ["api/work-log/categories/options"],
+      key: [
+        "api/work-log/categories/options",
+        "displayRange=all&hideCompleted=true",
+      ],
     }
   );
   const categoryList = categoryData?.body;
