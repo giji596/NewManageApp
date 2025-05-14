@@ -35,8 +35,6 @@ type Props = {
   open: boolean;
   /** 稼働時間の初期選択の値 */
   initialHours: number;
-  /** 進捗の初期選択の値 */
-  initProgressRange: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
 };
@@ -46,7 +44,6 @@ export default function TaskEditDialog({
   initialCategoryId,
   initialTaskId,
   initialHours,
-  initProgressRange,
   open,
   onClose,
 }: Props) {
@@ -74,7 +71,6 @@ export default function TaskEditDialog({
     initialCategoryId,
     initialTaskId,
     initialHours,
-    initProgressRange,
     onClose,
   });
   const {
