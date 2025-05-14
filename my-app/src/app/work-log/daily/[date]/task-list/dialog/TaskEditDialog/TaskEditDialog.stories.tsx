@@ -9,6 +9,7 @@ const meta = {
     initialTaskId: 1,
     initialCategoryId: 1,
     initialHours: 8,
+    initProgressRange: 50,
     open: true,
     onClose: () => {},
   },

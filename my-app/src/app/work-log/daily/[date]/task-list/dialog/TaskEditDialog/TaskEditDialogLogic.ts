@@ -15,6 +15,8 @@ type Props = {
   initialTaskId: number;
   /** 稼働時間の初期選択の値 */
   initialHours: number;
+  /** 進捗の初期選択の値 */
+  initProgressRange: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
 };
@@ -27,6 +29,7 @@ export default function TaskEditDialogLogic({
   initialCategoryId,
   initialTaskId,
   initialHours,
+  initProgressRange,
   onClose,
 }: Props) {
   // ぱらめーた
@@ -128,6 +131,15 @@ export default function TaskEditDialogLogic({
     setDailyHours(Number(target));
   }, []);
 
+  // 進捗関連
+  const [progress, setProgress] = useState<number>(initProgressRange);
+  const handleChangeProgress = useCallback(
+    (_: Event, newValue: number | number[]) => {
+      if (typeof newValue === "number") setProgress(newValue);
+    },
+    []
+  );
+
   const handleSave = useCallback(async () => {
     // 各stateの値について、初期値と一緒なら処理に含めない
     const body: Record<string, number> = {};
@@ -192,6 +204,10 @@ export default function TaskEditDialogLogic({
     onChangeSelectTask,
     /** 選択した稼働時間に変更するハンドラー */
     onChangeSelectHours,
+    /** 進捗 */
+    progress,
+    /** 進捗を変えるハンドラー */
+    handleChangeProgress,
     /** 編集を保存するハンドラー */
     handleSave,
     /** デリートのイベント */

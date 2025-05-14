@@ -35,6 +35,8 @@ type Props = {
   open: boolean;
   /** 稼働時間の初期選択の値 */
   initialHours: number;
+  /** 進捗の初期選択の値 */
+  initProgressRange: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
 };
@@ -44,6 +46,7 @@ export default function TaskEditDialog({
   initialCategoryId,
   initialTaskId,
   initialHours,
+  initProgressRange,
   open,
   onClose,
 }: Props) {
@@ -60,6 +63,8 @@ export default function TaskEditDialog({
     onChangeSelectCategory,
     onChangeSelectTask,
     onChangeSelectHours,
+    progress,
+    handleChangeProgress,
     handleSave,
     handleDelete,
     onCreateTask,
@@ -69,6 +74,7 @@ export default function TaskEditDialog({
     initialCategoryId,
     initialTaskId,
     initialHours,
+    initProgressRange,
     onClose,
   });
   const {
@@ -207,8 +213,8 @@ export default function TaskEditDialog({
                 <Slider
                   aria-labelledby="slider-label"
                   name="progress-slider"
-                  value={50} // TODO: 値をstateで管理する場合はstateに置き換え
-                  onChange={() => {}} // TODO: 値の更新処理を追加
+                  value={progress}
+                  onChange={handleChangeProgress}
                   step={10}
                   valueLabelDisplay="auto"
                   sx={{
