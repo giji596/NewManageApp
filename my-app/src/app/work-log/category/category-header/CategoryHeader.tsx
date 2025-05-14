@@ -1,11 +1,13 @@
 "use client";
 import {
+  Alert,
   CircularProgress,
   FormControl,
   FormLabel,
   IconButton,
   MenuItem,
   Select,
+  Snackbar,
   Stack,
   Typography,
 } from "@mui/material";
@@ -25,6 +27,8 @@ import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/Create
  */
 export default function CategoryHeader() {
   const {
+    openError,
+    onCloseError,
     growAnimation,
     queryParams,
     handleAdaptDisplayRange,
@@ -231,6 +235,14 @@ export default function CategoryHeader() {
       )}
       {openCategory && (
         <CreateCategoryDialog open={openCategory} onClose={onCloseCategory} />
+      )}
+      {/** スナックバー(エラーメッセージ) */}
+      {openError && (
+        <Snackbar open={openError} onClose={onCloseError}>
+          <Alert severity="error">
+            参照されているカテゴリは削除できません。
+          </Alert>
+        </Snackbar>
       )}
     </>
   );
