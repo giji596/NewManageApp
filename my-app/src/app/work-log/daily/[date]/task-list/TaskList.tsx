@@ -16,6 +16,8 @@ type Props = {
   navigateTaskPage: (id: number) => void;
   /** カテゴリページへ移動する関数 */
   navigateCategoryPage: (id: number) => void;
+  /** タスクリストのロジック */
+  taskListLogic: ReturnType<typeof TaskListLogic>;
 };
 
 /**
@@ -26,6 +28,7 @@ export default function TaskList({
   isLoading,
   navigateTaskPage,
   navigateCategoryPage,
+  taskListLogic,
 }: Props) {
   const {
     selectedItemId,
@@ -34,9 +37,7 @@ export default function TaskList({
     selectedItemCategoryId,
     selectedItemHours,
     handleClickRow,
-  } = TaskListLogic({
-    taskList,
-  });
+  } = taskListLogic;
   const { open, onClose, onOpen } = useDialog();
   return (
     <>
