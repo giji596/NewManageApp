@@ -83,7 +83,7 @@ export default function CategoryHeaderLogic() {
       query: queryValues,
       key: optionsQuery
         ? ["api/work-log/categories/options", optionsQuery.toString()]
-        : ["api/work-log/categories/options"],
+        : ["api/work-log/categories/options", "displayRange=all"], // クエリなしの場合とallの場合は同じ範囲
     }
   );
   const categoryOptions: CategoryOption[] = useMemo(
