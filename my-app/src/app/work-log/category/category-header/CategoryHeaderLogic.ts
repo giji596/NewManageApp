@@ -11,6 +11,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 import { mutate } from "swr";
+import axios from "axios";
 
 /** クエリ(yyyy-MM-dd) -> 子のパラメータ用{y,m,d}に変換する関数 */
 const queryDateToQueryParam = (dateString?: string) => {
@@ -172,15 +173,24 @@ export default function CategoryHeaderLogic() {
     mutate(`api/work-log/categories/${selectedCategoryId}/tasks`);
   }, [selectedCategoryId]);
   const handleDelete = useCallback(async () => {
-    // 削除処理
-    await apiClient.work_log.categories._id(selectedCategoryId).delete();
-    // 一覧データを再検証
-    await mutate(
-      (key) =>
-        Array.isArray(key) && key[0] === "api/work-log/categories/options"
-    );
-    // 選択中のidを再検証後のデータの先頭に変更
-    router.replace(`?id=${categoryOptions[0].id}`);
+    try {
+      // 削除処理
+      await apiClient.work_log.categories._id(selectedCategoryId).delete();
+      // 一覧データを再検証
+      await mutate(
+        (key) =>
+          Array.isArray(key) && key[0] === "api/work-log/categories/options"
+      );
+      // 選択中のidを再検証後のデータの先頭に変更
+      router.replace(`?id=${categoryOptions[0].id}`);
+    } catch (error) {
+      // エラーコードが400の場合に利用中を削除した際のエラーとする
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          // TODO:エラー処理
+        }
+      }
+    }
   }, [categoryOptions, router, selectedCategoryId]);
 
   const growAnimation = useMemo(
