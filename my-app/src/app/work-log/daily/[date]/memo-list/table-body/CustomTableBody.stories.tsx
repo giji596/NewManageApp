@@ -13,6 +13,7 @@ const meta = {
       tagName: "",
     },
     isActive: false,
+    isHighlighted: false,
     onClickRow: () => {},
   },
 } satisfies Meta<typeof CustomTableBody>;
@@ -23,3 +24,4 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const Active: Story = { args: { isActive: true } };
+export const Highlighted: Story = { args: { isHighlighted: true } };

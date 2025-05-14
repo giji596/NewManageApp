@@ -7,12 +7,17 @@ import { useCallback, useMemo, useState } from "react";
 type Props = {
   /** メモの一覧 */
   memoItemList: MemoDailyTask[];
+  /** 選択中のタスクのid(ハイライトように) */
+  selectedItemTaskId: number;
 };
 
 /**
  * 日付詳細 - メモリストのロジック部分
  */
-export default function MemoListLogic({ memoItemList }: Props) {
+export default function MemoListLogic({
+  memoItemList,
+  selectedItemTaskId,
+}: Props) {
   // itemリストに存在するタスク一覧
   const defaultTaskFilterList = useMemo(
     () =>
@@ -104,6 +109,10 @@ export default function MemoListLogic({ memoItemList }: Props) {
     [doFilterByTagFilterList, doFilterByTaskFilterList]
   );
 
+  const isSelectedTaskRow = useCallback(
+    (id: number) => selectedItemTaskId === id,
+    [selectedItemTaskId]
+  );
   return {
     /** 指定されたidの列がアクティブかどうかを求める */
     isActiveRow,
@@ -130,5 +139,7 @@ export default function MemoListLogic({ memoItemList }: Props) {
     toggleTagFilterCheckBox,
     /** フィルターリストに応じてフィルターする関数 */
     doFilterByFilterList,
+    /** 選択中のタスクと関連する行か */
+    isSelectedTaskRow,
   };
 }

@@ -13,11 +13,17 @@ import MemoListLogic from "./MemoListLogic";
 type Props = {
   /** メモのアイテム一覧 */
   memoItemList: MemoDailyTask[];
+  /** 選択中のタスクのid(ハイライトように) */
+  selectedItemTaskId: number;
   /** ローディング状態 */
   isLoading: boolean;
 };
 
-export default function MemoList({ memoItemList, isLoading }: Props) {
+export default function MemoList({
+  memoItemList,
+  selectedItemTaskId,
+  isLoading,
+}: Props) {
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   const {
@@ -32,7 +38,8 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
     tagFilterList,
     toggleTagFilterCheckBox,
     doFilterByFilterList,
-  } = MemoListLogic({ memoItemList });
+    isSelectedTaskRow,
+  } = MemoListLogic({ memoItemList, selectedItemTaskId });
   return (
     <>
       <TableContainer sx={{ height: 345 }}>
@@ -59,6 +66,7 @@ export default function MemoList({ memoItemList, isLoading }: Props) {
                     key={item.id}
                     memoItem={item}
                     isActive={isActiveRow(item.id)}
+                    isHighlighted={isSelectedTaskRow(item.task.id)}
                     onClickRow={handleClickRow}
                   />
                 ))}

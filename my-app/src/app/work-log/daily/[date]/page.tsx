@@ -21,6 +21,7 @@ import MemoList from "./memo-list/MemoList";
 import DailyDetailPageNavLogic from "./navLogic";
 import dynamic from "next/dynamic";
 import { use } from "react";
+import TaskListLogic from "./task-list/TaskListLogic";
 
 type Props = {
   /** パスパラメータ(ページ呼び出し時に自動的に取得) */
@@ -42,6 +43,7 @@ export default function DailyDetailPage({ params }: Props) {
   } = DailyDetailPageParams({ dateParam });
   const { navigateToCategoryDetail, navigateToTaskDetail } =
     DailyDetailPageNavLogic();
+  const { selectedItemTaskId, ...prev } = TaskListLogic({ taskList });
   return (
     <Stack direction="row" spacing={1} pt={3} px={2}>
       {/**　左半分(メニュー/タスク) */}
@@ -58,6 +60,7 @@ export default function DailyDetailPage({ params }: Props) {
           isLoading={isLoading}
           navigateTaskPage={navigateToTaskDetail}
           navigateCategoryPage={navigateToCategoryDetail}
+          taskListLogic={{ selectedItemTaskId, ...prev }}
         />
       </Stack>
       {/** 右半分(グラフ/メモ) */}
@@ -65,7 +68,11 @@ export default function DailyDetailPage({ params }: Props) {
         {/** グラフ */}
         <CircleGraph data={circleDataList} />
         {/** メモ */}
-        <MemoList memoItemList={memoList} isLoading={isLoading} />
+        <MemoList
+          memoItemList={memoList}
+          selectedItemTaskId={selectedItemTaskId}
+          isLoading={isLoading}
+        />
       </Stack>
     </Stack>
   );

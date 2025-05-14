@@ -4,12 +4,15 @@ import { TableRow, TableCell, Collapse, Box, IconButton } from "@mui/material";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import useDialog from "@/hook/useDialog";
 import MemoEditDialog from "@/component/dialog/memo-edit-dialog/MemoEditDialog";
+import { CustomTableBodyLogic } from "./CustomTableBodyLogic";
 
 type Props = {
   /** メモ */
   memoItem: MemoDailyTask;
   /** アクティブ状態(アクティブであれば詳細を表示可能) */
   isActive: boolean;
+  /** ハイライトされてるか(選択中のタスクのメモであるか) */
+  isHighlighted: boolean;
   /** クリックされた時のハンドラ */
   onClickRow: (id: number) => void;
 };
@@ -20,16 +23,21 @@ type Props = {
 export default function CustomTableBody({
   memoItem,
   isActive,
+  isHighlighted,
   onClickRow,
 }: Props) {
   const { open, onClose, onOpen } = useDialog();
+  const { backgroundColor } = CustomTableBodyLogic({ isHighlighted });
   return (
     <>
       <TableRow
         hover
         selected={isActive}
         onClick={() => onClickRow(memoItem.id)}
-        sx={{ "& > *": { borderBottom: "unset" } }} // 内部の子全てにボーダーを消すスタイルを適応
+        sx={{
+          "& > *": { borderBottom: "unset" },
+          backgroundColor: backgroundColor,
+        }} // 内部の子全てにボーダーを消すスタイルを適応
       >
         <TableCell
           sx={{
@@ -70,7 +78,7 @@ export default function CustomTableBody({
           </IconButton>
         </TableCell>
       </TableRow>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
           <Collapse in={isActive} timeout="auto" unmountOnExit>
             <Box margin={1}>{memoItem.summary}</Box>
