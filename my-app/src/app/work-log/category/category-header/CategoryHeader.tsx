@@ -186,7 +186,7 @@ export default function CategoryHeader() {
             <AddCircleOutlineIcon />
           </IconButton>
           <CategoryActionMenuButton
-            isCompleted={false}
+            isCompleted={isCompleted}
             isNoCategory={isNoCategory}
             onClickDisplayRange={onOpenPeriod}
             onClickComplete={onOpenComplete}
