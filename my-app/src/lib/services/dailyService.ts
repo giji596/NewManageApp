@@ -204,9 +204,9 @@ export const getDailySummaryDetailData = async (date: Date) => {
 };
 
 /**
- * 過去一ヶ月の日毎の稼働時間を取得するメソッド
+ * 最近(29~35日間)の日毎の稼働時間を取得するメソッド
  */
-export const getMonthlyWorkTime = async () => {
+export const getRecentWorkTime = async () => {
   const todayDate = getDay(new Date()); // 0 = Sunday, ..., 6 = Saturday
   const dateStartWithMonday = (todayDate + 6) % 7; // 0 = Monday, ... 6 = Sunday
   // 現在の曜日に合わせてデータ取得範囲を制限(ヒートグラフの大きさに合わせて制限)

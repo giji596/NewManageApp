@@ -1,7 +1,7 @@
-import { getMonthlyWorkTime } from "@/lib/services/dailyService";
+import { getRecentWorkTime } from "@/lib/services/dailyService";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const res = await getMonthlyWorkTime();
+  const res = await getRecentWorkTime();
   return NextResponse.json(res);
 }
