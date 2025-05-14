@@ -62,9 +62,9 @@ export const MonthlyWorkHeatMapLogic = () => {
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // TODO:ロード時を扱えるようにする
   const { data: rawData } = useAspidaSWR(
-    apiClient.work_log.daily.monthly_work_time,
+    apiClient.work_log.daily.recent_work_time,
     "get",
-    { key: "api/work-log/daily/monthly-work-time" }
+    { key: "api/work-log/daily/recent-work-time" }
   );
   const data = useMemo(() => rawData?.body ?? [], [rawData]);
 
