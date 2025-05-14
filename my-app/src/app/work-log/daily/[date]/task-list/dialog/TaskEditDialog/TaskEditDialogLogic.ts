@@ -145,6 +145,7 @@ export default function TaskEditDialogLogic({
       body.workTime = dailyHours;
     if (initialValues.current.taskId !== taskId && taskId !== null)
       body.taskId = taskId;
+    if (initProgressRange !== progress) body.progress = progress;
     // bodyで必要な値だけ渡す
     try {
       await apiClient.work_log.daily
@@ -161,7 +162,7 @@ export default function TaskEditDialogLogic({
         }
       }
     }
-  }, [dailyHours, date, itemId, onClose, taskId]);
+  }, [dailyHours, date, initProgressRange, itemId, onClose, progress, taskId]);
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
