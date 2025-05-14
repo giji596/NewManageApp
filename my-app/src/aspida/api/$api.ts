@@ -10,7 +10,7 @@ import type { Methods as Methods_aywlos } from './work-log/categories/options';
 import type { Methods as Methods_1mf7n5w } from './work-log/daily/_date';
 import type { Methods as Methods_1tcwjyk } from './work-log/daily/_date/task-logs';
 import type { Methods as Methods_1aphmwv } from './work-log/daily/_date/task-logs/_id';
-import type { Methods as Methods_phisw8 } from './work-log/daily/monthly-work-time';
+import type { Methods as Methods_1me5z0g } from './work-log/daily/recent-work-time';
 import type { Methods as Methods_1diwgzt } from './work-log/daily/summary';
 import type { Methods as Methods_1v3f3ur } from './work-log/daily/summary/detail';
 import type { Methods as Methods_y7y0f0 } from './work-log/memos';
@@ -34,7 +34,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH5 = '/work-log/categories/options';
   const PATH6 = '/work-log/daily';
   const PATH7 = '/task-logs';
-  const PATH8 = '/work-log/daily/monthly-work-time';
+  const PATH8 = '/work-log/daily/recent-work-time';
   const PATH9 = '/work-log/daily/summary';
   const PATH10 = '/work-log/daily/summary/detail';
   const PATH11 = '/work-log/memos';
@@ -141,11 +141,11 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             $path: () => `${prefix}${prefix2}`,
           };
         },
-        monthly_work_time: {
+        recent_work_time: {
           get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_phisw8['get']['resBody']>(prefix, PATH8, GET, option).json(),
+            fetch<Methods_1me5z0g['get']['resBody']>(prefix, PATH8, GET, option).json(),
           $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_phisw8['get']['resBody']>(prefix, PATH8, GET, option).json().then(r => r.body),
+            fetch<Methods_1me5z0g['get']['resBody']>(prefix, PATH8, GET, option).json().then(r => r.body),
           $path: () => `${prefix}${PATH8}`,
         },
         summary: {
