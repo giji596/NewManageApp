@@ -11,6 +11,7 @@ import {
   IconButton,
   CircularProgress,
   Typography,
+  Slider,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -161,7 +162,7 @@ export default function TaskEditDialog({
                 <AddCircleOutlineIcon />
               </IconButton>
             </Stack>
-            {/** 稼働時間/メモ追加ボタン */}
+            {/** 稼働時間/進捗/メモ追加ボタン */}
             <Stack direction="row" justifyContent={"space-between"} pr={4}>
               {/** 稼働時間 */}
               <FormControl sx={{ width: "30%" }}>
@@ -181,6 +182,43 @@ export default function TaskEditDialog({
                   ))}
                 </Select>
               </FormControl>
+              {/** 進捗 */}
+              <Stack width="40%" justifyContent={"center"}>
+                <Typography
+                  fontSize="0.875rem"
+                  color="text.secondary"
+                  sx={{
+                    pointerEvents: "none", // ← これでカーソル無効化
+                  }}
+                >
+                  進捗
+                </Typography>
+                <Slider
+                  aria-labelledby="slider-label"
+                  name="progress-slider"
+                  value={50} // TODO: 値をstateで管理する場合はstateに置き換え
+                  onChange={() => {}} // TODO: 値の更新処理を追加
+                  step={10}
+                  valueLabelDisplay="auto"
+                  sx={{
+                    pt: 0.75,
+                    color: "grey.500",
+                    "& .MuiSlider-track": {
+                      border: "none",
+                    },
+                    "& .MuiSlider-rail": {
+                      opacity: 1,
+                      backgroundColor: "grey.300",
+                    },
+                    "& .MuiSlider-thumb": {
+                      backgroundColor: "grey.500",
+                    },
+                    "& .MuiSlider-valueLabel": {
+                      backgroundColor: "grey.700",
+                    },
+                  }}
+                />
+              </Stack>
               {/** メモ追加ボタン */}
               <Button
                 startIcon={<AddCommentIcon />}
