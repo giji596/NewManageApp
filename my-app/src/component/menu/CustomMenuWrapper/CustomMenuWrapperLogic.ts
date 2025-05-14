@@ -38,7 +38,6 @@ export default function CustomMenuWrapperLogic() {
   // メニューの開閉のタイマーを初期化する関数
   const clearTimeoutTimer = useCallback((id: number) => {
     const currentId = timeoutIds.current.get(id);
-    console.log(timeoutIds);
     if (currentId) {
       clearTimeout(currentId); // タイマーをキャンセル
     }

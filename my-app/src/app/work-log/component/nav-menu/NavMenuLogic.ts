@@ -27,7 +27,6 @@ export default function NavMenuLogic() {
     };
   }, []);
 
-  // TODO:ページ関連実装時にそれぞれ実装
   const navigateToday = useCallback(() => {
     const todayString = format(new Date(), "yyyy-MM-dd");
     router.push(`/work-log/daily/${todayString}`);

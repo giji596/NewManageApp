@@ -57,7 +57,7 @@ export default function TaskEditDialogLogic({
       taskName: initialTaskName,
       categoryId: initialCategoryId,
       isFavorite: initialIsFavorite,
-    }, // TODO: 初期値が必要
+    },
   });
 
   const onSubmit = useCallback(

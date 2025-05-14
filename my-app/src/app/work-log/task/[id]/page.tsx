@@ -73,7 +73,6 @@ export default function TaskDetailPage({ params }: Props) {
       )}
       {!isLoading && (
         <Stack direction="row">
-          {/** TODO:isLoadingで分岐させて表示を変えさせる */}
           {/**　左部分(メインディスプレイ/テーブル) */}
           <Stack width="70%">
             {/** メインディスプレイ */}
@@ -137,7 +136,7 @@ export default function TaskDetailPage({ params }: Props) {
         <ConfirmDeleteDialog
           open={openDelete}
           onClose={onCloseDelete}
-          onAccept={handleDelete} // TODO:動作を設定
+          onAccept={handleDelete}
         />
       )}
       {openError && (

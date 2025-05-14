@@ -63,7 +63,7 @@ export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
 
   const isClickable = useCallback(
     (day: number) =>
-      clickableDays[clickableDaysKey] && // TODO:念の為配置(本来undefinedにはならないはずだけど テスト環境だとupdatedAtの値がずれたりすることあるので)
+      clickableDays[clickableDaysKey] && // 念の為配置
       clickableDays[clickableDaysKey].some((d) => d === day),
     [clickableDays, clickableDaysKey]
   );

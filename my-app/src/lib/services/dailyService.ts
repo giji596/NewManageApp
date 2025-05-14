@@ -199,7 +199,6 @@ export const getDailySummaryDetailData = async (date: Date) => {
     );
     return dateSummaryDetail;
   }
-  console.log(data);
   return null;
 };
 

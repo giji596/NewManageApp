@@ -113,9 +113,7 @@ export default function CategoryHeaderLogic() {
   }, [categoryOptions, router, isNoParam]);
   // カテゴリ一覧更新時 一番上の値をセットする
   useEffect(() => {
-    console.log("effect");
     if (optionsQuery && categoryOptions.length > 0) {
-      console.log("へんこう！");
       router.replace(
         categoryOptions[0].id !== 0
           ? `?id=${categoryOptions[0].id}`
@@ -196,7 +194,6 @@ export default function CategoryHeaderLogic() {
   }, [categoryOptions, router, selectedCategoryId]);
 
   const growAnimation = useMemo(
-    // TODO: widthどのくらいで100%いかせるか？　とりあえず100hで100%の扱いで
     () => keyframes`
          0% {
            width: 100%;

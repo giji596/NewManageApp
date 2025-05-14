@@ -18,7 +18,6 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   // パスパラメータ
   const { date } = useParams<{ date: string }>();
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
-  // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
@@ -127,7 +126,6 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
     setSelectedTaskId(null); // タスクidを初期化する(初期化後自動的にidはセットされる)
   }, []);
 
-  console.log("タスク表示関連", { isLoading, taskList, selectedTaskId });
   return {
     /** カテゴリ一覧 */
     categoryList,

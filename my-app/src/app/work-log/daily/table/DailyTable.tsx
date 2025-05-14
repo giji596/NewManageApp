@@ -113,7 +113,7 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                     >
                       {item.taskName}
                     </TableCell>
-                    {/** メモ(0番目のめもを表示)  TODO:展開できるようにする*/}
+                    {/** メモ(0番目のめもを表示) */}
                     <TableCell
                       sx={{
                         maxWidth: "20%", // 幅
@@ -170,7 +170,7 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/** カスタムメニューの面々   TODO: 条件分岐させる(メモのやつかどっちか) */}
+      {/** カスタムメニューの面々   */}
       <CustomMenuWrapper
         logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
       >

@@ -48,8 +48,7 @@ export default function MemoDetailDialogLogic({ id, onClose }: Props) {
       await apiClient.work_log.memos
         ._id(id)
         .patch({ body: { text: data.text } });
-      // TODO: データのレスポンスに応じて分岐
-      // 必要かわかんないのでとりま放置
+      // TODO:必要かわかんないのでとりま放置
       setIsSending(false);
       setIsEdit(false);
       mutate(`api/work-log/daily/${date}`);

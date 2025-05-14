@@ -39,7 +39,6 @@ export default function PeriodSelectMenuButtonLogic({
   const todayYear = getYear(today);
   const todayMonth = getMonth(today) + 1;
   const todayDay = getDate(today);
-  console.log(todayDay);
 
   const yearSelect = useMemo(
     () => Array.from({ length: 10 }, (_, i) => todayYear - i),
