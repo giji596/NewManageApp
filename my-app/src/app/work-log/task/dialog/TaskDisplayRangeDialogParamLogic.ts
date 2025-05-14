@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 const RadioSelectRange = ["in-progress", "completed", "custom"] as const;
 export type RadioSelectRange = (typeof RadioSelectRange)[number];
 
-// 開始/最終実施日の範囲選択の初期値(全て今日の日付からで) TODO: 後で修正するかも
+// 開始/最終実施日の範囲選択の初期値(全て今日の日付からで)
 const initYear = getTodayYear();
 const initMonth = getTodayMonth();
 const initDay = getTodayDay();
@@ -98,7 +98,7 @@ export const TaskDisplayRangeDialogParamLogic = ({
     },
     [param]
   );
-  // 初期値 TODO: 実装時に要テスト(クエリと一致してるか)
+  // 初期値
   const initFirstMinParam = useMemo(
     () => getInitDateParam("firstActivityDate", true),
     [getInitDateParam]

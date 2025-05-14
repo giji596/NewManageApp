@@ -10,7 +10,6 @@ export default function MainPagePieChartLogic() {
     "get",
     { key: "api/work-log/tasks/activities/last-month" }
   );
-  // TODO:でーたふぇっちする(整形された状態で)
   const data = rawData?.body ?? [];
 
   return {

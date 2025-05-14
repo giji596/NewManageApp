@@ -37,7 +37,6 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
       revalidateOnFocus: false,
     }
   );
-  // TODO:データフェッチさせる
   const rawData = useMemo(() => data?.body ?? [], [data?.body]);
   const taskSummaryData: TaskSummary[] = useMemo(
     () =>

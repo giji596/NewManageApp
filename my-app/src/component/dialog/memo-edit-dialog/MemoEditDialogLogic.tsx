@@ -104,8 +104,7 @@ export default function MemoEditDialogLogic({
       // 再検証して表示データに即時適応
       mutate(`api/work-log/tasks/${taskId}`);
       mutate(`api/work-log/daily/${date}`);
-      // TODO: データのレスポンスに応じて分岐
-      // どうするかは今後の使用感で考える(isSendingいらんかも？)
+      // TODO: どうするかは今後の使用感で考える(isSendingいらんかも？)
       setIsSending(false);
       setIsEdit(false);
     },

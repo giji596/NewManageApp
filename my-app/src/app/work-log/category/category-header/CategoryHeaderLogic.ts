@@ -196,7 +196,6 @@ export default function CategoryHeaderLogic() {
   }, [categoryOptions, router, selectedCategoryId]);
 
   const growAnimation = useMemo(
-    // TODO: widthどのくらいで100%いかせるか？　とりあえず100hで100%の扱いで
     () => keyframes`
          0% {
            width: 100%;

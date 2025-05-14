@@ -18,7 +18,6 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   // パスパラメータ
   const { date } = useParams<{ date: string }>();
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
-  // TODO:初期値はデータフェッチ時に設定させるようにuseEffectで条件分岐を作成しておこなう
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );

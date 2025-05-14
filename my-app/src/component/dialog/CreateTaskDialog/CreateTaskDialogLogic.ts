@@ -31,7 +31,6 @@ export default function CreateTaskDialogLogic({
   onClose,
   onCreateTask,
 }: Props) {
-  // TODO:でーたふぇっちさせる
   const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
     query: { displayRange: "all", hideCompleted: "true" },
     key: [

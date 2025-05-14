@@ -14,7 +14,6 @@ export default function TaskTableLogic() {
     "get",
     { key: "api/work-log/tasks/progress/last-month" }
   );
-  // TODO:実際はデータフェッチさせる
   const data: MainPageTaskTable[] = rawData?.body ?? [];
 
   const navigateToDetail = useCallback(
