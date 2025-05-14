@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
+import { mutate } from "swr";
 
 /** クエリ(yyyy-MM-dd) -> 子のパラメータ用{y,m,d}に変換する関数 */
 const queryDateToQueryParam = (dateString?: string) => {
@@ -161,9 +162,13 @@ export default function CategoryHeaderLogic() {
   );
 
   const handleComplete = useCallback(async () => {
-    // TODO:BE繋ぎ込みの時にリクエスト送る
-    console.log("完了状態に移行");
-  }, []);
+    // 更新処理
+    await apiClient.work_log.categories
+      ._id(selectedCategoryId)
+      .complete.patch();
+    // カテゴリページの概要データを再検証
+    mutate(`api/work-log/categories/${selectedCategoryId}/summary`);
+  }, [selectedCategoryId]);
   const handleDelete = useCallback(async () => {
     // TODO:BE繋ぎ込みの時にリクエスト送る
     console.log("完了状態に移行");
