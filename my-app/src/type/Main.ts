@@ -2,6 +2,8 @@
  * メインページの円グラフの型
  */
 export type MainPagePieChart = {
+  /** ページ移動用 id */
+  id: number;
   /** 名称 */
   name: string;
   /** グラフ中の値 */
