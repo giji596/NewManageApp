@@ -58,9 +58,9 @@ function generateRecentDaysLogs(
 }
 
 /**
- * 1ヶ月間の日毎の稼働時間のヒートグラフのロジック
+ * 最近(29~35日間)の日毎の稼働時間のヒートグラフのロジック
  */
-export const MonthlyWorkHeatMapLogic = () => {
+export const RecentWorkHeatMapLogic = () => {
   // レイアウト関連
   const boxSize = 30;
   const gap = 6;
@@ -120,7 +120,7 @@ export const MonthlyWorkHeatMapLogic = () => {
     getDisplayTime,
     /** クリック時のハンドラー */
     onClick,
-    /** 過去1ヶ月間の週ごとに分けられたデータ */
+    /** 最近の週ごとに分けられたデータ */
     weeks,
   };
 };
