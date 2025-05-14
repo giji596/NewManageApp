@@ -1,5 +1,5 @@
 "use client";
-import { Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { memo } from "react";
 import { Pie, PieChart, Tooltip } from "recharts";
 import MainPagePieChartLogic from "./MainPagePieChartLogic";
@@ -33,15 +33,21 @@ const MainPagePieChart = memo(function MainPagePieChart() {
           <Tooltip
             content={
               <CustomToolTipWrapper>
-                {(dataItem: (typeof data)[0]) =>
-                  dataItem.task.map((item, idx) => (
-                    <CustomToolTipContent
-                      key={idx}
-                      name={item.name}
-                      value={item.hours}
-                    />
-                  ))
-                }
+                {(dataItem: (typeof data)[0]) => (
+                  <>
+                    <Typography textAlign={"center"}>
+                      カテゴリ名:{dataItem.name}
+                    </Typography>
+                    <Divider />
+                    {dataItem.task.map((item, idx) => (
+                      <CustomToolTipContent
+                        key={idx}
+                        name={item.name}
+                        value={item.hours}
+                      />
+                    ))}
+                  </>
+                )}
               </CustomToolTipWrapper>
             }
           />
