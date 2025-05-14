@@ -11,7 +11,7 @@ import NoDataPieGraph from "@/component/graph/NoDataPie";
  * メインページの円グラフ
  */
 const MainPagePieChart = memo(function MainPagePieChart() {
-  const { data } = MainPagePieChartLogic();
+  const { data, navigateCategoryPage } = MainPagePieChartLogic();
   return (
     <Stack alignItems={"center"}>
       <Typography variant="h6" mb={2} color="text.secondary">
@@ -27,6 +27,8 @@ const MainPagePieChart = memo(function MainPagePieChart() {
             dataKey="value"
             cx="50%"
             cy="50%"
+            onClick={(data) => navigateCategoryPage(data.id)}
+            cursor="pointer"
             outerRadius={150}
             fill="#8884d8"
           />
