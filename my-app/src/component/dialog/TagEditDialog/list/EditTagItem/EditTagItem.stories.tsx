@@ -4,7 +4,7 @@ import EditTagItem from "./EditTagItem";
 
 const meta = {
   component: EditTagItem,
-  args: { defaultTagName: "タグ1" },
+  args: { defaultTagName: "タグ1", onFinishEdit: () => {} },
 } satisfies Meta<typeof EditTagItem>;
 
 export default meta;
