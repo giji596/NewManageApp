@@ -14,7 +14,8 @@ type Props = {
  * タグ編集ダイアログのタグ一覧のリスト
  */
 const TagList = memo(function TagList({ tagList }: Props) {
-  const { isEditTargetId, setEditTarget, clearEditTarget } = TagListLogic();
+  const { isEditTargetId, setEditTarget, clearEditTarget, handleDelete } =
+    TagListLogic();
   return (
     <Paper>
       <List sx={{ p: 0 }}>
@@ -33,7 +34,12 @@ const TagList = memo(function TagList({ tagList }: Props) {
                 <DisplayTagItem
                   tagName={item.name}
                   onClickEdit={() => setEditTarget(item.id)}
-                  onClickDelete={() => {} /** TODO:あとで */}
+                  onClickDelete={() =>
+                    /** TODO:使用中であるばあいは削除前に確認ダイアログを表示させる */
+                    item.isUsed
+                      ? console.log("確認ダイアログ開く")
+                      : handleDelete(item.id)
+                  }
                 />
               )}
             </ListItem>
