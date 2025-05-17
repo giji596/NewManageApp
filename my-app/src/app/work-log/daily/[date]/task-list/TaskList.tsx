@@ -6,6 +6,7 @@ import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskListLogic from "./TaskListLogic";
 import TaskEditDialog from "./dialog/TaskEditDialog/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
+import CompletedTaskEditDialog from "./dialog/CompletedTaskEditDialog/CompletedTaskEditDialog";
 
 type Props = {
   /** タスクの一覧 */
@@ -36,15 +37,29 @@ export default function TaskList({
     selectedItemTaskId,
     selectedItemCategoryId,
     selectedItemHours,
+    isSelectedTaskCompleted,
+    selectedTaskName,
+    selectedCategoryName,
     handleClickRow,
   } = taskListLogic;
-  const { open, onClose, onOpen } = useDialog();
+  const {
+    open: openEdit,
+    onClose: onCloseEdit,
+    onOpen: onOpenEdit,
+  } = useDialog();
+  const {
+    open: openEditCompleted,
+    onClose: onCloseEditCompleted,
+    onOpen: onOpenEditCompleted,
+  } = useDialog();
   return (
     <>
       <Stack height={400}>
         <TaskMenu
           isActive={isItemSelected}
-          onClickEdit={onOpen}
+          onClickEdit={
+            isSelectedTaskCompleted ? onOpenEditCompleted : onOpenEdit
+          }
           onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
           onClickNavigateCategory={() =>
             navigateCategoryPage(selectedItemCategoryId)
@@ -57,7 +72,7 @@ export default function TaskList({
           selectedItemId={selectedItemId}
         />
       </Stack>
-      {open &&
+      {openEdit &&
         selectedItemId !== null && ( // open=> アンマウントさせて開くたびに初期値を取得させるため
           // selectedItemId => 親ではnull許容 子ではしていないので nullチェック
           <TaskEditDialog
@@ -65,10 +80,20 @@ export default function TaskList({
             initialCategoryId={selectedItemCategoryId}
             initialTaskId={selectedItemTaskId}
             initialHours={selectedItemHours}
-            open={open}
-            onClose={onClose}
+            open={openEdit}
+            onClose={onCloseEdit}
           />
         )}
+      {openEditCompleted && selectedItemId !== null && (
+        <CompletedTaskEditDialog
+          open={openEditCompleted}
+          onClose={onCloseEditCompleted}
+          itemId={selectedItemId}
+          categoryName={selectedCategoryName}
+          taskName={selectedTaskName}
+          initialHours={selectedItemHours}
+        />
+      )}
     </>
   );
 }

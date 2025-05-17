@@ -64,6 +64,8 @@ export type DailyDetailTaskTableType = {
   category: CategoryOption;
   /** 稼働時間 */
   dailyHours: number;
+  /** タスクが完了かどうか(表示する編集ダイアログの形式の分岐に利用) */
+  isCompletedTask: boolean;
 };
 
 /** カテゴリの(特定期間内の)タスクの稼働状況の型定義 */
