@@ -35,7 +35,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog() {
               text={"カテゴリ" /**TODO:指定する */}
               width={400}
             />
-            <AddCircleOutlineIcon />
+            <AddCircleOutlineIcon color="disabled" />
           </Stack>
           {/** タスク */}
           <Stack
@@ -48,7 +48,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog() {
               text={"タスク" /**TODO:指定する */}
               width={400}
             />
-            <AddCircleOutlineIcon />
+            <AddCircleOutlineIcon color="disabled" />
           </Stack>
           {/** 稼働時間/進捗/メモ追加ボタン */}
           <Stack direction="row" justifyContent={"space-between"} pr={4}>
