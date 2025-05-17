@@ -16,6 +16,9 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { CompletedTaskEditDialogLogic } from "./CompletedTaskEditDialogLogic";
+import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
+import MemoAddDialog from "../../../menu/dialog/MemoAddDialog/MemoAddDialog";
+import useDialog from "@/hook/useDialog";
 
 type Props = {
   /** ダイアログ開閉状態 */
@@ -49,6 +52,16 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
       initialHours,
       onClose,
     });
+  const {
+    open: openDelete,
+    onClose: onCloseDelete,
+    onOpen: onOpenDelete,
+  } = useDialog();
+  const {
+    open: openMemo,
+    onOpen: onOpenMemo,
+    onClose: onCloseMemo,
+  } = useDialog();
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -108,14 +121,20 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
               {/** 進捗 */}
               <SliderLikeDisplay title={"進捗"} width={250} value={100} />
               {/** メモ追加ボタン */}
-              <Button startIcon={<AddCommentIcon />}>メモを追加</Button>
+              <Button startIcon={<AddCommentIcon />} onClick={onOpenMemo}>
+                メモを追加
+              </Button>
             </Stack>
           </Stack>
         </DialogContent>
         {/** ボタン群 */}
         <Stack direction="row" justifyContent={"space-between"} py={2} px={4}>
           <Stack>
-            <Button startIcon={<DeleteIcon />} color="error">
+            <Button
+              startIcon={<DeleteIcon />}
+              color="error"
+              onClick={onOpenDelete}
+            >
               削除
             </Button>
           </Stack>
@@ -131,6 +150,27 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
           </Stack>
         </Stack>
       </Dialog>
+      {/** 確認ダイアログ */}
+      {openDelete && (
+        <ConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
+          onAccept={() => {} /** TODO:すぐ後で定義 */}
+        />
+      )}
+      {openMemo && (
+        <MemoAddDialog
+          taskList={[
+            {
+              id: itemId,
+              taskName: taskName,
+            },
+          ]}
+          open={openMemo}
+          onClose={onCloseMemo}
+          isTaskSelected={true}
+        />
+      )}
     </>
   );
 });
