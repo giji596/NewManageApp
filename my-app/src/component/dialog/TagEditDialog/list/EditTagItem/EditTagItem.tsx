@@ -16,25 +16,27 @@ type Props = {
 const EditTagItem = memo(function EditTagItem({ defaultTagName }: Props) {
   const { control } = EditTagItemLogic({ defaultTagName });
   return (
-    <Stack direction="row" justifyContent={"space-between"}>
-      {/** 左部分(テキストフィールド) */}
-      <Controller
-        control={control}
-        name="tagName"
-        render={({ field }) => <TextField {...field} label="タグ名" />}
-      />
-      {/** 右部分(ボタン部分) */}
-      <Stack direction="row">
-        {/** 保存ボタン */}
-        <IconButton color="primary">
-          <SaveIcon />
-        </IconButton>
-        {/** リセットボタン */}
-        <IconButton color="error">
-          <RestartAltIcon />
-        </IconButton>
+    <form>
+      <Stack direction="row" justifyContent={"space-between"}>
+        {/** 左部分(テキストフィールド) */}
+        <Controller
+          control={control}
+          name="tagName"
+          render={({ field }) => <TextField {...field} label="タグ名" />}
+        />
+        {/** 右部分(ボタン部分) */}
+        <Stack direction="row">
+          {/** 保存ボタン */}
+          <IconButton color="primary">
+            <SaveIcon />
+          </IconButton>
+          {/** リセットボタン */}
+          <IconButton color="error">
+            <RestartAltIcon />
+          </IconButton>
+        </Stack>
       </Stack>
-    </Stack>
+    </form>
   );
 });
 export default EditTagItem;
