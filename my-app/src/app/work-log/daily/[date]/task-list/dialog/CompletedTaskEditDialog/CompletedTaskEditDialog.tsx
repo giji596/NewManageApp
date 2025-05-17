@@ -74,7 +74,11 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
               alignItems={"center"}
               pr={1.5}
             >
-              <SelectLikeDisplay text={categoryName} width={400} />
+              <SelectLikeDisplay
+                text={categoryName}
+                width={400}
+                title="カテゴリ名"
+              />
               <AddCircleOutlineIcon color="disabled" />
             </Stack>
             {/** タスク */}
@@ -84,7 +88,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
               alignItems={"center"}
               pr={1.5}
             >
-              <SelectLikeDisplay text={taskName} width={400} />
+              <SelectLikeDisplay text={taskName} width={400} title="タスク名" />
               <AddCircleOutlineIcon color="disabled" />
             </Stack>
             {/** 稼働時間/進捗/メモ追加ボタン */}
