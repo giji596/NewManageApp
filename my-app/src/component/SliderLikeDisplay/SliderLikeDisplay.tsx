@@ -19,7 +19,7 @@ const SliderLikeDisplay = memo(function SliderLikeDisplay({
   value,
 }: Props) {
   return (
-    <>
+    <Box>
       <Typography
         fontSize="0.875rem"
         color="text.secondary"
@@ -55,7 +55,7 @@ const SliderLikeDisplay = memo(function SliderLikeDisplay({
           }}
         />
       </Box>
-    </>
+    </Box>
   );
 });
 export default SliderLikeDisplay;
