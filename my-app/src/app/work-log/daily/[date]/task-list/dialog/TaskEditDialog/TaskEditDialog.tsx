@@ -63,6 +63,7 @@ export default function TaskEditDialog({
     onChangeSelectTask,
     onChangeSelectHours,
     progress,
+    isBecomeComplete,
     handleChangeProgress,
     handleSave,
     handleDelete,
@@ -283,7 +284,7 @@ export default function TaskEditDialog({
               startIcon={<CheckCircleIcon />}
               variant="contained"
               disabled={unSelected}
-              onClick={handleSave}
+              onClick={isBecomeComplete ? onOpenComplete : handleSave} // 完了状態になる場合はダイアログをはさむ
             >
               保存
             </Button>

@@ -137,6 +137,7 @@ export default function TaskEditDialogLogic({
   );
   const initProgress = progressData?.body.progress;
   const [progress, setProgress] = useState<number | null>(null);
+  const isBecomeComplete = useMemo(() => progress === 100, [progress]);
   const handleChangeProgress = useCallback(
     (_: Event, newValue: number | number[]) => {
       if (typeof newValue === "number") setProgress(newValue);
@@ -221,6 +222,8 @@ export default function TaskEditDialogLogic({
     onChangeSelectHours,
     /** 進捗 */
     progress,
+    /** 進捗の更新後の値が完了状態(100%)かどうか */
+    isBecomeComplete,
     /** 進捗を変えるハンドラー */
     handleChangeProgress,
     /** 編集を保存するハンドラー */
