@@ -7,6 +7,10 @@ const meta = {
   args: {
     open: true,
     onClose: () => {},
+    itemId: 1,
+    categoryName: "カテゴリ1",
+    taskName: "タスク1",
+    initialHours: 8,
   },
 } satisfies Meta<typeof CompletedTaskEditDialog>;
 

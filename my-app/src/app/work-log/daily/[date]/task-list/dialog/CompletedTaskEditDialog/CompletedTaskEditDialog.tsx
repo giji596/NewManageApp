@@ -15,11 +15,20 @@ import SliderLikeDisplay from "@/component/SliderLikeDisplay/SliderLikeDisplay";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 type Props = {
   /** ダイアログ開閉状態 */
   open: boolean;
   /** ダイアログ閉じるハンドラー */
   onClose: () => void;
+  /** 今開いてる対象のデータのid */
+  itemId: number;
+  /** カテゴリ名 */
+  categoryName: string;
+  /** タスク名 */
+  taskName: string;
+  /** 稼働時間の初期選択の値 */
+  initialHours: number;
 };
 
 /**
@@ -28,6 +37,10 @@ type Props = {
 const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
   open,
   onClose,
+  itemId,
+  categoryName,
+  taskName,
+  initialHours,
 }: Props) {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -40,10 +53,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
             alignItems={"center"}
             pr={1.5}
           >
-            <SelectLikeDisplay
-              text={"カテゴリ" /**TODO:指定する */}
-              width={400}
-            />
+            <SelectLikeDisplay text={categoryName} width={400} />
             <AddCircleOutlineIcon color="disabled" />
           </Stack>
           {/** タスク */}
@@ -53,10 +63,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
             alignItems={"center"}
             pr={1.5}
           >
-            <SelectLikeDisplay
-              text={"タスク" /**TODO:指定する */}
-              width={400}
-            />
+            <SelectLikeDisplay text={taskName} width={400} />
             <AddCircleOutlineIcon color="disabled" />
           </Stack>
           {/** 稼働時間/進捗/メモ追加ボタン */}
