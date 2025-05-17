@@ -9,15 +9,15 @@ const EditTagItem = memo(function EditTagItem() {
   return (
     <Stack direction="row" justifyContent={"space-between"}>
       {/** 左部分(テキストフィールド) */}
-      <TextField />
+      <TextField label="タグ名" />
       {/** 右部分(ボタン部分) */}
       <Stack direction="row">
         {/** 保存ボタン */}
-        <IconButton>
+        <IconButton color="primary">
           <SaveIcon />
         </IconButton>
         {/** リセットボタン */}
-        <IconButton>
+        <IconButton color="error">
           <RestartAltIcon />
         </IconButton>
       </Stack>
