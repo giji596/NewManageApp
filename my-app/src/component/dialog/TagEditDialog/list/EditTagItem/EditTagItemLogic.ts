@@ -16,9 +16,14 @@ type Props = {
  * 編集時のタグのリストアイテムのコンポーネントのロジック
  */
 export const EditTagItemLogic = ({ defaultTagName, onFinishEdit }: Props) => {
-  const { control, handleSubmit } = useForm<SubmitData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = useForm<SubmitData>({
     defaultValues: { tagName: defaultTagName },
   });
+  const isSendable = isDirty && isValid;
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       const { tagName } = data;
@@ -31,6 +36,8 @@ export const EditTagItemLogic = ({ defaultTagName, onFinishEdit }: Props) => {
   return {
     /** RHFのコントロールオブジェクト */
     control,
+    /** 送信可能条件(valid成功 + dirtyである) */
+    isSendable,
     /** 送信時のハンドラー */
     onSubmit: handleSubmit(onSubmit),
   };

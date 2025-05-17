@@ -19,7 +19,7 @@ const EditTagItem = memo(function EditTagItem({
   defaultTagName,
   onFinishEdit,
 }: Props) {
-  const { control, onSubmit } = EditTagItemLogic({
+  const { control, isSendable, onSubmit } = EditTagItemLogic({
     defaultTagName,
     onFinishEdit,
   });
@@ -30,12 +30,13 @@ const EditTagItem = memo(function EditTagItem({
         <Controller
           control={control}
           name="tagName"
+          rules={{ required: true }} // 空欄は許容しない
           render={({ field }) => <TextField {...field} label="タグ名" />}
         />
         {/** 右部分(ボタン部分) */}
         <Stack direction="row">
           {/** 保存ボタン */}
-          <IconButton color="primary" type="submit">
+          <IconButton color="primary" disabled={!isSendable} type="submit">
             <SaveIcon />
           </IconButton>
           {/** リセットボタン(RHFのresetではなく編集 -> 表示に移行することで内容を破棄させる) */}
