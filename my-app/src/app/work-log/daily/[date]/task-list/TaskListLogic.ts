@@ -37,6 +37,19 @@ export default function TaskListLogic({ taskList }: Props) {
     return 0;
   }, [selectedItemId, taskList]);
 
+  // 名称関連(完了タスクのダイアログ用)
+  const selectedTaskName = useMemo(
+    () =>
+      taskList.find((v) => v.task.id === selectedItemTaskId)?.task.name ??
+      "(タスクが見つからない？)", // undefinedにはならないはずなので適当なメッセージを設定
+    [selectedItemTaskId, taskList]
+  );
+  const selectedCategoryName = useMemo(
+    () =>
+      taskList.find((v) => v.category.id === selectedItemCategoryId)?.category
+        .name ?? "(カテゴリが見つからない？)", // undefinedにはならないはずなので適当なメッセージを設定
+    [selectedItemCategoryId, taskList]
+  );
   // ローカル--------------------------------------------------
   const doSelectItem = useCallback((id: number) => {
     setSelectedItemId(id);
@@ -74,6 +87,10 @@ export default function TaskListLogic({ taskList }: Props) {
     selectedItemCategoryId,
     /** 選択中のアイテムの稼働時間 */
     selectedItemHours,
+    /** 選択中のアイテムのタスク名 */
+    selectedTaskName,
+    /** 選択中のアイテムのカテゴリ名 */
+    selectedCategoryName,
     /** アイテムの行をクリックした際のハンドラー
      * アイテムを選択しているかどうかで選択/選択解除を行う
      */

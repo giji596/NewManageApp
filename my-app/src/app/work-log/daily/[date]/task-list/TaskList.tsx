@@ -37,6 +37,8 @@ export default function TaskList({
     selectedItemTaskId,
     selectedItemCategoryId,
     selectedItemHours,
+    selectedTaskName,
+    selectedCategoryName,
     handleClickRow,
   } = taskListLogic;
   const {
@@ -86,8 +88,8 @@ export default function TaskList({
           open={openEditCompleted}
           onClose={onCloseEditCompleted}
           itemId={selectedItemId}
-          categoryName="" // TODO
-          taskName="" // TODO
+          categoryName={selectedCategoryName}
+          taskName={selectedTaskName}
           initialHours={selectedItemHours}
         />
       )}
