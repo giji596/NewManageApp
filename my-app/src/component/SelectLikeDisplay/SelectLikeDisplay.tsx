@@ -7,6 +7,8 @@ type Props = {
   text: string;
   /** 全体の幅 */
   width: number;
+  /** タイトル */
+  title: string;
 };
 
 /**
@@ -15,6 +17,7 @@ type Props = {
 const SelectLikeDisplay = memo(function SelectLikeDisplay({
   text,
   width,
+  title,
 }: Props) {
   return (
     <Box
@@ -32,6 +35,19 @@ const SelectLikeDisplay = memo(function SelectLikeDisplay({
         fontSize: "1rem",
       }}
     >
+      {/** タイトル */}
+      <Typography
+        sx={{
+          fontSize: "0.719rem",
+          position: "absolute", // 絶対位置で枠に被らせる
+          px: 0.5, // 左右の空白部分
+          top: 7, // 位置
+          left: 25, // 位置
+          backgroundColor: "#ffffff", // 背景を透過させない
+        }}
+      >
+        {title}
+      </Typography>
       <Typography
         sx={{
           fontSize: "1rem",

@@ -4,7 +4,7 @@ import SelectLikeDisplay from "./SelectLikeDisplay";
 
 const meta = {
   component: SelectLikeDisplay,
-  args: { text: "表示文言", width: 200 },
+  args: { text: "表示文言", width: 200, title: "タイトル" },
 } satisfies Meta<typeof SelectLikeDisplay>;
 
 export default meta;
