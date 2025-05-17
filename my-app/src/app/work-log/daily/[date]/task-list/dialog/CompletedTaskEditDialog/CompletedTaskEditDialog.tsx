@@ -43,9 +43,12 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
   taskName,
   initialHours,
 }: Props) {
-  const { dailyHours, onChangeSelectHours } = CompletedTaskEditDialogLogic({
-    initialHours,
-  });
+  const { dailyHours, onChangeSelectHours, handleSave } =
+    CompletedTaskEditDialogLogic({
+      itemId,
+      initialHours,
+      onClose,
+    });
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogContent sx={{ pb: 3 }}>
@@ -117,7 +120,11 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
         </Stack>
         <Stack direction="row" spacing={2}>
           <Button onClick={onClose}>キャンセル</Button>
-          <Button startIcon={<CheckCircleIcon />} variant="contained">
+          <Button
+            startIcon={<CheckCircleIcon />}
+            variant="contained"
+            onClick={handleSave}
+          >
             保存
           </Button>
         </Stack>
