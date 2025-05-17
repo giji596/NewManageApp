@@ -70,7 +70,7 @@ export default function MemoListRow({ memoItem, isActive, onClickRow }: Props) {
           </IconButton>
         </TableCell>
       </TableRow>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
           <Collapse in={isActive} timeout="auto" unmountOnExit>
             <Box margin={1}>{memoItem.summary}</Box>
