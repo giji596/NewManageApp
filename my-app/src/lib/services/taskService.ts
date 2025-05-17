@@ -446,3 +446,14 @@ export const adjustTaskActivityDatesIfRemoved = async (
     },
   });
 };
+
+/**
+ * タスクの進捗を取得する関数
+ */
+export const getTaskProgress = async (id: number) => {
+  const data = await prisma.task.findUnique({
+    where: { id },
+    select: { progress: true },
+  });
+  return data;
+};
