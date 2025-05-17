@@ -46,7 +46,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
   taskName,
   initialHours,
 }: Props) {
-  const { dailyHours, onChangeSelectHours, handleSave } =
+  const { dailyHours, onChangeSelectHours, handleSave, handleDelete } =
     CompletedTaskEditDialogLogic({
       itemId,
       initialHours,
@@ -155,7 +155,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
         <ConfirmDeleteDialog
           open={openDelete}
           onClose={onCloseDelete}
-          onAccept={() => {} /** TODO:すぐ後で定義 */}
+          onAccept={handleDelete}
         />
       )}
       {openMemo && (

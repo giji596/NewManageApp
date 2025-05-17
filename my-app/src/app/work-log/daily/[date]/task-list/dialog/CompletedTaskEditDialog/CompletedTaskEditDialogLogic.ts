@@ -41,6 +41,11 @@ export const CompletedTaskEditDialogLogic = ({
     // データに変化がない場合はそのまま閉じるだけ
     onClose();
   }, [dailyHours, date, initialHours, itemId, onClose]);
+  const handleDelete = useCallback(async () => {
+    await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
+    mutate(`api/work-log/daily/${date}`); // 再検証する
+    onClose();
+  }, [date, itemId, onClose]);
   return {
     /** 洗濯中の稼働時間 */
     dailyHours,
@@ -48,5 +53,7 @@ export const CompletedTaskEditDialogLogic = ({
     onChangeSelectHours,
     /** 編集を保存するハンドラー */
     handleSave,
+    /** デリートのイベント */
+    handleDelete,
   };
 };
