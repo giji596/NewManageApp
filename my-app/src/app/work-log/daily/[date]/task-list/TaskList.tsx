@@ -38,13 +38,17 @@ export default function TaskList({
     selectedItemHours,
     handleClickRow,
   } = taskListLogic;
-  const { open, onClose, onOpen } = useDialog();
+  const {
+    open: openEdit,
+    onClose: onCloseEdit,
+    onOpen: onOpenEdit,
+  } = useDialog();
   return (
     <>
       <Stack height={400}>
         <TaskMenu
           isActive={isItemSelected}
-          onClickEdit={onOpen}
+          onClickEdit={onOpenEdit}
           onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
           onClickNavigateCategory={() =>
             navigateCategoryPage(selectedItemCategoryId)
@@ -57,7 +61,7 @@ export default function TaskList({
           selectedItemId={selectedItemId}
         />
       </Stack>
-      {open &&
+      {openEdit &&
         selectedItemId !== null && ( // open=> アンマウントさせて開くたびに初期値を取得させるため
           // selectedItemId => 親ではnull許容 子ではしていないので nullチェック
           <TaskEditDialog
@@ -65,8 +69,8 @@ export default function TaskList({
             initialCategoryId={selectedItemCategoryId}
             initialTaskId={selectedItemTaskId}
             initialHours={selectedItemHours}
-            open={open}
-            onClose={onClose}
+            open={openEdit}
+            onClose={onCloseEdit}
           />
         )}
     </>
