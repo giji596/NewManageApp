@@ -15,6 +15,7 @@ import SliderLikeDisplay from "@/component/SliderLikeDisplay/SliderLikeDisplay";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { CompletedTaskEditDialogLogic } from "./CompletedTaskEditDialogLogic";
 
 type Props = {
   /** ダイアログ開閉状態 */
@@ -42,6 +43,9 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
   taskName,
   initialHours,
 }: Props) {
+  const { dailyHours, onChangeSelectHours } = CompletedTaskEditDialogLogic({
+    initialHours,
+  });
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogContent sx={{ pb: 3 }}>
@@ -85,7 +89,8 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
                 labelId="hours-select-label"
                 id="hours-select"
                 name="hours-select"
-                value={"0.25" /**TODO:あとで */}
+                value={String(dailyHours)}
+                onChange={onChangeSelectHours}
                 label="稼働時間(hour)"
                 variant="standard"
               >
