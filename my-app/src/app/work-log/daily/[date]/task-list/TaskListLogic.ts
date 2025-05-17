@@ -37,6 +37,11 @@ export default function TaskListLogic({ taskList }: Props) {
     return 0;
   }, [selectedItemId, taskList]);
 
+  const isSelectedTaskCompleted = useMemo(
+    () => taskList.find((item) => item.id === selectedItemId)?.isCompletedTask,
+    [selectedItemId, taskList]
+  );
+
   // 名称関連(完了タスクのダイアログ用)
   const selectedTaskName = useMemo(
     () =>
@@ -87,6 +92,8 @@ export default function TaskListLogic({ taskList }: Props) {
     selectedItemCategoryId,
     /** 選択中のアイテムの稼働時間 */
     selectedItemHours,
+    /** 選択中のタスクが完了済みかどうか(ダイアログの種類の分岐に利用) */
+    isSelectedTaskCompleted,
     /** 選択中のアイテムのタスク名 */
     selectedTaskName,
     /** 選択中のアイテムのカテゴリ名 */

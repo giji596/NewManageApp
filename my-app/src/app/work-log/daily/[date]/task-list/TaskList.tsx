@@ -37,6 +37,7 @@ export default function TaskList({
     selectedItemTaskId,
     selectedItemCategoryId,
     selectedItemHours,
+    isSelectedTaskCompleted,
     selectedTaskName,
     selectedCategoryName,
     handleClickRow,
@@ -57,7 +58,7 @@ export default function TaskList({
         <TaskMenu
           isActive={isItemSelected}
           onClickEdit={
-            onOpenEdit /** TODO:タスク次第で分岐してonOpenEditCompletedにする */
+            isSelectedTaskCompleted ? onOpenEditCompleted : onOpenEdit
           }
           onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
           onClickNavigateCategory={() =>
