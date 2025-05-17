@@ -13,11 +13,11 @@ const DisplayTagItem = memo(function DisplayTagItem() {
       {/** 右側(ボタン部分) */}
       <Stack direction="row">
         {/** 編集ボタン */}
-        <IconButton>
+        <IconButton color="primary">
           <EditIcon />
         </IconButton>
         {/** 削除ボタン */}
-        <IconButton>
+        <IconButton color="error">
           <DeleteIcon />
         </IconButton>
       </Stack>
