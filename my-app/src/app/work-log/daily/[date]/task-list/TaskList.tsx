@@ -6,6 +6,7 @@ import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskListLogic from "./TaskListLogic";
 import TaskEditDialog from "./dialog/TaskEditDialog/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
+import CompletedTaskEditDialog from "./dialog/CompletedTaskEditDialog/CompletedTaskEditDialog";
 
 type Props = {
   /** タスクの一覧 */
@@ -43,12 +44,19 @@ export default function TaskList({
     onClose: onCloseEdit,
     onOpen: onOpenEdit,
   } = useDialog();
+  const {
+    open: openEditCompleted,
+    onClose: onCloseEditCompleted,
+    onOpen: onOpenEditCompleted,
+  } = useDialog();
   return (
     <>
       <Stack height={400}>
         <TaskMenu
           isActive={isItemSelected}
-          onClickEdit={onOpenEdit}
+          onClickEdit={
+            onOpenEdit /** TODO:タスク次第で分岐してonOpenEditCompletedにする */
+          }
           onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
           onClickNavigateCategory={() =>
             navigateCategoryPage(selectedItemCategoryId)
@@ -73,6 +81,16 @@ export default function TaskList({
             onClose={onCloseEdit}
           />
         )}
+      {openEditCompleted && selectedItemId !== null && (
+        <CompletedTaskEditDialog
+          open={openEditCompleted}
+          onClose={onCloseEditCompleted}
+          itemId={selectedItemId}
+          categoryName="" // TODO
+          taskName="" // TODO
+          initialHours={selectedItemHours}
+        />
+      )}
     </>
   );
 }
