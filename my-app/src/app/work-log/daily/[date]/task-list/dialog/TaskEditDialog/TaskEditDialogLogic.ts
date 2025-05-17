@@ -129,14 +129,27 @@ export default function TaskEditDialogLogic({
   }, []);
 
   // 進捗関連
-  const initProgressRange = 50; // TODO: タスクから取得する
-  const [progress, setProgress] = useState<number>(initProgressRange);
+  // データフェッチ
+  const { data: progressData } = useAspidaSWR(
+    apiClient.work_log.tasks._id(taskId ?? 0).progress, // id:nullの場合は下記でフェッチ抑制してるので適当な値を
+    "get",
+    { key: taskId ? `api/work-log/tasks/${taskId}/progress` : null } // taskIdがない場合はnullにしてフェッチさせない
+  );
+  const initProgress = progressData?.body.progress;
+  const [progress, setProgress] = useState<number | null>(null);
   const handleChangeProgress = useCallback(
     (_: Event, newValue: number | number[]) => {
       if (typeof newValue === "number") setProgress(newValue);
     },
     []
   );
+  // 進捗の初期化処理(タスク変更時も)
+  useEffect(() => {
+    const fetchProgressData = progressData?.body.progress;
+    if (fetchProgressData) {
+      setProgress(fetchProgressData);
+    }
+  }, [progressData]); // 依存値をオブジェクトにして前後データが同じprogressであった場合も更新する
 
   const handleSave = useCallback(async () => {
     // 各stateの値について、初期値と一緒なら処理に含めない
@@ -145,7 +158,8 @@ export default function TaskEditDialogLogic({
       body.workTime = dailyHours;
     if (initialValues.current.taskId !== taskId && taskId !== null)
       body.taskId = taskId;
-    if (initProgressRange !== progress) body.progress = progress;
+    if (initProgress !== progress && progress !== null)
+      body.progress = progress;
     // bodyで必要な値だけ渡す
     try {
       await apiClient.work_log.daily
@@ -162,7 +176,7 @@ export default function TaskEditDialogLogic({
         }
       }
     }
-  }, [dailyHours, date, initProgressRange, itemId, onClose, progress, taskId]);
+  }, [dailyHours, date, initProgress, itemId, onClose, progress, taskId]);
   const handleDelete = useCallback(async () => {
     await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
