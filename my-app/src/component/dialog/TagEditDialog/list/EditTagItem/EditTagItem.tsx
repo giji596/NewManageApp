@@ -5,11 +5,16 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { EditTagItemLogic } from "./EditTagItemLogic";
 import { Controller } from "react-hook-form";
 
+type Props = {
+  /** タグ名の初期値 */
+  defaultTagName: string;
+};
+
 /**
  * 編集時のタグのリストアイテムのコンポーネント
  */
-const EditTagItem = memo(function EditTagItem() {
-  const { control } = EditTagItemLogic();
+const EditTagItem = memo(function EditTagItem({ defaultTagName }: Props) {
+  const { control } = EditTagItemLogic({ defaultTagName });
   return (
     <Stack direction="row" justifyContent={"space-between"}>
       {/** 左部分(テキストフィールド) */}

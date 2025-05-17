@@ -5,11 +5,14 @@ type SubmitData = {
   tagName: string;
 };
 
+type Props = {
+  /** タグ名の初期値 */
+  defaultTagName: string;
+};
 /**
  * 編集時のタグのリストアイテムのコンポーネントのロジック
  */
-export const EditTagItemLogic = () => {
-  const defaultTagName = "タグ1"; // TODO:親からもらう
+export const EditTagItemLogic = ({ defaultTagName }: Props) => {
   const { control } = useForm<SubmitData>({
     defaultValues: { tagName: defaultTagName },
   });
