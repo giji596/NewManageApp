@@ -213,7 +213,7 @@ export default function TaskEditDialog({
                       pointerEvents: "none", // ← これでカーソル無効化
                     }}
                   >
-                    進捗
+                    タスク全体の進捗
                   </Typography>
                   <Slider
                     aria-labelledby="slider-label"

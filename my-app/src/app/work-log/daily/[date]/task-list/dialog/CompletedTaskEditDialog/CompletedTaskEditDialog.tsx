@@ -123,7 +123,11 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
                 </Select>
               </FormControl>
               {/** 進捗 */}
-              <SliderLikeDisplay title={"進捗"} width={250} value={100} />
+              <SliderLikeDisplay
+                title={"タスク全体の進捗"}
+                width={250}
+                value={100}
+              />
               {/** メモ追加ボタン */}
               <Button startIcon={<AddCommentIcon />} onClick={onOpenMemo}>
                 メモを追加
