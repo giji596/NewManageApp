@@ -15,13 +15,22 @@ import SliderLikeDisplay from "@/component/SliderLikeDisplay/SliderLikeDisplay";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+type Props = {
+  /** ダイアログ開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じるハンドラー */
+  onClose: () => void;
+};
 
 /**
  * 完了タスクの編集ダイアログ
  */
-const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog() {
+const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog({
+  open,
+  onClose,
+}: Props) {
   return (
-    <Dialog open={true /**TODO:後で */} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogContent sx={{ pb: 3 }}>
         <Stack spacing={3} mt={1}>
           {/** カテゴリ */}
@@ -95,7 +104,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog() {
           </Button>
         </Stack>
         <Stack direction="row" spacing={2}>
-          <Button>キャンセル</Button>
+          <Button onClick={onClose}>キャンセル</Button>
           <Button startIcon={<CheckCircleIcon />} variant="contained">
             保存
           </Button>
