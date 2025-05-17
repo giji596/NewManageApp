@@ -114,36 +114,42 @@ export const DUMMY_TASK_TABLE_LIST: DailyDetailTaskTableType[] = [
     task: { id: 1, name: "タスク1" },
     category: { id: 1, name: "カテゴリー1" },
     dailyHours: 8,
+    isCompletedTask: false,
   },
   {
     id: 1,
     task: { id: 2, name: "タスク2" },
     category: { id: 1, name: "カテゴリー1" },
     dailyHours: 6,
+    isCompletedTask: false,
   },
   {
     id: 2,
     task: { id: 3, name: "タスク3" },
     category: { id: 2, name: "カテゴリー2" },
     dailyHours: 8,
+    isCompletedTask: false,
   },
   {
     id: 3,
     task: { id: 4, name: "タスク4" },
     category: { id: 2, name: "カテゴリー2" },
     dailyHours: 5,
+    isCompletedTask: false,
   },
   {
     id: 4,
     task: { id: 5, name: "タスク5" },
     category: { id: 3, name: "カテゴリー3" },
     dailyHours: 3,
+    isCompletedTask: false,
   },
   {
     id: 5,
     task: { id: 6, name: "タスク6" },
     category: { id: 3, name: "カテゴリー3" },
     dailyHours: 4,
+    isCompletedTask: false,
   },
   {
     id: 6,
@@ -156,6 +162,7 @@ export const DUMMY_TASK_TABLE_LIST: DailyDetailTaskTableType[] = [
       name: "カテゴリー11sdwqqwdwdwqdwqdqwdqwdqdqwqddqwqddaw21",
     },
     dailyHours: 8,
+    isCompletedTask: false,
   },
 ];
 
