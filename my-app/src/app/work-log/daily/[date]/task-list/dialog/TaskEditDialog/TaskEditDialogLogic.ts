@@ -130,7 +130,7 @@ export default function TaskEditDialogLogic({
 
   // 進捗関連
   // データフェッチ
-  const { data: progressData } = useAspidaSWR(
+  const { data: progressData, isLoading: isLoadingProgress } = useAspidaSWR(
     apiClient.work_log.tasks._id(taskId ?? 0).progress, // id:nullの場合は下記でフェッチ抑制してるので適当な値を
     "get",
     { key: taskId ? `api/work-log/tasks/${taskId}/progress` : null } // taskIdがない場合はnullにしてフェッチさせない
@@ -146,7 +146,7 @@ export default function TaskEditDialogLogic({
   // 進捗の初期化処理(タスク変更時も)
   useEffect(() => {
     const fetchProgressData = progressData?.body.progress;
-    if (fetchProgressData) {
+    if (fetchProgressData !== undefined) {
       setProgress(fetchProgressData);
     }
   }, [progressData]); // 依存値をオブジェクトにして前後データが同じprogressであった場合も更新する
@@ -207,6 +207,8 @@ export default function TaskEditDialogLogic({
     taskList,
     /** ロード状態(SWRのロード または 選択中の値がnull以外(=初期化済み)) */
     isLoading,
+    /** progressのロード状態 */
+    isLoadingProgress,
     /** 重複エラー */
     duplicateError,
     /** タスクの選択が有効かどうか(taskListの有無+選択値のidがtaskListに存在するかで判別) */

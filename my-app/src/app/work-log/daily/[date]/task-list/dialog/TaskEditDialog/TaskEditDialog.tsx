@@ -54,6 +54,7 @@ export default function TaskEditDialog({
     unSelected,
     taskList,
     isLoading,
+    isLoadingProgress,
     duplicateError,
     isTaskSelectAvailable,
     categoryList,
@@ -196,42 +197,51 @@ export default function TaskEditDialog({
                 </Select>
               </FormControl>
               {/** 進捗 */}
-              <Stack width="50%" justifyContent={"center"}>
-                <Typography
-                  fontSize="0.875rem"
-                  color="text.secondary"
-                  sx={{
-                    pointerEvents: "none", // ← これでカーソル無効化
-                  }}
-                >
-                  進捗
-                </Typography>
-                <Slider
-                  aria-labelledby="slider-label"
-                  name="progress-slider"
-                  value={progress}
-                  onChange={handleChangeProgress}
-                  step={10}
-                  valueLabelDisplay="auto"
-                  sx={{
-                    pt: 0.75,
-                    color: "grey.500",
-                    "& .MuiSlider-track": {
-                      border: "none",
-                    },
-                    "& .MuiSlider-rail": {
-                      opacity: 1,
-                      backgroundColor: "grey.300",
-                    },
-                    "& .MuiSlider-thumb": {
-                      backgroundColor: "grey.500",
-                    },
-                    "& .MuiSlider-valueLabel": {
-                      backgroundColor: "grey.700",
-                    },
-                  }}
-                />
-              </Stack>
+              {/** ロード状態 */}
+              {isLoadingProgress && (
+                <Stack width={250} alignItems={"center"}>
+                  <CircularProgress />
+                </Stack>
+              )}
+              {/** 通常 */}
+              {!isLoadingProgress && progress !== null && (
+                <Stack width="50%" justifyContent={"center"}>
+                  <Typography
+                    fontSize="0.875rem"
+                    color="text.secondary"
+                    sx={{
+                      pointerEvents: "none", // ← これでカーソル無効化
+                    }}
+                  >
+                    進捗
+                  </Typography>
+                  <Slider
+                    aria-labelledby="slider-label"
+                    name="progress-slider"
+                    value={progress}
+                    onChange={handleChangeProgress}
+                    step={10}
+                    valueLabelDisplay="auto"
+                    sx={{
+                      pt: 0.75,
+                      color: "grey.500",
+                      "& .MuiSlider-track": {
+                        border: "none",
+                      },
+                      "& .MuiSlider-rail": {
+                        opacity: 1,
+                        backgroundColor: "grey.300",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "grey.500",
+                      },
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "grey.700",
+                      },
+                    }}
+                  />
+                </Stack>
+              )}
               {/** メモ追加ボタン */}
               <Button
                 startIcon={<AddCommentIcon />}
