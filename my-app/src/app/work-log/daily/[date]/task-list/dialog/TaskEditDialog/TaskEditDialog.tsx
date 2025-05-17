@@ -23,6 +23,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
 import MemoAddDialog from "../../../menu/dialog/MemoAddDialog/MemoAddDialog";
+import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -78,6 +79,11 @@ export default function TaskEditDialog({
     open: openDelete,
     onClose: onCloseDelete,
     onOpen: onOpenDelete,
+  } = useDialog();
+  const {
+    open: openComplete,
+    onClose: onCloseComplete,
+    onOpen: onOpenComplete,
   } = useDialog();
   const {
     open: openCreateTask,
@@ -290,6 +296,14 @@ export default function TaskEditDialog({
           open={openDelete}
           onClose={onCloseDelete}
           onAccept={handleDelete}
+        />
+      )}
+      {openComplete && (
+        <CompleteConfirmDialog
+          open={openComplete}
+          onClose={onCloseComplete}
+          target="タスク"
+          onAccept={handleSave}
         />
       )}
       {openCreateCategory && (
