@@ -17,7 +17,9 @@ export const getDailyDetailData = async (date: Date) => {
       logs: {
         select: {
           id: true,
-          task: { select: { id: true, name: true, category: true } },
+          task: {
+            select: { id: true, name: true, category: true, progress: true },
+          },
           workTime: true,
           memos: {
             select: {
@@ -46,6 +48,7 @@ export const getDailyDetailData = async (date: Date) => {
   data.logs.forEach((log) => {
     const { id, task, workTime, memos } = log;
 
+    const isCompletedTask = task.progress === 100;
     // Task情報をまとめておく（1タスクに複数ログがあっても集約）
     taskList.push({
       id: id,
@@ -55,6 +58,7 @@ export const getDailyDetailData = async (date: Date) => {
         name: task.category.name,
       },
       dailyHours: workTime,
+      isCompletedTask,
     });
     // メモを整形して格納
     memos.forEach((memo) => {
