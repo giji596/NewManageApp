@@ -22,21 +22,31 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog() {
   return (
     <Dialog open={true /**TODO:後で */} maxWidth="sm" fullWidth>
-      <DialogContent sx={{ pb: 0.5 }}>
+      <DialogContent sx={{ pb: 3 }}>
         <Stack spacing={3} mt={1}>
           {/** カテゴリ */}
-          <Stack direction="row" justifyContent={"space-between"}>
+          <Stack
+            direction="row"
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            pr={1.5}
+          >
             <SelectLikeDisplay
               text={"カテゴリ" /**TODO:指定する */}
-              width={200}
+              width={400}
             />
             <AddCircleOutlineIcon />
           </Stack>
           {/** タスク */}
-          <Stack direction="row" justifyContent={"space-between"}>
+          <Stack
+            direction="row"
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            pr={1.5}
+          >
             <SelectLikeDisplay
               text={"タスク" /**TODO:指定する */}
-              width={200}
+              width={400}
             />
             <AddCircleOutlineIcon />
           </Stack>
@@ -71,7 +81,7 @@ const CompletedTaskEditDialog = memo(function CompletedTaskEditDialog() {
               </Select>
             </FormControl>
             {/** 進捗 */}
-            <SliderLikeDisplay title={"進捗"} width={200} value={100} />
+            <SliderLikeDisplay title={"進捗"} width={250} value={100} />
             {/** メモ追加ボタン */}
             <Button startIcon={<AddCommentIcon />}>メモを追加</Button>
           </Stack>
