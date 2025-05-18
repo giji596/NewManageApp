@@ -81,6 +81,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
           </ListItem>
           {/** 表示設定(各項目) */}
           <List sx={{ pl: 1, py: 0 }}>
+            {/** テーマ */}
             <ListItem disablePadding>
               <ListItemButton onClick={onClickTheme}>
                 <ListItemIcon>
