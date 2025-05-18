@@ -34,34 +34,36 @@ const TagEditDialog = memo(function TagEditDialog({
   const { open: openAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDialog();
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth>
-        <DialogTitle>タグを編集</DialogTitle>
-        {/** コンテンツ(全体) */}
-        <Stack p={2} spacing={1}>
-          {/** 未使用のタグのみ表示設定 */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                checked={showOnlyUnused}
-                onChange={toggleShowOnlyUnused}
-              />
-            }
-            label="未使用のタグのみ表示する"
-            slotProps={{ typography: { fontSize: "14px" } }}
-          />
-          {/** タグリスト */}
-          <TagList tagList={tagList} />
-          {/** 追加ボタン */}
-          <Button
-            sx={{ width: "25%" }}
-            startIcon={<AddIcon />}
-            onClick={onOpenAdd}
-          >
-            タグを追加
-          </Button>
-        </Stack>
-      </Dialog>
+      {tagList && ( // フェッチ前はダイアログ自体を開かせない
+        <Dialog open={open} onClose={onClose} fullWidth>
+          <DialogTitle>タグを編集</DialogTitle>
+          {/** コンテンツ(全体) */}
+          <Stack p={2} spacing={1}>
+            {/** 未使用のタグのみ表示設定 */}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  size="small"
+                  checked={showOnlyUnused}
+                  onChange={toggleShowOnlyUnused}
+                />
+              }
+              label="未使用のタグのみ表示する"
+              slotProps={{ typography: { fontSize: "14px" } }}
+            />
+            {/** タグリスト */}
+            <TagList tagList={tagList} />
+            {/** 追加ボタン */}
+            <Button
+              sx={{ width: "25%" }}
+              startIcon={<AddIcon />}
+              onClick={onOpenAdd}
+            >
+              タグを追加
+            </Button>
+          </Stack>
+        </Dialog>
+      )}
       {openAdd && (
         <CreateTagDialog
           open={openAdd}

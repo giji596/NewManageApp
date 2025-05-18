@@ -1,4 +1,5 @@
-import { dummyTagEditListItems } from "@/dummy/memo-tag";
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
 import { useCallback, useMemo, useState } from "react";
 
 /**
@@ -12,15 +13,19 @@ export const TagEditDialogLogic = () => {
     []
   );
 
-  // TODO: でーたふぇっちする
+  const { data: rawData } = useAspidaSWR(
+    apiClient.work_log.tags.with_usage,
+    "get",
+    { key: "api/work-log/tags/with-usage" }
+  );
   const tagList = useMemo(() => {
-    const data = dummyTagEditListItems;
+    const data = rawData?.body;
     // 未使用のみ表示であればisUsed=falseのもののみ表示
-    if (showOnlyUnused) {
+    if (showOnlyUnused && data) {
       return data.filter((v) => !v.isUsed);
     }
     return data;
-  }, [showOnlyUnused]);
+  }, [rawData?.body, showOnlyUnused]);
 
   return {
     /** 未使用のみ表示するかの設定 */
