@@ -27,7 +27,7 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
     await apiClient.work_log.tags._id(id).delete();
     // データを際検証
     mutate("api/work-log/tags/with-usage");
-    mutate("api/work-log/memos/tags");
+    mutate("api/work-log/tags");
     //　削除後にターゲットをnullにする
     setDeleteTargetId(null);
   }, []);
@@ -54,7 +54,7 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
         .patch({ body: { name: tagName } });
       // 再検証
       mutate("api/work-log/tags/with-usage");
-      mutate("api/work-log/memos/tags");
+      mutate("api/work-log/tags");
       // 更新後、編集状態を終了
       clearEditTarget();
       // refも初期化

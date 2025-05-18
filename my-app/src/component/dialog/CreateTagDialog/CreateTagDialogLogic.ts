@@ -31,10 +31,10 @@ export const CreateTagDialogLogic = ({ onClose, onCreateTag }: Props) => {
     async (data: SubmitData) => {
       try {
         // ここでリクエスト エラーがあればonCloseせずにcatchする
-        const res = await apiClient.work_log.memos.tags.post({
+        const res = await apiClient.work_log.tags.post({
           body: { tagName: data.tagName },
         });
-        await mutate("api/work-log/memos/tags");
+        await mutate("api/work-log/tags");
         onCreateTag?.(res.body.id); // 渡された場合のみ実行
         onClose();
       } catch (error) {
