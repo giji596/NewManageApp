@@ -1,4 +1,5 @@
-import { TagUsage } from "@/type/Tag";
+import apiClient from "@/lib/apiClient";
+import useAspidaSWR from "@aspida/swr";
 import { useCallback } from "react";
 
 type Props = {
@@ -18,15 +19,15 @@ export const TagConfirmDeleteDialogLogic = ({
   onClose,
   onDelete,
 }: Props) => {
-  // TODO:idを用いてフェッチ
-  console.log("ふぇっちたーげっと", targetId);
-  const memoData: TagUsage = {
-    memoTitles: ["メモ1", "メモ2", "メモ3", "メモ4", "メモ5"],
-    usageCount: 8,
-  };
-  const memoTitleList = memoData.memoTitles;
-  const usedCount = memoData.usageCount;
-  const hideItemCount = usedCount - 5;
+  const { data: rawData } = useAspidaSWR(
+    apiClient.work_log.tags._id(targetId).usage,
+    "get",
+    { key: `api/work-log/tags/${targetId}.usage` }
+  );
+  const memoData = rawData?.body;
+  const memoTitleList = memoData?.memoTitles;
+  const usedCount = memoData?.usageCount;
+  const hideItemCount = usedCount && usedCount - 5;
 
   const onClickDelete = useCallback(async () => {
     // 削除リクエスト
