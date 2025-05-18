@@ -8,32 +8,56 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import TagList from "./list/TagList";
-import { dummyTagEditListItems } from "@/dummy/memo-tag";
 import AddIcon from "@mui/icons-material/Add";
+import { TagEditDialogLogic } from "./TagEditDialogLogic";
+import useDialog from "@/hook/useDialog";
+import CreateTagDialog from "../CreateTagDialog/CreateTagDialog";
 
+type Props = {
+  /** ダイアログの開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じるハンドラー */
+  onClose: () => void;
+};
 /**
  * タグを編集するダイアログ
  */
-const TagEditDialog = memo(function TagEditDialog() {
+const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
+  const { tagList, showOnlyUnused, toggleShowOnlyUnused } =
+    TagEditDialogLogic();
+  const { open: openAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDialog();
   return (
-    <Dialog open={true /** TODO:あとで */} fullWidth>
-      <DialogTitle>タグを編集</DialogTitle>
-      {/** コンテンツ(全体) */}
-      <Stack p={2} spacing={1}>
-        {/** 未使用のタグのみ表示設定 */}
-        <FormControlLabel
-          control={<Checkbox size="small" />}
-          label="未使用のタグのみ表示する"
-          slotProps={{ typography: { fontSize: "14px" } }}
-        />
-        {/** タグリスト */}
-        <TagList tagList={dummyTagEditListItems /** TODO:あとで */} />
-        {/** 追加ボタン */}
-        <Button sx={{ width: "25%" }} startIcon={<AddIcon />}>
-          タグを追加
-        </Button>
-      </Stack>
-    </Dialog>
+    <>
+      <Dialog open={open} onClose={onClose} fullWidth>
+        <DialogTitle>タグを編集</DialogTitle>
+        {/** コンテンツ(全体) */}
+        <Stack p={2} spacing={1}>
+          {/** 未使用のタグのみ表示設定 */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                checked={showOnlyUnused}
+                onChange={toggleShowOnlyUnused}
+              />
+            }
+            label="未使用のタグのみ表示する"
+            slotProps={{ typography: { fontSize: "14px" } }}
+          />
+          {/** タグリスト */}
+          <TagList tagList={tagList} />
+          {/** 追加ボタン */}
+          <Button
+            sx={{ width: "25%" }}
+            startIcon={<AddIcon />}
+            onClick={onOpenAdd}
+          >
+            タグを追加
+          </Button>
+        </Stack>
+      </Dialog>
+      {openAdd && <CreateTagDialog open={openAdd} onClose={onCloseAdd} />}
+    </>
   );
 });
 export default TagEditDialog;
