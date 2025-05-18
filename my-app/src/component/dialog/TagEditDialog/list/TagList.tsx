@@ -58,12 +58,14 @@ const TagList = memo(function TagList({ tagList }: Props) {
         </List>
       </Paper>
       {/** ダイアログ */}
-      <TagConfirmDeleteDialog
-        open={openDelete}
-        onClose={onCloseDelete}
-        targetId={0 /** TODO: */}
-        onDelete={async () => {} /** TODO: */}
-      />
+      {openDelete && deleteTargetId && (
+        <TagConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
+          targetId={deleteTargetId}
+          onDelete={() => handleDelete(deleteTargetId)}
+        />
+      )}
     </>
   );
 });
