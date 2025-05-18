@@ -11,13 +11,23 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { TagConfirmSaveDialogLogic } from "./TagConfirmSaveDialogLogic";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
+type Props = {
+  /** ダイアログの開閉状態 */
+  open: boolean;
+  /** ダイアログを閉じるハンドラー */
+  onClose: () => void;
+};
+
 /**
  * タグ保存時に表示する確認ダイアログ(使用中の場合に確認用に表示)
  */
-const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog() {
+const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
+  open,
+  onClose,
+}: Props) {
   const { memoTitleList, hideItemCount } = TagConfirmSaveDialogLogic();
   return (
-    <Dialog open={true /** TODO:あとで */}>
+    <Dialog open={open} onClose={onClose}>
       {/** タイトル */}
       <DialogTitle>
         <WarningAmberIcon
@@ -45,7 +55,7 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog() {
       </DialogContent>
       {/** ボタン */}
       <DialogActions>
-        <Button>キャンセル</Button>
+        <Button onClick={onClose}>キャンセル</Button>
         <Button startIcon={<CheckCircleIcon />} color="success">
           保存
         </Button>
