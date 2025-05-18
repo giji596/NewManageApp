@@ -27,7 +27,8 @@ const SettingsDrawer = memo(function SettingsDrawer() {
     onOpen: onOpenReset,
     onClose: onCloseReset,
   } = useDialog();
-  const { open, onOpen, onClose } = SettingsDrawerLogic();
+  const { open, onOpen, onClose, onClickImport, onClickExport, onClickTheme } =
+    SettingsDrawerLogic();
   return (
     <>
       {/** 開閉用のボタン */}
@@ -46,7 +47,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
           <List sx={{ pl: 1, py: 0 }}>
             {/** インポート */}
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={onClickImport}>
                 <ListItemIcon>
                   <FileUploadIcon />
                 </ListItemIcon>
@@ -55,7 +56,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
             </ListItem>
             {/** エクスポート */}
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={onClickExport}>
                 <ListItemIcon>
                   <FileDownloadIcon />
                 </ListItemIcon>
@@ -81,7 +82,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
           {/** 表示設定(各項目) */}
           <List sx={{ pl: 1, py: 0 }}>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={onClickTheme}>
                 <ListItemIcon>
                   <ContrastIcon />
                 </ListItemIcon>

@@ -9,6 +9,26 @@ export const SettingsDrawerLogic = () => {
 
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
+
+  // 各項目
+  // データ管理関連
+  const onClickImport = useCallback(() => {
+    // TODO: DB関連の管理ロジック実装後
+    console.log("インポートする");
+    onClose();
+  }, [onClose]);
+  const onClickExport = useCallback(() => {
+    // TODO: DB関連の管理ロジック実装後
+    console.log("エクスポートする");
+    onClose();
+  }, [onClose]);
+
+  // 表示関連
+  const onClickTheme = useCallback(() => {
+    // TODO:テーマプロパイダーのロジック実装後
+    console.log("テーマ切り替え");
+    onClose();
+  }, [onClose]);
   return {
     /** ドロワーの開閉状態 */
     open,
@@ -16,5 +36,11 @@ export const SettingsDrawerLogic = () => {
     onOpen,
     /** ドロワー閉じるハンドラー */
     onClose,
+    /** インポート時のハンドラー */
+    onClickImport,
+    /** エクスポート時のハンドラー */
+    onClickExport,
+    /** テーマ変更時のハンドラー */
+    onClickTheme,
   };
 };
