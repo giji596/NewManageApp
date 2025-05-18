@@ -26,14 +26,25 @@ const EditTagItem = memo(function EditTagItem({
     defaultTagName,
   });
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack direction="row" justifyContent={"space-between"}>
+    <form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+      <Stack
+        direction="row"
+        justifyContent={"space-between"}
+        alignItems="center"
+      >
         {/** 左部分(テキストフィールド) */}
         <Controller
           control={control}
           name="tagName"
           rules={{ required: true }} // 空欄は許容しない
-          render={({ field }) => <TextField {...field} label="タグ名" />}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="タグ名"
+              autoFocus
+              slotProps={{ htmlInput: { sx: { py: 0.5 } } }}
+            />
+          )}
         />
         {/** 右部分(ボタン部分) */}
         <Stack direction="row">
