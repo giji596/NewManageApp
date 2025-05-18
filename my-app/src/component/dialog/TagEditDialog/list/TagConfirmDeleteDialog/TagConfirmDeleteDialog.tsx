@@ -7,6 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { memo } from "react";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 /**
  * タグの削除時の確認ダイアログ
@@ -18,7 +20,13 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
   return (
     <Dialog open={true /** TODO:あとで */}>
       {/** タイトル */}
-      <DialogTitle>タグ削除の確認</DialogTitle>
+      <DialogTitle>
+        <WarningAmberIcon
+          color="warning"
+          sx={{ verticalAlign: "-15%", mr: 1 }}
+        />
+        タグ削除の確認
+      </DialogTitle>
       {/** コンテンツ */}
       <DialogContent>
         {/** 本文上部 */}
@@ -39,7 +47,9 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
       {/** ボタン */}
       <DialogActions>
         <Button>キャンセル</Button>
-        <Button>削除</Button>
+        <Button startIcon={<DeleteIcon />} color="error" variant="outlined">
+          削除
+        </Button>
       </DialogActions>
     </Dialog>
   );
