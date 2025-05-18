@@ -16,6 +16,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ContrastIcon from "@mui/icons-material/Contrast";
 import DataResetDialog from "./dialog/DataResetDialog/DataResetDialog";
 import useDialog from "@/hook/useDialog";
+import { SettingsDrawerLogic } from "./SettingsDrawerLogic";
 
 /**
  * データ管理/表示設定を表示するドロワー + それを開閉するボタン
@@ -26,14 +27,15 @@ const SettingsDrawer = memo(function SettingsDrawer() {
     onOpen: onOpenReset,
     onClose: onCloseReset,
   } = useDialog();
+  const { open, onOpen, onClose } = SettingsDrawerLogic();
   return (
     <>
       {/** 開閉用のボタン */}
-      <IconButton>
+      <IconButton onClick={onOpen}>
         <MenuIcon />
       </IconButton>
       {/** サイドバー */}
-      <Drawer open={true /** TODO:あとで修正 */}>
+      <Drawer open={open} onClose={onClose}>
         {/**　コンテンツ */}
         <List>
           {/** データ管理(タイトル) */}
