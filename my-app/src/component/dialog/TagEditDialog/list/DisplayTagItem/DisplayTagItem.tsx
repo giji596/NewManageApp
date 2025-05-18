@@ -20,7 +20,12 @@ const DisplayTagItem = memo(function DisplayTagItem({
   onClickDelete,
 }: Props) {
   return (
-    <Stack direction="row" justifyContent={"space-between"} width="100%">
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent={"space-between"}
+      width="100%"
+    >
       {/** 左側(タグ名表示) */}
       <ListItemText primary={tagName} />
       {/** 右側(ボタン部分) */}
