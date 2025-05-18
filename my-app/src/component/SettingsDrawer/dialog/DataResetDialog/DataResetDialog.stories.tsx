@@ -1,9 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import DataResetDialog from './DataResetDialog';
+import DataResetDialog from "./DataResetDialog";
 
 const meta = {
   component: DataResetDialog,
+  args: {
+    open: true,
+    onClose: () => {},
+  },
 } satisfies Meta<typeof DataResetDialog>;
 
 export default meta;
@@ -11,5 +15,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {}
+  args: {},
 };

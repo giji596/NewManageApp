@@ -9,12 +9,22 @@ import {
 import { memo } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
+type Props = {
+  /** ダイアログ開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じるハンドラー */
+  onClose: () => void;
+};
+
 /**
  * データリセット時に表示するダイアログ
  */
-const DataResetDialog = memo(function DataResetDialog() {
+const DataResetDialog = memo(function DataResetDialog({
+  open,
+  onClose,
+}: Props) {
   return (
-    <Dialog open={true /** TODO:あとで */}>
+    <Dialog open={open} onClose={onClose}>
       <DialogContent>
         <DialogContentText>
           ローカル保存されたデータを削除しますか？
@@ -27,7 +37,7 @@ const DataResetDialog = memo(function DataResetDialog() {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button>キャンセル</Button>
+        <Button onClick={onClose}>キャンセル</Button>
         <Button color="error" startIcon={<DeleteForeverIcon />}>
           削除
         </Button>
