@@ -12,6 +12,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { TagConfirmDeleteDialogLogic } from "./TagConfirmDeleteDialogLogic";
 
 type Props = {
+  /** 削除対象のid(データ取得に利用) */
+  targetId: number;
   /** ダイアログの開閉状態 */
   open: boolean;
   /** ダイアログを閉じるハンドラー */
@@ -23,12 +25,13 @@ type Props = {
  * タグの削除時の確認ダイアログ
  */
 const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
+  targetId,
   open,
   onClose,
   onDelete,
 }: Props) {
   const { memoTitleList, hideItemCount, onClickDelete } =
-    TagConfirmDeleteDialogLogic({ onClose, onDelete });
+    TagConfirmDeleteDialogLogic({ targetId, onClose, onDelete });
   return (
     <Dialog open={open} onClose={onClose}>
       {/** タイトル */}

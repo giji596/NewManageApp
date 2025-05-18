@@ -5,6 +5,7 @@ import TagConfirmDeleteDialog from "./TagConfirmDeleteDialog";
 const meta = {
   component: TagConfirmDeleteDialog,
   args: {
+    targetId: 1,
     open: true,
     onClose: () => {},
     onDelete: async () => {},
@@ -15,6 +16,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {},
-};
+export const Default: Story = {};

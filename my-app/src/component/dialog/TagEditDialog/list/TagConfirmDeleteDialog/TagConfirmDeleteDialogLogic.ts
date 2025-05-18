@@ -1,6 +1,8 @@
 import { useCallback } from "react";
 
 type Props = {
+  /** 削除対象のid(データ取得に利用) */
+  targetId: number;
   /** ダイアログを閉じるハンドラー */
   onClose: () => void;
   /** 削除のハンドラー */
@@ -10,7 +12,13 @@ type Props = {
 /**
  * タグの削除時の確認ダイアログのロジック
  */
-export const TagConfirmDeleteDialogLogic = ({ onClose, onDelete }: Props) => {
+export const TagConfirmDeleteDialogLogic = ({
+  targetId,
+  onClose,
+  onDelete,
+}: Props) => {
+  // TODO:idを用いてフェッチ
+  console.log("ふぇっちたーげっと", targetId);
   const memoTitleList = ["メモ1", "メモ2", "メモ3", "メモ4", "メモ5"]; // TODO: 実際はフェッチ 0~5件取ってくる
   const usedCount = 8; // TODO:実際はフェッチ ここで利用されている箇所の数を取得する
   const hideItemCount = usedCount - 5;
