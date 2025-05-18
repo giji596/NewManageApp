@@ -37,7 +37,13 @@ const EditTagItem = memo(function EditTagItem({
           control={control}
           name="tagName"
           rules={{ required: true }} // 空欄は許容しない
-          render={({ field }) => <TextField {...field} label="タグ名" />}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="タグ名"
+              slotProps={{ htmlInput: { sx: { py: 0.5 } } }}
+            />
+          )}
         />
         {/** 右部分(ボタン部分) */}
         <Stack direction="row">

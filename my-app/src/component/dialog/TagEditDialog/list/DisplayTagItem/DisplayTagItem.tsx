@@ -24,6 +24,7 @@ const DisplayTagItem = memo(function DisplayTagItem({
       direction="row"
       alignItems="center"
       justifyContent={"space-between"}
+      pl={1.75}
       width="100%"
     >
       {/** 左側(タグ名表示) */}

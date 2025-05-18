@@ -44,7 +44,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
         <List sx={{ p: 0 }}>
           {tagList.map((item, i) => (
             <div key={item.id}>
-              <ListItem>
+              <ListItem sx={{ py: 0.5 }}>
                 {/** 編集(ターゲットが自身である場合) */}
                 {isEditTargetId(item.id) && (
                   <EditTagItem
