@@ -6,6 +6,7 @@ import EditTagItem from "./EditTagItem/EditTagItem";
 import DisplayTagItem from "./DisplayTagItem/DisplayTagItem";
 import TagConfirmDeleteDialog from "./TagConfirmDeleteDialog/TagConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
+import TagConfirmSaveDialog from "./TagConfirmSaveDialog/TagConfirmSaveDialog";
 
 type Props = {
   /** タグの一覧 */
@@ -20,6 +21,11 @@ const TagList = memo(function TagList({ tagList }: Props) {
     open: openDelete,
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
+  } = useDialog();
+  const {
+    open: openSave,
+    onOpen: onOpenSave,
+    onClose: onCloseSave,
   } = useDialog();
   const {
     deleteTargetId,
@@ -64,6 +70,14 @@ const TagList = memo(function TagList({ tagList }: Props) {
           onClose={onCloseDelete}
           targetId={deleteTargetId}
           onDelete={() => handleDelete(deleteTargetId)}
+        />
+      )}
+      {openSave && (
+        <TagConfirmSaveDialog
+          open={openSave}
+          onClose={onCloseSave}
+          targetId={0 /** TODO: */}
+          onSave={async () => {} /** TODO: */}
         />
       )}
     </>
