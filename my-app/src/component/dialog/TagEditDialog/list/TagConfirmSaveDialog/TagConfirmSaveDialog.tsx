@@ -9,6 +9,7 @@ import {
 import { memo } from "react";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { TagConfirmSaveDialogLogic } from "./TagConfirmSaveDialogLogic";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 /**
  * タグ保存時に表示する確認ダイアログ(使用中の場合に確認用に表示)
@@ -45,7 +46,9 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog() {
       {/** ボタン */}
       <DialogActions>
         <Button>キャンセル</Button>
-        <Button>保存</Button>
+        <Button startIcon={<CheckCircleIcon />} color="success">
+          保存
+        </Button>
       </DialogActions>
     </Dialog>
   );
