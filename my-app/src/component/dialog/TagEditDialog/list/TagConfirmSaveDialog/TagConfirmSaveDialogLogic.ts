@@ -1,3 +1,4 @@
+import { TagUsage } from "@/type/Tag";
 import { useCallback } from "react";
 
 type Props = {
@@ -18,8 +19,12 @@ export const TagConfirmSaveDialogLogic = ({
   onSave,
 }: Props) => {
   console.log("関連めもふぇっち!対象id:", targetId);
-  const memoTitleList = ["メモ1", "メモ2", "メモ3", "メモ4", "メモ5"]; // TODO: 実際はフェッチ 0~5件取ってくる
-  const usedCount = 8; // TODO:実際はフェッチ ここで利用されている箇所の数を取得する
+  const memoData: TagUsage = {
+    memoTitles: ["メモ1", "メモ2", "メモ3", "メモ4", "メモ5"],
+    usageCount: 8,
+  };
+  const memoTitleList = memoData.memoTitles;
+  const usedCount = memoData.usageCount;
   const hideItemCount = usedCount - 5;
   const onClickSave = useCallback(async () => {
     await onSave();
