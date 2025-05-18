@@ -21,8 +21,14 @@ const TagList = memo(function TagList({ tagList }: Props) {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDialog();
-  const { isEditTargetId, setEditTarget, clearEditTarget, handleDelete } =
-    TagListLogic();
+  const {
+    deleteTargetId,
+    isEditTargetId,
+    setEditTarget,
+    clearEditTarget,
+    handleDelete,
+    onClickDelete,
+  } = TagListLogic({ onOpenDelete });
   return (
     <>
       <Paper>
@@ -42,10 +48,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
                   <DisplayTagItem
                     tagName={item.name}
                     onClickEdit={() => setEditTarget(item.id)}
-                    onClickDelete={() =>
-                      /** TODO:使用中であるばあいは削除前に確認ダイアログを表示させる */
-                      item.isUsed ? onOpenDelete() : handleDelete(item.id)
-                    }
+                    onClickDelete={() => onClickDelete(item.id, item.isUsed)}
                   />
                 )}
               </ListItem>
