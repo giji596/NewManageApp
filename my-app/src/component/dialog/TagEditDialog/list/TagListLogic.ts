@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
 
 type Props = {
@@ -13,6 +13,7 @@ type Props = {
 export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
   const [editTargetId, setEditTargetId] = useState<number | null>(null); // null=選択なし
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null); // null=選択なし
+  const saveDataRef = useRef<SubmitTagData | null>(null);
   const isEditTargetId = useCallback(
     (id: number) => editTargetId === id,
     [editTargetId]
@@ -39,18 +40,29 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
     },
     [handleDelete, onOpenDelete]
   );
-  const onSave = useCallback(async (data: SubmitTagData) => {
-    const { tagName } = data;
-    console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
-  }, []);
-
-  const onSubmit = useCallback(
+  const onSave = useCallback(
     async (data: SubmitTagData) => {
-      await onSave(data);
+      const { tagName } = data;
+      console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
       // 更新後、編集状態を終了
       clearEditTarget();
     },
-    [clearEditTarget, onSave]
+    [clearEditTarget]
+  );
+
+  const onSubmit = useCallback(
+    async (data: SubmitTagData, isUsed: boolean) => {
+      // 保存データのrefに保存
+      saveDataRef.current = data;
+      // 使用中であればダイアログを開く
+      if (isUsed) {
+        onOpenSave();
+      } else {
+        // 使用中でなければそのまま保存処理
+        await onSave(data);
+      }
+    },
+    [onOpenSave, onSave]
   );
   return {
     /** 削除対象のid(ダイアログで利用) */
