@@ -4,6 +4,8 @@ import { memo } from "react";
 import { TagListLogic } from "./TagListLogic";
 import EditTagItem from "./EditTagItem/EditTagItem";
 import DisplayTagItem from "./DisplayTagItem/DisplayTagItem";
+import TagConfirmDeleteDialog from "./TagConfirmDeleteDialog/TagConfirmDeleteDialog";
+import useDialog from "@/hook/useDialog";
 
 type Props = {
   /** タグの一覧 */
@@ -14,6 +16,11 @@ type Props = {
  * タグ編集ダイアログのタグ一覧のリスト
  */
 const TagList = memo(function TagList({ tagList }: Props) {
+  const {
+    open: openDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDialog();
   const { isEditTargetId, setEditTarget, clearEditTarget, handleDelete } =
     TagListLogic();
   return (
@@ -37,9 +44,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
                     onClickEdit={() => setEditTarget(item.id)}
                     onClickDelete={() =>
                       /** TODO:使用中であるばあいは削除前に確認ダイアログを表示させる */
-                      item.isUsed
-                        ? console.log("確認ダイアログ開く")
-                        : handleDelete(item.id)
+                      item.isUsed ? onOpenDelete() : handleDelete(item.id)
                     }
                   />
                 )}
@@ -49,6 +54,13 @@ const TagList = memo(function TagList({ tagList }: Props) {
           ))}
         </List>
       </Paper>
+      {/** ダイアログ */}
+      <TagConfirmDeleteDialog
+        open={openDelete}
+        onClose={onCloseDelete}
+        targetId={0 /** TODO: */}
+        onDelete={async () => {} /** TODO: */}
+      />
     </>
   );
 });
