@@ -9,14 +9,13 @@ import {
 import { memo } from "react";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { TagConfirmDeleteDialogLogic } from "./TagConfirmDeleteDialogLogic";
 
 /**
  * タグの削除時の確認ダイアログ
  */
 const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
-  const memoTitleList = ["メモ1", "メモ2", "メモ3", "メモ4", "メモ5"]; // TODO: 実際はフェッチ 0~5件取ってくる
-  const usedCount = 8; // TODO:実際はフェッチ ここで利用されている箇所の数を取得する
-  const hideItemCount = usedCount - 5;
+  const { memoTitleList, hideItemCount } = TagConfirmDeleteDialogLogic();
   return (
     <Dialog open={true /** TODO:あとで */}>
       {/** タイトル */}
