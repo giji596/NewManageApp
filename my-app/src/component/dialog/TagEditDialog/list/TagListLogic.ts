@@ -45,16 +45,22 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
     [handleDelete, onOpenDelete]
   );
   const onSave = useCallback(async () => {
-    if (saveDataRef.current) {
+    if (saveDataRef.current && editTargetId) {
       // refから保存データを取得
       const { tagName } = saveDataRef.current;
-      console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
+      // 更新処理
+      await apiClient.work_log.tags
+        ._id(editTargetId)
+        .patch({ body: { name: tagName } });
+      // 再検証
+      mutate("api/work-log/tags/with-usage");
+      mutate("api/work-log/memos/tags");
       // 更新後、編集状態を終了
       clearEditTarget();
       // refも初期化
       saveDataRef.current = null;
     }
-  }, [clearEditTarget]);
+  }, [clearEditTarget, editTargetId]);
 
   const onSubmit = useCallback(
     async (data: SubmitTagData, isUsed: boolean) => {

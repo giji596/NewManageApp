@@ -67,3 +67,15 @@ export const deleteTag = async (id: number) => {
   });
   return data;
 };
+
+/**
+ * タグ名を更新するロジック
+ */
+export const updateTagName = async (name: string, id: number) => {
+  const data = await prisma.memoTag.update({
+    where: { id },
+    data: { name },
+    select: { id: true },
+  });
+  return data;
+};
