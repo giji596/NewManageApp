@@ -1,0 +1,47 @@
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
+import { memo } from "react";
+
+/**
+ * タグの削除時の確認ダイアログ
+ */
+const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
+  const memoTitleList = ["メモ1", "メモ2", "メモ3", "メモ4", "メモ5"]; // TODO: 実際はフェッチ 0~5件取ってくる
+  const usedCount = 8; // TODO:実際はフェッチ ここで利用されている箇所の数を取得する
+  const hideItemCount = usedCount - 5;
+  return (
+    <Dialog open={true /** TODO:あとで */}>
+      {/** タイトル */}
+      <DialogTitle>タグ削除の確認</DialogTitle>
+      {/** コンテンツ */}
+      <DialogContent>
+        {/** 本文上部 */}
+        <Typography whiteSpace={"pre-line"}>
+          該当のタグは、以下のメモに使用されています。 {"\n"}
+          タグを削除すると、該当メモのタグ情報はクリアされます。
+        </Typography>
+        {/** 関連メモを表示 */}
+        <ul>
+          {memoTitleList.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
+          {hideItemCount > 0 && <Typography>...他{hideItemCount}件</Typography>}
+        </ul>
+        {/** 本文下部 */}
+        <Typography>本当に削除してもよろしいですか？</Typography>
+      </DialogContent>
+      {/** ボタン */}
+      <DialogActions>
+        <Button>キャンセル</Button>
+        <Button>削除</Button>
+      </DialogActions>
+    </Dialog>
+  );
+});
+export default TagConfirmDeleteDialog;
