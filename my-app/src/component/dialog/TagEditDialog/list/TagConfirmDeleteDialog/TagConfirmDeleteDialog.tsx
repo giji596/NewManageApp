@@ -11,13 +11,22 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TagConfirmDeleteDialogLogic } from "./TagConfirmDeleteDialogLogic";
 
+type Props = {
+  /** ダイアログの開閉状態 */
+  open: boolean;
+  /** ダイアログを閉じるハンドラー */
+  onClose: () => void;
+};
 /**
  * タグの削除時の確認ダイアログ
  */
-const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
+const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
+  open,
+  onClose,
+}: Props) {
   const { memoTitleList, hideItemCount } = TagConfirmDeleteDialogLogic();
   return (
-    <Dialog open={true /** TODO:あとで */}>
+    <Dialog open={open} onClose={onClose}>
       {/** タイトル */}
       <DialogTitle>
         <WarningAmberIcon
@@ -45,7 +54,7 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
       </DialogContent>
       {/** ボタン */}
       <DialogActions>
-        <Button>キャンセル</Button>
+        <Button onClick={onClose}>キャンセル</Button>
         <Button startIcon={<DeleteIcon />} color="error" variant="outlined">
           削除
         </Button>
