@@ -7,6 +7,7 @@ const meta = {
   args: {
     open: true,
     onClose: () => {},
+    onDelete: async () => {},
   },
 } satisfies Meta<typeof TagConfirmDeleteDialog>;
 

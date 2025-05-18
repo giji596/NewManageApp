@@ -16,6 +16,8 @@ type Props = {
   open: boolean;
   /** ダイアログを閉じるハンドラー */
   onClose: () => void;
+  /** 削除のリクエスト処理 */
+  onDelete: () => Promise<void>;
 };
 /**
  * タグの削除時の確認ダイアログ
@@ -23,8 +25,10 @@ type Props = {
 const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
   open,
   onClose,
+  onDelete,
 }: Props) {
-  const { memoTitleList, hideItemCount } = TagConfirmDeleteDialogLogic();
+  const { memoTitleList, hideItemCount, onClickDelete } =
+    TagConfirmDeleteDialogLogic({ onClose, onDelete });
   return (
     <Dialog open={open} onClose={onClose}>
       {/** タイトル */}
@@ -55,7 +59,12 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
       {/** ボタン */}
       <DialogActions>
         <Button onClick={onClose}>キャンセル</Button>
-        <Button startIcon={<DeleteIcon />} color="error" variant="outlined">
+        <Button
+          startIcon={<DeleteIcon />}
+          color="error"
+          variant="outlined"
+          onClick={onClickDelete}
+        >
           削除
         </Button>
       </DialogActions>
