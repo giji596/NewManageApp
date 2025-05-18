@@ -18,11 +18,17 @@ type Props = {
   open: boolean;
   /** ダイアログ閉じるハンドラー */
   onClose: () => void;
+  /** タグ作成後に呼び出しする関数(親で必要な場合のみ) */
+  onCreateTag?: (newId: number) => void;
 };
 /**
  * タグを編集するダイアログ
  */
-const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
+const TagEditDialog = memo(function TagEditDialog({
+  open,
+  onClose,
+  onCreateTag,
+}: Props) {
   const { tagList, showOnlyUnused, toggleShowOnlyUnused } =
     TagEditDialogLogic();
   const { open: openAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDialog();
@@ -56,7 +62,13 @@ const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
           </Button>
         </Stack>
       </Dialog>
-      {openAdd && <CreateTagDialog open={openAdd} onClose={onCloseAdd} />}
+      {openAdd && (
+        <CreateTagDialog
+          open={openAdd}
+          onClose={onCloseAdd}
+          onCreateTag={onCreateTag}
+        />
+      )}
     </>
   );
 });
