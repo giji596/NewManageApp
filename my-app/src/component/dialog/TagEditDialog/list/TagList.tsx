@@ -40,7 +40,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
   } = TagListLogic({ onOpenDelete, onOpenSave });
   return (
     <>
-      <Paper>
+      <Paper sx={{ height: 300, overflowY: "auto" }}>
         <List sx={{ p: 0 }}>
           {tagList.map((item, i) => (
             <div key={item.id}>
