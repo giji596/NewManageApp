@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
 
 type Props = {
   /** 削除の確認ダイアログを閉じるハンドラー */
@@ -36,7 +37,15 @@ export const TagListLogic = ({ onOpenDelete }: Props) => {
     },
     [handleDelete, onOpenDelete]
   );
-
+  const onSubmit = useCallback(
+    async (data: SubmitTagData) => {
+      const { tagName } = data;
+      console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
+      // 更新後、編集状態を終了
+      clearEditTarget();
+    },
+    [clearEditTarget]
+  );
   return {
     /** 削除対象のid(ダイアログで利用) */
     deleteTargetId,
@@ -50,5 +59,7 @@ export const TagListLogic = ({ onOpenDelete }: Props) => {
     handleDelete,
     /** 削除をクリックした際のハンドラー */
     onClickDelete,
+    /** (タグ名変更時の)送信時のハンドラー */
+    onSubmit,
   };
 };

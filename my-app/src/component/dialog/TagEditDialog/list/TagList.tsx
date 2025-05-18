@@ -34,6 +34,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
     clearEditTarget,
     handleDelete,
     onClickDelete,
+    onSubmit,
   } = TagListLogic({ onOpenDelete });
   return (
     <>
@@ -46,6 +47,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
                 {isEditTargetId(item.id) && (
                   <EditTagItem
                     defaultTagName={item.name}
+                    onSubmit={onSubmit}
                     onFinishEdit={clearEditTarget}
                   />
                 )}
