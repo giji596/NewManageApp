@@ -12,20 +12,31 @@ import { TagConfirmSaveDialogLogic } from "./TagConfirmSaveDialogLogic";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 type Props = {
+  /** 保存対象のid(データ取得に利用) */
+  targetId: number;
   /** ダイアログの開閉状態 */
   open: boolean;
   /** ダイアログを閉じるハンドラー */
   onClose: () => void;
+  /** 保存のリクエスト処理 */
+  onSave: () => Promise<void>;
 };
 
 /**
  * タグ保存時に表示する確認ダイアログ(使用中の場合に確認用に表示)
  */
 const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
+  targetId,
   open,
   onClose,
+  onSave,
 }: Props) {
-  const { memoTitleList, hideItemCount } = TagConfirmSaveDialogLogic();
+  const { memoTitleList, hideItemCount, onClickSave } =
+    TagConfirmSaveDialogLogic({
+      targetId,
+      onClose,
+      onSave,
+    });
   return (
     <Dialog open={open} onClose={onClose}>
       {/** タイトル */}
@@ -56,7 +67,11 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
       {/** ボタン */}
       <DialogActions>
         <Button onClick={onClose}>キャンセル</Button>
-        <Button startIcon={<CheckCircleIcon />} color="success">
+        <Button
+          startIcon={<CheckCircleIcon />}
+          color="success"
+          onClick={onClickSave}
+        >
           保存
         </Button>
       </DialogActions>

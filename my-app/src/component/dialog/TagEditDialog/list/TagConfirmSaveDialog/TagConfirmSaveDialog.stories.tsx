@@ -4,7 +4,7 @@ import TagConfirmSaveDialog from "./TagConfirmSaveDialog";
 
 const meta = {
   component: TagConfirmSaveDialog,
-  args: { open: true, onClose: () => {} },
+  args: { targetId: 1, open: true, onClose: () => {}, onSave: async () => {} },
 } satisfies Meta<typeof TagConfirmSaveDialog>;
 
 export default meta;
