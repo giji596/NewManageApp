@@ -2,6 +2,7 @@ import {
   Button,
   Checkbox,
   Dialog,
+  DialogTitle,
   FormControlLabel,
   Stack,
 } from "@mui/material";
@@ -17,7 +18,7 @@ const TagEditDialog = memo(function TagEditDialog() {
     <Dialog open={true /** TODO:あとで */} fullWidth>
       <DialogTitle>タグを編集</DialogTitle>
       {/** コンテンツ(全体) */}
-      <Stack>
+      <Stack p={2} spacing={1}>
         {/** 未使用のタグのみ表示設定 */}
         <FormControlLabel
           control={<Checkbox defaultChecked />}
