@@ -28,14 +28,16 @@ const TagList = memo(function TagList({ tagList }: Props) {
     onClose: onCloseSave,
   } = useDialog();
   const {
+    editTargetId,
     deleteTargetId,
     isEditTargetId,
     setEditTarget,
     clearEditTarget,
     handleDelete,
     onClickDelete,
+    onSave,
     onSubmit,
-  } = TagListLogic({ onOpenDelete });
+  } = TagListLogic({ onOpenDelete, onOpenSave });
   return (
     <>
       <Paper>
@@ -47,7 +49,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
                 {isEditTargetId(item.id) && (
                   <EditTagItem
                     defaultTagName={item.name}
-                    onSubmit={onSubmit}
+                    onSubmit={(data) => onSubmit(data, item.isUsed)}
                     onFinishEdit={clearEditTarget}
                   />
                 )}
@@ -74,12 +76,12 @@ const TagList = memo(function TagList({ tagList }: Props) {
           onDelete={() => handleDelete(deleteTargetId)}
         />
       )}
-      {openSave && (
+      {openSave && editTargetId && (
         <TagConfirmSaveDialog
           open={openSave}
           onClose={onCloseSave}
-          targetId={0 /** TODO: */}
-          onSave={async () => {} /** TODO: */}
+          targetId={editTargetId}
+          onSave={onSave}
         />
       )}
     </>

@@ -67,6 +67,8 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
     [onOpenSave, onSave]
   );
   return {
+    /** 編集対象のid(ダイアログで利用) */
+    editTargetId,
     /** 削除対象のid(ダイアログで利用) */
     deleteTargetId,
     /** 与えられたidが編集対象であるかどうか */
@@ -79,6 +81,8 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
     handleDelete,
     /** 削除をクリックした際のハンドラー */
     onClickDelete,
+    /** タグの変更を保存するハンドラー */
+    onSave,
     /** (タグ名変更時の)送信時のハンドラー */
     onSubmit,
   };
