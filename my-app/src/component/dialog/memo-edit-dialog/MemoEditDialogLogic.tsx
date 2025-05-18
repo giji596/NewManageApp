@@ -50,9 +50,9 @@ export default function MemoEditDialogLogic({
   const text = useMemo(() => data?.body.text ?? "", [data?.body.text]);
 
   const { data: tagData, isLoading: isLoadingTag } = useAspidaSWR(
-    apiClient.work_log.memos.tags,
+    apiClient.work_log.tags,
     "get",
-    { key: "api/work-log/memos/tags" }
+    { key: "api/work-log/tags" }
   );
   const tagList: TagOption[] = useMemo(
     () =>
