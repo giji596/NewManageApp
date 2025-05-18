@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { DataResetDialogLogic } from "./DataResetDialogLogic";
 
 type Props = {
   /** ダイアログ開閉状態 */
@@ -23,6 +24,7 @@ const DataResetDialog = memo(function DataResetDialog({
   open,
   onClose,
 }: Props) {
+  const { onClickDelete } = DataResetDialogLogic({ onClose });
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogContent>
@@ -38,7 +40,11 @@ const DataResetDialog = memo(function DataResetDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>キャンセル</Button>
-        <Button color="error" startIcon={<DeleteForeverIcon />}>
+        <Button
+          color="error"
+          startIcon={<DeleteForeverIcon />}
+          onClick={onClickDelete}
+        >
           削除
         </Button>
       </DialogActions>
