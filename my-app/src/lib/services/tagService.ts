@@ -1,4 +1,4 @@
-import { TagEditListItem } from "@/type/Tag";
+import { TagEditListItem, TagUsage } from "@/type/Tag";
 import prisma from "../prisma";
 
 /**
@@ -27,4 +27,32 @@ export const getTagWithUsage = async () => {
     };
   });
   return result;
+};
+
+/**
+ * タグの使用先のメモ名と使用先の数を取得する関数
+ */
+export const getTagUsageMemoTitlesAndCount = async (
+  id: number
+): Promise<TagUsage | null> => {
+  const data = await prisma.memoTag.findUnique({
+    where: { id },
+    select: {
+      // 5件だけ取得
+      memos: { take: 5, select: { title: true } },
+      // ここで使用先の数を取得
+      _count: {
+        select: {
+          memos: true,
+        },
+      },
+    },
+  });
+  if (data) {
+    const memoTitles = data.memos.map((v) => v.title);
+    const usageCount = data._count.memos;
+    return { memoTitles, usageCount };
+  }
+  // データない場合(例外処理)
+  return null;
 };
