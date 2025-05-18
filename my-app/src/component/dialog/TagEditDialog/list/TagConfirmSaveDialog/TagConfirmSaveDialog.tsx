@@ -39,42 +39,49 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
     });
   return (
     <Dialog open={open} onClose={onClose}>
-      {/** タイトル */}
-      <DialogTitle>
-        <WarningAmberIcon
-          color="warning"
-          sx={{ verticalAlign: "-15%", mr: 1 }}
-        />
-        タグ保存の確認
-      </DialogTitle>
-      {/** コンテンツ */}
-      <DialogContent>
-        {/** 本文上部 */}
-        <Typography whiteSpace={"pre-line"} pl={1}>
-          該当のタグは、以下のメモに使用されています。 {"\n"}
-          タグ名を変更すると、該当メモのタグ名も変更されます。
-        </Typography>
-        {/** 関連メモを表示 */}
-        <ul>
-          {memoTitleList.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
-          {hideItemCount > 0 && <Typography>...他{hideItemCount}件</Typography>}
-        </ul>
-        {/** 本文下部 */}
-        <Typography pl={1}>本当に変更してもよろしいですか？</Typography>
-      </DialogContent>
-      {/** ボタン */}
-      <DialogActions>
-        <Button onClick={onClose}>キャンセル</Button>
-        <Button
-          startIcon={<CheckCircleIcon />}
-          color="success"
-          onClick={onClickSave}
-        >
-          保存
-        </Button>
-      </DialogActions>
+      {/** データフェッチ完了するまでは非表示にする  */}
+      {memoTitleList && hideItemCount && (
+        <>
+          {/** タイトル */}
+          <DialogTitle>
+            <WarningAmberIcon
+              color="warning"
+              sx={{ verticalAlign: "-15%", mr: 1 }}
+            />
+            タグ保存の確認
+          </DialogTitle>
+          {/** コンテンツ */}
+          <DialogContent>
+            {/** 本文上部 */}
+            <Typography whiteSpace={"pre-line"} pl={1}>
+              該当のタグは、以下のメモに使用されています。 {"\n"}
+              タグ名を変更すると、該当メモのタグ名も変更されます。
+            </Typography>
+            {/** 関連メモを表示 */}
+            <ul>
+              {memoTitleList.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+              {hideItemCount > 0 && (
+                <Typography>...他{hideItemCount}件</Typography>
+              )}
+            </ul>
+            {/** 本文下部 */}
+            <Typography pl={1}>本当に変更してもよろしいですか？</Typography>
+          </DialogContent>
+          {/** ボタン */}
+          <DialogActions>
+            <Button onClick={onClose}>キャンセル</Button>
+            <Button
+              startIcon={<CheckCircleIcon />}
+              color="success"
+              onClick={onClickSave}
+            >
+              保存
+            </Button>
+          </DialogActions>
+        </>
+      )}
     </Dialog>
   );
 });
