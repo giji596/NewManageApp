@@ -18,7 +18,7 @@ import MemoAddDialogLogic from "./MemoAddDialogLogic";
 import { Controller } from "react-hook-form";
 import { TaskLogSummary } from "@/type/Task";
 import useDialog from "@/hook/useDialog";
-import CreateTagDialog from "@/component/dialog/CreateTagDialog/CreateTagDialog";
+import TagEditDialog from "@/component/dialog/TagEditDialog/TagEditDialog";
 
 type Props = {
   /** タスクの一覧 */
@@ -175,7 +175,7 @@ export default function MemoAddDialog({
       </Dialog>
       {/** ダイアログ群 */}
       {openTag && (
-        <CreateTagDialog
+        <TagEditDialog
           open={openTag}
           onClose={onCloseTag}
           onCreateTag={setNewTag}

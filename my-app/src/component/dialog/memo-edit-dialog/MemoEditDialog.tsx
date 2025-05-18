@@ -19,7 +19,7 @@ import { Controller } from "react-hook-form";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
 import useDialog from "@/hook/useDialog";
 import MemoEditDialogLogic from "./MemoEditDialogLogic";
-import CreateTagDialog from "../CreateTagDialog/CreateTagDialog";
+import TagEditDialog from "../TagEditDialog/TagEditDialog";
 
 type Props = {
   /** メモid */
@@ -225,7 +225,7 @@ export default function MemoEditDialog({
         onAccept={handleDelete}
       />
       {openTag && (
-        <CreateTagDialog
+        <TagEditDialog
           open={openTag}
           onClose={onCloseTag}
           onCreateTag={setNewTag}
