@@ -30,7 +30,7 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
       {/** コンテンツ */}
       <DialogContent>
         {/** 本文上部 */}
-        <Typography whiteSpace={"pre-line"}>
+        <Typography whiteSpace={"pre-line"} pl={1}>
           該当のタグは、以下のメモに使用されています。 {"\n"}
           タグを削除すると、該当メモのタグ情報はクリアされます。
         </Typography>
@@ -42,7 +42,7 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog() {
           {hideItemCount > 0 && <Typography>...他{hideItemCount}件</Typography>}
         </ul>
         {/** 本文下部 */}
-        <Typography>本当に削除してもよろしいですか？</Typography>
+        <Typography pl={1}>本当に削除してもよろしいですか？</Typography>
       </DialogContent>
       {/** ボタン */}
       <DialogActions>
