@@ -41,6 +41,7 @@ const EditTagItem = memo(function EditTagItem({
             <TextField
               {...field}
               label="タグ名"
+              autoFocus
               slotProps={{ htmlInput: { sx: { py: 0.5 } } }}
             />
           )}
