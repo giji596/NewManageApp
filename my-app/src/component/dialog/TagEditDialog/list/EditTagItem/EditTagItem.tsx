@@ -26,7 +26,7 @@ const EditTagItem = memo(function EditTagItem({
     defaultTagName,
   });
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
       <Stack direction="row" justifyContent={"space-between"}>
         {/** 左部分(テキストフィールド) */}
         <Controller
