@@ -24,7 +24,6 @@ const EditTagItem = memo(function EditTagItem({
 }: Props) {
   const { control, isSendable, handleSubmit } = EditTagItemLogic({
     defaultTagName,
-    onFinishEdit,
   });
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

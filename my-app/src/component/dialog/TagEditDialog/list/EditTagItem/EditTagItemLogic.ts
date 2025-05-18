@@ -8,13 +8,11 @@ export type SubmitTagData = {
 type Props = {
   /** タグ名の初期値 */
   defaultTagName: string;
-  /** 編集状態から元の状態に戻るハンドラー */
-  onFinishEdit: () => void;
 };
 /**
  * 編集時のタグのリストアイテムのコンポーネントのロジック
  */
-export const EditTagItemLogic = ({ defaultTagName, onFinishEdit }: Props) => {
+export const EditTagItemLogic = ({ defaultTagName }: Props) => {
   const {
     control,
     handleSubmit,
