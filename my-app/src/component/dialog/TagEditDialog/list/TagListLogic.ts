@@ -40,15 +40,17 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
     },
     [handleDelete, onOpenDelete]
   );
-  const onSave = useCallback(
-    async (data: SubmitTagData) => {
-      const { tagName } = data;
+  const onSave = useCallback(async () => {
+    if (saveDataRef.current) {
+      // refから保存データを取得
+      const { tagName } = saveDataRef.current;
       console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
       // 更新後、編集状態を終了
       clearEditTarget();
-    },
-    [clearEditTarget]
-  );
+      // refも初期化
+      saveDataRef.current = null;
+    }
+  }, [clearEditTarget]);
 
   const onSubmit = useCallback(
     async (data: SubmitTagData, isUsed: boolean) => {
@@ -59,7 +61,7 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
         onOpenSave();
       } else {
         // 使用中でなければそのまま保存処理
-        await onSave(data);
+        await onSave();
       }
     },
     [onOpenSave, onSave]
