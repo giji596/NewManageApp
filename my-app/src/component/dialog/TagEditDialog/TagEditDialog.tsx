@@ -10,6 +10,8 @@ import { memo } from "react";
 import TagList from "./list/TagList";
 import AddIcon from "@mui/icons-material/Add";
 import { TagEditDialogLogic } from "./TagEditDialogLogic";
+import useDialog from "@/hook/useDialog";
+import CreateTagDialog from "../CreateTagDialog/CreateTagDialog";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -23,6 +25,7 @@ type Props = {
 const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
   const { tagList, showOnlyUnused, toggleShowOnlyUnused } =
     TagEditDialogLogic();
+  const { open: openAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDialog();
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth>
@@ -44,11 +47,16 @@ const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
           {/** タグリスト */}
           <TagList tagList={tagList} />
           {/** 追加ボタン */}
-          <Button sx={{ width: "25%" }} startIcon={<AddIcon />}>
+          <Button
+            sx={{ width: "25%" }}
+            startIcon={<AddIcon />}
+            onClick={onOpenAdd}
+          >
             タグを追加
           </Button>
         </Stack>
       </Dialog>
+      {openAdd && <CreateTagDialog open={openAdd} onClose={onCloseAdd} />}
     </>
   );
 });
