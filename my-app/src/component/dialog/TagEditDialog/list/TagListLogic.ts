@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
+import apiClient from "@/lib/apiClient";
+import { mutate } from "swr";
 
 type Props = {
   /** 削除の確認ダイアログを閉じるハンドラー */
@@ -22,8 +24,10 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
   const clearEditTarget = useCallback(() => setEditTargetId(null), []);
 
   const handleDelete = useCallback(async (id: number) => {
-    // TODO: ここで削除リクエスト
-    console.log("削除対象:", id);
+    await apiClient.work_log.tags._id(id).delete();
+    // データを際検証
+    mutate("api/work-log/tags/with-usage");
+    mutate("api/work-log/memos/tags");
     //　削除後にターゲットをnullにする
     setDeleteTargetId(null);
   }, []);

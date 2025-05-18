@@ -32,8 +32,7 @@ export const TagConfirmDeleteDialogLogic = ({
   const onClickDelete = useCallback(async () => {
     // 削除リクエスト
     await onDelete();
-    // TODO:ここで再検証
-    // 再検証後に閉じる
+    // リクエスト完遂後に閉じる
     onClose();
   }, [onClose, onDelete]);
 

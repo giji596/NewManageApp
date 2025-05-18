@@ -17,6 +17,7 @@ import type { Methods as Methods_y7y0f0 } from './work-log/memos';
 import type { Methods as Methods_14he14f } from './work-log/memos/_id';
 import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
+import type { Methods as Methods_7jcx2v } from './work-log/tags/_id';
 import type { Methods as Methods_1n8338f } from './work-log/tags/_id/usage';
 import type { Methods as Methods_rgyzcv } from './work-log/tags/with-usage';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
@@ -224,6 +225,11 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                 fetch<Methods_1n8338f['get']['resBody']>(prefix, `${prefix2}${PATH15}`, GET, option).json().then(r => r.body),
               $path: () => `${prefix}${prefix2}${PATH15}`,
             },
+            delete: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_7jcx2v['delete']['resBody']>(prefix, prefix2, DELETE, option).json(),
+            $delete: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods_7jcx2v['delete']['resBody']>(prefix, prefix2, DELETE, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix2}`,
           };
         },
         with_usage: {

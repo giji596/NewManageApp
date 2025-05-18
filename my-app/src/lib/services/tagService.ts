@@ -56,3 +56,14 @@ export const getTagUsageMemoTitlesAndCount = async (
   // データない場合(例外処理)
   return null;
 };
+
+/**
+ * タグを削除するロジック
+ */
+export const deleteTag = async (id: number) => {
+  const data = await prisma.memoTag.delete({
+    where: { id },
+    select: { id: true },
+  });
+  return data;
+};
