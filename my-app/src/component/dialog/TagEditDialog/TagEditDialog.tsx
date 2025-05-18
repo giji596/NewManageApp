@@ -21,7 +21,8 @@ type Props = {
  * タグを編集するダイアログ
  */
 const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
-  const { tagList } = TagEditDialogLogic();
+  const { tagList, showOnlyUnused, toggleShowOnlyUnused } =
+    TagEditDialogLogic();
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>タグを編集</DialogTitle>
@@ -29,7 +30,13 @@ const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
       <Stack p={2} spacing={1}>
         {/** 未使用のタグのみ表示設定 */}
         <FormControlLabel
-          control={<Checkbox size="small" />}
+          control={
+            <Checkbox
+              size="small"
+              checked={showOnlyUnused}
+              onChange={toggleShowOnlyUnused}
+            />
+          }
           label="未使用のタグのみ表示する"
           slotProps={{ typography: { fontSize: "14px" } }}
         />
