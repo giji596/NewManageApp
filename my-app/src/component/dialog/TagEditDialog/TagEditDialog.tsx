@@ -11,12 +11,18 @@ import TagList from "./list/TagList";
 import { dummyTagEditListItems } from "@/dummy/memo-tag";
 import AddIcon from "@mui/icons-material/Add";
 
+type Props = {
+  /** ダイアログの開閉状態 */
+  open: boolean;
+  /** ダイアログ閉じるハンドラー */
+  onClose: () => void;
+};
 /**
  * タグを編集するダイアログ
  */
-const TagEditDialog = memo(function TagEditDialog() {
+const TagEditDialog = memo(function TagEditDialog({ open, onClose }: Props) {
   return (
-    <Dialog open={true /** TODO:あとで */} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>タグを編集</DialogTitle>
       {/** コンテンツ(全体) */}
       <Stack p={2} spacing={1}>
