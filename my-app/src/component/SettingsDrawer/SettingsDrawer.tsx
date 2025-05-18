@@ -14,11 +14,18 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ContrastIcon from "@mui/icons-material/Contrast";
+import DataResetDialog from "./dialog/DataResetDialog/DataResetDialog";
+import useDialog from "@/hook/useDialog";
 
 /**
  * データ管理/表示設定を表示するドロワー + それを開閉するボタン
  */
 const SettingsDrawer = memo(function SettingsDrawer() {
+  const {
+    open: openReset,
+    onOpen: onOpenReset,
+    onClose: onCloseReset,
+  } = useDialog();
   return (
     <>
       {/** 開閉用のボタン */}
@@ -55,7 +62,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
             </ListItem>
             {/** データリセット */}
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={onOpenReset}>
                 <ListItemIcon>
                   <DeleteForeverIcon />
                 </ListItemIcon>
@@ -82,6 +89,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
           </List>
         </List>
       </Drawer>
+      {openReset && <DataResetDialog open={openReset} onClose={onCloseReset} />}
     </>
   );
 });
