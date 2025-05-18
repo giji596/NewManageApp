@@ -15,3 +15,11 @@ export type TagEditListItem = {
   /** 利用中かどうか(警告メッセージ用) */
   isUsed: boolean;
 };
+
+/** タグの使用状況 */
+export type TagUsage = {
+  /** 使用先のメモタイトル名の配列(最大で5件まで) */
+  memoTitles: string[];
+  /** 使用先の数 */
+  usageCount: number;
+};

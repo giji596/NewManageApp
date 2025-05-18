@@ -17,6 +17,7 @@ import type { Methods as Methods_y7y0f0 } from './work-log/memos';
 import type { Methods as Methods_14he14f } from './work-log/memos/_id';
 import type { Methods as Methods_17g6bd8 } from './work-log/memos/_id/body';
 import type { Methods as Methods_qs49n8 } from './work-log/memos/tags';
+import type { Methods as Methods_1n8338f } from './work-log/tags/_id/usage';
 import type { Methods as Methods_rgyzcv } from './work-log/tags/with-usage';
 import type { Methods as Methods_161gw75 } from './work-log/tasks';
 import type { Methods as Methods_1pplcpu } from './work-log/tasks/_id';
@@ -42,13 +43,15 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH11 = '/work-log/memos';
   const PATH12 = '/body';
   const PATH13 = '/work-log/memos/tags';
-  const PATH14 = '/work-log/tags/with-usage';
-  const PATH15 = '/work-log/tasks';
-  const PATH16 = '/progress';
-  const PATH17 = '/work-log/tasks/activities/last-month';
-  const PATH18 = '/work-log/tasks/bulk-update';
-  const PATH19 = '/work-log/tasks/options';
-  const PATH20 = '/work-log/tasks/progress/last-month';
+  const PATH14 = '/work-log/tags';
+  const PATH15 = '/usage';
+  const PATH16 = '/work-log/tags/with-usage';
+  const PATH17 = '/work-log/tasks';
+  const PATH18 = '/progress';
+  const PATH19 = '/work-log/tasks/activities/last-month';
+  const PATH20 = '/work-log/tasks/bulk-update';
+  const PATH21 = '/work-log/tasks/options';
+  const PATH22 = '/work-log/tasks/progress/last-month';
   const GET = 'GET';
   const POST = 'POST';
   const DELETE = 'DELETE';
@@ -210,25 +213,38 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         $path: () => `${prefix}${PATH11}`,
       },
       tags: {
+        _id: (val2: number | string) => {
+          const prefix2 = `${PATH14}/${val2}`;
+
+          return {
+            usage: {
+              get: (option?: { config?: T | undefined } | undefined) =>
+                fetch<Methods_1n8338f['get']['resBody']>(prefix, `${prefix2}${PATH15}`, GET, option).json(),
+              $get: (option?: { config?: T | undefined } | undefined) =>
+                fetch<Methods_1n8338f['get']['resBody']>(prefix, `${prefix2}${PATH15}`, GET, option).json().then(r => r.body),
+              $path: () => `${prefix}${prefix2}${PATH15}`,
+            },
+          };
+        },
         with_usage: {
           get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_rgyzcv['get']['resBody']>(prefix, PATH14, GET, option).json(),
+            fetch<Methods_rgyzcv['get']['resBody']>(prefix, PATH16, GET, option).json(),
           $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods_rgyzcv['get']['resBody']>(prefix, PATH14, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH14}`,
+            fetch<Methods_rgyzcv['get']['resBody']>(prefix, PATH16, GET, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH16}`,
         },
       },
       tasks: {
         _id: (val2: number | string) => {
-          const prefix2 = `${PATH15}/${val2}`;
+          const prefix2 = `${PATH17}/${val2}`;
 
           return {
             progress: {
               get: (option?: { config?: T | undefined } | undefined) =>
-                fetch<Methods_n3ltu0['get']['resBody']>(prefix, `${prefix2}${PATH16}`, GET, option).json(),
+                fetch<Methods_n3ltu0['get']['resBody']>(prefix, `${prefix2}${PATH18}`, GET, option).json(),
               $get: (option?: { config?: T | undefined } | undefined) =>
-                fetch<Methods_n3ltu0['get']['resBody']>(prefix, `${prefix2}${PATH16}`, GET, option).json().then(r => r.body),
-              $path: () => `${prefix}${prefix2}${PATH16}`,
+                fetch<Methods_n3ltu0['get']['resBody']>(prefix, `${prefix2}${PATH18}`, GET, option).json().then(r => r.body),
+              $path: () => `${prefix}${prefix2}${PATH18}`,
             },
             get: (option?: { config?: T | undefined } | undefined) =>
               fetch<Methods_1pplcpu['get']['resBody']>(prefix, prefix2, GET, option).json(),
@@ -248,46 +264,46 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         activities: {
           last_month: {
             get: (option?: { config?: T | undefined } | undefined) =>
-              fetch<Methods_272j0j['get']['resBody']>(prefix, PATH17, GET, option).json(),
+              fetch<Methods_272j0j['get']['resBody']>(prefix, PATH19, GET, option).json(),
             $get: (option?: { config?: T | undefined } | undefined) =>
-              fetch<Methods_272j0j['get']['resBody']>(prefix, PATH17, GET, option).json().then(r => r.body),
-            $path: () => `${prefix}${PATH17}`,
+              fetch<Methods_272j0j['get']['resBody']>(prefix, PATH19, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${PATH19}`,
           },
         },
         bulk_update: {
           patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
-            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH18, PATCH, option).json(),
+            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH20, PATCH, option).json(),
           $patch: (option: { body: Methods_oqgfc['patch']['reqBody'], config?: T | undefined }) =>
-            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH18, PATCH, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH18}`,
+            fetch<Methods_oqgfc['patch']['resBody']>(prefix, PATH20, PATCH, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH20}`,
         },
         options: {
           get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH19, GET, option).json(),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH21, GET, option).json(),
           $get: (option: { query: Methods_16ypfr8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH19, GET, option).json().then(r => r.body),
+            fetch<Methods_16ypfr8['get']['resBody']>(prefix, PATH21, GET, option).json().then(r => r.body),
           $path: (option?: { method?: 'get' | undefined; query: Methods_16ypfr8['get']['query'] } | undefined) =>
-            `${prefix}${PATH19}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+            `${prefix}${PATH21}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
         },
         progress: {
           last_month: {
             get: (option?: { config?: T | undefined } | undefined) =>
-              fetch<Methods_wq17vx['get']['resBody']>(prefix, PATH20, GET, option).json(),
+              fetch<Methods_wq17vx['get']['resBody']>(prefix, PATH22, GET, option).json(),
             $get: (option?: { config?: T | undefined } | undefined) =>
-              fetch<Methods_wq17vx['get']['resBody']>(prefix, PATH20, GET, option).json().then(r => r.body),
-            $path: () => `${prefix}${PATH20}`,
+              fetch<Methods_wq17vx['get']['resBody']>(prefix, PATH22, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${PATH22}`,
           },
         },
         get: (option: { query: Methods_161gw75['get']['query'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['get']['resBody']>(prefix, PATH15, GET, option).json(),
+          fetch<Methods_161gw75['get']['resBody']>(prefix, PATH17, GET, option).json(),
         $get: (option: { query: Methods_161gw75['get']['query'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['get']['resBody']>(prefix, PATH15, GET, option).json().then(r => r.body),
+          fetch<Methods_161gw75['get']['resBody']>(prefix, PATH17, GET, option).json().then(r => r.body),
         post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH15, POST, option).json(),
+          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH17, POST, option).json(),
         $post: (option: { body: Methods_161gw75['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH15, POST, option).json().then(r => r.body),
+          fetch<Methods_161gw75['post']['resBody']>(prefix, PATH17, POST, option).json().then(r => r.body),
         $path: (option?: { method?: 'get' | undefined; query: Methods_161gw75['get']['query'] } | undefined) =>
-          `${prefix}${PATH15}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+          `${prefix}${PATH17}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
       },
     },
   };
