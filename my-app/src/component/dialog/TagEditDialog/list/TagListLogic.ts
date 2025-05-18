@@ -4,11 +4,13 @@ import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
 type Props = {
   /** 削除の確認ダイアログを閉じるハンドラー */
   onOpenDelete: () => void;
+  /** 保存の確認ダイアログを開くハンドラー */
+  onOpenSave: () => void;
 };
 /**
  * タグ編集ダイアログのタグ一覧のリストのロジック
  */
-export const TagListLogic = ({ onOpenDelete }: Props) => {
+export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
   const [editTargetId, setEditTargetId] = useState<number | null>(null); // null=選択なし
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null); // null=選択なし
   const isEditTargetId = useCallback(
@@ -37,14 +39,18 @@ export const TagListLogic = ({ onOpenDelete }: Props) => {
     },
     [handleDelete, onOpenDelete]
   );
+  const onSave = useCallback(async (data: SubmitTagData) => {
+    const { tagName } = data;
+    console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
+  }, []);
+
   const onSubmit = useCallback(
     async (data: SubmitTagData) => {
-      const { tagName } = data;
-      console.log("更新後の名前:", tagName); // TODO:ここでリクエスト
+      await onSave(data);
       // 更新後、編集状態を終了
       clearEditTarget();
     },
-    [clearEditTarget]
+    [clearEditTarget, onSave]
   );
   return {
     /** 削除対象のid(ダイアログで利用) */
