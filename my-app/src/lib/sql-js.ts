@@ -1,4 +1,4 @@
-import initSqlJs, { Database } from "sql.js";
+import initSqlJs, { Database, SqlJsStatic } from "sql.js";
 
 /** IndexedDB上のDB名 */
 const DB_NAME = "MyAppDB";
@@ -9,15 +9,27 @@ const KEY_NAME = "sqlite-db";
 
 /** データベースのインスタンス(メモリ上に保持することで高速化) */
 let dbInstance: Database | null = null;
+/** sql.jsのSQL(sqLiteデータベース操作に必要) */
+let sqlInstance: SqlJsStatic | null = null;
+
+export const getSQL = async () => {
+  // すでにインスタンス化されてる場合は行わない
+  if (sqlInstance === null) {
+    const SQL = await initSqlJs({
+      locateFile: (file) => `public/${file}`,
+    });
+    sqlInstance = SQL;
+  }
+};
 
 /**
  * スキーマに則ってデータベースを作成するロジック
  */
 async function createDatabase() {
-  const SQL = await initSqlJs();
-  const db = new SQL.Database();
+  if (sqlInstance) {
+    const db = new sqlInstance.Database();
 
-  db.run(`
+    db.run(`
     CREATE TABLE DailyData (
       date TEXT PRIMARY KEY
     );
@@ -64,7 +76,8 @@ async function createDatabase() {
     );
   `);
 
-  return db;
+    return db;
+  }
 }
 
 /** IndexedDBからロードする関数 */
@@ -114,31 +127,32 @@ async function saveDbToIndexedDB(data: Uint8Array): Promise<void> {
  * @returns データベース
  */
 export async function loadOrCreateDatabase() {
-  const SQL = await initSqlJs();
-
   const dbData = await loadDbFromIndexedDB();
 
-  if (dbData) {
+  if (dbData && sqlInstance) {
     // IndexedDBに保存されていたら復元
-    return new SQL.Database(new Uint8Array(dbData));
+    return new sqlInstance.Database(new Uint8Array(dbData));
   }
 
   // なければ新規作成
   const db = await createDatabase();
 
-  // 保存
-  const data = db.export();
-  await saveDbToIndexedDB(data);
-
+  if (db) {
+    // 保存
+    const data = db.export();
+    await saveDbToIndexedDB(data);
+  }
   return db;
 }
 /**
  * データベースを取得する関数 初期以降であればインスタンスから取得 それ以外はインスタンスを作成
  * @returns dbのインスタンス
  */
-export async function getDb(): Promise<Database> {
+export async function getDb() {
   if (dbInstance) return dbInstance;
-
-  dbInstance = await loadOrCreateDatabase(); // IndexedDBにあるならそれを読み込み
-  return dbInstance;
+  const data = await loadOrCreateDatabase();
+  if (data) {
+    dbInstance = data; // IndexedDBにあるならそれを読み込み
+    return dbInstance;
+  }
 }
