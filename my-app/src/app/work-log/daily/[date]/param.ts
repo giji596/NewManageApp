@@ -1,9 +1,9 @@
-import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { ReplaceDateWithString } from "@/type/common";
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
 import { DailyDetailTaskTableType, TaskLogSummary } from "@/type/Task";
-import useAspidaSWR from "@aspida/swr";
 import { useMemo } from "react";
+import useSWR from "swr";
 
 type Props = {
   /** パスパラメータ(ページ呼び出し時に自動的に取得) */
@@ -13,20 +13,19 @@ type Props = {
  * 日付詳細ページのパラメータ関連
  */
 export default function DailyDetailPageParams({ dateParam }: Props) {
-  const { data, isLoading } = useAspidaSWR(
-    apiClient.work_log.daily._date(dateParam),
-    "get",
-    { key: `api/work-log/daily/${dateParam}` }
+  const { data, isLoading } = useSWR(
+    `api/work-log/daily/${dateParam}`,
+    localClient.work_log.daily._date(dateParam).get()
   );
   const rawData: ReplaceDateWithString<DateDetailPage> = useMemo(
     () =>
-      data?.body ?? {
+      data ?? {
         // dataない時は空データ渡す(一応isLoadingで表示しないようにしてるはずなのでいらないと思うけど)
         date: dateParam,
         taskList: [],
         memoList: [],
       },
-    [data?.body, dateParam]
+    [data, dateParam]
   );
 
   const date = new Date(rawData.date);
