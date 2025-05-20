@@ -1,6 +1,23 @@
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
 import { MainPagePieChart } from "@/type/Main";
+import { TaskOption } from "@/type/Task";
+
+/**
+ * タスク選択賜一覧げっとする関数
+ */
+export const getTaskOptions = async (categoryId: number) => {
+  // カテゴリidが一致するデータを取得
+  const data = await db.tasks.where("categoryId").equals(categoryId).toArray();
+  const result: TaskOption[] = data
+    .filter((v) => v.progress !== 100) // 完了済みを除外する
+    .map((v) => {
+      return { id: v.id, name: v.name }; // 必要なパラメータだけ取得
+    });
+  // データが空の場合はid:0で表示
+  if (result.length === 0) result.push({ id: 0, name: "タスクがありません" });
+  return result;
+};
 
 /**
  * メインページ用の一ヶ月分のカテゴリ別の稼働をとってくるロジック
