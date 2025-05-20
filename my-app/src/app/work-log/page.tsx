@@ -20,11 +20,23 @@ const MainPagePieChart = dynamic(
 import TaskTable from "./component/table/TaskTable";
 import dynamic from "next/dynamic";
 import RecentWorkHeatMap from "./component/work-time-heat-graph/RecentWorkHeatMap";
+import { initializeDB, isDBExists } from "@/lib/dexie";
+import { useEffect } from "react";
 
 /**
  * メインページ
  */
 export default function MainPage() {
+  useEffect(() => {
+    (async () => {
+      const isExist = await isDBExists();
+      if (!isExist) {
+        console.log("いにしゃらいず！");
+        initializeDB();
+      }
+    })();
+  }, []);
+
   return (
     <Stack direction="row" px={8} pt={6} spacing={15} height={650}>
       <NavMenu />
