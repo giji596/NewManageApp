@@ -1,9 +1,9 @@
 import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
+import { localClient } from "@/lib/localClient";
 import axios from "axios";
 import { notFound, useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type Props = {
   /** パスパラメータのid(ページ呼び出し時に自動的に取得) */
@@ -20,9 +20,10 @@ export default function useTaskDetailPage({ id }: Props) {
     data: rawData,
     error,
     isLoading,
-  } = useAspidaSWR(apiClient.work_log.tasks._id(id), "get", {
-    key: `api/work-log/tasks/${id}`,
-  });
+  } = useSWR(
+    `api/work-log/tasks/${id}`,
+    localClient.work_log.tasks._id(Number(id)).get()
+  );
   // エラー時にcodeが404であればNotFoundページを表示する
   if (error) {
     if (error.status === 404) notFound();
@@ -30,10 +31,10 @@ export default function useTaskDetailPage({ id }: Props) {
   // 初期ロード時はisLoading=trueとなりdataは利用されないので、null時のデータは利用されない
   const data = useMemo(() => {
     if (rawData) {
-      const memos = rawData.body.memo.map((v) => {
+      const memos = rawData.memo.map((v) => {
         return { ...v, date: new Date(v.date) };
       });
-      return { ...rawData.body, memo: memos };
+      return { ...rawData, memo: memos };
     } else {
       return {
         id: 1,

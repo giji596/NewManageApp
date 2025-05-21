@@ -16,6 +16,7 @@ import {
   getTaskProgress,
   getTaskSummary,
   bulkUpdateTask,
+  getTaskDetail,
 } from "./local-services/taskService";
 import {
   createTag,
@@ -84,6 +85,7 @@ export const localClient = {
           getTaskSummary(query),
       _id: (id: number) => {
         return {
+          get: () => () => getTaskDetail(id),
           progress: {
             get: () => () => getTaskProgress(id),
           },

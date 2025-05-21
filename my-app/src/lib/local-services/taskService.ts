@@ -1,7 +1,13 @@
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
 import { MainPagePieChart } from "@/type/Main";
-import { TaskOption, TaskSummary, TaskSummaryRangeQuery } from "@/type/Task";
+import {
+  CalendarDateMap,
+  TaskDetail,
+  TaskOption,
+  TaskSummary,
+  TaskSummaryRangeQuery,
+} from "@/type/Task";
 
 /**
  * タスク選択賜一覧げっとする関数
@@ -101,6 +107,83 @@ export const getTaskSummary = async (
   );
 
   return result;
+};
+
+/**
+ * タスク詳細データ取得ロジック
+ */
+export const getTaskDetail = async (id: number) => {
+  const task = await db.tasks.get(id);
+
+  if (task) {
+    // 各データを取得
+    const category = await db.categories.get(task.categoryId);
+    if (category === undefined) {
+      throw new Error("Category not found");
+    }
+    const taskLogs = await db.taskLogs.where("taskId").equals(id).toArray();
+    const taskLogIds = taskLogs.map((v) => v.id);
+    const memos = await db.memos.where("taskLogId").anyOf(taskLogIds).toArray();
+    const tags = await db.memoTags.toArray();
+    // 総稼働時間を計算
+    const totalHours = taskLogs.reduce((a, b) => a + b.workTime, 0);
+
+    // 稼働日付の一覧
+    const dateList = taskLogs.map((v) => v.date);
+
+    // 送信用のデータを作成
+    const workDateList: CalendarDateMap = {};
+    for (const date of dateList) {
+      const year = new Date(date).getFullYear();
+      const month = new Date(date).getMonth() + 1; // 1-indexed
+      const day = new Date(date).getDate();
+      const key = `${year}-${month}`;
+      if (!workDateList[key]) {
+        workDateList[key] = [];
+      }
+      workDateList[key].push(day);
+    }
+
+    // メモを整形
+    const formattedMemos = memos.map((memo) => {
+      // タグIDがある場合はタグ名を取得
+      const tag = memo.tagId
+        ? tags.find((v) => v.id === memo.tagId)!.name // !付けているのは、必ず見つかるため
+        : "未選択";
+      const date = taskLogs.find((v) => v.id === memo.taskLogId)!.date; // !つけているのは、必ず見つかるため
+      const summary =
+        memo.text.length > 30 ? `${memo.text.slice(0, 30)}...` : memo.text;
+      return {
+        id: memo.id,
+        date: new Date(date),
+        title: memo.title,
+        tag: tag,
+        summary: summary,
+      };
+    });
+
+    const result: TaskDetail = {
+      id: task.id,
+      name: task.name,
+      isFavorite: task.isFavorite,
+      category: { id: category.id, name: category.name },
+      progress: task.progress,
+      totalHours: totalHours,
+      firstActivityDate: task.firstActivityDate
+        ? new Date(task.firstActivityDate).toISOString()
+        : null,
+      lastActivityDate: task.lastActivityDate
+        ? new Date(task.lastActivityDate).toISOString()
+        : null,
+      memo: formattedMemos,
+      workDateList,
+    };
+
+    return result;
+  }
+
+  // データがない場合はnull
+  return null;
 };
 
 /**
