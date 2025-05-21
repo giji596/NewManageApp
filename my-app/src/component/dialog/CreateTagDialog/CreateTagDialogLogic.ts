@@ -1,5 +1,4 @@
-import apiClient from "@/lib/apiClient";
-import axios from "axios";
+import { localClient } from "@/lib/localClient";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { mutate } from "swr";
@@ -31,18 +30,17 @@ export const CreateTagDialogLogic = ({ onClose, onCreateTag }: Props) => {
     async (data: SubmitData) => {
       try {
         // ここでリクエスト エラーがあればonCloseせずにcatchする
-        const res = await apiClient.work_log.tags.post({
+        const res = await localClient.work_log.tags.post({
           body: { tagName: data.tagName },
         });
         await mutate("api/work-log/tags");
-        onCreateTag?.(res.body.id); // 渡された場合のみ実行
+        onCreateTag?.(res.id); // 渡された場合のみ実行
         onClose();
       } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          // エラーコードが400の場合は重複エラーであるとする
-          if (error.response.status === 400) {
-            setDuplicateError(true);
-          }
+        // 重複エラーであるかメッセージで判定
+        if (error instanceof Error && error.message === "duplicate error") {
+          // エラーメッセージ表示
+          setDuplicateError(true);
         }
       }
     },
