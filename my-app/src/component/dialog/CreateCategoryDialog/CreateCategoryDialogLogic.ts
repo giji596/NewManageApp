@@ -1,5 +1,4 @@
-import apiClient from "@/lib/apiClient";
-import axios from "axios";
+import { localClient } from "@/lib/localClient";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { mutate } from "swr";
@@ -32,22 +31,20 @@ export default function CreateCategoryDialogLogic({
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       try {
-        const res = await apiClient.work_log.categories.post({
+        const res = await localClient.work_log.categories.post({
           body: { name: data.name },
         });
         mutate(
           (key) =>
             Array.isArray(key) && key[0] === "api/work-log/categories/options"
         );
-        onCreateCategory?.(res.body.id);
+        onCreateCategory?.(res.id);
         onClose();
       } catch (error) {
-        // AxiosErrorの場合
-        if (axios.isAxiosError(error) && error.response) {
-          // エラーコードが400の場合は重複エラーであるとする
-          if (error.response.status === 400) {
-            setDuplicateError(true);
-          }
+        // 重複エラーであるかメッセージで判定
+        if (error instanceof Error && error.message === "duplicate error") {
+          // エラーメッセージ表示
+          setDuplicateError(true);
         }
       }
     },
