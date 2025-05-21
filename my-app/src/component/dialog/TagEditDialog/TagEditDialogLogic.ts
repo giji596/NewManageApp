@@ -13,18 +13,17 @@ export const TagEditDialogLogic = () => {
     []
   );
 
-  const { data: rawData } = useSWR(
+  const { data } = useSWR(
     "api/work-log/tags/with-usage",
     localClient.work_log.tags.with_usage.get()
   );
   const tagList = useMemo(() => {
-    const data = rawData;
     // 未使用のみ表示であればisUsed=falseのもののみ表示
     if (showOnlyUnused && data) {
       return data.filter((v) => !v.isUsed);
     }
     return data;
-  }, [rawData, showOnlyUnused]);
+  }, [data, showOnlyUnused]);
 
   return {
     /** 未使用のみ表示するかの設定 */
