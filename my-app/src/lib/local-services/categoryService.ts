@@ -143,3 +143,18 @@ export const createCategory = async (name: string) => {
   const isCompleted = false;
   return { id, name, isCompleted };
 };
+
+/**
+ * カテゴリを完了状態にするロジック
+ */
+export const updateCategoryCompleted = async (id: number) => {
+  // カテゴリを完了状態に更新
+  await db.categories.update(id, { isCompleted: true });
+
+  // 関連するタスクの進捗を全て100(完了)に変更する
+  const tasks = await db.tasks.where("categoryId").equals(id).toArray();
+  await Promise.all(
+    tasks.map((task) => db.tasks.update(task.id, { progress: 100 }))
+  );
+  return { id };
+};

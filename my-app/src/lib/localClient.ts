@@ -3,6 +3,7 @@ import {
   createCategory,
   getCategoryOptions,
   getCategorySummary,
+  updateCategoryCompleted,
 } from "./local-services/categoryService";
 import {
   createDailyDetailData,
@@ -142,6 +143,7 @@ export const localClient = {
           summary: {
             get: () => () => getCategorySummary(id),
           },
+          complete: { patch: () => updateCategoryCompleted(id) },
         };
       },
       post: ({ body }: { body: { name: string } }) => createCategory(body.name),
