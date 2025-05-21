@@ -8,11 +8,17 @@ type Props = {
   onOpenDelete: () => void;
   /** 保存の確認ダイアログを開くハンドラー */
   onOpenSave: () => void;
+  /** タグ削除時の追加イベント */
+  onDeleteTag?: (targetId: number) => void;
 };
 /**
  * タグ編集ダイアログのタグ一覧のリストのロジック
  */
-export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
+export const TagListLogic = ({
+  onOpenDelete,
+  onOpenSave,
+  onDeleteTag,
+}: Props) => {
   const [editTargetId, setEditTargetId] = useState<number | null>(null); // null=選択なし
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null); // null=選択なし
   const saveDataRef = useRef<SubmitTagData | null>(null);
@@ -23,14 +29,19 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
   const setEditTarget = useCallback((id: number) => setEditTargetId(id), []);
   const clearEditTarget = useCallback(() => setEditTargetId(null), []);
 
-  const handleDelete = useCallback(async (id: number) => {
-    await localClient.work_log.tags._id(id).delete();
-    // データを際検証
-    mutate("api/work-log/tags/with-usage");
-    mutate("api/work-log/tags");
-    //　削除後にターゲットをnullにする
-    setDeleteTargetId(null);
-  }, []);
+  const handleDelete = useCallback(
+    async (id: number) => {
+      await localClient.work_log.tags._id(id).delete();
+      // データを際検証
+      mutate("api/work-log/tags/with-usage");
+      mutate("api/work-log/tags");
+      //　削除後にターゲットをnullにする
+      setDeleteTargetId(null);
+      // 親でのイベントを実行
+      onDeleteTag?.(id);
+    },
+    [onDeleteTag]
+  );
   const onClickDelete = useCallback(
     (targetId: number, isUsed: boolean) => {
       // 利用中である場合は削除対象に設定後にダイアログを開く

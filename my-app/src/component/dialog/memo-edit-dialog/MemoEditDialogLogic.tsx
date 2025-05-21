@@ -76,9 +76,10 @@ export default function MemoEditDialogLogic({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
   // RHF
-  const { control, handleSubmit, setValue, reset } = useForm<SubmitData>({
-    defaultValues: { text: "", tagId: 0, title: title },
-  });
+  const { control, handleSubmit, setValue, getValues, reset } =
+    useForm<SubmitData>({
+      defaultValues: { text: "", tagId: 0, title: title },
+    });
   // ロード完了時にsetValueで初期値をセットする
   useEffect(() => {
     if (!isLoading) {
@@ -126,6 +127,26 @@ export default function MemoEditDialogLogic({
     (newId: number) => setValue("tagId", newId),
     [setValue]
   );
+  const clearTag = useCallback(
+    (targetId: number) => {
+      // 現在の値を取得
+      const currentValue = getValues("tagId");
+      // 対象が現在の値と一致する場合は初期化(0:未設定)
+      if (currentValue === targetId) setValue("tagId", 0);
+    },
+    [getValues, setValue]
+  );
+  const tagEditorActions = useMemo(
+    () => ({
+      set:
+        /** 新しいタグIDをセットする関数 */
+        setNewTag,
+      clear:
+        /** 与えられたタグIDが現在の値と一致する場合に初期化(0:未設定)する関数 */
+        clearTag,
+    }),
+    [clearTag, setNewTag]
+  );
   return {
     /** タグ一覧 */
     tagList,
@@ -145,7 +166,7 @@ export default function MemoEditDialogLogic({
     handleReset,
     /** 削除時のハンドラー */
     handleDelete,
-    /** 新規作成したタグをRHFの値に入れる関数 */
-    setNewTag,
+    /** タグ編集時のアクション */
+    tagEditorActions,
   };
 }

@@ -20,7 +20,10 @@ type Props = {
   /** ダイアログ閉じるハンドラー */
   onClose: () => void;
   /** タグ作成後に呼び出しする関数(親で必要な場合のみ) */
-  onCreateTag?: (newId: number) => void;
+  editActions?: {
+    set: (newId: number) => void;
+    clear: (targetId: number) => void;
+  };
 };
 /**
  * タグを編集するダイアログ
@@ -28,7 +31,7 @@ type Props = {
 const TagEditDialog = memo(function TagEditDialog({
   open,
   onClose,
-  onCreateTag,
+  editActions,
 }: Props) {
   const { tagList, noTagItem, showOnlyUnused, toggleShowOnlyUnused } =
     TagEditDialogLogic();
@@ -64,7 +67,9 @@ const TagEditDialog = memo(function TagEditDialog({
                 タグがありません
               </Typography>
             )}
-            {!noTagItem && <TagList tagList={tagList} />}
+            {!noTagItem && (
+              <TagList tagList={tagList} onDeleteTag={editActions?.clear} />
+            )}
             {/** 追加ボタン */}
             <Button
               sx={{ width: "25%" }}
@@ -80,7 +85,7 @@ const TagEditDialog = memo(function TagEditDialog({
         <CreateTagDialog
           open={openAdd}
           onClose={onCloseAdd}
-          onCreateTag={onCreateTag}
+          onCreateTag={editActions?.set}
         />
       )}
     </>

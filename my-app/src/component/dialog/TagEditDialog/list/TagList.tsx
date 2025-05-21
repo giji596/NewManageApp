@@ -11,12 +11,14 @@ import TagConfirmSaveDialog from "./TagConfirmSaveDialog/TagConfirmSaveDialog";
 type Props = {
   /** タグの一覧 */
   tagList: TagEditListItem[];
+  /** タグ削除時の追加イベント */
+  onDeleteTag?: (targetId: number) => void;
 };
 
 /**
  * タグ編集ダイアログのタグ一覧のリスト
  */
-const TagList = memo(function TagList({ tagList }: Props) {
+const TagList = memo(function TagList({ tagList, onDeleteTag }: Props) {
   const {
     open: openDelete,
     onOpen: onOpenDelete,
@@ -37,7 +39,7 @@ const TagList = memo(function TagList({ tagList }: Props) {
     onClickDelete,
     onSave,
     onSubmit,
-  } = TagListLogic({ onOpenDelete, onOpenSave });
+  } = TagListLogic({ onOpenDelete, onOpenSave, onDeleteTag });
   return (
     <>
       <Paper sx={{ height: 300, overflowY: "auto" }}>
