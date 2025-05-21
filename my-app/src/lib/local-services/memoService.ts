@@ -50,3 +50,11 @@ export const updateMemo = async (
 
   return id;
 };
+
+/**
+ * メモを削除するメソッド
+ */
+export const deleteMemo = async (id: number) => {
+  await db.memos.delete(id);
+  return id;
+};
