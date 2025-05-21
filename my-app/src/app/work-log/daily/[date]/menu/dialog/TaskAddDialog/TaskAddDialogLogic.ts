@@ -1,7 +1,5 @@
-import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
 import { SelectChangeEvent } from "@mui/material";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -97,18 +95,17 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   const handleAddDailyTask = useCallback(async () => {
     try {
       if (selectedTaskId !== null) {
-        await apiClient.work_log.daily
+        await localClient.work_log.daily
           ._date(date)
           .task_logs.post({ body: { taskId: selectedTaskId } });
         mutate(`api/work-log/daily/${date}`); // 再検証する
         onClose();
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        // エラーコードが400の場合は重複エラーであるとする
-        if (error.response.status === 400) {
-          setDuplicateError(true);
-        }
+      // 重複エラーであるかメッセージで判定
+      if (error instanceof Error && error.message === "duplicate error") {
+        // エラーメッセージ表示
+        setDuplicateError(true);
       }
     }
   }, [date, onClose, selectedTaskId]);
