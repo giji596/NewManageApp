@@ -1,6 +1,4 @@
-import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
-import axios from "axios";
 import { notFound, useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -80,7 +78,7 @@ export default function useTaskDetailPage({ id }: Props) {
   }, [id]);
   const handleDelete = useCallback(async () => {
     try {
-      await apiClient.work_log.tasks._id(id).delete();
+      await localClient.work_log.tasks._id(Number(id)).delete();
       // 現在のページのキャッシュを削除(再検証は不要なのでfalseで)
       mutate(`api/work-log/tasks/${id}`, undefined, { revalidate: false });
       // 一覧データも再検証
@@ -91,11 +89,9 @@ export default function useTaskDetailPage({ id }: Props) {
       // 一覧ページへ移動
       router.push("/work-log/task");
     } catch (error) {
-      // エラーコードが400の場合に利用中を削除した際のエラーとする
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 400) {
-          setOpenError(true);
-        }
+      // エラーメッセージがrelationship errorの場合はエラーメッセージを表示する
+      if (error instanceof Error && error.message === "relationship error") {
+        setOpenError(true);
       }
     }
   }, [id, router]);
