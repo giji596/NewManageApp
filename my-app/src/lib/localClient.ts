@@ -5,6 +5,7 @@ import {
   getCategoryActivity,
   getCategoryOptions,
   getCategorySummary,
+  getCategoryTasks,
   updateCategoryCompleted,
 } from "./local-services/categoryService";
 import {
@@ -160,6 +161,9 @@ export const localClient = {
               }) =>
               () =>
                 getCategoryActivity(id, query.range, query.start, query.end),
+          },
+          tasks: {
+            get: () => () => getCategoryTasks(id),
           },
         };
       },

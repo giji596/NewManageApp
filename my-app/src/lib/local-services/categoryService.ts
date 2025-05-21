@@ -5,7 +5,7 @@ import {
 } from "@/type/Category";
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
-import { CategoryTaskActivity } from "@/type/Task";
+import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -204,6 +204,20 @@ export const getCategoryActivity = async (
       };
     });
   return result;
+};
+
+/**
+ * カテゴリないのタスク一覧取得するロジック
+ */
+export const getCategoryTasks = async (id: number) => {
+  const tasks = await db.tasks.where("categoryId").equals(id).toArray();
+  const data: CategoryTaskList[] = tasks.map((task) => ({
+    id: task.id,
+    name: task.name,
+    progress: task.progress,
+    isFavorite: task.isFavorite,
+  }));
+  return data;
 };
 
 /**
