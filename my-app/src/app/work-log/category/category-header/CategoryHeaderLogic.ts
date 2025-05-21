@@ -4,7 +4,6 @@ import {
   CategoryHeaderQueryParams,
   CategoryOption,
 } from "@/type/Category";
-import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -123,18 +122,14 @@ export default function CategoryHeaderLogic() {
     [categoryOptions, selectedCategoryId]
   );
   const { data: rawCategorySummaryData, isLoading: isLoadingCategorySummary } =
-    useAspidaSWR(
-      apiClient.work_log.categories._id(selectedCategoryId).summary,
-      "get",
-      {
-        key:
-          // カテゴリ選択が0(カテゴリがない場合の値)であればkeyをnullにしてフェッチさせない
-          selectedCategoryId === 0
-            ? null
-            : `api/work-log/categories/${selectedCategoryId}/summary`,
-      }
+    useSWR(
+      // カテゴリ選択が0(カテゴリがない場合の値)であればkeyをnullにしてフェッチさせない
+      selectedCategoryId === 0
+        ? null
+        : `api/work-log/categories/${selectedCategoryId}/summary`,
+      localClient.work_log.categories._id(selectedCategoryId).summary.get()
     );
-  const categorySummaryData = rawCategorySummaryData?.body ?? {
+  const categorySummaryData = rawCategorySummaryData ?? {
     // 仮データ(実際はisLoadingで非表示)
     name: "",
     isCompleted: false,
