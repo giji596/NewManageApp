@@ -1,7 +1,10 @@
 import { DailyDetailTaskTableType } from "@/type/Task";
 import { db } from "../dexie";
 import { MemoDailyTask } from "@/type/Memo";
-import { updateTaskActivityDatesIfNeeded } from "./taskService";
+import {
+  updateTaskActivityDatesIfNeeded,
+  adjustTaskActivityDatesIfRemoved,
+} from "./taskService";
 
 /**
  * 日付詳細ページのデータをDBから取得する関数
@@ -116,4 +119,51 @@ export const createDailyDetailData = async (date: string, taskId: number) => {
   await updateTaskActivityDatesIfNeeded(date, taskId);
 
   return data;
+};
+
+/**
+ * 日付詳細 - 特定のログの更新する時のロジック
+ * タスクを更新する場合に更新先がすでに存在する場合は処理を行わずにnullを返す
+ */
+export const updateTaskLog = async (
+  id: number,
+  taskId?: number,
+  workTime?: number,
+  progress?: number
+) => {
+  // 更新前のデータを取得
+  const previous = await db.taskLogs.get(id);
+  if (!previous) throw new Error("Task log not found");
+
+  // タスクを更新する場合
+  if (taskId) {
+    // すでに同じ日付に対象のタスクがある場合は更新処理を行わずにnullを返す
+    const existing = await db.taskLogs
+      .where({ date: previous.date, taskId })
+      .first();
+    if (existing) return null;
+  }
+
+  // ログデータの更新処理
+  await db.taskLogs.update(id, {
+    ...(taskId !== undefined && { taskId }),
+    ...(workTime !== undefined && { workTime }),
+  });
+
+  // タスクの進捗の更新処理(更新にidが含まれる場合はそれを、そうでない場合は元データを使用)
+  if (progress !== undefined) {
+    await db.tasks.update(taskId ? taskId : previous.taskId, { progress });
+  }
+
+  // タスクの変更を含む場合(taskIdが存在する場合)
+  // 必要に応じて最終更新日を更新する(元タスク:次点で新しい日付に変更 新規タスク:現在の日付に変更)
+  if (taskId) {
+    await adjustTaskActivityDatesIfRemoved(previous.date, previous.taskId);
+    await updateTaskActivityDatesIfNeeded(previous.date, taskId);
+  } else {
+    // タスクの変更を含まない場合は必要に応じて元タスクの最終更新日を更新する
+    await updateTaskActivityDatesIfNeeded(previous.date, previous.taskId);
+  }
+
+  return { id };
 };
