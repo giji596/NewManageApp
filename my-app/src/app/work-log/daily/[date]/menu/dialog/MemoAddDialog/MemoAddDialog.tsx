@@ -40,12 +40,11 @@ export default function MemoAddDialog({
   isTaskSelected,
   onClose,
 }: Props) {
-  const { tagList, onSubmit, control, isValid, setNewTag } = MemoAddDialogLogic(
-    {
+  const { tagList, onSubmit, control, isValid, tagEditorActions } =
+    MemoAddDialogLogic({
       onClose,
       taskList,
-    }
-  );
+    });
   const { open: openTag, onOpen: onOpenTag, onClose: onCloseTag } = useDialog();
   return (
     <>
@@ -178,7 +177,7 @@ export default function MemoAddDialog({
         <TagEditDialog
           open={openTag}
           onClose={onCloseTag}
-          onCreateTag={setNewTag}
+          editActions={tagEditorActions}
         />
       )}
     </>

@@ -3,7 +3,7 @@ import { localClient } from "@/lib/localClient";
 import { TagOption } from "@/type/Tag";
 import { TaskLogSummary } from "@/type/Task";
 import { useParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 
@@ -71,6 +71,10 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     (newId: number) => setValue("tagId", newId),
     [setValue]
   );
+  const clearTag = useCallback(() => setValue("tagId", 0), [setValue]);
+  const tagEditorActions = useMemo(() => {
+    return { set: setNewTag, clear: clearTag };
+  }, [setNewTag, clearTag]);
   return {
     /** タスクの一覧 */
     taskList,
@@ -82,7 +86,7 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     control,
     /** バリデーション状況(onBlurで制御) */
     isValid,
-    /** 新規作成したタグをRHFの値に入れる関数 */
-    setNewTag,
+    /** タグ編集時のアクション*/
+    tagEditorActions,
   };
 }
