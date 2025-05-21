@@ -11,9 +11,9 @@ import {
   yesterdayMonth,
   yesterdayYear,
 } from "./params";
-import useAspidaSWR from "@aspida/swr";
-import apiClient from "@/lib/apiClient";
 import { useDateSelect } from "@/hook/useDateSelect";
+import { localClient } from "@/lib/localClient";
+import useSWR from "swr";
 
 /**
  * ラジオ選択賜のstringのオブジェクト
@@ -51,12 +51,12 @@ export default function DataDialogLogic() {
     [year, month]
   );
 
-  const { data, isLoading } = useAspidaSWR(
-    apiClient.work_log.daily.summary.detail,
-    "get",
-    { query: { date: dateParam } }
+  const { data: dateDetails, isLoading } = useSWR(
+    `work-log/daily/summary/detail?date=${dateParam}`,
+    localClient.work_log.daily.summary.detail.get({
+      query: { date: dateParam },
+    })
   );
-  const dateDetails = data?.body;
 
   const onChangeRadioSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
