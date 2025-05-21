@@ -158,3 +158,18 @@ export const updateCategoryCompleted = async (id: number) => {
   );
   return { id };
 };
+
+/**
+ * カテゴリ削除するロジック
+ */
+export const deleteCategory = async (id: number) => {
+  // 使用中かどうか確認
+  const exist = await db.tasks.where("categoryId").equals(id).first();
+  if (exist) {
+    throw new Error("relationship error");
+  }
+  // 使用中でなければカテゴリを削除
+  await db.categories.delete(id);
+
+  return { id };
+};

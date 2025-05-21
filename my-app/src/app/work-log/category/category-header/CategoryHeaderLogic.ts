@@ -1,4 +1,3 @@
-import apiClient from "@/lib/apiClient";
 import {
   CategoryHeaderQuery,
   CategoryHeaderQueryParams,
@@ -10,7 +9,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
 import useSWR, { mutate } from "swr";
-import axios from "axios";
 import { localClient } from "@/lib/localClient";
 
 /** クエリ(yyyy-MM-dd) -> 子のパラメータ用{y,m,d}に変換する関数 */
@@ -167,7 +165,7 @@ export default function CategoryHeaderLogic() {
   const handleDelete = useCallback(async () => {
     try {
       // 削除処理
-      await apiClient.work_log.categories._id(selectedCategoryId).delete();
+      await localClient.work_log.categories._id(selectedCategoryId).delete();
       // 一覧データを再検証
       await mutate(
         (key) =>
@@ -176,11 +174,9 @@ export default function CategoryHeaderLogic() {
       // 選択中のidを再検証後のデータの先頭に変更
       router.replace(`?id=${categoryOptions[0].id}`);
     } catch (error) {
-      // エラーコードが400の場合に利用中を削除した際のエラーとする
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 400) {
-          setOpenError(true);
-        }
+      // エラーメッセージが関連関係である場合はエラーメッセージを表示する
+      if (error instanceof Error && error.message === "relationship error") {
+        setOpenError(true);
       }
     }
   }, [categoryOptions, router, selectedCategoryId]);
