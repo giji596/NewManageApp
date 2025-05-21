@@ -1,4 +1,4 @@
-import { TagEditListItem } from "@/type/Tag";
+import { TagEditListItem, TagUsage } from "@/type/Tag";
 import { db } from "../dexie";
 
 /**
@@ -26,6 +26,21 @@ export const getTagWithUsage = async () => {
     };
   });
   return result;
+};
+/**
+ * タグの使用先のメモ名と使用先の数を取得する関数
+ */
+export const getTagUsageMemoTitlesAndCount = async (
+  id: number
+): Promise<TagUsage | null> => {
+  const memos = await db.memos.where("tagId").equals(id).toArray();
+  if (memos.length > 0) {
+    const memoTitles = memos.slice(0, 5).map((v) => v.title); // 5件だけ取得
+    const usageCount = memos.length; // 使用先の数を取得
+    return { memoTitles, usageCount };
+  }
+  // データない場合(例外処理)
+  return null;
 };
 
 /**
