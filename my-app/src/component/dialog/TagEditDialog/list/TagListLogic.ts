@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
 import apiClient from "@/lib/apiClient";
 import { mutate } from "swr";
+import { localClient } from "@/lib/localClient";
 
 type Props = {
   /** 削除の確認ダイアログを閉じるハンドラー */
@@ -49,7 +50,7 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
       // refから保存データを取得
       const { tagName } = saveDataRef.current;
       // 更新処理
-      await apiClient.work_log.tags
+      await localClient.work_log.tags
         ._id(editTargetId)
         .patch({ body: { name: tagName } });
       // 再検証

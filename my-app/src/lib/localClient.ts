@@ -16,6 +16,7 @@ import {
   createTag,
   getMemoTags,
   getTagWithUsage,
+  updateTagName,
 } from "./local-services/tagService";
 
 export const localClient = {
@@ -62,6 +63,12 @@ export const localClient = {
       get: () => () => getMemoTags(),
       post: ({ body }: { body: { tagName: string } }) =>
         createTag(body.tagName),
+      _id: (id: number) => {
+        return {
+          patch: ({ body }: { body: { name: string } }) =>
+            updateTagName(body.name, Number(id)),
+        };
+      },
       with_usage: {
         get: () => () => getTagWithUsage(),
       },
