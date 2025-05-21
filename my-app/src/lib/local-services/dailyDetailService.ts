@@ -84,8 +84,8 @@ export const getDailyDetailData = async (date: string) => {
       tagName = tagData.name;
     } else {
       // idない場合は未選択に
+      tagName = "未選択";
     }
-    tagName = "未選択";
     return {
       id,
       title,
