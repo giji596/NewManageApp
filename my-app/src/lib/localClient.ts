@@ -2,6 +2,7 @@ import { CategoryHeaderQuery } from "@/type/Category";
 import {
   createCategory,
   deleteCategory,
+  getCategoryActivity,
   getCategoryOptions,
   getCategorySummary,
   updateCategoryCompleted,
@@ -146,6 +147,20 @@ export const localClient = {
             get: () => () => getCategorySummary(id),
           },
           complete: { patch: () => updateCategoryCompleted(id) },
+          activity: {
+            get:
+              ({
+                query,
+              }: {
+                query: {
+                  range?: "last-month" | "all" | "select";
+                  start?: string;
+                  end?: string;
+                };
+              }) =>
+              () =>
+                getCategoryActivity(id, query.range, query.start, query.end),
+          },
         };
       },
       post: ({ body }: { body: { name: string } }) => createCategory(body.name),

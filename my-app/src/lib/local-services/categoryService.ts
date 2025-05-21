@@ -5,6 +5,7 @@ import {
 } from "@/type/Category";
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
+import { CategoryTaskActivity } from "@/type/Task";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -142,6 +143,67 @@ export const createCategory = async (name: string) => {
   const id = await db.categories.add({ name, isCompleted: false });
   const isCompleted = false;
   return { id, name, isCompleted };
+};
+
+/**
+ * カテゴリのアクティビティ取得ロジック
+ */
+export const getCategoryActivity = async (
+  id: number,
+  range?: "last-month" | "all" | "select",
+  start?: string,
+  end?: string
+) => {
+  let startDate: string | undefined;
+  let lastDate: string | undefined;
+  switch (range) {
+    // 全てであればstartDate/lastDateは変化なし(undefined)
+    case "all":
+      break;
+    // 選択の場合はstart/endから取得(両方与えられてる前提)
+    case "select":
+      if (start && end) {
+        startDate = start;
+        lastDate = end;
+      }
+      break;
+    // 先月(またはrangeがなし)の場合は先月までの範囲を指定
+    case "last-month":
+    default:
+      startDate = subMonths(new Date(), 1).toISOString().split("T")[0];
+      lastDate = new Date().toISOString().split("T")[0];
+  }
+
+  const tasks = await db.tasks.where("categoryId").equals(id).toArray();
+  const taskIds = tasks.map((task) => task.id);
+  const taskLogs = await db.taskLogs.where("taskId").anyOf(taskIds).toArray();
+
+  // 条件に一致するログだけをフィルタリング
+  const filteredLogs = taskLogs.filter((log) => {
+    // startDateとlastDateが両方指定されている場合
+    if (startDate && lastDate) {
+      const logDate = log.date;
+      // 期間内の稼働 かつ時間が0でないもののみ表示
+      return logDate >= startDate && logDate <= lastDate && log.workTime !== 0;
+    }
+    // 日付が指定されてない場合は稼働のないデータだけフィルターする
+    return log.workTime !== 0;
+  });
+
+  const result: CategoryTaskActivity[] = tasks
+    // ログにないタスクは除外
+    .filter((v) => filteredLogs.some((log) => log.taskId === v.id))
+    .map((task) => {
+      const taskName = task.name;
+      const totalHours = filteredLogs
+        .filter((v) => v.taskId === task.id)
+        .reduce((a, b) => a + b.workTime, 0);
+      return {
+        taskName,
+        totalHours,
+      };
+    });
+  return result;
 };
 
 /**
