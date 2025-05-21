@@ -1,6 +1,8 @@
-import { DateSummary } from "@/type/Date";
+import { DateSummary, DateSummaryDetail } from "@/type/Date";
 import { db } from "../dexie";
 import { MemoSummary } from "@/type/Memo";
+import { TaskWithPercentage } from "@/type/Task";
+import { CategoryWithPercentage } from "@/type/Category";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -96,4 +98,131 @@ export const getDailySummaryData = async ({
     };
   });
   return dailyData;
+};
+
+/**
+ * DailySummaryPageのDetailデータをとってくる関数
+ */
+export const getDailySummaryDetailData = async (date: string) => {
+  // データをDexieから取得
+  const rawData = await db.taskLogs.where("date").equals(date).toArray();
+  // なければnullを返す
+  if (rawData.length === 0) {
+    return null;
+  }
+
+  // データがある場合
+  // 必要なデータを取得
+  const memos = await db.memos
+    .where("taskLogId")
+    .anyOf(rawData.map((log) => log.id))
+    .toArray();
+  const tasks = await db.tasks
+    .where("id")
+    .anyOf(rawData.map((log) => log.taskId))
+    .toArray();
+  const categories = await db.categories
+    .where("id")
+    .anyOf(tasks.map((task) => task.categoryId))
+    .toArray();
+
+  // DateSummaryDetail型に変換
+  const dateSummaryDetail: DateSummaryDetail = {
+    date: new Date(date),
+    categoryList: [],
+    memoList: [],
+  };
+
+  // logsのworkTimeを集計
+  const totalWorkTime = rawData.reduce((total, log) => total + log.workTime, 0);
+
+  // categoryIDごとのworkTimeを集計
+  const categoryWorkTime: Record<
+    number,
+    { categoryName: string; workTime: number }
+  > = {};
+  // タスクIDごとのworkTimeを記録
+  const taskWorkTime: Record<
+    number,
+    { categoryId: number; taskName: string; workTime: number }
+  > = {};
+
+  // カテゴリ/タスクごとの時間を集計する
+  rawData.forEach((log) => {
+    const task = tasks.find((task) => task.id === log.taskId)!;
+    const category = categories.find(
+      (category) => category.id === task.categoryId
+    )!;
+    const workTime = log.workTime;
+
+    // カテゴリのkeyがない場合は作る
+    if (!categoryWorkTime[category.id]) {
+      categoryWorkTime[category.id] = {
+        categoryName: category.name,
+        workTime,
+      };
+    } else {
+      // すでにある場合はworkTimeを加算する
+      categoryWorkTime[category.id].workTime += workTime;
+    }
+
+    // 同じidのタスクはないのでこちらは分岐不要
+    taskWorkTime[task.id] = {
+      categoryId: category.id,
+      taskName: task.name,
+      workTime,
+    };
+  });
+
+  // パーセント化してオブジェクト化
+  const categoryList: CategoryWithPercentage[] = Object.keys(
+    categoryWorkTime
+  ).map((categoryId) => {
+    // keyをnumber化
+    const categoryIdNum = parseInt(categoryId);
+    const category = categoryWorkTime[categoryIdNum];
+
+    // タスクについて
+    const tasks: TaskWithPercentage[] = [];
+    // categoryIdが一致するタスクのみをtasks配列にpushする
+    Object.keys(taskWorkTime).map((taskId) => {
+      // keyをnumber化
+      const taskIdNum = parseInt(taskId);
+      const task = taskWorkTime[taskIdNum];
+      if (task.categoryId === categoryIdNum) {
+        const percent = ((task.workTime / category.workTime) * 100).toFixed(1);
+        tasks.push({
+          id: taskIdNum,
+          name: task.taskName,
+          percent: `${percent}%`,
+        });
+      }
+    });
+
+    // カテゴリについて
+    const categoryPercent = ((category.workTime / totalWorkTime) * 100).toFixed(
+      1
+    );
+
+    return {
+      id: categoryIdNum,
+      name: category.categoryName,
+      taskList: tasks,
+      percent: `${categoryPercent}%`,
+    };
+  });
+
+  dateSummaryDetail.categoryList = categoryList;
+
+  // memoListを作成
+  dateSummaryDetail.memoList = rawData.flatMap((log) =>
+    memos
+      .filter((memo) => memo.taskLogId === log.id)
+      .map((memo) => ({
+        id: memo.id,
+        title: memo.title,
+      }))
+  );
+
+  return dateSummaryDetail;
 };

@@ -29,7 +29,10 @@ import {
   getMemoBody,
   updateMemo,
 } from "./local-services/memoService";
-import { getDailySummaryData } from "./local-services/dailySummaryService";
+import {
+  getDailySummaryData,
+  getDailySummaryDetailData,
+} from "./local-services/dailySummaryService";
 
 export const localClient = {
   work_log: {
@@ -63,6 +66,12 @@ export const localClient = {
           ({ query }: { query?: { year?: string; month?: string } }) =>
           () =>
             getDailySummaryData({ query }),
+        detail: {
+          get:
+            ({ query }: { query: { date: string } }) =>
+            () =>
+              getDailySummaryDetailData(query.date),
+        },
       },
     },
     tasks: {
