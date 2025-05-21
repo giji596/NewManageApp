@@ -5,6 +5,7 @@ import {
   DialogTitle,
   FormControlLabel,
   Stack,
+  Typography,
 } from "@mui/material";
 import { memo } from "react";
 import TagList from "./list/TagList";
@@ -29,7 +30,7 @@ const TagEditDialog = memo(function TagEditDialog({
   onClose,
   onCreateTag,
 }: Props) {
-  const { tagList, showOnlyUnused, toggleShowOnlyUnused } =
+  const { tagList, noTagItem, showOnlyUnused, toggleShowOnlyUnused } =
     TagEditDialogLogic();
   const { open: openAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDialog();
   return (
@@ -44,6 +45,7 @@ const TagEditDialog = memo(function TagEditDialog({
               control={
                 <Checkbox
                   size="small"
+                  disabled={noTagItem} // タグがない場合はチェックボックスを無効化
                   checked={showOnlyUnused}
                   onChange={toggleShowOnlyUnused}
                 />
@@ -52,7 +54,17 @@ const TagEditDialog = memo(function TagEditDialog({
               slotProps={{ typography: { fontSize: "14px" } }}
             />
             {/** タグリスト */}
-            <TagList tagList={tagList} />
+            {noTagItem && (
+              <Typography
+                color="textDisabled"
+                pl={3}
+                pb={2}
+                sx={{ cursor: "default" }}
+              >
+                タグがありません
+              </Typography>
+            )}
+            {!noTagItem && <TagList tagList={tagList} />}
             {/** 追加ボタン */}
             <Button
               sx={{ width: "25%" }}
