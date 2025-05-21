@@ -1,6 +1,5 @@
 import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
-import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -24,18 +23,14 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   );
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
-  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
-    apiClient.work_log.categories.options,
-    "get",
-    {
+  const { data: categoryData, isLoading: isLoadingCategory } = useSWR(
+    ["api/work-log/categories/options", "displayRange=all&hideCompleted=true"],
+    localClient.work_log.categories.options.get({
       query: { displayRange: "all", hideCompleted: "true" },
-      key: [
-        "api/work-log/categories/options",
-        "displayRange=all&hideCompleted=true",
-      ],
-    }
+    })
   );
-  const categoryList = categoryData?.body;
+
+  const categoryList = categoryData;
   const { data: taskData, isLoading: isLoadingTask } = useSWR(
     selectedCategoryId
       ? `api/work-log/tasks/options?categoryId=${selectedCategoryId}`
