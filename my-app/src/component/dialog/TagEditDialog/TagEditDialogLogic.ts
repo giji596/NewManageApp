@@ -25,6 +25,7 @@ export const TagEditDialogLogic = () => {
     return data;
   }, [data, showOnlyUnused]);
 
+  const noTagItem = useMemo(() => tagList && tagList.length === 0, [tagList]);
   return {
     /** 未使用のみ表示するかの設定 */
     showOnlyUnused,
@@ -32,5 +33,7 @@ export const TagEditDialogLogic = () => {
     toggleShowOnlyUnused,
     /** タグの一覧 */
     tagList,
+    /** タグがないかどうか */
+    noTagItem,
   };
 };
