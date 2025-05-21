@@ -1,9 +1,9 @@
-import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { CalendarDateMap } from "@/type/Task";
-import useAspidaSWR from "@aspida/swr";
 import { getDay, getDaysInMonth, startOfMonth } from "date-fns";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import useSWR from "swr";
 
 /**月曜を 0 にするために、日曜(0) → 6、月曜(1) → 0...に変換 */
 const getMondayStartIndex = (date: Date) => (getDay(date) + 6) % 7;
@@ -51,13 +51,16 @@ export const WorkCalendarBodyLogic = ({ year, month }: Props) => {
   // weeksはレンダー時に必ず変化するのでメモ化不要
   const weeks = generateCalendarWeeks(year, month);
   // このkeyはページでの値と同じため、ここでフェッチするのではなくキャッシュされたデータを取得する
-  const { data } = useAspidaSWR(apiClient.work_log.tasks._id(id), "get", {
-    key: `api/work-log/tasks/${id}`,
-    revalidateIfStale: false, // キャッシュ済みの場合にキャッシュデータを利用
-  });
+  const { data } = useSWR(
+    `api/work-log/tasks/${id}`,
+    localClient.work_log.tasks._id(Number(id)).get(),
+    {
+      revalidateIfStale: false, // キャッシュ済みの場合にキャッシュデータを利用
+    }
+  );
   const clickableDays: CalendarDateMap = useMemo(
-    () => data?.body.workDateList ?? {},
-    [data?.body.workDateList]
+    () => data?.workDateList ?? {},
+    [data?.workDateList]
   );
   const clickableDaysKey = `${year}-${month}`;
 
