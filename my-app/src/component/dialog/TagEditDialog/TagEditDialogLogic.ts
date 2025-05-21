@@ -1,6 +1,6 @@
-import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
+import { localClient } from "@/lib/localClient";
 import { useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
 
 /**
  * タグを編集するダイアログのロジック
@@ -13,19 +13,17 @@ export const TagEditDialogLogic = () => {
     []
   );
 
-  const { data: rawData } = useAspidaSWR(
-    apiClient.work_log.tags.with_usage,
-    "get",
-    { key: "api/work-log/tags/with-usage" }
+  const { data } = useSWR(
+    "api/work-log/tags/with-usage",
+    localClient.work_log.tags.with_usage.get()
   );
   const tagList = useMemo(() => {
-    const data = rawData?.body;
     // 未使用のみ表示であればisUsed=falseのもののみ表示
     if (showOnlyUnused && data) {
       return data.filter((v) => !v.isUsed);
     }
     return data;
-  }, [rawData?.body, showOnlyUnused]);
+  }, [data, showOnlyUnused]);
 
   return {
     /** 未使用のみ表示するかの設定 */
