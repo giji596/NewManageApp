@@ -18,6 +18,7 @@ import {
   bulkUpdateTask,
   getTaskDetail,
   updateTaskDetail,
+  deleteTask,
 } from "./local-services/taskService";
 import {
   createTag,
@@ -104,6 +105,7 @@ export const localClient = {
               body.isFavorite,
               body.progress
             ),
+          delete: () => deleteTask(id),
           progress: {
             get: () => () => getTaskProgress(id),
           },

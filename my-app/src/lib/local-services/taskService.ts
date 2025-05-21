@@ -268,6 +268,19 @@ export const updateTaskDetail = async (
   }
   return { id };
 };
+/**
+ * タスクを削除するメソッド
+ */
+export const deleteTask = async (id: number) => {
+  const exist = await db.taskLogs.where("taskId").equals(id).first();
+  // 関連するタスクがある場合エラー
+  if (exist) {
+    throw new Error("relationship error");
+  }
+  // ない場合は削除
+  await db.tasks.delete(id);
+  return { id };
+};
 
 /**
  * メインページ用の一ヶ月分のカテゴリ別の稼働をとってくるロジック
