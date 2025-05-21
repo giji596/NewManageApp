@@ -156,7 +156,7 @@ export default function CategoryHeaderLogic() {
 
   const handleComplete = useCallback(async () => {
     // 更新処理
-    await apiClient.work_log.categories
+    await localClient.work_log.categories
       ._id(selectedCategoryId)
       .complete.patch();
     // カテゴリページの概要データを再検証
