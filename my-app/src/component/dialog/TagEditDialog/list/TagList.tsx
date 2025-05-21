@@ -12,7 +12,7 @@ type Props = {
   /** タグの一覧 */
   tagList: TagEditListItem[];
   /** タグ削除時の追加イベント */
-  onDeleteTag?: () => void;
+  onDeleteTag?: (targetId: number) => void;
 };
 
 /**

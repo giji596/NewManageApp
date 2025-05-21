@@ -9,7 +9,7 @@ type Props = {
   /** 保存の確認ダイアログを開くハンドラー */
   onOpenSave: () => void;
   /** タグ削除時の追加イベント */
-  onDeleteTag?: () => void;
+  onDeleteTag?: (targetId: number) => void;
 };
 /**
  * タグ編集ダイアログのタグ一覧のリストのロジック
@@ -38,7 +38,7 @@ export const TagListLogic = ({
       //　削除後にターゲットをnullにする
       setDeleteTargetId(null);
       // 親でのイベントを実行
-      onDeleteTag?.();
+      onDeleteTag?.(id);
     },
     [onDeleteTag]
   );

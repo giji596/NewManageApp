@@ -20,7 +20,10 @@ type Props = {
   /** ダイアログ閉じるハンドラー */
   onClose: () => void;
   /** タグ作成後に呼び出しする関数(親で必要な場合のみ) */
-  editActions?: { set: (newId: number) => void; clear: () => void };
+  editActions?: {
+    set: (newId: number) => void;
+    clear: (targetId: number) => void;
+  };
 };
 /**
  * タグを編集するダイアログ
