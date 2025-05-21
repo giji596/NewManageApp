@@ -1,4 +1,5 @@
 import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { SelectChangeEvent } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -32,7 +33,7 @@ export const CompletedTaskEditDialogLogic = ({
   const handleSave = useCallback(async () => {
     // 元の値から稼働時間の変化がある場合のみ送信処理
     if (initialHours !== dailyHours) {
-      await apiClient.work_log.daily
+      await localClient.work_log.daily
         ._date(date)
         .task_logs._id(itemId)
         .patch({ body: { workTime: dailyHours } });
