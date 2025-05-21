@@ -5,6 +5,7 @@ import {
 } from "./local-services/categoryService";
 import { getDailyDetailData } from "./local-services/dailyDetailService";
 import {
+  createTask,
   getLastMonthTaskActivities,
   getTaskOptions,
 } from "./local-services/taskService";
@@ -19,6 +20,11 @@ export const localClient = {
       },
     },
     tasks: {
+      post: ({
+        body,
+      }: {
+        body: { name: string; categoryId: number; isFavorite: boolean };
+      }) => createTask(body.name, body.categoryId, body.isFavorite),
       options: {
         get:
           ({ query }: { query: { categoryId: number } }) =>
