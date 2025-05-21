@@ -14,6 +14,7 @@ import {
 } from "./local-services/taskService";
 import {
   createTag,
+  deleteTag,
   getMemoTags,
   getTagUsageMemoTitlesAndCount,
   getTagWithUsage,
@@ -68,6 +69,7 @@ export const localClient = {
         return {
           patch: ({ body }: { body: { name: string } }) =>
             updateTagName(body.name, Number(id)),
+          delete: () => deleteTag(id),
           usage: { get: () => () => getTagUsageMemoTitlesAndCount(id) },
         };
       },
