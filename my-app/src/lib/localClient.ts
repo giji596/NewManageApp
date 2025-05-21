@@ -6,6 +6,7 @@ import {
 import {
   createDailyDetailData,
   getDailyDetailData,
+  updateTaskLog,
 } from "./local-services/dailyDetailService";
 import {
   createTask,
@@ -29,6 +30,20 @@ export const localClient = {
       _date: (date: string) => {
         return {
           task_logs: {
+            _id: (id: number) => {
+              return {
+                patch: ({
+                  body,
+                }: {
+                  body: {
+                    taskId?: number;
+                    workTime?: number;
+                    progress?: number;
+                  };
+                }) =>
+                  updateTaskLog(id, body.taskId, body.workTime, body.progress),
+              };
+            },
             post: ({ body }: { body: { taskId: number } }) =>
               createDailyDetailData(date, body.taskId),
           },

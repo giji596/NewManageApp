@@ -174,6 +174,66 @@ export const updateTaskActivityDatesIfNeeded = async (
 };
 
 /**
+ * 指定された日時が、タスクの firstActivityDate または lastActivityDate と一致する場合に、
+ * タスクログの削除や移動（taskId の変更）によって失われた日付情報を補うため、
+ * 該当する日付を次に新しい日時に更新します。
+ *
+ * - firstActivityDate と一致する場合は、それより後の最も古い日時に更新します。
+ * - lastActivityDate と一致する場合は、それより前の最も新しい日時に更新します。
+ *
+ * タスクログ削除や再割り当て後の整合性維持に使用されます。
+ */
+export const adjustTaskActivityDatesIfRemoved = async (
+  deletedDate: string,
+  taskId: number
+) => {
+  // タスクの日付を取得
+  const target = await db.tasks.get(taskId);
+
+  if (!target) {
+    throw new Error("Task not found");
+  }
+
+  // 更新データをオブジェクトで宣言
+  // undefined: 更新しない, null: nullに更新, Date: 新しい日付で更新
+  const updateData: Record<"first" | "last", string | null | undefined> = {
+    first: undefined,
+    last: undefined,
+  };
+
+  // firstActivityDate が削除対象と一致 → 最も古い他のログを探す
+  if (target.firstActivityDate === deletedDate) {
+    const previous = await db.taskLogs
+      .where("taskId")
+      .equals(taskId)
+      .sortBy("date");
+    // 更新のキューに加える(ログが一つもない場合はnullを与える)
+    updateData.first = previous.length > 0 ? previous[0].date : null;
+  }
+
+  // lastActivityDate が削除対象と一致 → 最も新しい他のログを探す
+  if (target.lastActivityDate === deletedDate) {
+    const previous = await db.taskLogs
+      .where("taskId")
+      .equals(taskId)
+      .sortBy("date");
+    // 更新のキューに加える(ログが一つもない場合はnullを与える)
+    updateData.last =
+      previous.length > 0 ? previous[previous.length - 1].date : null;
+  }
+
+  // 更新処理を実行
+  await db.tasks.update(taskId, {
+    ...(typeof updateData.first !== "undefined" && {
+      firstActivityDate: updateData.first ?? undefined, //nullを与えた場合(ログがない場合)はundefinedに更新
+    }),
+    ...(typeof updateData.last !== "undefined" && {
+      lastActivityDate: updateData.last ?? undefined, // nullを与えた場合(ログがない場合)はundefinedに更新
+    }),
+  });
+};
+
+/**
  * タスクの進捗を取得する関数
  */
 export const getTaskProgress = async (id: number) => {
