@@ -20,6 +20,7 @@ import {
   getTagWithUsage,
   updateTagName,
 } from "./local-services/tagService";
+import { createMemo } from "./local-services/memoService";
 
 export const localClient = {
   work_log: {
@@ -60,6 +61,18 @@ export const localClient = {
           () =>
             getCategoryOptions(query),
       },
+    },
+    memos: {
+      post: ({
+        body,
+      }: {
+        body: {
+          title: string;
+          text: string;
+          taskLogId: number;
+          tagId?: number;
+        };
+      }) => createMemo(body.title, body.text, body.taskLogId, body.tagId),
     },
     tags: {
       get: () => () => getMemoTags(),
