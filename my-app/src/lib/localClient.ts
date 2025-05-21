@@ -101,7 +101,8 @@ export const localClient = {
               id,
               body.taskName,
               body.categoryId,
-              body.isFavorite
+              body.isFavorite,
+              body.progress
             ),
           progress: {
             get: () => () => getTaskProgress(id),

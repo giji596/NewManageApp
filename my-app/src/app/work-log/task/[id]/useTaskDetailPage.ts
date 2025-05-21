@@ -67,7 +67,9 @@ export default function useTaskDetailPage({ id }: Props) {
 
   const isCompleted = useMemo(() => progress === 100, [progress]);
   const handleComplete = useCallback(async () => {
-    await apiClient.work_log.tasks._id(id).patch({ body: { progress: 100 } });
+    await localClient.work_log.tasks
+      ._id(Number(id))
+      .patch({ body: { progress: 100 } });
     // データ更新後に再検証してUIに即時反映
     mutate(`api/work-log/tasks/${id}`);
     // 一覧データも再検証
