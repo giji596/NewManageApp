@@ -1,6 +1,7 @@
 import { CategoryHeaderQuery } from "@/type/Category";
 import {
   createCategory,
+  deleteCategory,
   getCategoryOptions,
   getCategorySummary,
   updateCategoryCompleted,
@@ -140,6 +141,7 @@ export const localClient = {
     categories: {
       _id: (id: number) => {
         return {
+          delete: () => deleteCategory(id),
           summary: {
             get: () => () => getCategorySummary(id),
           },
