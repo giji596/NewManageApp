@@ -76,3 +76,20 @@ export const getCategoryOptions = async (
     return { id: v.id, name: v.name };
   });
 };
+
+/**
+ * 新規カテゴリの作成 (重複がある場合はnullを返す)
+ */
+export const createCategory = async (name: string) => {
+  // 重複チェック
+  const existingCategory = await db.categories
+    .where("name")
+    .equals(name)
+    .first();
+  if (existingCategory) {
+    throw new Error("duplicate error");
+  }
+  const id = await db.categories.add({ name, isCompleted: false });
+  const isCompleted = false;
+  return { id, name, isCompleted };
+};
