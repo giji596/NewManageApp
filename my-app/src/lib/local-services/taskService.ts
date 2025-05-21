@@ -1,7 +1,7 @@
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
 import { MainPagePieChart } from "@/type/Main";
-import { TaskOption } from "@/type/Task";
+import { TaskOption, TaskSummary, TaskSummaryRangeQuery } from "@/type/Task";
 
 /**
  * タスク選択賜一覧げっとする関数
@@ -16,6 +16,90 @@ export const getTaskOptions = async (categoryId: number) => {
     });
   // データが空の場合はid:0で表示
   if (result.length === 0) result.push({ id: 0, name: "タスクがありません" });
+  return result;
+};
+
+/**
+ * タスク一覧ページのデータを取得する関数
+ */
+export const getTaskSummary = async (
+  query?: TaskSummaryRangeQuery
+): Promise<TaskSummary[]> => {
+  const { progress, firstActivityDate, lastActivityDate, activeOnly } =
+    query ?? {}; // undefinedの場合{}となり、参照keyがないので左辺の全てのkeyはundefinedになる
+
+  const tasks = await db.tasks.toArray();
+
+  const filteredTasks = tasks.filter((task) => {
+    // 進捗フィルタ (デフォだと0~90)
+    const progressFilter =
+      // 最低値
+      task.progress >= (progress?.split(",").map((v) => Number(v))[0] ?? 0) &&
+      // 最高値
+      task.progress <= (progress?.split(",").map((v) => Number(v))[1] ?? 90);
+
+    // 開始日フィルタ(ある場合のみ実行)
+    const firstActivityFilter =
+      // なければ即trueでfilterしない
+      firstActivityDate === undefined ||
+      (task.firstActivityDate &&
+        // 最小
+        new Date(task.firstActivityDate) >=
+          firstActivityDate.split(",").map((v) => new Date(v))[0] &&
+        // 最大
+        new Date(task.firstActivityDate) <=
+          firstActivityDate.split(",").map((v) => new Date(v))[1]);
+
+    // 最終更新日フィルタ(ある場合のみ実行)
+    const lastActivityFilter =
+      // なければ即trueでfilterしない
+      lastActivityDate === undefined ||
+      (task.lastActivityDate &&
+        // 最小
+        new Date(task.lastActivityDate) >=
+          lastActivityDate.split(",").map((v) => new Date(v))[0] &&
+        // 最大
+        new Date(task.lastActivityDate) <=
+          lastActivityDate.split(",").map((v) => new Date(v))[1]);
+
+    // アクティブフィルタ(ある場合のみ実行)
+    const activeFilter =
+      activeOnly === undefined || (activeOnly && task.progress !== 100);
+
+    return (
+      progressFilter &&
+      firstActivityFilter &&
+      lastActivityFilter &&
+      activeFilter
+    );
+  });
+
+  const result: TaskSummary[] = await Promise.all(
+    filteredTasks.map(async (task) => {
+      const category = await db.categories.get(task.categoryId);
+      const taskLogs = await db.taskLogs
+        .where("taskId")
+        .equals(task.id)
+        .toArray();
+      const totalHours = taskLogs.reduce((a, b) => a + b.workTime, 0);
+
+      return {
+        id: task.id,
+        taskName: task.name,
+        isFavorite: task.isFavorite,
+        categoryName: category?.name ?? "未分類",
+        progress: task.progress,
+        totalHours: totalHours,
+        firstActivityDate: task.firstActivityDate
+          ? new Date(task.firstActivityDate)
+          : null,
+        lastActivityDate: task.lastActivityDate
+          ? new Date(task.lastActivityDate)
+          : null,
+      };
+    })
+  );
+
   return result;
 };
 

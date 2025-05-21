@@ -9,11 +9,11 @@ import {
 } from "react";
 import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLogic";
 import { useRouter, useSearchParams } from "next/navigation";
-import useAspidaSWR from "@aspida/swr";
 import apiClient from "@/lib/apiClient";
 import { TaskSummary } from "@/type/Task";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { getTaskSummaryQuery } from "@/lib/query";
+import { localClient } from "@/lib/localClient";
 
 type Props = {
   /** 完了確認ダイアログ開くハンドラー */
@@ -27,17 +27,15 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
   const router = useRouter();
   const params = useSearchParams();
   const query = useMemo(() => getTaskSummaryQuery(params), [params]);
-  const { data, isLoading, isValidating } = useAspidaSWR(
-    apiClient.work_log.tasks,
-    "get",
+  const { data, isLoading, isValidating } = useSWR(
+    ["api/work-log/tasks", query],
+    localClient.work_log.tasks.get({ query }),
     {
-      query,
-      key: ["api/work-log/tasks", query],
       revalidateIfStale: false,
       revalidateOnFocus: false,
     }
   );
-  const rawData = useMemo(() => data?.body ?? [], [data?.body]);
+  const rawData = useMemo(() => data ?? [], [data]);
   const taskSummaryData: TaskSummary[] = useMemo(
     () =>
       rawData.map((v) => {
