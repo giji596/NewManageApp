@@ -155,7 +155,7 @@ export default function TaskEditDialogLogic({
       body.progress = progress;
     // bodyで必要な値だけ渡す
     try {
-      await apiClient.work_log.daily
+      await localClient.work_log.daily
         ._date(date)
         .task_logs._id(itemId)
         .patch({ body: body });
