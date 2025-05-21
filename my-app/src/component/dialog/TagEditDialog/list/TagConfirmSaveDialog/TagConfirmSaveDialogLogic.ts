@@ -19,11 +19,10 @@ export const TagConfirmSaveDialogLogic = ({
   onClose,
   onSave,
 }: Props) => {
-  const { data: rawData } = useSWR(
+  const { data: memoData } = useSWR(
     `api/work-log/tags/${targetId}/usage`,
     localClient.work_log.tags._id(targetId).usage.get()
   );
-  const memoData = rawData;
   const memoTitleList = memoData?.memoTitles;
   const usedCount = memoData?.usageCount;
   const hideItemCount = usedCount && usedCount - 5;
