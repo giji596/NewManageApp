@@ -116,8 +116,9 @@ export default function MemoEditDialogLogic({
   const handleDelete = useCallback(async () => {
     await localClient.work_log.memos._id(id).delete();
     mutate(`api/work-log/tasks/${taskId}`);
+    mutate(`api/work-log/daily/${date}`);
     onClose();
-  }, [id, onClose, taskId]);
+  }, [date, id, onClose, taskId]);
 
   const handleEdit = useCallback(() => setIsEdit(true), []);
   const setNewTag = useCallback(
