@@ -1,9 +1,9 @@
-import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { DailyWorkTime } from "@/type/Main";
-import useAspidaSWR from "@aspida/swr";
 import { format, getDay, isSameDay, parseISO, subDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import useSWR from "swr";
 
 /** 日付データを週ごとにまとめる関数 */
 function groupByWeek(data: DailyWorkTime[]) {
@@ -66,12 +66,11 @@ export const RecentWorkHeatMapLogic = () => {
   const gap = 6;
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // TODO:ロード時を扱えるようにする
-  const { data: rawData } = useAspidaSWR(
-    apiClient.work_log.daily.recent_work_time,
-    "get",
-    { key: "api/work-log/daily/recent-work-time" }
+  const { data: rawData } = useSWR(
+    "api/work-log/daily/recent-work-time",
+    localClient.work_log.daily.recent_work_time.get()
   );
-  const data = useMemo(() => rawData?.body ?? [], [rawData]);
+  const data = useMemo(() => rawData ?? [], [rawData]);
 
   const getColorByHours = useCallback((hours: number) => {
     if (hours <= 1) return "#cce5ff";

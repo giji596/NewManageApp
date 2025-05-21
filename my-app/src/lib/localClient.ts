@@ -43,6 +43,7 @@ import {
 import {
   getDailySummaryData,
   getDailySummaryDetailData,
+  getRecentWorkTime,
 } from "./local-services/dailySummaryService";
 import { TaskSummaryRangeQuery } from "@/type/Task";
 
@@ -84,6 +85,9 @@ export const localClient = {
             () =>
               getDailySummaryDetailData(query.date),
         },
+      },
+      recent_work_time: {
+        get: () => () => getRecentWorkTime(),
       },
     },
     tasks: {
