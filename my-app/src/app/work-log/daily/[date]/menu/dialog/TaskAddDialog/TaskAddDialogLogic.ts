@@ -1,10 +1,11 @@
 import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type Props = {
   /** ダイアログを閉じる関数 */
@@ -35,16 +36,16 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
     }
   );
   const categoryList = categoryData?.body;
-  const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
-    apiClient.work_log.tasks.options,
-    "get",
-    {
-      key: `api/work-log/tasks/options?categoryId=${selectedCategoryId}`,
-      query: { categoryId: selectedCategoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
-      enabled: selectedCategoryId !== null, // カテゴリのフェッチ前にフェッチさせない
-    }
+  const { data: taskData, isLoading: isLoadingTask } = useSWR(
+    selectedCategoryId
+      ? `api/work-log/tasks/options?categoryId=${selectedCategoryId}`
+      : null, // カテゴリフェッチ前はフェッチさせない
+    localClient.work_log.tasks.options.get({
+      query: { categoryId: selectedCategoryId ?? 0 },
+    })
   );
-  const taskList = taskData?.body;
+
+  const taskList = taskData;
   const isLoading = isLoadingCategory || isLoadingTask;
   // 初期化処理(カテゴリーのデータフェッチ時)
   useEffect(() => {
