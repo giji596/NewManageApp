@@ -1,5 +1,8 @@
 import { getDailyDetailData } from "./local-services/dailyDetailService";
-import { getLastMonthTaskActivities } from "./local-services/taskService";
+import {
+  getLastMonthTaskActivities,
+  getTaskOptions,
+} from "./local-services/taskService";
 
 export const localClient = {
   work_log: {
@@ -11,6 +14,12 @@ export const localClient = {
       },
     },
     tasks: {
+      options: {
+        get:
+          ({ query }: { query: { categoryId: number } }) =>
+          () =>
+            getTaskOptions(query.categoryId),
+      }, //TODO
       activities: {
         last_month: {
           get: () => () => getLastMonthTaskActivities(),
