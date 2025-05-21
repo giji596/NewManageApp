@@ -17,6 +17,7 @@ import {
   getTaskSummary,
   bulkUpdateTask,
   getTaskDetail,
+  updateTaskDetail,
 } from "./local-services/taskService";
 import {
   createTag,
@@ -86,6 +87,22 @@ export const localClient = {
       _id: (id: number) => {
         return {
           get: () => () => getTaskDetail(id),
+          patch: ({
+            body,
+          }: {
+            body: {
+              taskName?: string;
+              categoryId?: number;
+              isFavorite?: boolean;
+              progress?: number;
+            };
+          }) =>
+            updateTaskDetail(
+              id,
+              body.taskName,
+              body.categoryId,
+              body.isFavorite
+            ),
           progress: {
             get: () => () => getTaskProgress(id),
           },
