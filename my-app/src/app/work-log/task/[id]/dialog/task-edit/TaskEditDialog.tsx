@@ -107,7 +107,9 @@ export default function TaskEditDialog({
               <Controller
                 name={"isFavorite"}
                 control={control}
-                render={({ field }) => <Checkbox {...field} />}
+                render={({ field }) => (
+                  <Checkbox {...field} checked={field.value} />
+                )}
               />
             }
             label="お気に入り"
