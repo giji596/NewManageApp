@@ -3,6 +3,7 @@ import { db } from "../dexie";
 import { MemoSummary } from "@/type/Memo";
 import { TaskWithPercentage } from "@/type/Task";
 import { CategoryWithPercentage } from "@/type/Category";
+import { DailyWorkTime } from "@/type/Main";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -225,4 +226,48 @@ export const getDailySummaryDetailData = async (date: string) => {
   );
 
   return dateSummaryDetail;
+};
+
+/**
+ * 最近(29~35日間)の日毎の稼働時間を取得するメソッド
+ */
+export const getRecentWorkTime = async () => {
+  const todayDate = new Date();
+  const dayOfWeek = todayDate.getDay(); // 0 = Sunday, ..., 6 = Saturday
+  const dateStartWithMonday = (dayOfWeek + 6) % 7; // 0 = Monday, ..., 6 = Sunday
+  // 現在の曜日に合わせてデータ取得範囲を制限(ヒートグラフの大きさに合わせて制限)
+  const displayDayCount = 28 + dateStartWithMonday; // 月曜=28日間,...日曜=34日間
+  const startDate = new Date(todayDate);
+  startDate.setDate(todayDate.getDate() - displayDayCount); // 今日の日付 - 28(月曜日)~34(日曜日)の日付
+
+  // Dexieからデータを取得
+  const rawData = await db.taskLogs
+    .where("date")
+    .between(
+      startDate.toISOString().split("T")[0],
+      todayDate.toISOString().split("T")[0],
+      true,
+      true
+    )
+    .toArray();
+
+  // 日付ごとに稼働時間を集計
+  const workTimeByDate: Record<string, number> = {};
+  rawData.forEach((log) => {
+    if (!workTimeByDate[log.date]) {
+      workTimeByDate[log.date] = 0;
+    }
+    workTimeByDate[log.date] += log.workTime;
+  });
+
+  // 結果を整形
+  const result: DailyWorkTime[] = Object.entries(workTimeByDate).map(
+    ([date, totalHours]) => ({
+      date,
+      totalHours,
+    })
+  );
+
+  // 合計時間0のデータは不要(FEではデータなしと同等の扱い)なのでフィルターして送らない
+  return result.filter((v) => v.totalHours !== 0);
 };
