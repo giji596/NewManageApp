@@ -1,4 +1,3 @@
-import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
 import { CategoryOption } from "@/type/Category";
 import { useParams } from "next/navigation";
@@ -63,7 +62,7 @@ export default function TaskEditDialogLogic({
         sendData.categoryId = data.categoryId;
       if (initialIsFavorite !== data.isFavorite)
         sendData.isFavorite = data.isFavorite;
-      await apiClient.work_log.tasks._id(id).patch({
+      await localClient.work_log.tasks._id(Number(id)).patch({
         body: sendData,
       });
       // 再検証
