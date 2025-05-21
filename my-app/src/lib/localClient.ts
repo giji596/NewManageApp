@@ -12,7 +12,11 @@ import {
   getLastMonthTaskActivities,
   getTaskOptions,
 } from "./local-services/taskService";
-import { getMemoTags, getTagWithUsage } from "./local-services/tagService";
+import {
+  createTag,
+  getMemoTags,
+  getTagWithUsage,
+} from "./local-services/tagService";
 
 export const localClient = {
   work_log: {
@@ -56,6 +60,8 @@ export const localClient = {
     },
     tags: {
       get: () => () => getMemoTags(),
+      post: ({ body }: { body: { tagName: string } }) =>
+        createTag(body.tagName),
       with_usage: {
         get: () => () => getTagWithUsage(),
       },
