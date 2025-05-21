@@ -12,6 +12,7 @@ import {
   getLastMonthTaskActivities,
   getTaskOptions,
 } from "./local-services/taskService";
+import { getMemoTags } from "./local-services/tagService";
 
 export const localClient = {
   work_log: {
@@ -52,6 +53,9 @@ export const localClient = {
           () =>
             getCategoryOptions(query),
       },
+    },
+    tags: {
+      get: () => () => getMemoTags(),
     },
   },
 };
