@@ -27,3 +27,16 @@ export const getTagWithUsage = async () => {
   });
   return result;
 };
+
+/**
+ * メモのタグを作成するメソッド
+ */
+export const createTag = async (tagName: string) => {
+  // 被りのチェック(同様の名前のタグがある場合はnullを返す)
+  const exist = await db.memoTags.where("name").equals(tagName).first();
+  if (exist) {
+    throw new Error("duplicate error");
+  }
+  const id = await db.memoTags.add({ name: tagName });
+  return { id };
+};
