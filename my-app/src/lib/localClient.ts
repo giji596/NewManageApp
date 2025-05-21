@@ -11,6 +11,7 @@ import {
   createTask,
   getLastMonthTaskActivities,
   getTaskOptions,
+  getTaskProgress,
 } from "./local-services/taskService";
 import {
   createTag,
@@ -36,6 +37,13 @@ export const localClient = {
       },
     },
     tasks: {
+      _id: (id: number) => {
+        return {
+          progress: {
+            get: () => () => getTaskProgress(id),
+          },
+        };
+      },
       post: ({
         body,
       }: {

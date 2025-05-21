@@ -172,3 +172,11 @@ export const updateTaskActivityDatesIfNeeded = async (
     await db.tasks.update(taskId, updateData);
   }
 };
+
+/**
+ * タスクの進捗を取得する関数
+ */
+export const getTaskProgress = async (id: number) => {
+  const data = await db.tasks.get(id);
+  return data ? { progress: data.progress } : null;
+};

@@ -1,10 +1,10 @@
 import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
+import { localClient } from "@/lib/localClient";
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -43,28 +43,21 @@ export default function TaskEditDialogLogic({
   const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
   const unSelected = categoryId === 0 || taskId === 0;
-  const { data: categoryData, isLoading: isLoadingCategory } = useAspidaSWR(
-    apiClient.work_log.categories.options,
-    "get",
-    {
+  const { data: categoryData, isLoading: isLoadingCategory } = useSWR(
+    ["api/work-log/categories/options", "displayRange=all&hideCompleted=true"],
+    localClient.work_log.categories.options.get({
       query: { displayRange: "all", hideCompleted: "true" },
-      key: [
-        "api/work-log/categories/options",
-        "displayRange=all&hideCompleted=true",
-      ],
-    }
+    })
   );
-  const categoryList = categoryData?.body;
-  const { data: taskData, isLoading: isLoadingTask } = useAspidaSWR(
-    apiClient.work_log.tasks.options,
-    "get",
-    {
-      key: `api/work-log/tasks/options?categoryId=${categoryId}`,
-      query: { categoryId: categoryId ?? 0 }, // null時に0与えてるけどenabledでフェッチできないようにしてるので実際はフェッチされない
-      enabled: categoryId !== null, // カテゴリのフェッチ前にフェッチさせない
-    }
+  const categoryList = categoryData;
+  const { data: taskData, isLoading: isLoadingTask } = useSWR(
+    categoryId ? `api/work-log/tasks/options?categoryId=${categoryId}` : null, // カテゴリフェッチ前はフェッチさせない
+    localClient.work_log.tasks.options.get({
+      query: { categoryId: categoryId ?? 0 },
+    })
   );
-  const taskList = taskData?.body;
+
+  const taskList = taskData;
   const isLoading = useMemo(
     () =>
       // SWRのロード状態
@@ -130,12 +123,11 @@ export default function TaskEditDialogLogic({
 
   // 進捗関連
   // データフェッチ
-  const { data: progressData, isLoading: isLoadingProgress } = useAspidaSWR(
-    apiClient.work_log.tasks._id(taskId ?? 0).progress, // id:nullの場合は下記でフェッチ抑制してるので適当な値を
-    "get",
-    { key: taskId ? `api/work-log/tasks/${taskId}/progress` : null } // taskIdがない場合はnullにしてフェッチさせない
+  const { data: progressData, isLoading: isLoadingProgress } = useSWR(
+    taskId ? `api/work-log/tasks/${taskId}/progress` : null,
+    localClient.work_log.tasks._id(taskId ?? 0).progress.get() // id:nullの場合は下記でフェッチ抑制してるので適当な値を
   );
-  const initProgress = progressData?.body.progress;
+  const initProgress = progressData?.progress;
   const [progress, setProgress] = useState<number | null>(null);
   const isBecomeComplete = useMemo(() => progress === 100, [progress]);
   const handleChangeProgress = useCallback(
@@ -146,7 +138,7 @@ export default function TaskEditDialogLogic({
   );
   // 進捗の初期化処理(タスク変更時も)
   useEffect(() => {
-    const fetchProgressData = progressData?.body.progress;
+    const fetchProgressData = progressData?.progress;
     if (fetchProgressData !== undefined) {
       setProgress(fetchProgressData);
     }
