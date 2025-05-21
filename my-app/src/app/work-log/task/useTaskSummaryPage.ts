@@ -9,7 +9,6 @@ import {
 } from "react";
 import { TaskSummaryTableBodyHandle } from "./table/body/TaskSummaryTableBodyLogic";
 import { useRouter, useSearchParams } from "next/navigation";
-import apiClient from "@/lib/apiClient";
 import { TaskSummary } from "@/type/Task";
 import useSWR, { mutate } from "swr";
 import { getTaskSummaryQuery } from "@/lib/query";
@@ -100,7 +99,7 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
   const updateAll = useCallback(
     async (data: { id: number; progress?: number; isFavorite?: boolean }[]) => {
       // データをまとめて変更
-      await apiClient.work_log.tasks.bulk_update.patch({ body: data });
+      await localClient.work_log.tasks.bulk_update.patch({ body: data });
       // 再検証
       mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
     },
