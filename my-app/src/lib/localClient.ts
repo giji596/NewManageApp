@@ -1,3 +1,5 @@
+import { CategoryHeaderQuery } from "@/type/Category";
+import { getCategoryOptions } from "./local-services/categoryService";
 import { getDailyDetailData } from "./local-services/dailyDetailService";
 import {
   getLastMonthTaskActivities,
@@ -24,6 +26,14 @@ export const localClient = {
         last_month: {
           get: () => () => getLastMonthTaskActivities(),
         },
+      },
+    },
+    categories: {
+      options: {
+        get:
+          ({ query }: { query?: CategoryHeaderQuery }) =>
+          () =>
+            getCategoryOptions(query),
       },
     },
   },
