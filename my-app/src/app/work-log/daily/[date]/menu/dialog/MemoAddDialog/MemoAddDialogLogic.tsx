@@ -1,11 +1,11 @@
 import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { TagOption } from "@/type/Tag";
 import { TaskLogSummary } from "@/type/Task";
-import useAspidaSWR from "@aspida/swr";
 import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type SubmitData = {
   /** タスクログid */
@@ -29,10 +29,8 @@ type Props = {
  */
 export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
   const { date } = useParams<{ date: string }>();
-  const { data } = useAspidaSWR(apiClient.work_log.tags, "get", {
-    key: "api/work-log/tags",
-  });
-  const rawTagList: TagOption[] = data?.body ?? [];
+  const { data } = useSWR("api/work-log/tags", localClient.work_log.tags.get());
+  const rawTagList: TagOption[] = data ?? [];
   const tagList: TagOption[] = [{ id: 0, name: "未選択" }, ...rawTagList];
   const {
     control,
