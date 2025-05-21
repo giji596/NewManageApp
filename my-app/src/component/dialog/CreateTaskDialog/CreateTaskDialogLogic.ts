@@ -1,9 +1,7 @@
-import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
-import axios from "axios";
+import { localClient } from "@/lib/localClient";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type SubmitData = {
   /** カテゴリID */
@@ -31,14 +29,13 @@ export default function CreateTaskDialogLogic({
   onClose,
   onCreateTask,
 }: Props) {
-  const { data } = useAspidaSWR(apiClient.work_log.categories.options, "get", {
-    query: { displayRange: "all", hideCompleted: "true" },
-    key: [
-      "api/work-log/categories/options",
-      "displayRange=all&hideCompleted=true",
-    ],
-  });
-  const categoryList = data?.body;
+  const { data } = useSWR(
+    ["api/work-log/categories/options", "displayRange=all&hideCompleted=true"],
+    localClient.work_log.categories.options.get({
+      query: { displayRange: "all", hideCompleted: "true" },
+    })
+  );
+  const categoryList = data;
   const {
     control,
     handleSubmit,
@@ -54,7 +51,7 @@ export default function CreateTaskDialogLogic({
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       try {
-        const res = await apiClient.work_log.tasks.post({
+        const res = await localClient.work_log.tasks.post({
           body: {
             name: data.taskName,
             categoryId: data.categoryId,
@@ -68,14 +65,13 @@ export default function CreateTaskDialogLogic({
           (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
           undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
         );
-        onCreateTask?.(res.body.id);
+        onCreateTask?.(res.id);
         onClose();
       } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          // エラーコードが400の場合は重複エラーであるとする
-          if (error.response.status === 400) {
-            setDuplicateError(true);
-          }
+        // 重複エラーであるかメッセージで判定
+        if (error instanceof Error && error.message === "duplicate error") {
+          // エラーメッセージ表示
+          setDuplicateError(true);
         }
       }
     },
