@@ -1,6 +1,5 @@
 import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
-import useAspidaSWR from "@aspida/swr";
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -124,12 +123,11 @@ export default function TaskEditDialogLogic({
 
   // 進捗関連
   // データフェッチ
-  const { data: progressData, isLoading: isLoadingProgress } = useAspidaSWR(
-    apiClient.work_log.tasks._id(taskId ?? 0).progress, // id:nullの場合は下記でフェッチ抑制してるので適当な値を
-    "get",
-    { key: taskId ? `api/work-log/tasks/${taskId}/progress` : null } // taskIdがない場合はnullにしてフェッチさせない
+  const { data: progressData, isLoading: isLoadingProgress } = useSWR(
+    taskId ? `api/work-log/tasks/${taskId}/progress` : null,
+    localClient.work_log.tasks._id(taskId ?? 0).progress.get() // id:nullの場合は下記でフェッチ抑制してるので適当な値を
   );
-  const initProgress = progressData?.body.progress;
+  const initProgress = progressData?.progress;
   const [progress, setProgress] = useState<number | null>(null);
   const isBecomeComplete = useMemo(() => progress === 100, [progress]);
   const handleChangeProgress = useCallback(
@@ -140,7 +138,7 @@ export default function TaskEditDialogLogic({
   );
   // 進捗の初期化処理(タスク変更時も)
   useEffect(() => {
-    const fetchProgressData = progressData?.body.progress;
+    const fetchProgressData = progressData?.progress;
     if (fetchProgressData !== undefined) {
       setProgress(fetchProgressData);
     }
