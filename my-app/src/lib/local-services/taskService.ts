@@ -28,7 +28,8 @@ export const createTask = async (
   isFavorite: boolean
 ) => {
   // 重複チェック
-  const existing = await db.tasks.where({ categoryId, name }).first();
+  const categoryTaskList = await db.tasks.where({ categoryId }).toArray();
+  const existing = categoryTaskList.find((v) => v.name === name);
   if (existing !== undefined) throw new Error("duplicate error");
 
   // くりえーとする
