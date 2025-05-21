@@ -95,7 +95,7 @@ export default function MemoEditDialogLogic({
       if (init.current.title !== data.title) sendData.title = data.title;
       if (init.current.text !== data.text) sendData.text = data.text;
       if (init.current.tagId !== data.tagId) sendData.tagId = data.tagId;
-      await apiClient.work_log.memos._id(id).patch({
+      await localClient.work_log.memos._id(id).patch({
         body: sendData,
       });
       // 送信後に初期値のrefを更新する
