@@ -64,7 +64,9 @@ const TagEditDialog = memo(function TagEditDialog({
                 タグがありません
               </Typography>
             )}
-            {!noTagItem && <TagList tagList={tagList} />}
+            {!noTagItem && (
+              <TagList tagList={tagList} onDeleteTag={editActions?.clear} />
+            )}
             {/** 追加ボタン */}
             <Button
               sx={{ width: "25%" }}
