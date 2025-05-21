@@ -1,4 +1,3 @@
-import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
 import { SelectChangeEvent } from "@mui/material";
 import { useParams } from "next/navigation";
@@ -43,7 +42,7 @@ export const CompletedTaskEditDialogLogic = ({
     onClose();
   }, [dailyHours, date, initialHours, itemId, onClose]);
   const handleDelete = useCallback(async () => {
-    await apiClient.work_log.daily._date(date).task_logs._id(itemId).delete();
+    await localClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
     onClose();
   }, [date, itemId, onClose]);

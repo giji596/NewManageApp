@@ -5,6 +5,7 @@ import {
 } from "./local-services/categoryService";
 import {
   createDailyDetailData,
+  deleteTaskLog,
   getDailyDetailData,
   updateTaskLog,
 } from "./local-services/dailyDetailService";
@@ -42,6 +43,7 @@ export const localClient = {
                   };
                 }) =>
                   updateTaskLog(id, body.taskId, body.workTime, body.progress),
+                delete: () => deleteTaskLog(id),
               };
             },
             post: ({ body }: { body: { taskId: number } }) =>
