@@ -110,6 +110,30 @@ export const getTaskSummary = async (
 };
 
 /**
+ * メインページで過去一ヶ月に稼働があるタスクの進捗を取得するロジック
+ */
+export const getLastMonthTaskProgress = async () => {
+  const oneMonthAgo = subMonths(new Date(), 1).toISOString();
+
+  // 一ヶ月以内に更新があるタスクを取得
+  const tasks = await db.tasks.toArray();
+  const lastMonthTasks = tasks.filter((task) => {
+    const lastActivityDate = task.lastActivityDate;
+    // 更新日がないものは除外
+    if (lastActivityDate === undefined) return false;
+    // 更新日が一ヶ月以内のものを取得
+    return lastActivityDate >= oneMonthAgo;
+  });
+  const result = lastMonthTasks
+    .sort((a, b) => b.progress - a.progress)
+    .map((task) => {
+      return { id: task.id, name: task.name, progress: `${task.progress}%` };
+    });
+
+  return result;
+};
+
+/**
  * タスク詳細データ取得ロジック
  */
 export const getTaskDetail = async (id: number) => {
