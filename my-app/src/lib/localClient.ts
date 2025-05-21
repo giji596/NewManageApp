@@ -14,6 +14,7 @@ import {
   getLastMonthTaskActivities,
   getTaskOptions,
   getTaskProgress,
+  getTaskSummary,
 } from "./local-services/taskService";
 import {
   createTag,
@@ -33,6 +34,7 @@ import {
   getDailySummaryData,
   getDailySummaryDetailData,
 } from "./local-services/dailySummaryService";
+import { TaskSummaryRangeQuery } from "@/type/Task";
 
 export const localClient = {
   work_log: {
@@ -75,6 +77,10 @@ export const localClient = {
       },
     },
     tasks: {
+      get:
+        ({ query }: { query?: TaskSummaryRangeQuery }) =>
+        () =>
+          getTaskSummary(query),
       _id: (id: number) => {
         return {
           progress: {
