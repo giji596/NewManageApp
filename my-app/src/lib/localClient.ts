@@ -15,6 +15,7 @@ import {
   getTaskOptions,
   getTaskProgress,
   getTaskSummary,
+  bulkUpdateTask,
 } from "./local-services/taskService";
 import {
   createTag,
@@ -103,6 +104,13 @@ export const localClient = {
         last_month: {
           get: () => () => getLastMonthTaskActivities(),
         },
+      },
+      bulk_update: {
+        patch: ({
+          body,
+        }: {
+          body: { id: number; progress?: number; isFavorite?: boolean }[];
+        }) => bulkUpdateTask(body),
       },
     },
     categories: {
