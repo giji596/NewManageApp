@@ -57,6 +57,18 @@ export const createTag = async (tagName: string) => {
 };
 
 /**
+ * タグを削除するロジック
+ */
+export const deleteTag = async (id: number) => {
+  const exist = await db.memoTags.get(id);
+  if (!exist) {
+    throw new Error("Tag not found");
+  }
+  await db.memoTags.delete(id);
+  return { id };
+};
+
+/**
  * タグ名を更新するロジック
  */
 export const updateTagName = async (name: string, id: number) => {
