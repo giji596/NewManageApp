@@ -2,6 +2,7 @@ import { CategoryHeaderQuery } from "@/type/Category";
 import {
   createCategory,
   getCategoryOptions,
+  getCategorySummary,
 } from "./local-services/categoryService";
 import {
   createDailyDetailData,
@@ -136,6 +137,13 @@ export const localClient = {
       },
     },
     categories: {
+      _id: (id: number) => {
+        return {
+          summary: {
+            get: () => () => getCategorySummary(id),
+          },
+        };
+      },
       post: ({ body }: { body: { name: string } }) => createCategory(body.name),
       options: {
         get:

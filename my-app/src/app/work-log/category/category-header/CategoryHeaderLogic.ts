@@ -4,14 +4,14 @@ import {
   CategoryHeaderQueryParams,
   CategoryOption,
 } from "@/type/Category";
-import useAspidaSWR from "@aspida/swr";
 import { keyframes, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DisplayRange } from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { getTodayDay, getTodayMonth, getTodayYear } from "@/lib/date";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import axios from "axios";
+import { localClient } from "@/lib/localClient";
 
 /** クエリ(yyyy-MM-dd) -> 子のパラメータ用{y,m,d}に変換する関数 */
 const queryDateToQueryParam = (dateString?: string) => {
@@ -76,20 +76,16 @@ export default function CategoryHeaderLogic() {
     setOptionsQuery(v);
   }, []);
 
-  const { data, isLoading: isLoadingOptions } = useAspidaSWR(
-    apiClient.work_log.categories.options,
-    "get",
-    {
+  const { data, isLoading: isLoadingOptions } = useSWR(
+    optionsQuery
+      ? ["api/work-log/categories/options", optionsQuery.toString()]
+      : ["api/work-log/categories/options", "displayRange=all"], // クエリなしの場合とallの場合は同じ範囲
+
+    localClient.work_log.categories.options.get({
       query: queryValues,
-      key: optionsQuery
-        ? ["api/work-log/categories/options", optionsQuery.toString()]
-        : ["api/work-log/categories/options", "displayRange=all"], // クエリなしの場合とallの場合は同じ範囲
-    }
+    })
   );
-  const categoryOptions: CategoryOption[] = useMemo(
-    () => data?.body ?? [],
-    [data?.body]
-  );
+  const categoryOptions: CategoryOption[] = useMemo(() => data ?? [], [data]);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -126,18 +122,14 @@ export default function CategoryHeaderLogic() {
     [categoryOptions, selectedCategoryId]
   );
   const { data: rawCategorySummaryData, isLoading: isLoadingCategorySummary } =
-    useAspidaSWR(
-      apiClient.work_log.categories._id(selectedCategoryId).summary,
-      "get",
-      {
-        key:
-          // カテゴリ選択が0(カテゴリがない場合の値)であればkeyをnullにしてフェッチさせない
-          selectedCategoryId === 0
-            ? null
-            : `api/work-log/categories/${selectedCategoryId}/summary`,
-      }
+    useSWR(
+      // カテゴリ選択が0(カテゴリがない場合の値)であればkeyをnullにしてフェッチさせない
+      selectedCategoryId === 0
+        ? null
+        : `api/work-log/categories/${selectedCategoryId}/summary`,
+      localClient.work_log.categories._id(selectedCategoryId).summary.get()
     );
-  const categorySummaryData = rawCategorySummaryData?.body ?? {
+  const categorySummaryData = rawCategorySummaryData ?? {
     // 仮データ(実際はisLoadingで非表示)
     name: "",
     isCompleted: false,

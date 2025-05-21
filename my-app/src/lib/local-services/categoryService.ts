@@ -1,4 +1,8 @@
-import { CategoryHeaderQuery, CategoryOption } from "@/type/Category";
+import {
+  CategoryHeaderQuery,
+  CategoryOption,
+  CategorySummary,
+} from "@/type/Category";
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
 
@@ -75,6 +79,52 @@ export const getCategoryOptions = async (
   return sorted.map((v) => {
     return { id: v.id, name: v.name };
   });
+};
+
+/**
+ * カテゴリーの概要データを取得するロジック
+ */
+export const getCategorySummary = async (
+  id: number
+): Promise<CategorySummary | null> => {
+  // カテゴリ関連のデータ取得
+  const category = await db.categories.get(id);
+  if (!category) return null;
+
+  // 開始日と最終更新日を取得する
+  const tasks = await db.tasks.where("categoryId").equals(id).toArray();
+  const startedAt = tasks.reduce(
+    (earliest, task) =>
+      task.firstActivityDate && (!earliest || task.firstActivityDate < earliest)
+        ? task.firstActivityDate
+        : earliest,
+    null as string | null
+  );
+  const lastAt = tasks.reduce(
+    (latest, task) =>
+      task.lastActivityDate && (!latest || task.lastActivityDate > latest)
+        ? task.lastActivityDate
+        : latest,
+    null as string | null
+  );
+
+  // stringに変換後にreturnの型定義の形にフォーマットする
+  const startString = startedAt ? startedAt.split("T")[0] : "--------";
+  const lastString = lastAt ? lastAt.split("T")[0] : "--------";
+  const activeDate = `${startString}~${lastString}`;
+
+  // 総稼働時間を計算
+  const taskIds = tasks.map((task) => task.id);
+  const taskLogs = await db.taskLogs.where("taskId").anyOf(taskIds).toArray();
+  const totalHours = taskLogs.reduce((sum, logs) => sum + logs.workTime, 0);
+
+  // 整形してreturn
+  return {
+    name: category.name,
+    isCompleted: category.isCompleted,
+    totalHours,
+    activeDate,
+  };
 };
 
 /**
