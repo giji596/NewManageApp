@@ -48,7 +48,6 @@ const TagEditDialog = memo(function TagEditDialog({
               control={
                 <Checkbox
                   size="small"
-                  disabled={noTagItem} // タグがない場合はチェックボックスを無効化
                   checked={showOnlyUnused}
                   onChange={toggleShowOnlyUnused}
                 />
