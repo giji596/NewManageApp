@@ -167,3 +167,20 @@ export const updateTaskLog = async (
 
   return { id };
 };
+
+/**
+ * タスクログを削除するロジック
+ */
+export const deleteTaskLog = async (id: number) => {
+  // 削除対象のデータを取得
+  const data = await db.taskLogs.get(id);
+  if (!data) throw new Error("Task log not found");
+
+  // データを削除
+  await db.taskLogs.delete(id);
+
+  // 必要に応じて元タスクの最終更新日を引き下げる
+  await adjustTaskActivityDatesIfRemoved(data.date, data.taskId);
+
+  return { id: data.id, date: data.date, taskId: data.taskId };
+};
