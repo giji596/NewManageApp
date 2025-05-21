@@ -20,6 +20,29 @@ export const getTaskOptions = async (categoryId: number) => {
 };
 
 /**
+ * タスク作成する関数
+ */
+export const createTask = async (
+  name: string,
+  categoryId: number,
+  isFavorite: boolean
+) => {
+  // 重複チェック
+  const existing = await db.tasks.where({ categoryId, name }).first();
+  if (existing !== undefined) throw new Error("duplicate error");
+
+  // くりえーとする
+  const id = await db.tasks.add({
+    name,
+    categoryId,
+    isFavorite,
+    progress: 0,
+  });
+
+  return { id, name };
+};
+
+/**
  * メインページ用の一ヶ月分のカテゴリ別の稼働をとってくるロジック
  */
 export const getLastMonthTaskActivities = async () => {
