@@ -1,8 +1,8 @@
-import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
+import { localClient } from "@/lib/localClient";
 import { format, subMonths } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
 
 /**
  * 設定した期間のタスク稼働率を円グラフで表示するコンポーネントのロジック
@@ -49,17 +49,16 @@ export default function TaskActivityPieChartLogic() {
         return { range: selectedRange };
     }
   }, [endDate, selectedRange, startDate]);
-  const { data: rawData, isLoading } = useAspidaSWR(
-    apiClient.work_log.categories._id(categoryId).activity,
-    "get",
-    {
-      query: fetchQuery,
-      key: noCategory
-        ? null
-        : [`api/work-log/categories/${categoryId}/activity`, fetchQuery],
-    }
+  const { data: rawData, isLoading } = useSWR(
+    noCategory
+      ? null
+      : [`api/work-log/categories/${categoryId}/activity`, fetchQuery],
+    localClient.work_log.categories
+      ._id(categoryId)
+      .activity.get({ query: fetchQuery })
   );
-  const data = rawData?.body ?? [];
+  const data = rawData ?? [];
+  console.log("data", data);
 
   return {
     /** 選択中の範囲("last-month" | "all" | "select"のいずれか) */
