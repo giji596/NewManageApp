@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from "react";
 import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
-import apiClient from "@/lib/apiClient";
 import { mutate } from "swr";
 import { localClient } from "@/lib/localClient";
 
@@ -25,7 +24,7 @@ export const TagListLogic = ({ onOpenDelete, onOpenSave }: Props) => {
   const clearEditTarget = useCallback(() => setEditTargetId(null), []);
 
   const handleDelete = useCallback(async (id: number) => {
-    await apiClient.work_log.tags._id(id).delete();
+    await localClient.work_log.tags._id(id).delete();
     // データを際検証
     mutate("api/work-log/tags/with-usage");
     mutate("api/work-log/tags");
