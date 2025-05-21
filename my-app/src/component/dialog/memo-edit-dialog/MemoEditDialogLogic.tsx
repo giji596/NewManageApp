@@ -1,10 +1,11 @@
 import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { TagOption } from "@/type/Tag";
 import useAspidaSWR from "@aspida/swr";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type SubmitData = {
   /** 本文 */
@@ -49,15 +50,14 @@ export default function MemoEditDialogLogic({
   );
   const text = useMemo(() => data?.body.text ?? "", [data?.body.text]);
 
-  const { data: tagData, isLoading: isLoadingTag } = useAspidaSWR(
-    apiClient.work_log.tags,
-    "get",
-    { key: "api/work-log/tags" }
+  const { data: tagData, isLoading: isLoadingTag } = useSWR(
+    "api/work-log/tags",
+    localClient.work_log.tags.get()
   );
   const tagList: TagOption[] = useMemo(
     () =>
       tagData !== undefined
-        ? [{ id: 0, name: "未選択" }, ...tagData.body]
+        ? [{ id: 0, name: "未選択" }, ...tagData]
         : [{ id: 0, name: "未選択" }],
     [tagData]
   );
