@@ -23,7 +23,11 @@ import {
   getTagWithUsage,
   updateTagName,
 } from "./local-services/tagService";
-import { createMemo, getMemoBody } from "./local-services/memoService";
+import {
+  createMemo,
+  getMemoBody,
+  updateMemo,
+} from "./local-services/memoService";
 
 export const localClient = {
   work_log: {
@@ -90,6 +94,11 @@ export const localClient = {
     memos: {
       _id: (id: number) => {
         return {
+          patch: ({
+            body,
+          }: {
+            body: { title?: string; text?: string; tagId?: number };
+          }) => updateMemo(id, body.title, body.text, body.tagId),
           body: { get: () => () => getMemoBody(id) },
         };
       },

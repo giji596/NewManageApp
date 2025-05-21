@@ -25,3 +25,28 @@ export const createMemo = async (
   });
   return id;
 };
+
+/**
+ * メモを更新するメソッド
+ */
+export const updateMemo = async (
+  id: number,
+  title?: string,
+  text?: string,
+  tagId?: number
+) => {
+  // tagIdが0の場合はnullに変換する(memoのtagIdはNull許容 かつtagId0の場合は未選択の場合なので)
+  const nullableTagId = tagId === 0 ? undefined : tagId;
+
+  // 更新するデータを構築
+  const updateData: Partial<{ title: string; text: string; tagId: number }> =
+    {};
+  if (title !== undefined) updateData.title = title;
+  if (text !== undefined) updateData.text = text;
+  if (tagId !== undefined) updateData.tagId = nullableTagId;
+
+  // データを更新
+  await db.memos.update(id, updateData);
+
+  return id;
+};
