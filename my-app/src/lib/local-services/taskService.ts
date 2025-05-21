@@ -128,6 +128,28 @@ export const createTask = async (
 };
 
 /**
+ * タスクを一括更新するメソッド(一覧ページで利用)
+ */
+export const bulkUpdateTask = async (
+  updateData: { id: number; progress?: number; isFavorite?: boolean }[]
+) => {
+  const updates = updateData.map(async (v) => {
+    const updateFields: Partial<{ progress: number; isFavorite: boolean }> = {};
+    if (v.progress !== undefined) {
+      updateFields.progress = v.progress;
+    }
+    if (v.isFavorite !== undefined) {
+      updateFields.isFavorite = v.isFavorite;
+    }
+    return db.tasks.update(v.id, updateFields);
+  });
+
+  await Promise.all(updates);
+
+  return updateData.map((v) => ({ id: v.id }));
+};
+
+/**
  * メインページ用の一ヶ月分のカテゴリ別の稼働をとってくるロジック
  */
 export const getLastMonthTaskActivities = async () => {
