@@ -1,7 +1,7 @@
-import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
+import { localClient } from "@/lib/localClient";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
 
 /**
  * カテゴリのタスク一覧表示コンポーネントのロジック
@@ -10,12 +10,9 @@ export default function CategoryTaskListLogic() {
   const searchParams = useSearchParams();
   const categoryId = Number(searchParams.get("id") ?? 0);
   const noCategory = useMemo(() => categoryId === 0, [categoryId]);
-  const { data: fetchData, isLoading } = useAspidaSWR(
-    apiClient.work_log.categories._id(categoryId).tasks,
-    "get",
-    {
-      key: noCategory ? null : `api/work-log/categories/${categoryId}/tasks`,
-    }
+  const { data: fetchData, isLoading } = useSWR(
+    noCategory ? null : `api/work-log/categories/${categoryId}/tasks`,
+    localClient.work_log.categories._id(categoryId).tasks.get()
   );
 
   const [selectedValue, setSelectedValue] = useState<
@@ -32,7 +29,7 @@ export default function CategoryTaskListLogic() {
   );
 
   const data = useMemo(() => {
-    const rawData = fetchData?.body ?? [];
+    const rawData = fetchData ?? [];
     switch (selectedValue) {
       case "in-progress":
         return rawData.filter((v) => v.progress !== 100);
@@ -42,7 +39,7 @@ export default function CategoryTaskListLogic() {
       default:
         return rawData;
     }
-  }, [fetchData?.body, selectedValue]);
+  }, [fetchData, selectedValue]);
   return {
     /** タスクテーブル用のデータ */
     data,
