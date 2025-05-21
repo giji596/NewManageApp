@@ -34,6 +34,7 @@ export const CreateTagDialogLogic = ({ onClose, onCreateTag }: Props) => {
           body: { tagName: data.tagName },
         });
         await mutate("api/work-log/tags");
+        await mutate("api/work-log/tags/with-usage");
         onCreateTag?.(res.id); // 渡された場合のみ実行
         onClose();
       } catch (error) {
