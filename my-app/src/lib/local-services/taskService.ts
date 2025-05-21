@@ -125,3 +125,49 @@ export const getLastMonthTaskActivities = async () => {
 
   return result;
 };
+
+/**
+ * 指定された日時に基づいて、タスクの firstActivityDate および lastActivityDate を必要に応じて更新します。
+ * - firstActivityDate が未設定、または指定日時より後であれば、指定日時に更新します。
+ * - lastActivityDate が未設定、または指定日時より前であれば、指定日時に更新します。
+ */
+export const updateTaskActivityDatesIfNeeded = async (
+  date: string,
+  taskId: number
+) => {
+  // タスクの更新日を取得
+  const target = await db.tasks.get(taskId);
+
+  if (!target) {
+    throw new Error("Task not found");
+  }
+
+  // 更新データ用のオブジェクトを作成
+  const updateData: Partial<{
+    firstActivityDate: string;
+    lastActivityDate: string;
+  }> = {};
+
+  // 開始日について、対象のタスクが存在しかつ開始日がないか未来の日付の場合に更新処理のキューに含める
+  if (
+    target.firstActivityDate === undefined ||
+    target.firstActivityDate === null ||
+    target.firstActivityDate > date
+  ) {
+    updateData.firstActivityDate = date;
+  }
+
+  // 最終実施日について、対象のタスクが存在しかつ更新日がないか過去の日付の場合に更新処理のキューに含める
+  if (
+    target.lastActivityDate === undefined ||
+    target.lastActivityDate === null ||
+    target.lastActivityDate < date
+  ) {
+    updateData.lastActivityDate = date;
+  }
+
+  // updateDataに更新内容が含まれている場合は更新処理を実行
+  if (Object.keys(updateData).length > 0) {
+    await db.tasks.update(taskId, updateData);
+  }
+};

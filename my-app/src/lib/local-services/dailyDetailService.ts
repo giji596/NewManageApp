@@ -1,6 +1,7 @@
 import { DailyDetailTaskTableType } from "@/type/Task";
 import { db } from "../dexie";
 import { MemoDailyTask } from "@/type/Memo";
+import { updateTaskActivityDatesIfNeeded } from "./taskService";
 
 /**
  * 日付詳細ページのデータをDBから取得する関数
@@ -95,4 +96,24 @@ export const getDailyDetailData = async (date: string) => {
     taskList: tasks,
     memoList: memos,
   };
+};
+
+/**
+ * 日付詳細 - タスク追加ダイアログによる追加時のロジック
+ */
+export const createDailyDetailData = async (date: string, taskId: number) => {
+  // すでに同じタスクidがある場合はnullを返す
+  const existing = await db.taskLogs.where({ date, taskId }).first();
+  if (existing) throw new Error("duplicate error");
+  // くりえーとする
+  const data = await db.taskLogs.add({
+    taskId,
+    date,
+    workTime: 0,
+  });
+
+  // 追加後に必要であればタスクの最終更新日の更新処理を行う
+  await updateTaskActivityDatesIfNeeded(date, taskId);
+
+  return data;
 };

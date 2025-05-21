@@ -3,7 +3,10 @@ import {
   createCategory,
   getCategoryOptions,
 } from "./local-services/categoryService";
-import { getDailyDetailData } from "./local-services/dailyDetailService";
+import {
+  createDailyDetailData,
+  getDailyDetailData,
+} from "./local-services/dailyDetailService";
 import {
   createTask,
   getLastMonthTaskActivities,
@@ -15,6 +18,10 @@ export const localClient = {
     daily: {
       _date: (date: string) => {
         return {
+          task_logs: {
+            post: ({ body }: { body: { taskId: number } }) =>
+              createDailyDetailData(date, body.taskId),
+          },
           get: () => () => getDailyDetailData(date),
         };
       },
