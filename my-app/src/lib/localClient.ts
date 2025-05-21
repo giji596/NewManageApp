@@ -15,6 +15,7 @@ import {
 import {
   createTag,
   getMemoTags,
+  getTagUsageMemoTitlesAndCount,
   getTagWithUsage,
   updateTagName,
 } from "./local-services/tagService";
@@ -67,6 +68,7 @@ export const localClient = {
         return {
           patch: ({ body }: { body: { name: string } }) =>
             updateTagName(body.name, Number(id)),
+          usage: { get: () => () => getTagUsageMemoTitlesAndCount(id) },
         };
       },
       with_usage: {
