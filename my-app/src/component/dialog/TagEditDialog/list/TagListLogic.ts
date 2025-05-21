@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { SubmitTagData } from "./EditTagItem/EditTagItemLogic";
 import { mutate } from "swr";
 import { localClient } from "@/lib/localClient";
+import { useParams } from "next/navigation";
 
 type Props = {
   /** 削除の確認ダイアログを閉じるハンドラー */
@@ -19,6 +20,7 @@ export const TagListLogic = ({
   onOpenSave,
   onDeleteTag,
 }: Props) => {
+  const { date: dateParam } = useParams<{ date: string }>();
   const [editTargetId, setEditTargetId] = useState<number | null>(null); // null=選択なし
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null); // null=選択なし
   const saveDataRef = useRef<SubmitTagData | null>(null);
@@ -35,12 +37,14 @@ export const TagListLogic = ({
       // データを際検証
       mutate("api/work-log/tags/with-usage");
       mutate("api/work-log/tags");
+      // 日付ページ用のデータを再検証
+      mutate(`api/work-log/daily/${dateParam}`);
       //　削除後にターゲットをnullにする
       setDeleteTargetId(null);
       // 親でのイベントを実行
       onDeleteTag?.(id);
     },
-    [onDeleteTag]
+    [dateParam, onDeleteTag]
   );
   const onClickDelete = useCallback(
     (targetId: number, isUsed: boolean) => {

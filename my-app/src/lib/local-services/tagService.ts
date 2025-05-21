@@ -65,6 +65,13 @@ export const deleteTag = async (id: number) => {
     throw new Error("Tag not found");
   }
   await db.memoTags.delete(id);
+  // 関連するメモのタグを削除(undefinedにする)
+  await db.memos
+    .where("tagId")
+    .equals(id)
+    .modify((memo) => {
+      memo.tagId = undefined;
+    });
   return { id };
 };
 
