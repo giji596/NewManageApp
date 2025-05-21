@@ -25,6 +25,7 @@ import {
 } from "./local-services/tagService";
 import {
   createMemo,
+  deleteMemo,
   getMemoBody,
   updateMemo,
 } from "./local-services/memoService";
@@ -100,6 +101,7 @@ export const localClient = {
             body: { title?: string; text?: string; tagId?: number };
           }) => updateMemo(id, body.title, body.text, body.tagId),
           body: { get: () => () => getMemoBody(id) },
+          delete: () => deleteMemo(id),
         };
       },
       post: ({
