@@ -1,7 +1,6 @@
 import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
 import { TagOption } from "@/type/Tag";
-import useAspidaSWR from "@aspida/swr";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -43,12 +42,11 @@ export default function MemoEditDialogLogic({
     text: "",
     tagId: 0,
   });
-  const { data, isLoading: isLoadingText } = useAspidaSWR(
-    apiClient.work_log.memos._id(id).body,
-    "get",
-    { key: `api/work-log/memos/${id}/body` }
+  const { data, isLoading: isLoadingText } = useSWR(
+    `api/work-log/memos/${id}/body`,
+    localClient.work_log.memos._id(id).body.get()
   );
-  const text = useMemo(() => data?.body.text ?? "", [data?.body.text]);
+  const text = useMemo(() => data?.text ?? "", [data?.text]);
 
   const { data: tagData, isLoading: isLoadingTag } = useSWR(
     "api/work-log/tags",
