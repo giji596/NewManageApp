@@ -1,6 +1,6 @@
-import apiClient from "@/lib/apiClient";
-import useAspidaSWR from "@aspida/swr";
+import { localClient } from "@/lib/localClient";
 import { useCallback } from "react";
+import useSWR from "swr";
 
 type Props = {
   /** 保存対象のid(データ取得に利用) */
@@ -19,12 +19,11 @@ export const TagConfirmSaveDialogLogic = ({
   onClose,
   onSave,
 }: Props) => {
-  const { data: rawData } = useAspidaSWR(
-    apiClient.work_log.tags._id(targetId).usage,
-    "get",
-    { key: `api/work-log/tags/${targetId}.usage` }
+  const { data: rawData } = useSWR(
+    `api/work-log/tags/${targetId}/usage`,
+    localClient.work_log.tags._id(targetId).usage.get()
   );
-  const memoData = rawData?.body;
+  const memoData = rawData;
   const memoTitleList = memoData?.memoTitles;
   const usedCount = memoData?.usageCount;
   const hideItemCount = usedCount && usedCount - 5;
