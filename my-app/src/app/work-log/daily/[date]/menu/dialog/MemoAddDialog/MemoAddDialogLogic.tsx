@@ -1,4 +1,3 @@
-import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
 import { TagOption } from "@/type/Tag";
 import { TaskLogSummary } from "@/type/Task";
@@ -61,7 +60,7 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
           tagId: data.tagId,
         };
       }
-      await apiClient.work_log.memos.post({ body: newData });
+      await localClient.work_log.memos.post({ body: newData });
       mutate(`api/work-log/daily/${date}`);
       onClose();
     },
