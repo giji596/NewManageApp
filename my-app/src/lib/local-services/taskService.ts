@@ -233,6 +233,43 @@ export const bulkUpdateTask = async (
 };
 
 /**
+ * タスクの詳細を更新するメソッド
+ */
+export const updateTaskDetail = async (
+  id: number,
+  taskName?: string,
+  categoryId?: number,
+  isFavorite?: boolean,
+  progress?: number
+) => {
+  const updateData: Partial<{
+    name: string;
+    categoryId: number;
+    isFavorite: boolean;
+    progress: number;
+  }> = {};
+
+  if (taskName !== undefined) {
+    updateData.name = taskName;
+  }
+  if (categoryId !== undefined) {
+    updateData.categoryId = categoryId;
+  }
+  if (isFavorite !== undefined) {
+    updateData.isFavorite = isFavorite;
+  }
+  if (progress !== undefined) {
+    updateData.progress = progress;
+  }
+
+  const updated = await db.tasks.update(id, updateData);
+  if (!updated) {
+    throw new Error("Task not found or update failed");
+  }
+  return { id };
+};
+
+/**
  * メインページ用の一ヶ月分のカテゴリ別の稼働をとってくるロジック
  */
 export const getLastMonthTaskActivities = async () => {

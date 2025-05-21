@@ -1,10 +1,9 @@
-import apiClient from "@/lib/apiClient";
+import { localClient } from "@/lib/localClient";
 import { CategoryOption } from "@/type/Category";
-import useAspidaSWR from "@aspida/swr";
 import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 type SubmitData = {
   /** タスク名 */
@@ -35,18 +34,13 @@ export default function TaskEditDialogLogic({
   onClose,
 }: Props) {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading } = useAspidaSWR(
-    apiClient.work_log.categories.options,
-    "get",
-    {
+  const { data, isLoading } = useSWR(
+    ["api/work-log/categories/options", "displayRange=all&hideCompleted=true"],
+    localClient.work_log.categories.options.get({
       query: { displayRange: "all", hideCompleted: "true" },
-      key: [
-        "api/work-log/categories/options",
-        "displayRange=all&hideCompleted=true",
-      ],
-    }
+    })
   );
-  const categoryList: CategoryOption[] = data?.body ?? [];
+  const categoryList: CategoryOption[] = data ?? [];
 
   const {
     control,
@@ -68,7 +62,7 @@ export default function TaskEditDialogLogic({
         sendData.categoryId = data.categoryId;
       if (initialIsFavorite !== data.isFavorite)
         sendData.isFavorite = data.isFavorite;
-      await apiClient.work_log.tasks._id(id).patch({
+      await localClient.work_log.tasks._id(Number(id)).patch({
         body: sendData,
       });
       // 再検証
