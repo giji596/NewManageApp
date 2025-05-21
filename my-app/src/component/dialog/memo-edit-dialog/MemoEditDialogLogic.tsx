@@ -1,4 +1,3 @@
-import apiClient from "@/lib/apiClient";
 import { localClient } from "@/lib/localClient";
 import { TagOption } from "@/type/Tag";
 import { useParams } from "next/navigation";
@@ -115,7 +114,7 @@ export default function MemoEditDialogLogic({
   }, [reset]);
 
   const handleDelete = useCallback(async () => {
-    await apiClient.work_log.memos._id(id).delete();
+    await localClient.work_log.memos._id(id).delete();
     mutate(`api/work-log/tasks/${taskId}`);
     onClose();
   }, [id, onClose, taskId]);
