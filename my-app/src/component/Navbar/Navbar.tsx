@@ -1,6 +1,7 @@
 "use client";
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
+import SettingsDrawer from "../SettingsDrawer/SettingsDrawer";
 
 /**
  *  ナビゲーションバーの共通コンポーネント
@@ -30,6 +31,8 @@ export default function Navbar() {
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
+        {/** メニューボタン */}
+        <SettingsDrawer />
         {/** ナビゲーション部分 */}
         <Breadcrumbs separator="›" aria-label="breadcrumb">
           {navPages.map((navPage, index) => {
