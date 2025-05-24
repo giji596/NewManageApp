@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const meta = {
   component: Navbar,
-  args: { navPages: ["aaa", "bbb", "ccc"] },
+  args: { onChangeTheme: () => {} },
 } satisfies Meta<typeof Navbar>;
 
 export default meta;
