@@ -37,56 +37,55 @@ export default function MainDisplay({
       {/** タスク/ おきにいり */}
       <Stack direction="row" justifyContent={"space-between"}>
         <Stack direction="row" spacing={1.5}>
-          <Typography width={125} textAlign={"right"}>
+          <Typography color="text.primary" width={125} textAlign={"right"}>
             タスク名:
           </Typography>
-          <Typography>{taskName}</Typography>
+          <Typography color="text.primary">{taskName}</Typography>
         </Stack>
         {isFavorite && <StarIcon color="primary" />}
         {!isFavorite && <StarBorderIcon />}
       </Stack>
       {/** カテゴリ */}
       <Stack direction="row" alignItems={"center"} spacing={1.5}>
-        <Typography width={125} textAlign={"right"}>
+        <Typography color="text.primary" width={125} textAlign={"right"}>
           カテゴリ名:
         </Typography>
-        <Typography>{categoryName}</Typography>
+        <Typography color="text.primary">{categoryName}</Typography>
         <IconButton size="small" onClick={onClickNavigateCategoryPage}>
           <ArrowCircleRightIcon />
         </IconButton>
       </Stack>
       {/** 進捗 */}
       <Stack direction="row" spacing={1.5}>
-        <Typography width={125} textAlign={"right"}>
+        <Typography color="text.primary" width={125} textAlign={"right"}>
           進捗:
         </Typography>
         <Stack
           direction="row-reverse"
-          sx={{
+          sx={(theme) => ({
             width: "70%",
             height: 20,
-            background:
-              "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
+            background: theme.palette.gradient.achievement,
             borderRadius: 1,
-          }}
+          })}
         >
           <Stack
             sx={{
               height: "100%",
               width: "0%",
-              backgroundColor: "#eee",
+              backgroundColor: "gray.normal",
               animation: `${growAnimation} 1s ease-out forwards`,
             }}
           />
         </Stack>
-        <Typography>{progress}%</Typography>
+        <Typography color="text.primary">{progress}%</Typography>
       </Stack>
       {/** 稼働合計 */}
       <Stack direction="row" spacing={1.5}>
-        <Typography width={125} textAlign={"right"}>
+        <Typography color="text.primary" width={125} textAlign={"right"}>
           稼働合計時間:
         </Typography>
-        <Typography>{totalHours}(h)</Typography>
+        <Typography color="text.primary">{totalHours}(h)</Typography>
       </Stack>
     </Stack>
   );

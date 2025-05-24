@@ -61,11 +61,11 @@ const WorkCalendarBody = memo(function WorkCalendarBody({
                       textAlign: "center",
                       lineHeight: "40px",
                       borderRadius: 1,
-                      bgcolor: "#90caf9",
+                      bgcolor: "heatGraph.blue.1",
                       cursor: "pointer",
                       transition: "transform 0.15s",
                       "&:hover": {
-                        bgcolor: "#64b5f6",
+                        bgcolor: "heatGraph.blue.3",
                         transform: "scale(1.1)",
                       },
                     }}
@@ -86,7 +86,7 @@ const WorkCalendarBody = memo(function WorkCalendarBody({
                     textAlign: "center",
                     lineHeight: "40px",
                     borderRadius: 1,
-                    bgcolor: "#ddd",
+                    bgcolor: "gray.normal",
                     cursor: "default",
                   }}
                 >
@@ -103,7 +103,7 @@ const WorkCalendarBody = memo(function WorkCalendarBody({
                   height: boxSize,
                   lineHeight: "40px",
                   borderRadius: 1,
-                  bgcolor: "#eee",
+                  bgcolor: "gray.light",
                 }}
               />
             );
