@@ -15,7 +15,7 @@ type Props = {
  * 日付詳細 - 円グラフコンポーネント
  */
 export default function CircleGraph({ data }: Props) {
-  const { isNoData, getLabel } = CircleGraphLogic({ data });
+  const { theme, isNoData, getLabel } = CircleGraphLogic({ data });
   return (
     <>
       {!isNoData && (
@@ -26,7 +26,7 @@ export default function CircleGraph({ data }: Props) {
             cx="50%"
             cy="50%"
             outerRadius={90}
-            fill={"#8884d8"}
+            fill={theme.palette.recharts.pie.defaultFill}
             label={getLabel}
           />
           <Tooltip
