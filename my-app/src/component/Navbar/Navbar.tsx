@@ -12,7 +12,6 @@ type Props = {
  */
 export default function Navbar({ onChangeTheme }: Props) {
   const { navPages, isLastPageIndex, doNavigate } = NavBarLogic();
-
   return (
     <Box
       sx={{
@@ -24,16 +23,15 @@ export default function Navbar({ onChangeTheme }: Props) {
     >
       {/* 左の四角形エリア */}
       <Box
-        sx={{
+        sx={(theme) => ({
           flex: "0 0 60%", // 全体の70%を占める
           display: "flex",
           justifyContent: "flex-start",
           padding: 1,
-          background:
-            "linear-gradient(to right, rgb(255, 255, 255), rgb(220, 220, 220))",
+          background: theme.palette.gradient.gray.soft,
           borderBottom: "1px solid #ccc",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
+        })}
       >
         {/** メニューボタン */}
         <SettingsDrawer onChangeTheme={onChangeTheme} />
@@ -90,14 +88,13 @@ export default function Navbar({ onChangeTheme }: Props) {
       </Box>
       {/* 右の三角形エリア */}
       <Box
-        sx={{
+        sx={(theme) => ({
           flex: "0 0 40%", // 残り30%
-          background:
-            "linear-gradient(to right, rgb(220, 220, 220), rgb(117, 117, 117))",
+          background: theme.palette.gradient.gray.strong,
           clipPath: "polygon(0 0, 100% 0, 0 100%)", // 右側が尖る三角形
           borderBottom: "1px solid #ccc",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
+        })}
       />
     </Box>
   );
