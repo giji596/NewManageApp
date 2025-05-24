@@ -13,7 +13,9 @@ type Props = {
  * 特定の期間のタスク稼働を表現するグラフ
  */
 const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
-  const { pieData, toolChipFormatter } = TaskActivityGraphLogic({ data });
+  const { theme, pieData, toolChipFormatter } = TaskActivityGraphLogic({
+    data,
+  });
   return (
     <PieChart width={400} height={350}>
       <Pie
@@ -22,7 +24,7 @@ const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
         cx="50%"
         cy="50%"
         outerRadius={150}
-        fill="#8884d8"
+        fill={theme.palette.recharts.pie.defaultFill}
       />
       <Tooltip formatter={toolChipFormatter} />
     </PieChart>

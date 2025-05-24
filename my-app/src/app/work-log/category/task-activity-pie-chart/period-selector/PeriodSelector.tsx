@@ -62,6 +62,9 @@ export default function PeriodSelector({
                 />
               }
               label="過去一ヶ月"
+              sx={{
+                "& .MuiFormControlLabel-label": { color: "text.primary" },
+              }}
             />
             <FormControlLabel
               value="all"
@@ -74,6 +77,9 @@ export default function PeriodSelector({
                 />
               }
               label="全期間"
+              sx={{
+                "& .MuiFormControlLabel-label": { color: "text.primary" },
+              }}
             />
             <FormControlLabel
               value="select"
@@ -87,7 +93,7 @@ export default function PeriodSelector({
               }
               label={
                 <Stack direction={"row"} alignItems={"center"} spacing={0.5}>
-                  <Typography>期間を選択する</Typography>
+                  <Typography color="text.primary">期間を選択する</Typography>
                   <Button
                     variant="contained"
                     color={"secondary"}

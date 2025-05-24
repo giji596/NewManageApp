@@ -99,10 +99,17 @@ export default function CategoryHeader() {
           <Stack spacing={0.5} width="700px">
             {/** カテゴリ名 + Completed? */}
             <Stack direction="row" spacing={1}>
-              <Typography width="120px" textAlign={"end"} variant="h6">
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
                 カテゴリ名:
               </Typography>
-              <Typography variant="h6">{selectedCategoryName}</Typography>
+              <Typography color="text.primary" variant="h6">
+                {selectedCategoryName}
+              </Typography>
               {isCompleted && (
                 <>
                   <CheckCircleIcon color="success" />
@@ -118,25 +125,31 @@ export default function CategoryHeader() {
             </Stack>
             {/** 合計稼働時間 */}
             <Stack direction="row" spacing={1} alignItems="center">
-              <Typography width="120px" textAlign={"end"} variant="h6">
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
                 総稼働時間:
               </Typography>
-              <Typography variant="h6">{totalHours}(h)</Typography>
+              <Typography color="text.primary" variant="h6">
+                {totalHours}(h)
+              </Typography>
               <Stack
                 direction="row-reverse"
-                sx={{
+                sx={(theme) => ({
                   width: "70%",
                   height: 20,
-                  background:
-                    "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
+                  background: theme.palette.gradient.achievement,
                   borderRadius: 1,
-                }}
+                })}
               >
                 <Stack
                   sx={{
                     height: "100%",
                     width: "0%",
-                    backgroundColor: "#eee",
+                    backgroundColor: "gray.normal",
                     animation: `${growAnimation} 1s ease-out forwards`,
                   }}
                 />
@@ -144,10 +157,17 @@ export default function CategoryHeader() {
             </Stack>
             {/**  */}
             <Stack direction="row" spacing={1}>
-              <Typography width="120px" textAlign={"end"} variant="h6">
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
                 稼働期間:
               </Typography>
-              <Typography variant="h6">{activeDate}</Typography>
+              <Typography color="text.primary" variant="h6">
+                {activeDate}
+              </Typography>
             </Stack>
           </Stack>
         )}

@@ -44,6 +44,9 @@ const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
             />
           }
           label="進行中"
+          sx={{
+            "& .MuiFormControlLabel-label": { color: "text.primary" },
+          }}
         />
         <FormControlLabel
           value="all"
@@ -56,6 +59,9 @@ const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
             />
           }
           label="全て"
+          sx={{
+            "& .MuiFormControlLabel-label": { color: "text.primary" },
+          }}
         />
         <FormControlLabel
           value="completed"
@@ -68,6 +74,9 @@ const CategoryTaskListHeader = memo(function CategoryTaskListHeader({
             />
           }
           label="完了済み"
+          sx={{
+            "& .MuiFormControlLabel-label": { color: "text.primary" },
+          }}
         />
       </RadioGroup>
     </FormControl>

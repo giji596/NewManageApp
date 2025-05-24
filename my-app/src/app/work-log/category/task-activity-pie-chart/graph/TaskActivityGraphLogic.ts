@@ -1,4 +1,5 @@
 import { CategoryTaskActivity } from "@/type/Task";
+import { useTheme } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import {
   Formatter,
@@ -15,6 +16,8 @@ type Props = {
  * 特定の期間のタスク稼働を表現するグラフのロジック
  */
 export default function TaskActivityGraphLogic({ data }: Props) {
+  // MUIテーマ呼び出し
+  const theme = useTheme();
   const pieData = useMemo(() => {
     // 全体の稼働に対する割合が欲しいので稼働時間を合計する
     const totalHours = data.reduce<number>((a, b) => a + b.totalHours, 0);
@@ -44,6 +47,8 @@ export default function TaskActivityGraphLogic({ data }: Props) {
   );
 
   return {
+    /** MUIのテーマ */
+    theme,
     /** データを円グラフように変換したもの */
     pieData,
     /** ToolChipの表示のフォーマット用関数(稼働時間を表示させる) */
