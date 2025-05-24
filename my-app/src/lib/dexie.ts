@@ -30,13 +30,22 @@ db.version(1).stores({
   memoTags: "++id, name",
 });
 
+/** エクスポート時のデータの型定義 */
+type ExportData = DailyData | TaskLog | Task | Category | Memo | MemoTag;
+/** インポート時のデータの型定義 */
+type ImportData = {
+  dailyData: DailyData[];
+  taskLogs: TaskLog[];
+  tasks: Task[];
+  categories: Category[];
+  memos: Memo[];
+  memoTags: MemoTag[];
+};
+
 /** データベースのデータをエクスポートする関数 */
 export async function exportDatabase() {
   const allTables = db.tables;
-  const exportData: Record<
-    string,
-    (DailyData | TaskLog | Task | Category | Memo | MemoTag)[]
-  > = {};
+  const exportData: Record<string, ExportData[]> = {};
 
   // テーブルごとにデータを取得
   for (const table of allTables) {
@@ -56,4 +65,30 @@ export async function exportDatabase() {
   a.download = "logs-db-export.json";
   a.click();
   URL.revokeObjectURL(url); // メモリ解放
+}
+
+/** データベースのデータをインポートする関数 */
+export async function importDatabase(json: ImportData) {
+  // テーブルの種類分定義
+  const tables = [
+    db.dailyData,
+    db.taskLogs,
+    db.tasks,
+    db.categories,
+    db.memos,
+    db.memoTags,
+  ];
+  // トランザクションで全てのテーブルをクリアしてからデータを追加(失敗時はロールバック)
+  await db.transaction("rw", tables, async () => {
+    // クリア処理
+    await Promise.all(tables.map((table) => table.clear()));
+
+    // データ追加処理
+    await db.dailyData.bulkAdd(json.dailyData);
+    await db.taskLogs.bulkAdd(json.taskLogs);
+    await db.tasks.bulkAdd(json.tasks);
+    await db.categories.bulkAdd(json.categories);
+    await db.memos.bulkAdd(json.memos);
+    await db.memoTags.bulkAdd(json.memoTags);
+  });
 }
