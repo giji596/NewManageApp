@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "@/component/Navbar/Navbar";
-import { ThemeProvider } from "@mui/material";
+import { Box, ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { LayoutLogic } from "./layoutLogic";
 /**
@@ -12,8 +12,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
-        <Navbar onChangeTheme={onChangeTheme} />
-        <main>{children}</main>
+        <Box
+          sx={{ minHeight: "100vh", bgcolor: theme.palette.background.default }}
+        >
+          <Navbar onChangeTheme={onChangeTheme} />
+          <main> {children}</main>
+        </Box>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );
