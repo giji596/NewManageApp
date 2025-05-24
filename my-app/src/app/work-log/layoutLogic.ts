@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { lightTheme, darkTheme } from "./theme";
+import { lightTheme, darkTheme } from "../../theme";
 
 /**
  * レイアウトのロジック
