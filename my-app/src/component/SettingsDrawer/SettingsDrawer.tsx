@@ -18,10 +18,14 @@ import DataResetDialog from "./dialog/DataResetDialog/DataResetDialog";
 import useDialog from "@/hook/useDialog";
 import { SettingsDrawerLogic } from "./SettingsDrawerLogic";
 
+type Props = {
+  /** テーマ変更関数 */
+  onChangeTheme: () => void;
+};
 /**
  * データ管理/表示設定を表示するドロワー + それを開閉するボタン
  */
-const SettingsDrawer = memo(function SettingsDrawer() {
+const SettingsDrawer = memo(function SettingsDrawer({ onChangeTheme }: Props) {
   const {
     open: openReset,
     onOpen: onOpenReset,
@@ -36,7 +40,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
     handleFileChange,
     onClickExport,
     onClickTheme,
-  } = SettingsDrawerLogic();
+  } = SettingsDrawerLogic({ onChangeTheme });
   return (
     <>
       {/** 開閉用のボタン */}

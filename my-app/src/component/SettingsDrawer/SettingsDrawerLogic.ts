@@ -2,10 +2,15 @@ import { exportDatabase, importDatabase } from "@/lib/dexie";
 import { useCallback, useRef, useState } from "react";
 import { mutate } from "swr";
 
+type Props = {
+  /** テーマ変更関数 */
+  onChangeTheme: () => void;
+};
+
 /**
  * データ管理/表示設定を表示するドロワー + それを開閉するボタンのロジック
  */
-export const SettingsDrawerLogic = () => {
+export const SettingsDrawerLogic = ({ onChangeTheme }: Props) => {
   // ドロワーの開閉関連
   const [open, setOpen] = useState<boolean>(false);
 
@@ -43,10 +48,9 @@ export const SettingsDrawerLogic = () => {
 
   // 表示関連
   const onClickTheme = useCallback(() => {
-    // TODO:テーマプロパイダーのロジック実装後
-    console.log("テーマ切り替え");
+    onChangeTheme();
     onClose();
-  }, [onClose]);
+  }, [onChangeTheme, onClose]);
   return {
     /** ドロワーの開閉状態 */
     open,

@@ -8,11 +8,11 @@ import { LayoutLogic } from "./layoutLogic";
  * work-logページの共通レイアウト
  */
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { theme } = LayoutLogic();
+  const { theme, onChangeTheme } = LayoutLogic();
   return (
     <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
-        <Navbar />
+        <Navbar onChangeTheme={onChangeTheme} />
         <main>{children}</main>
       </ThemeProvider>
     </AppRouterCacheProvider>

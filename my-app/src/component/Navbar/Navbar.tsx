@@ -3,10 +3,14 @@ import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 import SettingsDrawer from "../SettingsDrawer/SettingsDrawer";
 
+type Props = {
+  /** テーマ変更関数 */
+  onChangeTheme: () => void;
+};
 /**
  *  ナビゲーションバーの共通コンポーネント
  */
-export default function Navbar() {
+export default function Navbar({ onChangeTheme }: Props) {
   const { navPages, isLastPageIndex, doNavigate } = NavBarLogic();
 
   return (
@@ -32,7 +36,7 @@ export default function Navbar() {
         }}
       >
         {/** メニューボタン */}
-        <SettingsDrawer />
+        <SettingsDrawer onChangeTheme={onChangeTheme} />
         {/** ナビゲーション部分 */}
         <Breadcrumbs separator="›" aria-label="breadcrumb">
           {navPages.map((navPage, index) => {

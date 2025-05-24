@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { lightTheme, darkTheme } from "./theme";
 
 /**
@@ -20,8 +20,25 @@ export const LayoutLogic = () => {
     [mode]
   );
 
+  const onChangeTheme = useCallback(() => {
+    setMode((prev) => {
+      // lightからdarkに変更する場合はlocalStorageにdarkを保存
+      if (prev === "light") {
+        localStorage.setItem("theme", "dark");
+        //その後darkに変更
+        return "dark";
+      }
+      // darkからlightに変更する場合はlocalStorageにlightを保存
+      localStorage.setItem("theme", "light");
+      //その後lightに変更
+      return "light";
+    });
+  }, []);
+
   return {
     /** 現在のテーマ */
     theme,
+    /** テーマを切り替える関数(ライトとダークのみなので切り替えるだけ) */
+    onChangeTheme,
   };
 };
