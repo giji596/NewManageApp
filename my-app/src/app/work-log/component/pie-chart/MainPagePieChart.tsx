@@ -11,7 +11,8 @@ import NoDataPieGraph from "@/component/graph/NoDataPie";
  * メインページの円グラフ
  */
 const MainPagePieChart = memo(function MainPagePieChart() {
-  const { data, navigateCategoryPage } = MainPagePieChartLogic();
+  const { theme, data, navigateCategoryPage } = MainPagePieChartLogic();
+
   return (
     <Stack alignItems={"center"}>
       <Typography variant="h6" mb={2} color="text.secondary">
@@ -30,7 +31,7 @@ const MainPagePieChart = memo(function MainPagePieChart() {
             onClick={(data) => navigateCategoryPage(data.id)}
             cursor="pointer"
             outerRadius={150}
-            fill="#8884d8"
+            fill={theme.palette.recharts?.pie?.defaultFill}
           />
           <Tooltip
             content={
