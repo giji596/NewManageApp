@@ -14,7 +14,6 @@ export default function NavMenuLogic() {
       alignItems: "center",
       padding: 1,
       color: "primary.main",
-      bgcolor: "white",
       border: "1px solid #ddd",
       borderRadius: 2,
       boxShadow: 1,

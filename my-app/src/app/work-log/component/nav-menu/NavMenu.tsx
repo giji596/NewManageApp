@@ -33,22 +33,20 @@ const NavMenu = memo(function NavMenu() {
         position: "relative",
         overflow: "hidden",
         boxShadow: 3,
-        bgcolor: "#fff",
       }}
     >
       {/* 右下グラデーション */}
       <Box
-        sx={{
+        sx={(theme) => ({
           position: "absolute",
           bottom: 0,
           right: 0,
           width: "60%",
           height: "60%",
           clipPath: "polygon(100% 100%, 100% 85%, 10% 100%)",
-          background:
-            "linear-gradient(to bottom right, white 0%, white 50%, rgba(0, 0, 0, 0.4) 90%)",
+          background: theme.palette.gradient.gray.soft,
           pointerEvents: "none",
-        }}
+        })}
       />
       {/* ボタンたち */}
       <Stack justifyContent={"space-around"} height={"100%"} px={3} py={1.5}>
