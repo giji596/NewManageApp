@@ -33,6 +33,11 @@ declare module "@mui/material/styles" {
       /** 円グラフ */
       pie: { defaultFill?: string };
     };
+    /** テーブル */
+    table: {
+      /** ハイライト時 */
+      highlighted: string;
+    };
   }
 
   // PaletteOptionsはテーマのオプションを拡張するための型定義(color:aaa.bbbみたいに使える)
@@ -68,6 +73,11 @@ declare module "@mui/material/styles" {
       /** 円グラフ */
       pie?: { defaultFill?: string };
     };
+    /** テーブル */
+    table?: {
+      /** ハイライト時 */
+      highlighted?: string;
+    };
   }
 }
 
@@ -91,6 +101,9 @@ export const lightTheme = createTheme({
     },
     recharts: {
       pie: { defaultFill: "#8884d8" },
+    },
+    table: {
+      highlighted: "#f5fbff",
     },
   },
 });
@@ -116,6 +129,9 @@ export const darkTheme = createTheme({
     },
     recharts: {
       pie: { defaultFill: "#5a54b2" },
+    },
+    table: {
+      highlighted: "#23272b",
     },
   },
 });
