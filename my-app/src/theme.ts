@@ -14,6 +14,16 @@ declare module "@mui/material/styles" {
     };
     /** ホバー時のコントラスト */
     hoverContrastText: string;
+    /** グレー*/
+    gray: {
+      /** 中間くらいの濃さ */
+      normal: string;
+    };
+    /** ヒートグラフ用(string[] 数が多いほど濃い色) */
+    heatGraph: {
+      /** 青系 */
+      blue: string[];
+    };
   }
 
   // PaletteOptionsはテーマのオプションを拡張するための型定義(color:aaa.bbbみたいに使える)
@@ -30,6 +40,16 @@ declare module "@mui/material/styles" {
     };
     /** ホバー時のコントラスト */
     hoverContrastText?: string;
+    /** グレー*/
+    gray?: {
+      /** 中間くらいの濃さ */
+      normal?: string;
+    };
+    /** ヒートグラフ用(string[] 数が多いほど濃い色) */
+    heatGraph?: {
+      /** 青系 */
+      blue?: string[];
+    };
   }
 }
 
@@ -45,6 +65,10 @@ export const lightTheme = createTheme({
       },
     },
     hoverContrastText: "white",
+    gray: { normal: "#ddd" },
+    heatGraph: {
+      blue: ["#cce5ff", "#66b3ff", "#3399ff", "#0073e6"],
+    },
   },
 });
 
@@ -61,6 +85,10 @@ export const darkTheme = createTheme({
       },
     },
     hoverContrastText: "black",
+    gray: { normal: "#424242" },
+    heatGraph: {
+      blue: ["#2a4662", "#1e3a5f", "#102e52", "#1565c0"],
+    },
   },
   shadows: [
     "none",
