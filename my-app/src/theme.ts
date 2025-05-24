@@ -12,6 +12,8 @@ declare module "@mui/material/styles" {
         strong: string;
       };
     };
+    /** ホバー時のコントラスト */
+    hoverContrastText: string;
   }
 
   // PaletteOptionsはテーマのオプションを拡張するための型定義(color:aaa.bbbみたいに使える)
@@ -26,6 +28,8 @@ declare module "@mui/material/styles" {
         strong?: string;
       };
     };
+    /** ホバー時のコントラスト */
+    hoverContrastText?: string;
   }
 }
 
@@ -40,6 +44,7 @@ export const lightTheme = createTheme({
           "linear-gradient(to right, rgb(220, 220, 220), rgb(117, 117, 117))",
       },
     },
+    hoverContrastText: "white",
   },
 });
 
@@ -55,6 +60,7 @@ export const darkTheme = createTheme({
           "linear-gradient(to right, rgb(220, 220, 220), rgb(255, 255, 255))",
       },
     },
+    hoverContrastText: "black",
   },
   shadows: [
     "none",
