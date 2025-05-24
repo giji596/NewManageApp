@@ -32,7 +32,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
   return (
     <>
       {/** 開閉用のボタン */}
-      <IconButton onClick={onOpen}>
+      <IconButton sx={{ py: 0.3 }} onClick={onOpen}>
         <MenuIcon />
       </IconButton>
       {/** サイドバー */}
