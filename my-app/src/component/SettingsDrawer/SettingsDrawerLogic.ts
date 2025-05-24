@@ -1,3 +1,4 @@
+import { exportDatabase } from "@/lib/dexie";
 import { useCallback, useState } from "react";
 
 /**
@@ -18,8 +19,7 @@ export const SettingsDrawerLogic = () => {
     onClose();
   }, [onClose]);
   const onClickExport = useCallback(() => {
-    // TODO: DB関連の管理ロジック実装後
-    console.log("エクスポートする");
+    exportDatabase();
     onClose();
   }, [onClose]);
 
