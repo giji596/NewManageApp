@@ -99,10 +99,17 @@ export default function CategoryHeader() {
           <Stack spacing={0.5} width="700px">
             {/** カテゴリ名 + Completed? */}
             <Stack direction="row" spacing={1}>
-              <Typography width="120px" textAlign={"end"} variant="h6">
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
                 カテゴリ名:
               </Typography>
-              <Typography variant="h6">{selectedCategoryName}</Typography>
+              <Typography color="text.primary" variant="h6">
+                {selectedCategoryName}
+              </Typography>
               {isCompleted && (
                 <>
                   <CheckCircleIcon color="success" />
@@ -118,10 +125,17 @@ export default function CategoryHeader() {
             </Stack>
             {/** 合計稼働時間 */}
             <Stack direction="row" spacing={1} alignItems="center">
-              <Typography width="120px" textAlign={"end"} variant="h6">
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
                 総稼働時間:
               </Typography>
-              <Typography variant="h6">{totalHours}(h)</Typography>
+              <Typography color="text.primary" variant="h6">
+                {totalHours}(h)
+              </Typography>
               <Stack
                 direction="row-reverse"
                 sx={{
@@ -144,10 +158,17 @@ export default function CategoryHeader() {
             </Stack>
             {/**  */}
             <Stack direction="row" spacing={1}>
-              <Typography width="120px" textAlign={"end"} variant="h6">
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
                 稼働期間:
               </Typography>
-              <Typography variant="h6">{activeDate}</Typography>
+              <Typography color="text.primary" variant="h6">
+                {activeDate}
+              </Typography>
             </Stack>
           </Stack>
         )}
