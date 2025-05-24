@@ -41,9 +41,11 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
       <Stack spacing={2}>
         {/** 日付と時間 */}
         <Stack spacing={1}>
-          <Typography>{dateString}</Typography>
+          <Typography color="text.primary">{dateString}</Typography>
           <Stack direction="row">
-            <Typography>稼働時間： {dailyHours}(h)</Typography>
+            <Typography color="text.primary">
+              稼働時間： {dailyHours}(h)
+            </Typography>
             <Stack
               direction="row-reverse"
               sx={{
