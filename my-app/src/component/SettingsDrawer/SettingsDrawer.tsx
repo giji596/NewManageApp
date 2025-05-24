@@ -33,6 +33,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
     onClose,
     fileInputRef,
     onClickImport,
+    handleFileChange,
     onClickExport,
     onClickTheme,
   } = SettingsDrawerLogic();
@@ -65,7 +66,7 @@ const SettingsDrawer = memo(function SettingsDrawer() {
                 type="file"
                 accept=".json"
                 ref={fileInputRef}
-                onChange={() => {}}
+                onChange={handleFileChange}
                 style={{ display: "none" }} // 非表示
               />
             </ListItem>
