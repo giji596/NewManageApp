@@ -30,6 +30,16 @@ db.version(1).stores({
   memoTags: "++id, name",
 });
 
+/** テーブル一覧を取得する */
+const getAllTables = () => [
+  db.dailyData,
+  db.taskLogs,
+  db.tasks,
+  db.categories,
+  db.memos,
+  db.memoTags,
+];
+
 /** エクスポート時のデータの型定義 */
 type ExportData = DailyData | TaskLog | Task | Category | Memo | MemoTag;
 /** インポート時のデータの型定義 */
@@ -41,6 +51,8 @@ type ImportData = {
   memos: Memo[];
   memoTags: MemoTag[];
 };
+/** データベースを初期化する関数 */
+export async function clearDatabase() {}
 
 /** データベースのデータをエクスポートする関数 */
 export async function exportDatabase() {
@@ -69,15 +81,7 @@ export async function exportDatabase() {
 
 /** データベースのデータをインポートする関数 */
 export async function importDatabase(json: ImportData) {
-  // テーブルの種類分定義
-  const tables = [
-    db.dailyData,
-    db.taskLogs,
-    db.tasks,
-    db.categories,
-    db.memos,
-    db.memoTags,
-  ];
+  const tables = getAllTables();
   // トランザクションで全てのテーブルをクリアしてからデータを追加(失敗時はロールバック)
   await db.transaction("rw", tables, async () => {
     // クリア処理
@@ -90,5 +94,15 @@ export async function importDatabase(json: ImportData) {
     await db.categories.bulkAdd(json.categories);
     await db.memos.bulkAdd(json.memos);
     await db.memoTags.bulkAdd(json.memoTags);
+  });
+}
+
+/** データベースの全テーブルをクリアする関数(スキーマは保持してデータだけ消す) */
+export async function clearAllTables() {
+  const tables = getAllTables();
+  // トランザクションで処理することで失敗時にロールバック可能に
+  await db.transaction("rw", tables, async () => {
+    //
+    await Promise.all(tables.map((table) => table.clear()));
   });
 }
