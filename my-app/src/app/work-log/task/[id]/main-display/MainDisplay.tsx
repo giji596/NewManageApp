@@ -62,19 +62,18 @@ export default function MainDisplay({
         </Typography>
         <Stack
           direction="row-reverse"
-          sx={{
+          sx={(theme) => ({
             width: "70%",
             height: 20,
-            background:
-              "linear-gradient(to right,rgb(188, 255, 249),rgb(71, 255, 74))",
+            background: theme.palette.gradient.achievement,
             borderRadius: 1,
-          }}
+          })}
         >
           <Stack
             sx={{
               height: "100%",
               width: "0%",
-              backgroundColor: "#eee",
+              backgroundColor: "gray.normal",
               animation: `${growAnimation} 1s ease-out forwards`,
             }}
           />
