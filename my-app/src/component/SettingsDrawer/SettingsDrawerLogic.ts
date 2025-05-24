@@ -1,5 +1,5 @@
 import { exportDatabase } from "@/lib/dexie";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 /**
  * データ管理/表示設定を表示するドロワー + それを開閉するボタンのロジック
@@ -13,9 +13,11 @@ export const SettingsDrawerLogic = () => {
 
   // 各項目
   // データ管理関連
+  // refを使ってファイルを選択する
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const onClickImport = useCallback(() => {
     // TODO: DB関連の管理ロジック実装後
-    console.log("インポートする");
+    fileInputRef.current?.click();
     onClose();
   }, [onClose]);
   const onClickExport = useCallback(() => {
@@ -36,6 +38,8 @@ export const SettingsDrawerLogic = () => {
     onOpen,
     /** ドロワー閉じるハンドラー */
     onClose,
+    /** インポート時のファイル選択のinputのref */
+    fileInputRef,
     /** インポート時のハンドラー */
     onClickImport,
     /** エクスポート時のハンドラー */

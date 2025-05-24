@@ -27,8 +27,15 @@ const SettingsDrawer = memo(function SettingsDrawer() {
     onOpen: onOpenReset,
     onClose: onCloseReset,
   } = useDialog();
-  const { open, onOpen, onClose, onClickImport, onClickExport, onClickTheme } =
-    SettingsDrawerLogic();
+  const {
+    open,
+    onOpen,
+    onClose,
+    fileInputRef,
+    onClickImport,
+    onClickExport,
+    onClickTheme,
+  } = SettingsDrawerLogic();
   return (
     <>
       {/** 開閉用のボタン */}
@@ -53,6 +60,14 @@ const SettingsDrawer = memo(function SettingsDrawer() {
                 </ListItemIcon>
                 <ListItemText primary={"インポート"} />
               </ListItemButton>
+              {/** インポート用のinput(ファイル選択に必須) */}
+              <input
+                type="file"
+                accept=".json"
+                ref={fileInputRef}
+                onChange={() => {}}
+                style={{ display: "none" }} // 非表示
+              />
             </ListItem>
             {/** エクスポート */}
             <ListItem disablePadding>
