@@ -1,3 +1,4 @@
+import { useTheme } from "@mui/material/styles";
 import { memo } from "react";
 
 type Props = {
@@ -17,16 +18,18 @@ const NoDataPieGraph = memo(function NoDataPieGraph({
   width,
   height,
 }: Props) {
+  // MUIテーマ取得
+  const theme = useTheme();
   return (
     <svg width={width} height={height}>
-      <circle cx="50%" cy="50%" r={radius} fill="#ccc" />
+      <circle cx="50%" cy="50%" r={radius} fill={theme.palette.gray.light} />
       <text
         x="50%"
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
         fontSize={12}
-        fill="#666"
+        fill={theme.palette.text.secondary}
       >
         データがありません
       </text>

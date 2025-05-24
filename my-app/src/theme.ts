@@ -16,6 +16,8 @@ declare module "@mui/material/styles" {
     hoverContrastText: string;
     /** グレー*/
     gray: {
+      /**明るい */
+      light: string;
       /** 中間くらいの濃さ */
       normal: string;
     };
@@ -47,6 +49,8 @@ declare module "@mui/material/styles" {
     hoverContrastText?: string;
     /** グレー*/
     gray?: {
+      /**明るい */
+      light?: string;
       /** 中間くらいの濃さ */
       normal?: string;
     };
@@ -75,7 +79,7 @@ export const lightTheme = createTheme({
       },
     },
     hoverContrastText: "white",
-    gray: { normal: "#ddd" },
+    gray: { light: "#ccc", normal: "#ddd" },
     heatGraph: {
       blue: ["#cce5ff", "#66b3ff", "#3399ff", "#0073e6"],
     },
@@ -98,7 +102,7 @@ export const darkTheme = createTheme({
       },
     },
     hoverContrastText: "black",
-    gray: { normal: "#424242" },
+    gray: { light: "#555", normal: "#424242" },
     heatGraph: {
       blue: ["#2a4662", "#1e3a5f", "#102e52", "#1565c0"],
     },
