@@ -11,6 +11,8 @@ declare module "@mui/material/styles" {
         /** メリハリの多いグレースケール */
         strong: string;
       };
+      /** 水色 -> 赤(達成グラフ) */
+      achievement: string;
     };
     /** ホバー時のコントラスト */
     hoverContrastText: string;
@@ -44,6 +46,8 @@ declare module "@mui/material/styles" {
         /** メリハリの多いグレースケール */
         strong?: string;
       };
+      /** 水色 -> 赤(達成グラフ) */
+      achievement?: string;
     };
     /** ホバー時のコントラスト */
     hoverContrastText?: string;
@@ -77,6 +81,8 @@ export const lightTheme = createTheme({
         strong:
           "linear-gradient(to right, rgb(220, 220, 220), rgb(117, 117, 117))",
       },
+      achievement:
+        "linear-gradient(to right,rgb(148, 244, 236),rgb(114, 255, 173),rgb(255, 53, 53))",
     },
     hoverContrastText: "white",
     gray: { light: "#ccc", normal: "#ddd" },
@@ -100,6 +106,8 @@ export const darkTheme = createTheme({
         strong:
           "linear-gradient(to right, rgb(220, 220, 220), rgb(255, 255, 255))",
       },
+      achievement:
+        "linear-gradient(to right, rgb(78, 180, 172), rgb(61, 187, 127), rgb(255, 80, 80))",
     },
     hoverContrastText: "black",
     gray: { light: "#555", normal: "#424242" },

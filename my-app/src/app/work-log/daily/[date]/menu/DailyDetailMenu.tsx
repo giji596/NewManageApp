@@ -48,21 +48,20 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
             </Typography>
             <Stack
               direction="row-reverse"
-              sx={{
+              sx={(theme) => ({
                 width: "80%",
                 height: 20,
-                background:
-                  "linear-gradient(to right,rgb(148, 244, 236),rgb(114, 255, 173),rgb(255, 53, 53))",
+                background: theme.palette.gradient.achievement,
                 borderRadius: 1,
-              }}
+              })}
             >
               <Stack
-                sx={{
+                sx={(theme) => ({
                   height: "100%",
                   width: "0%",
-                  backgroundColor: "#eee",
+                  backgroundColor: theme.palette.gray.normal,
                   animation: `${growAnimation} 1s ease-out forwards`,
-                }}
+                })}
               />
             </Stack>
           </Stack>
