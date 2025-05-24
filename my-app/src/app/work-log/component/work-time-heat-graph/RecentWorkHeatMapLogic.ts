@@ -1,6 +1,5 @@
 import { localClient } from "@/lib/localClient";
 import { DailyWorkTime } from "@/type/Main";
-import { Theme } from "@mui/material/styles";
 import { format, getDay, isSameDay, parseISO, subDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -73,11 +72,11 @@ export const RecentWorkHeatMapLogic = () => {
   );
   const data = useMemo(() => rawData ?? [], [rawData]);
 
-  const getColorByHours = useCallback((theme: Theme, hours: number) => {
-    if (hours <= 1) return theme.palette.heatGraph.blue[0];
-    if (hours <= 3) return theme.palette.heatGraph.blue[1];
-    if (hours <= 6) return theme.palette.heatGraph.blue[2];
-    return theme.palette.heatGraph.blue[3];
+  const getColorByHours = useCallback((hours: number) => {
+    if (hours <= 1) return "heatGraph.blue.0";
+    if (hours <= 3) return "heatGraph.blue.1";
+    if (hours <= 6) return "heatGraph.blue.2";
+    return "heatGraph.blue.3";
   }, []);
 
   const getDisplayTime = useCallback((hours: number) => {

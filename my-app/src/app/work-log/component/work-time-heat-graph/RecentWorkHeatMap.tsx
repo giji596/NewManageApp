@@ -62,17 +62,17 @@ const RecentWorkHeatMap = memo(function RecentWorkHeatMap() {
               >
                 {/** 列(表示されるボックスごと) */}
                 <Box
-                  sx={(theme) => ({
+                  sx={{
                     width: boxSize,
                     height: boxSize,
-                    bgcolor: getColorByHours(theme, item.totalHours),
+                    bgcolor: getColorByHours(item.totalHours),
                     borderRadius: 1,
                     cursor: "pointer",
                     transition: "transform 0.15s",
                     "&:hover": {
                       transform: "scale(1.1)",
                     },
-                  })}
+                  }}
                   onClick={() => onClick(item.date)}
                 />
               </Tooltip>
@@ -80,12 +80,12 @@ const RecentWorkHeatMap = memo(function RecentWorkHeatMap() {
               /** データがない場合の表示(ツールチップ/ホバー時のtransitionなし/クリック時のイベントもなし) */
               <Box
                 key={i}
-                sx={(theme) => ({
+                sx={{
                   width: boxSize,
                   height: boxSize,
-                  bgcolor: theme.palette.gray.normal,
+                  bgcolor: "gray.normal",
                   borderRadius: 1,
-                })}
+                }}
               />
             )
           )}

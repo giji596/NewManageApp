@@ -56,12 +56,12 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
               })}
             >
               <Stack
-                sx={(theme) => ({
+                sx={{
                   height: "100%",
                   width: "0%",
-                  backgroundColor: theme.palette.gray.normal,
+                  backgroundColor: "gray.normal",
                   animation: `${growAnimation} 1s ease-out forwards`,
-                })}
+                }}
               />
             </Stack>
           </Stack>

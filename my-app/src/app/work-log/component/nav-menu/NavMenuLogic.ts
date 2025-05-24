@@ -1,14 +1,13 @@
-import { Theme } from "@mui/material/styles";
 import { format, subDays } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * メインページのナビゲーションメニューのロジック
  */
 export default function NavMenuLogic() {
   const router = useRouter();
-  const navButtonStyle = useCallback((theme: Theme) => {
+  const navButtonStyle = useMemo(() => {
     return {
       display: "flex",
       flexDirection: "column",
@@ -21,7 +20,7 @@ export default function NavMenuLogic() {
       transition: "all 0.2s",
       "&:hover": {
         bgcolor: "primary.light",
-        color: theme.palette.hoverContrastText,
+        color: "hoverContrastText",
         transform: "translateY(-2px)",
       },
     };

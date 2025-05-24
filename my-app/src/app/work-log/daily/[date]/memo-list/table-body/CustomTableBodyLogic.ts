@@ -1,5 +1,4 @@
-import { Theme } from "@mui/material";
-import { useCallback } from "react";
+import { useMemo } from "react";
 
 type Props = {
   /** ハイライトされてるか(選択中のタスクのメモであるか) */
@@ -10,9 +9,9 @@ type Props = {
  * 日次詳細 - メモリストのテーブルボディコンポーネントのロジック
  */
 export const CustomTableBodyLogic = ({ isHighlighted }: Props) => {
-  const backgroundColor = useCallback(
+  const backgroundColor = useMemo(
     // ハイライト時には薄い青色 (選択時はselectedによって上書きされるので注意)
-    (theme: Theme) => (isHighlighted ? theme.palette.table.highlighted : ""),
+    () => (isHighlighted ? "table.highlighted" : ""),
     [isHighlighted]
   );
   return {
