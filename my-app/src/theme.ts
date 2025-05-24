@@ -37,6 +37,13 @@ declare module "@mui/material/styles" {
     table: {
       /** ハイライト時 */
       highlighted: string;
+      /** dirty時 */
+      dirty: {
+        /** 背景色 */
+        normal: string;
+        /** ホバー時の背景色 */
+        hovered: string;
+      };
     };
   }
 
@@ -77,6 +84,13 @@ declare module "@mui/material/styles" {
     table?: {
       /** ハイライト時 */
       highlighted?: string;
+      /** dirty時 */
+      dirty?: {
+        /** 背景色 */
+        normal?: string;
+        /** ホバー時の背景色 */
+        hovered?: string;
+      };
     };
   }
 }
@@ -104,6 +118,10 @@ export const lightTheme = createTheme({
     },
     table: {
       highlighted: "#f5fbff",
+      dirty: {
+        normal: "rgb(255, 238, 238)",
+        hovered: "rgb(255, 230, 230)",
+      },
     },
   },
 });
@@ -132,6 +150,10 @@ export const darkTheme = createTheme({
     },
     table: {
       highlighted: "#23272b",
+      dirty: {
+        normal: "rgb(64, 24, 24)",
+        hovered: "rgb(84, 36, 36)",
+      },
     },
   },
 });

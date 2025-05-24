@@ -70,12 +70,12 @@ export default function TaskSummaryTableBodyLogic({
   }));
 
   const backGroundColor = useMemo(
-    () => (isDirty ? "rgb(255, 238, 238)" : ""),
+    () => (isDirty ? "table.dirty.normal" : ""),
     [isDirty]
   );
 
   const backGroundColorHover = useMemo(
-    () => (isDirty ? "rgb(255, 230, 230)" : "action.hover"),
+    () => (isDirty ? "table.dirty.hovered" : "action.hover"),
     [isDirty]
   );
 
