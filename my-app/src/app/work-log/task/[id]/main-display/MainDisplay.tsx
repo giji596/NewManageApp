@@ -37,27 +37,27 @@ export default function MainDisplay({
       {/** タスク/ おきにいり */}
       <Stack direction="row" justifyContent={"space-between"}>
         <Stack direction="row" spacing={1.5}>
-          <Typography width={125} textAlign={"right"}>
+          <Typography color="text.primary" width={125} textAlign={"right"}>
             タスク名:
           </Typography>
-          <Typography>{taskName}</Typography>
+          <Typography color="text.primary">{taskName}</Typography>
         </Stack>
         {isFavorite && <StarIcon color="primary" />}
         {!isFavorite && <StarBorderIcon />}
       </Stack>
       {/** カテゴリ */}
       <Stack direction="row" alignItems={"center"} spacing={1.5}>
-        <Typography width={125} textAlign={"right"}>
+        <Typography color="text.primary" width={125} textAlign={"right"}>
           カテゴリ名:
         </Typography>
-        <Typography>{categoryName}</Typography>
+        <Typography color="text.primary">{categoryName}</Typography>
         <IconButton size="small" onClick={onClickNavigateCategoryPage}>
           <ArrowCircleRightIcon />
         </IconButton>
       </Stack>
       {/** 進捗 */}
       <Stack direction="row" spacing={1.5}>
-        <Typography width={125} textAlign={"right"}>
+        <Typography color="text.primary" width={125} textAlign={"right"}>
           進捗:
         </Typography>
         <Stack
@@ -79,14 +79,14 @@ export default function MainDisplay({
             }}
           />
         </Stack>
-        <Typography>{progress}%</Typography>
+        <Typography color="text.primary">{progress}%</Typography>
       </Stack>
       {/** 稼働合計 */}
       <Stack direction="row" spacing={1.5}>
-        <Typography width={125} textAlign={"right"}>
+        <Typography color="text.primary" width={125} textAlign={"right"}>
           稼働合計時間:
         </Typography>
-        <Typography>{totalHours}(h)</Typography>
+        <Typography color="text.primary">{totalHours}(h)</Typography>
       </Stack>
     </Stack>
   );

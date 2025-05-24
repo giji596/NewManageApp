@@ -24,12 +24,20 @@ export default function DateDisplay({
   return (
     <Stack spacing={2}>
       <Stack alignItems={"center"}>
-        <Typography variant="subtitle1">開始日</Typography>
-        <Typography variant="h5">{firstDateText}</Typography>
+        <Typography color="text.primary" variant="subtitle1">
+          開始日
+        </Typography>
+        <Typography color="text.primary" variant="h5">
+          {firstDateText}
+        </Typography>
       </Stack>
       <Stack alignItems={"center"} pb={2}>
-        <Typography variant="subtitle1">最終実施日</Typography>
-        <Typography variant="h5">{lastDateText}</Typography>
+        <Typography color="text.primary" variant="subtitle1">
+          最終実施日
+        </Typography>
+        <Typography color="text.primary" variant="h5">
+          {lastDateText}
+        </Typography>
       </Stack>
       <WorkCalendarPopoverButton
         firstActivityDate={firstActivityDate}
