@@ -75,8 +75,6 @@ export default function DailyTable() {
                     {/** 日付 */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -87,8 +85,6 @@ export default function DailyTable() {
                     {/** メインカテゴリ */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -99,8 +95,6 @@ export default function DailyTable() {
                     {/** メインタスク */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -111,8 +105,6 @@ export default function DailyTable() {
                     {/** メモ(0番目のめもを表示) */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         gap: 2,
                         borderRadius: "4px",
                         transition: "background 0.5s",
@@ -151,8 +143,6 @@ export default function DailyTable() {
                     {/** 稼働合計 */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
