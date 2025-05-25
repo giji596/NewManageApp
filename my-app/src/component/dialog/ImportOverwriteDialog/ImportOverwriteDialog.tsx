@@ -2,7 +2,6 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
   Stack,
   Typography,
 } from "@mui/material";
@@ -16,9 +15,9 @@ const ImportOverwriteDialog = memo(function ImportOverwriteDialog() {
   return (
     <Dialog open={true /** TODO:あとで */}>
       {/** コンテンツ部分 */}
-      <Stack>
+      <Stack pt={3} px={4} spacing={2}>
         {/** 確認メッセージ(タイトル) */}
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
           <ReportProblemIcon />
           <Typography>
             現在のデータベースには既にデータが存在します。
@@ -26,11 +25,10 @@ const ImportOverwriteDialog = memo(function ImportOverwriteDialog() {
         </Stack>
         {/** 本文 */}
         <Typography>
-          インポートを実行すると、
+          　インポートを実行すると、
           <b>現在のすべてのデータが削除され、新しいデータに上書きされます。</b>
-          <br />
-          本当にインポートを実行してよろしいですか？
         </Typography>
+        <Typography>　本当にインポートを実行してよろしいですか？</Typography>
       </Stack>
       {/** ボタン */}
       <DialogActions>
