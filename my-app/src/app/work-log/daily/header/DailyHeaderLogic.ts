@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
@@ -119,6 +120,11 @@ export default function DailyHeaderLogic() {
     setAnchorEl(null);
   };
 
+  // ページ移動
+  const handleNavigateToday = useCallback(() => {
+    const todayParam = format(new Date(), "yyyy-MM-dd");
+    router.push(`/work-log/daily/${todayParam}`);
+  }, [router]);
   return {
     /** 表示されている年 */
     displayYear,
@@ -148,5 +154,7 @@ export default function DailyHeaderLogic() {
     handleOpenPopover,
     /** ポップオーバーを閉じるハンドラー */
     handleClosePopover,
+    /** 今日の詳細ページにナビゲートするハンドラー */
+    handleNavigateToday,
   };
 }
