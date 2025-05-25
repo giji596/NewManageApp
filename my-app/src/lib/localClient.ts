@@ -46,7 +46,10 @@ import {
   getRecentWorkTime,
 } from "./local-services/dailySummaryService";
 import { TaskSummaryRangeQuery } from "@/type/Task";
-import { UpdateUniqueTaskLogBody } from "@/type/Request";
+import {
+  CreateDailyDetailDataBody,
+  UpdateUniqueTaskLogBody,
+} from "@/type/Request";
 
 export const localClient = {
   work_log: {
@@ -61,8 +64,8 @@ export const localClient = {
                 delete: () => deleteTaskLog(id),
               };
             },
-            post: ({ body }: { body: { taskId: number } }) =>
-              createDailyDetailData(date, body.taskId),
+            post: ({ body }: { body: CreateDailyDetailDataBody }) =>
+              createDailyDetailData(date, body),
           },
           get: () => () => getDailyDetailData(date),
         };

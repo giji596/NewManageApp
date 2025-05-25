@@ -7,3 +7,9 @@ export type UpdateUniqueTaskLogBody = {
   /** (タスクの)更新後の進捗 */
   progress?: number;
 };
+
+/** ログ作成時のリクエストボディ */
+export type CreateDailyDetailDataBody = {
+  /** タスクのid */
+  taskId: number;
+};
