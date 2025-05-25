@@ -11,3 +11,9 @@ export type DateSummaryDetailQuery = {
   /** 対象のデータの日付 */
   date: string;
 };
+
+/** タスク一覧取得時のクエリ */
+export type TaskOptionQuery = {
+  /** 対象のカテゴリのID */
+  categoryId: number;
+};

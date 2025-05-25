@@ -52,7 +52,11 @@ import {
   UpdateTaskBody,
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
-import { DateListQuery, DateSummaryDetailQuery } from "@/type/Query";
+import {
+  DateListQuery,
+  DateSummaryDetailQuery,
+  TaskOptionQuery,
+} from "@/type/Query";
 
 export const localClient = {
   work_log: {
@@ -108,9 +112,9 @@ export const localClient = {
       post: ({ body }: { body: CreateTaskBody }) => createTask(body),
       options: {
         get:
-          ({ query }: { query: { categoryId: number } }) =>
+          ({ query }: { query: TaskOptionQuery }) =>
           () =>
-            getTaskOptions(query.categoryId),
+            getTaskOptions(query),
       }, //TODO
       activities: {
         last_month: {

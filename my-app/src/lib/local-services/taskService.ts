@@ -9,11 +9,12 @@ import {
   TaskSummaryRangeQuery,
 } from "@/type/Task";
 import { CreateTaskBody, UpdateTaskBody } from "@/type/Request";
+import { TaskOptionQuery } from "@/type/Query";
 
 /**
  * タスク選択賜一覧げっとする関数
  */
-export const getTaskOptions = async (categoryId: number) => {
+export const getTaskOptions = async ({ categoryId }: TaskOptionQuery) => {
   // カテゴリidが一致するデータを取得
   const data = await db.tasks.where("categoryId").equals(categoryId).toArray();
   const result: TaskOption[] = data
