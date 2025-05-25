@@ -15,14 +15,10 @@ import DailyHeaderLogic from "./DailyHeaderLogic";
 import useDialog from "@/hook/useDialog";
 import DateDialog from "../dialog/DateDialog";
 
-type Props = {
-  /** ロード中かどうか */
-  isLoading: boolean;
-};
 /**
  * 日付ページのヘッダーコンポーネント
  */
-export default function DailyHeader({ isLoading }: Props) {
+export default function DailyHeader() {
   const {
     open: openDialog,
     onClose: onCloseDialog,
@@ -78,15 +74,10 @@ export default function DailyHeader({ isLoading }: Props) {
             }}
             disabled={isStartRange}
             onClick={handlePrevMonth}
-            loading={isLoading}
           >
             <NavigateBeforeIcon />
           </IconButton>
-          <Button
-            onClick={handleOpenPopover}
-            disabled={isLoading}
-            sx={{ borderRadius: "50%" }}
-          >
+          <Button onClick={handleOpenPopover} sx={{ borderRadius: "50%" }}>
             {displayYear}年{displayMonth}月
           </Button>
           <IconButton
@@ -96,7 +87,6 @@ export default function DailyHeader({ isLoading }: Props) {
             }}
             disabled={isLastRange}
             onClick={handleNextMonth}
-            loading={isLoading}
           >
             <NavigateNextIcon />
           </IconButton>
@@ -111,12 +101,7 @@ export default function DailyHeader({ isLoading }: Props) {
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Stack direction="row" spacing={1} px={2} py={1}>
-          <FormControl
-            disabled={isLoading}
-            variant="standard"
-            fullWidth
-            sx={{ minWidth: "80px" }}
-          >
+          <FormControl variant="standard" fullWidth sx={{ minWidth: "80px" }}>
             <Select
               name="year-select"
               value={displayYear}
@@ -130,7 +115,7 @@ export default function DailyHeader({ isLoading }: Props) {
               ))}
             </Select>
           </FormControl>
-          <FormControl disabled={isLoading} fullWidth variant="standard">
+          <FormControl fullWidth variant="standard">
             <Select
               name="month-select"
               value={displayMonth}
