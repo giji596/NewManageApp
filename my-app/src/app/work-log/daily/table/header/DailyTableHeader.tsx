@@ -3,29 +3,40 @@ import { TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { DailyTableHeaderLogic } from "./logic";
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 import CustomHeaderSortCheckLabel from "@/component/table/header/CustomHeaderSortCheckLabel/CustomHeaderSortCheckLabel";
+import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
+import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
+import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 
 type Props = {
   /** 昇順かどうか */
   isAsc: boolean;
   /** 項目が選択中かどうか */
   isSelected: (title: string) => boolean;
+  /** タスクのフィルターリスト */
+  taskFilterList: Record<string, boolean>;
+  /** タスクのフィルターリストの切り替え */
+  toggleTaskFilterCheckBox: (name: string) => void;
+  /** カテゴリのフィルターリスト */
+  categoryFilterList: Record<string, boolean>;
+  /** カテゴリのフィルターリストの切り替え */
+  toggleCategoryFilterCheckBox: (name: string) => void;
   /** 表題をクリックした際のハンドラー */
   OnClickTitle: (title: string) => void;
-  /** セルにホバー時のハンドラー */
-  onHoverTitle: (id: number, event: React.MouseEvent<HTMLElement>) => void;
-  /** セルにホバー解除時のハンドラー */
-  onLeaveHoverTitle: (id: number) => void;
 };
 
 /** 日ごとの一覧ページのテーブルコンポーネントのヘッダー部分 */
 export default function DailyTableHeader({
   isAsc,
-  onHoverTitle,
-  onLeaveHoverTitle,
   isSelected,
+  taskFilterList,
+  toggleTaskFilterCheckBox,
+  categoryFilterList,
+  toggleCategoryFilterCheckBox,
   OnClickTitle,
 }: Props) {
   const { headerColumnDisplay, getPopperIdRef } = DailyTableHeaderLogic();
+  const { openTargetIdRef, handleMouseEnter, handleMouseLeave, ...prev } =
+    CustomMenuWrapperLogic();
   return (
     <>
       <TableHead>
@@ -50,8 +61,8 @@ export default function DailyTableHeader({
                   isAsc={isAsc}
                   refId={getPopperIdRef(title)}
                   onClickTitle={OnClickTitle}
-                  onHoverTitle={onHoverTitle}
-                  onLeaveTitle={onLeaveHoverTitle}
+                  onHoverTitle={handleMouseEnter}
+                  onLeaveTitle={handleMouseLeave}
                 />
               )}
               {/** メニュー表示もソートもできない(メモ) */}
@@ -60,6 +71,25 @@ export default function DailyTableHeader({
           ))}
         </TableRow>
       </TableHead>
+      {/** カスタムメニューの面々   */}
+      <CustomMenuWrapper
+        logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
+      >
+        {/** カテゴリメニューの場合 */}
+        {openTargetIdRef.current === 10000 && (
+          <CustomMenuCheckBox
+            checkList={categoryFilterList}
+            onClickSelect={toggleCategoryFilterCheckBox}
+          />
+        )}
+        {/** タスクメニューの場合 */}
+        {openTargetIdRef.current === 10001 && (
+          <CustomMenuCheckBox
+            checkList={taskFilterList}
+            onClickSelect={toggleTaskFilterCheckBox}
+          />
+        )}
+      </CustomMenuWrapper>
     </>
   );
 }
