@@ -25,10 +25,13 @@ export default function DailyTableLogic() {
     ["api/work-log/daily/summary", `year=${_year}&month=${_month}`],
     localClient.work_log.daily.summary.get({ query: { year, month } })
   );
-  const rawItemList = data ?? [];
-  const itemList: DateSummary[] = rawItemList.map((v) => {
-    return { ...v, date: new Date(v.date) };
-  });
+  const itemList = useMemo(
+    () =>
+      (data ?? []).map((v) => {
+        return { ...v, date: new Date(v.date) };
+      }),
+    [data]
+  );
 
   const dateToId = useCallback(
     (date: Date) => Number(format(date, "yyyyMMdd")),
