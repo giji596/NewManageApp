@@ -14,6 +14,7 @@ import {
 import { useDateSelect } from "@/hook/useDateSelect";
 import { localClient } from "@/lib/localClient";
 import useSWR from "swr";
+import { useRouter } from "next/navigation";
 
 /**
  * ラジオ選択賜のstringのオブジェクト
@@ -29,6 +30,9 @@ type RadioSelect = (typeof RadioSelectSet)[number];
  * 日付ダイアログコンポーネントのロジック
  */
 export default function DataDialogLogic() {
+  // URL操作
+  const router = useRouter();
+
   const [radioSelect, setRadioSelect] = useState<RadioSelect>("昨日");
   const {
     year,
@@ -107,6 +111,13 @@ export default function DataDialogLogic() {
     [onChangeDay]
   );
 
+  const navigatePage = useCallback(
+    (dateParam: string) => {
+      router.push(`/work-log/daily/${dateParam}`);
+    },
+    [router]
+  );
+
   return {
     /** 特定の日付詳細データのダイアログ用データ */
     dateDetails,
@@ -136,5 +147,7 @@ export default function DataDialogLogic() {
     onSelectMonth,
     /** 日付を選択した際のハンドラー */
     onSelectDay,
+    /** 指定された詳細ページにナビゲートするハンドラー */
+    navigatePage,
   };
 }

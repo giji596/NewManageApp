@@ -21,18 +21,11 @@ type Props = {
   open: boolean;
   /** ダイアログ閉じる関数 */
   onClose: () => void;
-  /** ページを移動する関数 */
-  navigatePage: (dateParam: string) => void;
 };
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
-export default function DateDialog({
-  open,
-  onClose,
-
-  navigatePage,
-}: Props) {
+export default function DateDialog({ open, onClose }: Props) {
   const {
     dateDetails,
     isLoading,
@@ -48,6 +41,7 @@ export default function DateDialog({
     onSelectYear,
     onSelectMonth,
     onSelectDay,
+    navigatePage,
   } = DataDialogLogic();
   return (
     <Dialog open={open} onClose={onClose}>
