@@ -8,6 +8,7 @@ import {
 import { memo } from "react";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import { ImportOverwriteDialogLogic } from "./ImportOverwriteDialogLogic";
 
 type Props = {
   /** ダイアログ開閉状態 */
@@ -26,6 +27,7 @@ const ImportOverwriteDialog = memo(function ImportOverwriteDialog({
   onClose,
   onImport,
 }: Props) {
+  const { onClickImport } = ImportOverwriteDialogLogic({ onClose, onImport });
   return (
     <Dialog open={open} onClose={onClose}>
       {/** コンテンツ部分 */}
@@ -48,7 +50,7 @@ const ImportOverwriteDialog = memo(function ImportOverwriteDialog({
       </Stack>
       {/** ボタン */}
       <DialogActions>
-        <Button startIcon={<SwapHorizIcon />} onClick={onImport}>
+        <Button startIcon={<SwapHorizIcon />} onClick={onClickImport}>
           実行する
         </Button>
         <Button color="error" onClick={onClose}>
