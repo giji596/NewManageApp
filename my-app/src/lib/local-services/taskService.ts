@@ -8,6 +8,7 @@ import {
   TaskSummary,
   TaskSummaryRangeQuery,
 } from "@/type/Task";
+import { UpdateTaskBody } from "@/type/Request";
 
 /**
  * タスク選択賜一覧げっとする関数
@@ -261,10 +262,7 @@ export const bulkUpdateTask = async (
  */
 export const updateTaskDetail = async (
   id: number,
-  taskName?: string,
-  categoryId?: number,
-  isFavorite?: boolean,
-  progress?: number
+  { taskName, categoryId, isFavorite, progress }: UpdateTaskBody
 ) => {
   const updateData: Partial<{
     name: string;

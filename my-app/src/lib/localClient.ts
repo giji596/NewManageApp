@@ -48,6 +48,7 @@ import {
 import { TaskSummaryRangeQuery } from "@/type/Task";
 import {
   CreateDailyDetailDataBody,
+  UpdateTaskBody,
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
 import { DateListQuery, DateSummaryDetailQuery } from "@/type/Query";
@@ -95,23 +96,8 @@ export const localClient = {
       _id: (id: number) => {
         return {
           get: () => () => getTaskDetail(id),
-          patch: ({
-            body,
-          }: {
-            body: {
-              taskName?: string;
-              categoryId?: number;
-              isFavorite?: boolean;
-              progress?: number;
-            };
-          }) =>
-            updateTaskDetail(
-              id,
-              body.taskName,
-              body.categoryId,
-              body.isFavorite,
-              body.progress
-            ),
+          patch: ({ body }: { body: UpdateTaskBody }) =>
+            updateTaskDetail(id, body),
           delete: () => deleteTask(id),
           progress: {
             get: () => () => getTaskProgress(id),
