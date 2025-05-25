@@ -148,9 +148,6 @@ export default function TaskAddDialog({ open, onClose }: Props) {
         </Stack>
         {/** ボタン */}
         <DialogActions>
-          <Button color="error" onClick={onClose}>
-            キャンセル
-          </Button>
           <Button
             disabled={isLoading || selectedTaskId === 0}
             variant="contained"
@@ -158,6 +155,9 @@ export default function TaskAddDialog({ open, onClose }: Props) {
             onClick={handleAddDailyTask}
           >
             追加
+          </Button>
+          <Button color="error" onClick={onClose}>
+            キャンセル
           </Button>
         </DialogActions>
       </Dialog>

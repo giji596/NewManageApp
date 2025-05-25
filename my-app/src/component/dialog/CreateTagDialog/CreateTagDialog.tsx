@@ -59,11 +59,11 @@ const CreateTagDialog = memo(function CreateTagDialog({
           )}
         </DialogContent>
         <DialogActions>
-          <Button color="error" onClick={onClose}>
-            キャンセル
-          </Button>
           <Button type="submit" disabled={!isSendable}>
             作成
+          </Button>
+          <Button color="error" onClick={onClose}>
+            キャンセル
           </Button>
         </DialogActions>
       </form>
