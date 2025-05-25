@@ -20,18 +20,12 @@ const CircleGraph = dynamic(() => import("./circle-graph/CircleGraph"), {
 import MemoList from "./memo-list/MemoList";
 import DailyDetailPageNavLogic from "./navLogic";
 import dynamic from "next/dynamic";
-import { use } from "react";
 import TaskListLogic from "./task-list/TaskListLogic";
 
-type Props = {
-  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  params: Promise<{ date: string }>;
-};
 /**
  * 日付詳細ページ
  */
-export default function DailyDetailPage({ params }: Props) {
-  const { date: dateParam } = use(params);
+export default function DailyDetailPage() {
   const {
     isLoading,
     date,
@@ -40,7 +34,7 @@ export default function DailyDetailPage({ params }: Props) {
     taskList,
     taskLogSummary,
     circleDataList,
-  } = DailyDetailPageParams({ dateParam });
+  } = DailyDetailPageParams();
   const { navigateToCategoryDetail, navigateToTaskDetail } =
     DailyDetailPageNavLogic();
   const { selectedItemTaskId, ...prev } = TaskListLogic({ taskList });
