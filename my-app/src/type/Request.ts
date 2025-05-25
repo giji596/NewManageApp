@@ -73,3 +73,9 @@ export type CreateMemoBody = {
   /** メモに設定するタグのid */
   tagId?: number;
 };
+
+/** タグ作成時のリクエストボディ */
+export type CreateTagBody = {
+  /** タグの名前 */
+  name: string;
+};

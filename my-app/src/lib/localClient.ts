@@ -51,6 +51,7 @@ import {
   CreateCategoryBody,
   CreateDailyDetailDataBody,
   CreateMemoBody,
+  CreateTagBody,
   CreateTaskBody,
   UpdateMemoBody,
   UpdateTaskBody,
@@ -174,8 +175,8 @@ export const localClient = {
         createTag(body.tagName),
       _id: (id: number) => {
         return {
-          patch: ({ body }: { body: { name: string } }) =>
-            updateTagName(body.name, Number(id)),
+          patch: ({ body }: { body: CreateTagBody }) =>
+            updateTagName(body, Number(id)),
           delete: () => deleteTag(id),
           usage: { get: () => () => getTagUsageMemoTitlesAndCount(id) },
         };

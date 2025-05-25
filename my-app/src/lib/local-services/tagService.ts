@@ -1,5 +1,6 @@
 import { TagEditListItem, TagUsage } from "@/type/Tag";
 import { db } from "../dexie";
+import { CreateTagBody } from "@/type/Request";
 
 /**
  * メモのタグ一覧取得するメソッド
@@ -78,7 +79,7 @@ export const deleteTag = async (id: number) => {
 /**
  * タグ名を更新するロジック
  */
-export const updateTagName = async (name: string, id: number) => {
+export const updateTagName = async ({ name }: CreateTagBody, id: number) => {
   const exist = await db.memoTags.get(id);
   if (!exist) {
     throw new Error("Tag not found");
