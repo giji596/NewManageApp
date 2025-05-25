@@ -6,7 +6,6 @@ const meta = {
   component: DailyHeader,
   args: {
     isLoading: false,
-    onClickEditToday: () => {},
     onClickEditSelectDate: () => {},
   },
 } satisfies Meta<typeof DailyHeader>;
