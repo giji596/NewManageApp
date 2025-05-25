@@ -40,7 +40,6 @@ export default function DailyHeader() {
     handleClosePopover,
     handleOpenPopover,
     handleNavigateToday,
-    handleNavigateSelectedDay,
   } = DailyHeaderLogic();
   return (
     <>
@@ -132,13 +131,7 @@ export default function DailyHeader() {
         </Stack>
       </Popover>
       {/** ダイアログ */}
-      {openDialog && (
-        <DateDialog
-          open={openDialog}
-          onClose={onCloseDialog}
-          navigatePage={handleNavigateSelectedDay}
-        />
-      )}
+      {openDialog && <DateDialog open={openDialog} onClose={onCloseDialog} />}
     </>
   );
 }
