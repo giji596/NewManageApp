@@ -63,18 +63,12 @@ export default function TaskListLogic({ selectedItemId }: Props) {
 
   // ページ移動関連
   const router = useRouter();
-  const navigateTaskPage = useCallback(
-    (id: number) => {
-      router.push(`/work-log/task/${id}`);
-    },
-    [router]
-  );
-  const navigateCategoryPage = useCallback(
-    (id: number) => {
-      router.push(`/work-log/category/?id=${id}`);
-    },
-    [router]
-  );
+  const navigateTaskPage = useCallback(() => {
+    router.push(`/work-log/task/${selectedItemTaskId}`);
+  }, [router, selectedItemTaskId]);
+  const navigateCategoryPage = useCallback(() => {
+    router.push(`/work-log/category/?id=${selectedItemCategoryId}`);
+  }, [router, selectedItemCategoryId]);
 
   return {
     /** タスク一覧 */
