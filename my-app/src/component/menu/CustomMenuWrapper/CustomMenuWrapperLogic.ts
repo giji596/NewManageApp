@@ -8,14 +8,16 @@ const timeOutSec = 500;
  */
 export default function CustomMenuWrapperLogic() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const timeoutIds = useRef<Map<number, NodeJS.Timeout | null>>(new Map());
-  const openTargetIdRef = useRef<number>(99999);
+  const timeoutIds = useRef<Map<number | string, NodeJS.Timeout | null>>(
+    new Map()
+  );
+  const openTargetIdRef = useRef<number | string>(99999);
   const open = Boolean(anchorEl);
 
   // ローカル関数-----------------------------
 
   // 一定時間後にメニューを閉じる関数
-  const closeAfterTimeout = useCallback((id: number) => {
+  const closeAfterTimeout = useCallback((id: number | string) => {
     // タイムアウト処理を作成
     const newTimeout = setTimeout(() => {
       setAnchorEl(null);
@@ -26,17 +28,20 @@ export default function CustomMenuWrapperLogic() {
   }, []);
 
   // 一定時間後にメニューを開く関数
-  const openAfterTimeout = useCallback((id: number, target: HTMLElement) => {
-    // タイムアウト処理を作成
-    const newTimeout = setTimeout(() => {
-      setAnchorEl(target);
-      openTargetIdRef.current = id;
-    }, timeOutSec);
-    // 処理をtimeoutIdsに登録
-    timeoutIds.current.set(id, newTimeout);
-  }, []);
+  const openAfterTimeout = useCallback(
+    (id: number | string, target: HTMLElement) => {
+      // タイムアウト処理を作成
+      const newTimeout = setTimeout(() => {
+        setAnchorEl(target);
+        openTargetIdRef.current = id;
+      }, timeOutSec);
+      // 処理をtimeoutIdsに登録
+      timeoutIds.current.set(id, newTimeout);
+    },
+    []
+  );
   // メニューの開閉のタイマーを初期化する関数
-  const clearTimeoutTimer = useCallback((id: number) => {
+  const clearTimeoutTimer = useCallback((id: number | string) => {
     const currentId = timeoutIds.current.get(id);
     if (currentId) {
       clearTimeout(currentId); // タイマーをキャンセル
@@ -48,7 +53,7 @@ export default function CustomMenuWrapperLogic() {
 
   // マウスが侵入した際の動作
   const handleMouseEnter = (
-    id: number,
+    id: number | string,
     event: React.MouseEvent<HTMLElement>
   ) => {
     // 開いているメニューid===openTargetIdRef.currentであればメニューを閉じるタイマーを初期化する
@@ -62,7 +67,7 @@ export default function CustomMenuWrapperLogic() {
   };
 
   // マウスが離れた際の処理
-  const handleMouseLeave = (id: number) => {
+  const handleMouseLeave = (id: number | string) => {
     // 開いているメニューid===openTargetIdRef.currentであればメニューを閉じる
     if (id === openTargetIdRef.current) {
       closeAfterTimeout(id);

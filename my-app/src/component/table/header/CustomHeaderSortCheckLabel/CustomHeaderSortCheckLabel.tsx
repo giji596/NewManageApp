@@ -10,13 +10,16 @@ type Props = {
   /** 昇順かどうか */
   isAsc: boolean;
   /** 対象についての参照id */
-  refId: number;
+  refId: number | string;
   /** タイトルをクリックした際のハンドラー */
   onClickTitle: (title: string) => void;
   /** タイトルをホバーした際のハンドラー */
-  onHoverTitle: (refId: number, e: React.MouseEvent<HTMLElement>) => void;
+  onHoverTitle: (
+    refId: number | string,
+    e: React.MouseEvent<HTMLElement>
+  ) => void;
   /** タイトルからリーブした際のハンドラー */
-  onLeaveTitle: (refId: number) => void;
+  onLeaveTitle: (refId: number | string) => void;
 };
 
 /**
