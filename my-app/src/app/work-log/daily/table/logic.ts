@@ -5,7 +5,7 @@ import { localClient } from "@/lib/localClient";
 import { DateSummary } from "@/type/Date";
 import { TableSortTargetType } from "@/type/Table";
 import { format } from "date-fns";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import useSWR from "swr";
 
@@ -133,6 +133,16 @@ export default function DailyTableLogic() {
     [doFilterByCategoryFilterList, doFilterByTaskFilterList]
   );
 
+  // ページ移動
+  const router = useRouter();
+
+  const handleNavigateSelectedDay = useCallback(
+    (dateParam: string) => {
+      router.push(`/work-log/daily/${dateParam}`);
+    },
+    [router]
+  );
+
   return {
     /** アイテム全体のリスト */
     itemList,
@@ -162,5 +172,7 @@ export default function DailyTableLogic() {
     toggleTaskFilterCheckBox,
     /** フィルターリストに応じてフィルターする関数 */
     doFilterByFilterList,
+    /** 指定された詳細ページにナビゲートするハンドラー */
+    handleNavigateSelectedDay,
   };
 }
