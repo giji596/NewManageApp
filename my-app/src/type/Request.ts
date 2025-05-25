@@ -35,3 +35,13 @@ export type CreateTaskBody = {
   /** タスクがお気に入りか否か */
   isFavorite: boolean;
 };
+
+/** タスクの一括更新時のリクエストボディ */
+export type BulkUpdateTaskBody = {
+  /** タスクのid */
+  id: number;
+  /** 更新後の進捗 */
+  progress?: number;
+  /** 更新後のお気に入り */
+  isFavorite?: boolean;
+}[];

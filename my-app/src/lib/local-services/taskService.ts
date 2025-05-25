@@ -8,7 +8,11 @@ import {
   TaskSummary,
   TaskSummaryRangeQuery,
 } from "@/type/Task";
-import { CreateTaskBody, UpdateTaskBody } from "@/type/Request";
+import {
+  BulkUpdateTaskBody,
+  CreateTaskBody,
+  UpdateTaskBody,
+} from "@/type/Request";
 import { TaskOptionQuery } from "@/type/Query";
 
 /**
@@ -239,9 +243,7 @@ export const createTask = async ({
 /**
  * タスクを一括更新するメソッド(一覧ページで利用)
  */
-export const bulkUpdateTask = async (
-  updateData: { id: number; progress?: number; isFavorite?: boolean }[]
-) => {
+export const bulkUpdateTask = async (updateData: BulkUpdateTaskBody) => {
   const updates = updateData.map(async (v) => {
     const updateFields: Partial<{ progress: number; isFavorite: boolean }> = {};
     if (v.progress !== undefined) {

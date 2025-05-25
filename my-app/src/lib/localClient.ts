@@ -47,6 +47,7 @@ import {
 } from "./local-services/dailySummaryService";
 import { TaskSummaryRangeQuery } from "@/type/Task";
 import {
+  BulkUpdateTaskBody,
   CreateDailyDetailDataBody,
   CreateTaskBody,
   UpdateTaskBody,
@@ -123,11 +124,7 @@ export const localClient = {
       },
       progress: { last_month: { get: () => () => getLastMonthTaskProgress() } },
       bulk_update: {
-        patch: ({
-          body,
-        }: {
-          body: { id: number; progress?: number; isFavorite?: boolean }[];
-        }) => bulkUpdateTask(body),
+        patch: ({ body }: { body: BulkUpdateTaskBody }) => bulkUpdateTask(body),
       },
     },
     categories: {
