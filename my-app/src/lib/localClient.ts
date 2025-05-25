@@ -50,7 +50,7 @@ import {
   CreateDailyDetailDataBody,
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
-import { DateListQuery } from "@/type/Query";
+import { DateListQuery, DateSummaryDetailQuery } from "@/type/Query";
 
 export const localClient = {
   work_log: {
@@ -78,9 +78,9 @@ export const localClient = {
             getDailySummaryData({ query }),
         detail: {
           get:
-            ({ query }: { query: { date: string } }) =>
+            ({ query }: { query: DateSummaryDetailQuery }) =>
             () =>
-              getDailySummaryDetailData(query.date),
+              getDailySummaryDetailData(query),
         },
       },
       recent_work_time: {

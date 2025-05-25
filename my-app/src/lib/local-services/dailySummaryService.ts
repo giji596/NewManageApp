@@ -4,7 +4,7 @@ import { MemoSummary } from "@/type/Memo";
 import { TaskWithPercentage } from "@/type/Task";
 import { CategoryWithPercentage } from "@/type/Category";
 import { DailyWorkTime } from "@/type/Main";
-import { DateListQuery } from "@/type/Query";
+import { DateListQuery, DateSummaryDetailQuery } from "@/type/Query";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -105,7 +105,9 @@ export const getDailySummaryData = async ({
 /**
  * DailySummaryPageのDetailデータをとってくる関数
  */
-export const getDailySummaryDetailData = async (date: string) => {
+export const getDailySummaryDetailData = async ({
+  date,
+}: DateSummaryDetailQuery) => {
   // データをDexieから取得
   const rawData = await db.taskLogs.where("date").equals(date).toArray();
   // なければnullを返す

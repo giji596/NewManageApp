@@ -5,3 +5,9 @@ export type DateListQuery = {
   /** 月 */
   month?: number;
 };
+
+/** 日付の一覧ページ用の詳細データのクエリ */
+export type DateSummaryDetailQuery = {
+  /** 対象のデータの日付 */
+  date: string;
+};
