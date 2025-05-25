@@ -5,14 +5,7 @@ import DailyHeader from "./DailyHeader";
 const meta = {
   component: DailyHeader,
   args: {
-    displayYear: "2025",
-    displayMonth: "4",
     isLoading: false,
-    handlePrev: () => {},
-    handleNext: () => {},
-    handleYearChange: () => {},
-    handleMonthChange: () => {},
-    onClickEditToday: () => {},
     onClickEditSelectDate: () => {},
   },
 } satisfies Meta<typeof DailyHeader>;
