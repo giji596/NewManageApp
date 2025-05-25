@@ -79,6 +79,18 @@ export async function exportDatabase() {
   URL.revokeObjectURL(url); // メモリ解放
 }
 
+/** いずれかのテーブルにデータが存在するかをチェックする関数 */
+export async function isDatabaseExist() {
+  const tables = getAllTables();
+  // いずれかのテーブルにデータがあればtrue
+  for (const table of tables) {
+    const data = await table.toArray();
+    if (data.length > 0) return true;
+  }
+  // いずれかのテーブルにデータがなければfalse
+  return false;
+}
+
 /** データベースのデータをインポートする関数 */
 export async function importDatabase(json: ImportData) {
   const tables = getAllTables();
