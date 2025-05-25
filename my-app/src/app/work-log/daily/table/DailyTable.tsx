@@ -18,14 +18,10 @@ import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenu
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
-type Props = {
-  /** rowをクリックした際のページナビゲーションのハンドラー */
-  onClickRow: (dateParam: string) => void;
-};
 /**
  * 日付ページのテーブルコンポーネント
  */
-export default function DailyTable({ onClickRow }: Props) {
+export default function DailyTable() {
   const {
     itemList,
     isLoading,
@@ -41,6 +37,7 @@ export default function DailyTable({ onClickRow }: Props) {
     toggleCategoryFilterCheckBox,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
+    handleNavigateSelectedDay,
   } = DailyTableLogic();
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
@@ -69,7 +66,9 @@ export default function DailyTable({ onClickRow }: Props) {
                   <TableRow
                     key={item.date.toISOString()}
                     hover
-                    onClick={() => onClickRow(dateToParam(item.date))}
+                    onClick={() =>
+                      handleNavigateSelectedDay(dateToParam(item.date))
+                    }
                     sx={{
                       cursor: "pointer",
                     }}
