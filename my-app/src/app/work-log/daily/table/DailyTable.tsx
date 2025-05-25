@@ -47,7 +47,7 @@ export default function DailyTable() {
             isSelected={isSelected}
             taskFilterLogic={taskFilterChildProps}
             categoryFilterLogic={categoryFilterChildProps}
-            OnClickTitle={handleClickSortLabel}
+            onClickTitle={handleClickSortLabel}
           />
           <TableBody>
             {isLoading && <TableBodyLoading colCount={5} />}
