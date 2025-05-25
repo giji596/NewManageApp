@@ -10,6 +10,4 @@ export default meta;
 
 type Story = StoryObj<typeof Page>;
 
-export const Default: Story = {
-  render: () => <Page params={Promise.resolve({ date: "" })} />,
-};
+export const Default: Story = {};

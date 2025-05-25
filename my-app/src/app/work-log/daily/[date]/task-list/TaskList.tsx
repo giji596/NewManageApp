@@ -2,37 +2,25 @@
 import { Stack } from "@mui/material";
 import TaskTable from "./table/TaskTable";
 import TaskMenu from "./task-menu/TaskMenu";
-import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskListLogic from "./TaskListLogic";
 import TaskEditDialog from "./dialog/TaskEditDialog/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompletedTaskEditDialog from "./dialog/CompletedTaskEditDialog/CompletedTaskEditDialog";
 
 type Props = {
-  /** タスクの一覧 */
-  taskList: DailyDetailTaskTableType[];
-  /** ロード中かどうか */
-  isLoading: boolean;
-  /** タスクページへ移動する関数 */
-  navigateTaskPage: (id: number) => void;
-  /** カテゴリページへ移動する関数 */
-  navigateCategoryPage: (id: number) => void;
-  /** タスクリストのロジック */
-  taskListLogic: ReturnType<typeof TaskListLogic>;
+  /** 選択中のアイテムID */
+  selectedItemId: number | null;
+  /** アイテム行をクリックした際のハンドラー */
+  handleClickRow: (id: number) => void;
 };
 
 /**
  * 日付詳細ページのタスク表示部分
  */
-export default function TaskList({
-  taskList,
-  isLoading,
-  navigateTaskPage,
-  navigateCategoryPage,
-  taskListLogic,
-}: Props) {
+export default function TaskList({ selectedItemId, handleClickRow }: Props) {
   const {
-    selectedItemId,
+    taskList,
+    isLoading,
     isItemSelected,
     selectedItemTaskId,
     selectedItemCategoryId,
@@ -40,8 +28,11 @@ export default function TaskList({
     isSelectedTaskCompleted,
     selectedTaskName,
     selectedCategoryName,
-    handleClickRow,
-  } = taskListLogic;
+    navigateTaskPage,
+    navigateCategoryPage,
+  } = TaskListLogic({
+    selectedItemId,
+  });
   const {
     open: openEdit,
     onClose: onCloseEdit,
