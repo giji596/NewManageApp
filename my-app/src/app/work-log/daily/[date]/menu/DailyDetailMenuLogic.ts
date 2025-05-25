@@ -1,7 +1,6 @@
 import { localClient } from "@/lib/localClient";
 import { TaskLogSummary } from "@/type/Task";
 import { keyframes } from "@emotion/react";
-import { format } from "date-fns";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
@@ -15,10 +14,13 @@ export default function DailyDetailMenuLogic() {
     `api/work-log/daily/${dateParam}`,
     localClient.work_log.daily._date(dateParam).get()
   );
-  const date = useMemo(() => {
+  // Date => YYYY/MM/DDに変換する
+  const dateString = useMemo(() => {
+    // yyyy-mm-ddで取得
     const date = data?.date ?? dateParam;
-    return new Date(date);
+    return date.replaceAll("-", "/");
   }, [data?.date, dateParam]);
+
   const taskList = useMemo(() => data?.taskList ?? [], [data]);
   const dailyHours = useMemo(
     () => taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
@@ -30,8 +32,6 @@ export default function DailyDetailMenuLogic() {
       a.push(taskData);
       return a;
     }, []) ?? [];
-  // Date => YYYY/MM/DDに変換する
-  const dateString = useMemo(() => format(date, "yyyy/MM/dd"), [date]);
 
   const growAnimation = useMemo(() => {
     const dailyHourCoverGraphLength = (10 - dailyHours) * 10;
