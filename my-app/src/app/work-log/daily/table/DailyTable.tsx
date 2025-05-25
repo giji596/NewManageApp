@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import DailyTableLogic from "./logic";
 import DailyTableHeader from "./header/DailyTableHeader";
-import { DateSummary } from "@/type/Date";
 import { format } from "date-fns";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
@@ -20,18 +19,16 @@ import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyL
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
 type Props = {
-  /** アイテム */
-  itemList: DateSummary[];
-  /** ロード状態か */
-  isLoading: boolean;
   /** rowをクリックした際のページナビゲーションのハンドラー */
   onClickRow: (dateParam: string) => void;
 };
 /**
  * 日付ページのテーブルコンポーネント
  */
-export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
+export default function DailyTable({ onClickRow }: Props) {
   const {
+    itemList,
+    isLoading,
     dateToId,
     dateToParam,
     isAsc,
@@ -44,7 +41,7 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
     toggleCategoryFilterCheckBox,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
-  } = DailyTableLogic({ itemList });
+  } = DailyTableLogic();
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   return (
