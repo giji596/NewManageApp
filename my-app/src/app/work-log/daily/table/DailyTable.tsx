@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import DailyTableLogic from "./logic";
 import DailyTableHeader from "./header/DailyTableHeader";
-import { DateSummary } from "@/type/Date";
 import { format } from "date-fns";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
@@ -19,19 +18,13 @@ import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenu
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 
-type Props = {
-  /** アイテム */
-  itemList: DateSummary[];
-  /** ロード状態か */
-  isLoading: boolean;
-  /** rowをクリックした際のページナビゲーションのハンドラー */
-  onClickRow: (dateParam: string) => void;
-};
 /**
  * 日付ページのテーブルコンポーネント
  */
-export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
+export default function DailyTable() {
   const {
+    itemList,
+    isLoading,
     dateToId,
     dateToParam,
     isAsc,
@@ -44,7 +37,8 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
     toggleCategoryFilterCheckBox,
     toggleTaskFilterCheckBox,
     doFilterByFilterList,
-  } = DailyTableLogic({ itemList });
+    handleNavigateSelectedDay,
+  } = DailyTableLogic();
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   return (
@@ -72,7 +66,9 @@ export default function DailyTable({ itemList, isLoading, onClickRow }: Props) {
                   <TableRow
                     key={item.date.toISOString()}
                     hover
-                    onClick={() => onClickRow(dateToParam(item.date))}
+                    onClick={() =>
+                      handleNavigateSelectedDay(dateToParam(item.date))
+                    }
                     sx={{
                       cursor: "pointer",
                     }}
