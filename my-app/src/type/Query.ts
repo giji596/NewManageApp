@@ -1,3 +1,5 @@
+import { CategoryActivityRange } from "./Category";
+
 /** 日付の一覧取得時のクエリ */
 export type DateListQuery = {
   /** 年 */
@@ -20,7 +22,7 @@ export type TaskOptionQuery = {
 
 /** カテゴリの稼働を取得する際のクエリ */
 export type CategoryActivityQuery = {
-  range?: "last-month" | "all" | "select";
+  range?: CategoryActivityRange;
   start?: string;
   end?: string;
 };

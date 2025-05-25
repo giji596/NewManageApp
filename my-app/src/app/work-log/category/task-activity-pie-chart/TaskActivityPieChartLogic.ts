@@ -1,4 +1,5 @@
 import { localClient } from "@/lib/localClient";
+import { CategoryActivityRange } from "@/type/Category";
 import { format, subMonths } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
@@ -13,9 +14,8 @@ export default function TaskActivityPieChartLogic() {
   const noCategory = useMemo(() => categoryId === 0, [categoryId]);
 
   // 日付選択のロジック
-  const [selectedRange, setSelectedRange] = useState<
-    "last-month" | "all" | "select"
-  >("last-month");
+  const [selectedRange, setSelectedRange] =
+    useState<CategoryActivityRange>("last-month");
 
   const onChangeSelectedRange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
