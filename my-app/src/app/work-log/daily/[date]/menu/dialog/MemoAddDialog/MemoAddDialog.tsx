@@ -158,9 +158,6 @@ export default function MemoAddDialog({
             />
           </Stack>
           <DialogActions>
-            <Button onClick={onClose} color="error">
-              キャンセル
-            </Button>
             <Button
               disabled={!isValid}
               type="submit"
@@ -168,6 +165,9 @@ export default function MemoAddDialog({
               startIcon={<NoteAddIcon />}
             >
               追加
+            </Button>
+            <Button onClick={onClose} color="error">
+              キャンセル
             </Button>
           </DialogActions>
         </form>

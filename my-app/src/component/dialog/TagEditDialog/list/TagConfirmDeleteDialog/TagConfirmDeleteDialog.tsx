@@ -67,7 +67,6 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
           </DialogContent>
           {/** ボタン */}
           <DialogActions>
-            <Button onClick={onClose}>キャンセル</Button>
             <Button
               startIcon={<DeleteIcon />}
               color="error"
@@ -76,6 +75,7 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
             >
               削除
             </Button>
+            <Button onClick={onClose}>キャンセル</Button>
           </DialogActions>
         </>
       )}

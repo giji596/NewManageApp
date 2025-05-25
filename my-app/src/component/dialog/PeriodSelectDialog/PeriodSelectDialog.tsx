@@ -63,11 +63,11 @@ export default function PeriodSelectDialog({
         </Stack>
       </Stack>
       <DialogActions>
-        <Button onClick={onClose} color="error">
-          キャンセル
-        </Button>
         <Button disabled={!isValid} onClick={onClickSelect}>
           選択
+        </Button>
+        <Button onClick={onClose} color="error">
+          キャンセル
         </Button>
       </DialogActions>
     </Dialog>
