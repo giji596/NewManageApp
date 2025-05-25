@@ -46,6 +46,7 @@ import {
   getRecentWorkTime,
 } from "./local-services/dailySummaryService";
 import { TaskSummaryRangeQuery } from "@/type/Task";
+import { UpdateUniqueTaskLogBody } from "@/type/Request";
 
 export const localClient = {
   work_log: {
@@ -55,16 +56,8 @@ export const localClient = {
           task_logs: {
             _id: (id: number) => {
               return {
-                patch: ({
-                  body,
-                }: {
-                  body: {
-                    taskId?: number;
-                    workTime?: number;
-                    progress?: number;
-                  };
-                }) =>
-                  updateTaskLog(id, body.taskId, body.workTime, body.progress),
+                patch: ({ body }: { body: UpdateUniqueTaskLogBody }) =>
+                  updateTaskLog(id, body),
                 delete: () => deleteTaskLog(id),
               };
             },

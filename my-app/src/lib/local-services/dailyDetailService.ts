@@ -5,6 +5,7 @@ import {
   updateTaskActivityDatesIfNeeded,
   adjustTaskActivityDatesIfRemoved,
 } from "./taskService";
+import { UpdateUniqueTaskLogBody } from "@/type/Request";
 
 /**
  * 日付詳細ページのデータをDBから取得する関数
@@ -127,9 +128,7 @@ export const createDailyDetailData = async (date: string, taskId: number) => {
  */
 export const updateTaskLog = async (
   id: number,
-  taskId?: number,
-  workTime?: number,
-  progress?: number
+  { taskId, workTime, progress }: UpdateUniqueTaskLogBody = {}
 ) => {
   // 更新前のデータを取得
   const previous = await db.taskLogs.get(id);
