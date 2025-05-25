@@ -11,7 +11,7 @@ import useSWR from "swr";
  */
 export default function DailyDetailPageParams() {
   const { date: dateParam } = useParams<{ date: string }>();
-  const { data, isLoading } = useSWR(
+  const { data } = useSWR(
     `api/work-log/daily/${dateParam}`,
     localClient.work_log.daily._date(dateParam).get()
   );
@@ -27,7 +27,6 @@ export default function DailyDetailPageParams() {
   );
 
   const taskList = rawData?.taskList;
-  const memoList = rawData.memoList;
 
   // 状態管理
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -68,10 +67,6 @@ export default function DailyDetailPageParams() {
   );
 
   return {
-    /** ロード状態 */
-    isLoading,
-    /** メモ一覧 */
-    memoList,
     /** 選択中のアイテムID */
     selectedItemId,
     /** 選択中のタスクID(メモのハイライト用) */

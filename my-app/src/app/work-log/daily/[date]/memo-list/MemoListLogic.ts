@@ -1,12 +1,13 @@
 import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
+import { localClient } from "@/lib/localClient";
 import { MemoDailyTask } from "@/type/Memo";
 import { TableSortTargetType } from "@/type/Table";
+import { useParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
 
 type Props = {
-  /** メモの一覧 */
-  memoItemList: MemoDailyTask[];
   /** 選択中のタスクのid(ハイライトように) */
   selectedItemTaskId: number;
 };
@@ -14,10 +15,14 @@ type Props = {
 /**
  * 日付詳細 - メモリストのロジック部分
  */
-export default function MemoListLogic({
-  memoItemList,
-  selectedItemTaskId,
-}: Props) {
+export default function MemoListLogic({ selectedItemTaskId }: Props) {
+  // データフェッチ
+  const { date: dateParam } = useParams<{ date: string }>();
+  const { data, isLoading } = useSWR(
+    `api/work-log/daily/${dateParam}`,
+    localClient.work_log.daily._date(dateParam).get()
+  );
+  const memoItemList = useMemo(() => data?.memoList ?? [], [data]);
   // itemリストに存在するタスク一覧
   const defaultTaskFilterList = useMemo(
     () =>
@@ -114,6 +119,10 @@ export default function MemoListLogic({
     [selectedItemTaskId]
   );
   return {
+    /** メモ一覧 */
+    memoItemList,
+    /** メモのローディング状態 */
+    isLoading,
     /** 指定されたidの列がアクティブかどうかを求める */
     isActiveRow,
     /** 行をクリックした際のハンドラー
