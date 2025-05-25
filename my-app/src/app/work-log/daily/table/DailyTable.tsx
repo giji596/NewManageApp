@@ -41,13 +41,15 @@ export default function DailyTable() {
   return (
     <>
       <TableContainer>
-        <Table sx={{ width: "100%", padding: "16px 24px" }}>
+        <Table
+          sx={{ width: "100%", padding: "16px 24px", tableLayout: "fixed" }}
+        >
           <DailyTableHeader
             isAsc={isAsc}
             isSelected={isSelected}
             taskFilterLogic={taskFilterChildProps}
             categoryFilterLogic={categoryFilterChildProps}
-            OnClickTitle={handleClickSortLabel}
+            onClickTitle={handleClickSortLabel}
           />
           <TableBody>
             {isLoading && <TableBodyLoading colCount={5} />}
@@ -73,8 +75,6 @@ export default function DailyTable() {
                     {/** 日付 */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -85,8 +85,6 @@ export default function DailyTable() {
                     {/** メインカテゴリ */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -97,8 +95,6 @@ export default function DailyTable() {
                     {/** メインタスク */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -109,8 +105,6 @@ export default function DailyTable() {
                     {/** メモ(0番目のめもを表示) */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         gap: 2,
                         borderRadius: "4px",
                         transition: "background 0.5s",
@@ -149,8 +143,6 @@ export default function DailyTable() {
                     {/** 稼働合計 */}
                     <TableCell
                       sx={{
-                        maxWidth: "20%", // 幅
-                        width: "20%", // 幅
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
