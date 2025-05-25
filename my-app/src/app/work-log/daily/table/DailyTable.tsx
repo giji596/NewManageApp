@@ -41,7 +41,9 @@ export default function DailyTable() {
   return (
     <>
       <TableContainer>
-        <Table sx={{ width: "100%", padding: "16px 24px" }}>
+        <Table
+          sx={{ width: "100%", padding: "16px 24px", tableLayout: "fixed" }}
+        >
           <DailyTableHeader
             isAsc={isAsc}
             isSelected={isSelected}
