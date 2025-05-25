@@ -13,15 +13,13 @@ import useDialog from "@/hook/useDialog";
  */
 export default function DailyPage() {
   const { itemList, isLoadingItemList } = DailyPageFetchLogic();
-  const { handleNavigateToday, handleNavigateSelectedDay } =
-    DailyPageNavigationLogic();
+  const { handleNavigateSelectedDay } = DailyPageNavigationLogic();
   const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <Stack spacing={2}>
         <DailyHeader
           isLoading={isLoadingItemList}
-          onClickEditToday={handleNavigateToday}
           onClickEditSelectDate={onOpen}
         />
         <DailyTable

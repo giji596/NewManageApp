@@ -16,8 +16,6 @@ import DailyHeaderLogic from "./DailyHeaderLogic";
 type Props = {
   /** ロード中かどうか */
   isLoading: boolean;
-  /** 今日を編集押した際のハンドラー */
-  onClickEditToday: () => void;
   /** 日付を選択して編集を押した際のハンドラー */
   onClickEditSelectDate: () => void;
 };
@@ -26,7 +24,6 @@ type Props = {
  */
 export default function DailyHeader({
   isLoading,
-  onClickEditToday,
   onClickEditSelectDate,
 }: Props) {
   const {
@@ -44,6 +41,7 @@ export default function DailyHeader({
     open,
     handleClosePopover,
     handleOpenPopover,
+    handleNavigateToday,
   } = DailyHeaderLogic();
   return (
     <>
@@ -54,7 +52,7 @@ export default function DailyHeader({
             startIcon={<EditIcon />}
             variant="contained"
             sx={{ justifyContent: "flex-start" }}
-            onClick={onClickEditToday}
+            onClick={handleNavigateToday}
           >
             今日を編集
           </Button>
