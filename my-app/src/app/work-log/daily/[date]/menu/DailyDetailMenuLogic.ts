@@ -6,19 +6,10 @@ import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
 
-type Props = {
-  /** 対象の日付データ */
-  date: Date;
-  /** 稼働時間 */
-  dailyHours: number;
-  /** タスクの一覧 */
-  taskList: TaskLogSummary[];
-};
-
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネントのロジック
  */
-export default function DailyDetailMenuLogic({}: Props) {
+export default function DailyDetailMenuLogic() {
   const { date: dateParam } = useParams<{ date: string }>();
   const { data } = useSWR(
     `api/work-log/daily/${dateParam}`,
@@ -59,6 +50,10 @@ export default function DailyDetailMenuLogic({}: Props) {
   );
 
   return {
+    /** 稼働時間 */
+    dailyHours,
+    /** タスクの一覧 */
+    taskLogSummary,
     /** 日付のstring(YYYY/MM/DD) */
     dateString,
     /** 稼働時間のグラフのアニメーション */

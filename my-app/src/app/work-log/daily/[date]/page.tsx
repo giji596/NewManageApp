@@ -26,10 +26,7 @@ import dynamic from "next/dynamic";
 export default function DailyDetailPage() {
   const {
     isLoading,
-    date,
-    dailyHours,
     memoList,
-    taskLogSummary,
     circleDataList,
     selectedItemId,
     selectedItemTaskId,
@@ -40,11 +37,7 @@ export default function DailyDetailPage() {
       {/**　左半分(メニュー/タスク) */}
       <Stack width="50%" justifyContent={"space-between"}>
         {/** メニュー */}
-        <DailyDetailMenu
-          date={date}
-          dailyHours={dailyHours}
-          taskList={taskLogSummary}
-        />
+        <DailyDetailMenu />
         {/** タスク */}
         <TaskList
           selectedItemId={selectedItemId}

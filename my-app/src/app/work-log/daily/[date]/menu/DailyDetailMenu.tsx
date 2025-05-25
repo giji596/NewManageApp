@@ -6,21 +6,11 @@ import useDialog from "@/hook/useDialog";
 import TaskAddDialog from "./dialog/TaskAddDialog/TaskAddDialog";
 import MemoAddDialog from "./dialog/MemoAddDialog/MemoAddDialog";
 import DailyDetailMenuLogic from "./DailyDetailMenuLogic";
-import { TaskLogSummary } from "@/type/Task";
-
-type Props = {
-  /** 対象の日付データ */
-  date: Date;
-  /** 稼働時間 */
-  dailyHours: number;
-  /** タスクの一覧(メモで使う) */
-  taskList: TaskLogSummary[];
-};
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネント
  */
-export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
+export default function DailyDetailMenu() {
   const {
     open: openTask,
     onClose: onCloseTask,
@@ -31,11 +21,8 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
     onClose: onCloseMemo,
     onOpen: onOpenMemo,
   } = useDialog();
-  const { dateString, growAnimation, isNoTask } = DailyDetailMenuLogic({
-    date,
-    dailyHours,
-    taskList,
-  });
+  const { dailyHours, taskLogSummary, dateString, growAnimation, isNoTask } =
+    DailyDetailMenuLogic();
   return (
     <>
       <Stack spacing={2}>
@@ -91,7 +78,7 @@ export default function DailyDetailMenu({ date, dailyHours, taskList }: Props) {
       {openTask && <TaskAddDialog open={openTask} onClose={onCloseTask} />}
       {openMemo && (
         <MemoAddDialog
-          taskList={taskList}
+          taskList={taskLogSummary}
           open={openMemo}
           onClose={onCloseMemo}
           isTaskSelected={false}
