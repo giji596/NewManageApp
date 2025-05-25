@@ -27,37 +27,39 @@ export default function DailyTableHeader({
 }: Props) {
   const { headerColumnDisplay, getPopperIdRef } = DailyTableHeaderLogic();
   return (
-    <TableHead>
-      <TableRow>
-        {Object.entries(headerColumnDisplay).map(([title, type]) => (
-          // 共通設定(パディングやサイズなど)
-          <TableCell key={title}>
-            {/** メニューを表示しない場合(日付・合計稼働時間) */}
-            {type == "none" && (
-              <CustomHeaderSortLabel
-                title={title}
-                isSelected={isSelected(title)}
-                isAsc={isAsc}
-                onClickTitle={OnClickTitle}
-              />
-            )}
-            {/** チェックボックスメニューを表示する場合(カテゴリ・タスク) */}
-            {type == "checkbox" && (
-              <CustomHeaderSortCheckLabel
-                title={title}
-                isSelected={isSelected(title)}
-                isAsc={isAsc}
-                refId={getPopperIdRef(title)}
-                onClickTitle={OnClickTitle}
-                onHoverTitle={onHoverTitle}
-                onLeaveTitle={onLeaveHoverTitle}
-              />
-            )}
-            {/** メニュー表示もソートもできない(メモ) */}
-            {type == "title" && <Typography>{title}</Typography>}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
+    <>
+      <TableHead>
+        <TableRow>
+          {Object.entries(headerColumnDisplay).map(([title, type]) => (
+            // 共通設定(パディングやサイズなど)
+            <TableCell key={title}>
+              {/** メニューを表示しない場合(日付・合計稼働時間) */}
+              {type == "none" && (
+                <CustomHeaderSortLabel
+                  title={title}
+                  isSelected={isSelected(title)}
+                  isAsc={isAsc}
+                  onClickTitle={OnClickTitle}
+                />
+              )}
+              {/** チェックボックスメニューを表示する場合(カテゴリ・タスク) */}
+              {type == "checkbox" && (
+                <CustomHeaderSortCheckLabel
+                  title={title}
+                  isSelected={isSelected(title)}
+                  isAsc={isAsc}
+                  refId={getPopperIdRef(title)}
+                  onClickTitle={OnClickTitle}
+                  onHoverTitle={onHoverTitle}
+                  onLeaveTitle={onLeaveHoverTitle}
+                />
+              )}
+              {/** メニュー表示もソートもできない(メモ) */}
+              {type == "title" && <Typography>{title}</Typography>}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    </>
   );
 }
