@@ -44,7 +44,7 @@ export const SettingsDrawerLogic = ({
       // インポート処理
       await importDatabase(importData.current);
       // 全てのキャッシュをundefinedにする(再取得させる)
-      mutate(() => true, undefined);
+      await mutate(() => true, undefined);
       // importDataをnullにする
       importData.current = null;
       // 処理後、ドロワーを閉じる
