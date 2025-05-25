@@ -12,20 +12,22 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import EditIcon from "@mui/icons-material/Edit";
 import DailyHeaderLogic from "./DailyHeaderLogic";
+import useDialog from "@/hook/useDialog";
+import DateDialog from "../dialog/DateDialog";
 
 type Props = {
   /** ロード中かどうか */
   isLoading: boolean;
-  /** 日付を選択して編集を押した際のハンドラー */
-  onClickEditSelectDate: () => void;
 };
 /**
  * 日付ページのヘッダーコンポーネント
  */
-export default function DailyHeader({
-  isLoading,
-  onClickEditSelectDate,
-}: Props) {
+export default function DailyHeader({ isLoading }: Props) {
+  const {
+    open: openDialog,
+    onClose: onCloseDialog,
+    onOpen: onOpenDialog,
+  } = useDialog();
   const {
     displayYear,
     displayMonth,
@@ -61,7 +63,7 @@ export default function DailyHeader({
             variant="outlined"
             color="success"
             sx={{ justifyContent: "flex-start" }}
-            onClick={onClickEditSelectDate}
+            onClick={onOpenDialog}
           >
             日付を指定して編集
           </Button>
@@ -143,6 +145,16 @@ export default function DailyHeader({
           </FormControl>
         </Stack>
       </Popover>
+      {/** ダイアログ */}
+      {openDialog && (
+        <DateDialog
+          open={openDialog}
+          onClose={onCloseDialog}
+          navigatePage={() => {
+            /**TODO: */
+          }}
+        />
+      )}
     </>
   );
 }
