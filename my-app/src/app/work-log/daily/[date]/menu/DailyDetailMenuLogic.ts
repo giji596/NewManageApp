@@ -1,27 +1,37 @@
+import { localClient } from "@/lib/localClient";
 import { TaskLogSummary } from "@/type/Task";
 import { keyframes } from "@emotion/react";
-import { format } from "date-fns";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
-
-type Props = {
-  /** 対象の日付データ */
-  date: Date;
-  /** 稼働時間 */
-  dailyHours: number;
-  /** タスクの一覧 */
-  taskList: TaskLogSummary[];
-};
+import useSWR from "swr";
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネントのロジック
  */
-export default function DailyDetailMenuLogic({
-  date,
-  dailyHours,
-  taskList,
-}: Props) {
+export default function DailyDetailMenuLogic() {
+  const { date: dateParam } = useParams<{ date: string }>();
+  const { data } = useSWR(
+    `api/work-log/daily/${dateParam}`,
+    localClient.work_log.daily._date(dateParam).get()
+  );
   // Date => YYYY/MM/DDに変換する
-  const dateString = useMemo(() => format(date, "yyyy/MM/dd"), [date]);
+  const dateString = useMemo(() => {
+    // yyyy-mm-ddで取得
+    const date = data?.date ?? dateParam;
+    return date.replaceAll("-", "/");
+  }, [data?.date, dateParam]);
+
+  const taskList = useMemo(() => data?.taskList ?? [], [data]);
+  const dailyHours = useMemo(
+    () => taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
+    [taskList]
+  );
+  const taskLogSummary =
+    taskList.reduce<TaskLogSummary[]>((a, b) => {
+      const taskData: TaskLogSummary = { id: b.id, taskName: b.task.name };
+      a.push(taskData);
+      return a;
+    }, []) ?? [];
 
   const growAnimation = useMemo(() => {
     const dailyHourCoverGraphLength = (10 - dailyHours) * 10;
@@ -34,9 +44,16 @@ export default function DailyDetailMenuLogic({
   }
 `;
   }, [dailyHours]);
-  const isNoTask = useMemo(() => taskList.length === 0, [taskList.length]);
+  const isNoTask = useMemo(
+    () => taskLogSummary.length === 0,
+    [taskLogSummary.length]
+  );
 
   return {
+    /** 稼働時間 */
+    dailyHours,
+    /** タスクの一覧 */
+    taskLogSummary,
     /** 日付のstring(YYYY/MM/DD) */
     dateString,
     /** 稼働時間のグラフのアニメーション */

@@ -2,7 +2,7 @@ import { ERROR_PAGE_ID } from "@/constant/errorPages";
 import { localClient } from "@/lib/localClient";
 import { ReplaceDateWithString } from "@/type/common";
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
-import { DailyDetailTaskTableType, TaskLogSummary } from "@/type/Task";
+import { DailyDetailTaskTableType } from "@/type/Task";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
@@ -27,17 +27,7 @@ export default function DailyDetailPageParams() {
     [data, dateParam]
   );
 
-  const date = new Date(rawData.date);
-  const dailyHours = useMemo(
-    () => rawData.taskList.reduce<number>((a, b) => a + b.dailyHours, 0),
-    [rawData.taskList]
-  );
   const taskList = rawData?.taskList;
-  const taskLogSummary = taskList?.reduce<TaskLogSummary[]>((a, b) => {
-    const taskData: TaskLogSummary = { id: b.id, taskName: b.task.name };
-    a.push(taskData);
-    return a;
-  }, []);
   const memoList = rawData.memoList;
   const circleDataList: DailyCategoryCircleGraph[] = useMemo(() => {
     const data = rawData.taskList.filter((item) => item.dailyHours > 0);
@@ -128,12 +118,6 @@ export default function DailyDetailPageParams() {
   return {
     /** ロード状態 */
     isLoading,
-    /** 日付 */
-    date,
-    /** 稼働時間 */
-    dailyHours,
-    /** タスク一覧(タイトルのみ) */
-    taskLogSummary,
     /** メモ一覧 */
     memoList,
     /** 円グラフのデータ */
