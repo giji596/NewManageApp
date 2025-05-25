@@ -1,16 +1,89 @@
-import { useMemo, useState } from "react";
-
-type Props = {
-  /** 表示する年 */
-  displayYear: string;
-  /** 表示する月 */
-  displayMonth: string;
-};
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useMemo, useState } from "react";
 
 /**
  * 日付ページヘッダーで使用するメソッド
  */
-export default function DailyHeaderLogic({ displayYear, displayMonth }: Props) {
+export default function DailyHeaderLogic() {
+  // URL操作
+  const router = useRouter();
+
+  // 日付操作
+  // クエリパラメータ取得
+  const searchParams = useSearchParams();
+  const todayYear = useMemo(() => new Date().getFullYear(), []);
+  const todayMonth = useMemo(() => new Date().getMonth() + 1, []);
+  // クエリパラメータから表示(null時は今日の年月を表示)
+  const displayYear = searchParams.get("year") ?? String(todayYear);
+  const displayMonth = searchParams.get("month") ?? String(todayMonth);
+
+  const handlePrevMonth = useCallback(() => {
+    // パラメータのコピー
+    const params = new URLSearchParams(searchParams.toString());
+    // 新しいmonthの値
+    let newMonth: number;
+    const currentMonthParam = searchParams.get("month");
+    // クエリあるならそれ-1　なければ現在の月-1
+    if (currentMonthParam !== null) {
+      newMonth = Number(currentMonthParam) - 1;
+    } else {
+      newMonth = todayMonth - 1;
+    }
+    // 0になる場合は年を1つ下げてmonthを12にする
+    if (newMonth === 0) {
+      const newYear = String(Number(displayYear) - 1);
+      params.set("year", newYear);
+      newMonth = 12;
+    }
+    params.set("month", String(newMonth));
+    router.push(`?${params.toString()}`);
+  }, [displayYear, router, searchParams, todayMonth]);
+  const handleNextMonth = useCallback(() => {
+    // パラメータのコピー
+    const params = new URLSearchParams(searchParams.toString());
+    // 新しいmonthの値
+    let newMonth: number;
+    const currentMonthParam = searchParams.get("month");
+    // クエリあるならそれ+1　なければ現在の月+1
+    if (currentMonthParam !== null) {
+      newMonth = Number(currentMonthParam) + 1;
+    } else {
+      newMonth = todayMonth + 1;
+    }
+    // 13になる場合は年を1つ上げてmonthを1にする
+    if (newMonth === 13) {
+      const newYear = String(Number(displayYear) + 1);
+      params.set("year", newYear);
+      newMonth = 1;
+    }
+    params.set("month", String(newMonth));
+    router.push(`?${params.toString()}`);
+  }, [displayYear, router, searchParams, todayMonth]);
+  const handleChangeYear = useCallback(
+    (v: string) => {
+      // パラメータのコピー
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("year", v);
+      // yearの値が今年の場合 -> monthが今月以降である場合monthを今月に修正する
+      if (Number(v) === todayYear) {
+        if (todayMonth < Number(displayMonth)) {
+          params.set("month", String(todayMonth));
+        }
+      }
+      router.push(`?${params.toString()}`);
+    },
+    [displayMonth, router, searchParams, todayMonth, todayYear]
+  );
+  const handleChangeMonth = useCallback(
+    (v: string) => {
+      // パラメータのコピー
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("month", v);
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // ポップオーバーの位置
   const open = Boolean(anchorEl);
 
@@ -45,7 +118,20 @@ export default function DailyHeaderLogic({ displayYear, displayMonth }: Props) {
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
+
   return {
+    /** 表示されている年 */
+    displayYear,
+    /** 表示されている月 */
+    displayMonth,
+    /** 前の月にナビゲートするハンドラー */
+    handlePrevMonth,
+    /** 次の月にナビゲートするハンドラー */
+    handleNextMonth,
+    /** 指定した年にナビゲートするハンドラー */
+    handleChangeYear,
+    /** 指定した月にナビゲートするハンドラー */
+    handleChangeMonth,
     /** 月のstring配列(1~12) */
     monthArray,
     /** 年のstring配列(今年~10年間) */
