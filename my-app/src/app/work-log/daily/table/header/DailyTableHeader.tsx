@@ -7,6 +7,7 @@ import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/Cust
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import { TableFilterChildProps } from "@/type/Table";
+import { memo } from "react";
 
 type Props = {
   /** 昇順かどうか */
@@ -22,7 +23,7 @@ type Props = {
 };
 
 /** 日ごとの一覧ページのテーブルコンポーネントのヘッダー部分 */
-export default function DailyTableHeader({
+const DailyTableHeader = memo(function DailyTableHeader({
   isAsc,
   isSelected,
   taskFilterLogic,
@@ -95,4 +96,5 @@ export default function DailyTableHeader({
       </CustomMenuWrapper>
     </>
   );
-}
+});
+export default DailyTableHeader;

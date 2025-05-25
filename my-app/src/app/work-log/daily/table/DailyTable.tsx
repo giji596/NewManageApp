@@ -16,11 +16,12 @@ import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMen
 import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenuTitle";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
+import { memo } from "react";
 
 /**
  * 日付ページのテーブルコンポーネント
  */
-export default function DailyTable() {
+const DailyTable = memo(function DailyTable() {
   const {
     itemList,
     isLoading,
@@ -168,4 +169,5 @@ export default function DailyTable() {
       </CustomMenuWrapper>
     </>
   );
-}
+});
+export default DailyTable;
