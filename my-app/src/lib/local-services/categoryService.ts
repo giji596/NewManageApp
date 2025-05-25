@@ -6,6 +6,7 @@ import {
 import { subMonths } from "date-fns";
 import { db } from "../dexie";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
+import { CategoryActivityQuery } from "@/type/Query";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -150,9 +151,7 @@ export const createCategory = async (name: string) => {
  */
 export const getCategoryActivity = async (
   id: number,
-  range?: "last-month" | "all" | "select",
-  start?: string,
-  end?: string
+  { range, start, end }: CategoryActivityQuery
 ) => {
   let startDate: string | undefined;
   let lastDate: string | undefined;

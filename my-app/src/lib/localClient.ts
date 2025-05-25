@@ -54,6 +54,7 @@ import {
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
 import {
+  CategoryActivityQuery,
   DateListQuery,
   DateSummaryDetailQuery,
   TaskOptionQuery,
@@ -137,17 +138,9 @@ export const localClient = {
           complete: { patch: () => updateCategoryCompleted(id) },
           activity: {
             get:
-              ({
-                query,
-              }: {
-                query: {
-                  range?: "last-month" | "all" | "select";
-                  start?: string;
-                  end?: string;
-                };
-              }) =>
+              ({ query }: { query: CategoryActivityQuery }) =>
               () =>
-                getCategoryActivity(id, query.range, query.start, query.end),
+                getCategoryActivity(id, query),
           },
           tasks: {
             get: () => () => getCategoryTasks(id),

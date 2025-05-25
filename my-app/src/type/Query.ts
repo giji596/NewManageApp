@@ -17,3 +17,10 @@ export type TaskOptionQuery = {
   /** 対象のカテゴリのID */
   categoryId: number;
 };
+
+/** カテゴリの稼働を取得する際のクエリ */
+export type CategoryActivityQuery = {
+  range?: "last-month" | "all" | "select";
+  start?: string;
+  end?: string;
+};
