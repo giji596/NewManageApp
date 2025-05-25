@@ -24,13 +24,8 @@ import dynamic from "next/dynamic";
  * 日付詳細ページ
  */
 export default function DailyDetailPage() {
-  const {
-    isLoading,
-    memoList,
-    selectedItemId,
-    selectedItemTaskId,
-    handleSelectItem,
-  } = DailyDetailPageParams();
+  const { selectedItemId, selectedItemTaskId, handleSelectItem } =
+    DailyDetailPageParams();
   return (
     <Stack direction="row" spacing={1} pt={3} px={2}>
       {/**　左半分(メニュー/タスク) */}
@@ -48,11 +43,7 @@ export default function DailyDetailPage() {
         {/** グラフ */}
         <CircleGraph />
         {/** メモ */}
-        <MemoList
-          memoItemList={memoList}
-          selectedItemTaskId={selectedItemTaskId}
-          isLoading={isLoading}
-        />
+        <MemoList selectedItemTaskId={selectedItemTaskId} />
       </Stack>
     </Stack>
   );

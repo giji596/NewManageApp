@@ -1,7 +1,6 @@
 "use client";
 import { Table, TableBody, TableContainer } from "@mui/material";
 import CustomTableHeader from "./table-header/CustomTableHeader";
-import { MemoDailyTask } from "@/type/Memo";
 import CustomTableBody from "./table-body/CustomTableBody";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
@@ -11,22 +10,16 @@ import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMen
 import MemoListLogic from "./MemoListLogic";
 
 type Props = {
-  /** メモのアイテム一覧 */
-  memoItemList: MemoDailyTask[];
   /** 選択中のタスクのid(ハイライトように) */
   selectedItemTaskId: number;
-  /** ローディング状態 */
-  isLoading: boolean;
 };
 
-export default function MemoList({
-  memoItemList,
-  selectedItemTaskId,
-  isLoading,
-}: Props) {
+export default function MemoList({ selectedItemTaskId }: Props) {
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   const {
+    memoItemList,
+    isLoading,
     isActiveRow,
     handleClickRow,
     isAsc,
@@ -39,7 +32,7 @@ export default function MemoList({
     toggleTagFilterCheckBox,
     doFilterByFilterList,
     isSelectedTaskRow,
-  } = MemoListLogic({ memoItemList, selectedItemTaskId });
+  } = MemoListLogic({ selectedItemTaskId });
   return (
     <>
       <TableContainer sx={{ height: 345 }}>
