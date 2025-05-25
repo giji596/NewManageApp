@@ -43,7 +43,7 @@ const getAllTables = () => [
 /** エクスポート時のデータの型定義 */
 type ExportData = DailyData | TaskLog | Task | Category | Memo | MemoTag;
 /** インポート時のデータの型定義 */
-type ImportData = {
+export type ImportData = {
   dailyData: DailyData[];
   taskLogs: TaskLog[];
   tasks: Task[];
@@ -77,6 +77,18 @@ export async function exportDatabase() {
   a.download = "logs-db-export.json";
   a.click();
   URL.revokeObjectURL(url); // メモリ解放
+}
+
+/** いずれかのテーブルにデータが存在するかをチェックする関数 */
+export async function isDatabaseExist() {
+  const tables = getAllTables();
+  // いずれかのテーブルにデータがあればtrue
+  for (const table of tables) {
+    const data = await table.toArray();
+    if (data.length > 0) return true;
+  }
+  // いずれかのテーブルにデータがなければfalse
+  return false;
 }
 
 /** データベースのデータをインポートする関数 */
