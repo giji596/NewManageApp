@@ -27,7 +27,6 @@ export default function DailyDetailPageParams() {
   );
 
   const taskList = rawData?.taskList;
-  const memoList = rawData.memoList;
 
   // 状態管理
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -70,8 +69,6 @@ export default function DailyDetailPageParams() {
   return {
     /** ロード状態 */
     isLoading,
-    /** メモ一覧 */
-    memoList,
     /** 選択中のアイテムID */
     selectedItemId,
     /** 選択中のタスクID(メモのハイライト用) */
