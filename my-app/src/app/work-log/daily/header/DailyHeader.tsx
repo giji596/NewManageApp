@@ -44,6 +44,7 @@ export default function DailyHeader({ isLoading }: Props) {
     handleClosePopover,
     handleOpenPopover,
     handleNavigateToday,
+    handleNavigateSelectedDay,
   } = DailyHeaderLogic();
   return (
     <>
@@ -150,9 +151,7 @@ export default function DailyHeader({ isLoading }: Props) {
         <DateDialog
           open={openDialog}
           onClose={onCloseDialog}
-          navigatePage={() => {
-            /**TODO: */
-          }}
+          navigatePage={handleNavigateSelectedDay}
         />
       )}
     </>

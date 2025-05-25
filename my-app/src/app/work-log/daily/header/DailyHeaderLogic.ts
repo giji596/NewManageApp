@@ -125,6 +125,13 @@ export default function DailyHeaderLogic() {
     const todayParam = format(new Date(), "yyyy-MM-dd");
     router.push(`/work-log/daily/${todayParam}`);
   }, [router]);
+
+  const handleNavigateSelectedDay = useCallback(
+    (dateParam: string) => {
+      router.push(`/work-log/daily/${dateParam}`);
+    },
+    [router]
+  );
   return {
     /** 表示されている年 */
     displayYear,
@@ -156,5 +163,7 @@ export default function DailyHeaderLogic() {
     handleClosePopover,
     /** 今日の詳細ページにナビゲートするハンドラー */
     handleNavigateToday,
+    /** 指定された詳細ページにナビゲートするハンドラー */
+    handleNavigateSelectedDay,
   };
 }
