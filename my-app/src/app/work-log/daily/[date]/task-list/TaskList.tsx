@@ -13,10 +13,6 @@ type Props = {
   taskList: DailyDetailTaskTableType[];
   /** ロード中かどうか */
   isLoading: boolean;
-  /** タスクページへ移動する関数 */
-  navigateTaskPage: (id: number) => void;
-  /** カテゴリページへ移動する関数 */
-  navigateCategoryPage: (id: number) => void;
   /** タスクリストのロジック */
   taskListLogic: ReturnType<typeof TaskListLogic>;
 };
@@ -27,8 +23,6 @@ type Props = {
 export default function TaskList({
   taskList,
   isLoading,
-  navigateTaskPage,
-  navigateCategoryPage,
   taskListLogic,
 }: Props) {
   const {
@@ -42,6 +36,9 @@ export default function TaskList({
     selectedCategoryName,
     handleClickRow,
   } = taskListLogic;
+  const { navigateTaskPage, navigateCategoryPage } = TaskListLogic({
+    taskList,
+  });
   const {
     open: openEdit,
     onClose: onCloseEdit,

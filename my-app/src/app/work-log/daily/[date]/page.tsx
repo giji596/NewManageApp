@@ -18,7 +18,6 @@ const CircleGraph = dynamic(() => import("./circle-graph/CircleGraph"), {
   ),
 });
 import MemoList from "./memo-list/MemoList";
-import DailyDetailPageNavLogic from "./navLogic";
 import dynamic from "next/dynamic";
 import TaskListLogic from "./task-list/TaskListLogic";
 
@@ -35,8 +34,6 @@ export default function DailyDetailPage() {
     taskLogSummary,
     circleDataList,
   } = DailyDetailPageParams();
-  const { navigateToCategoryDetail, navigateToTaskDetail } =
-    DailyDetailPageNavLogic();
   const { selectedItemTaskId, ...prev } = TaskListLogic({ taskList });
   return (
     <Stack direction="row" spacing={1} pt={3} px={2}>
@@ -52,8 +49,6 @@ export default function DailyDetailPage() {
         <TaskList
           taskList={taskList}
           isLoading={isLoading}
-          navigateTaskPage={navigateToTaskDetail}
-          navigateCategoryPage={navigateToCategoryDetail}
           taskListLogic={{ selectedItemTaskId, ...prev }}
         />
       </Stack>

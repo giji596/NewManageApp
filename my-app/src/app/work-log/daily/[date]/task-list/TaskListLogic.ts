@@ -1,5 +1,6 @@
 import { ERROR_PAGE_ID } from "@/constant/errorPages";
 import { DailyDetailTaskTableType } from "@/type/Task";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = {
@@ -81,6 +82,21 @@ export default function TaskListLogic({ taskList }: Props) {
     [doDeselectItem, doSelectItem, selectedItemId]
   );
 
+  // ページ移動関連
+  const router = useRouter();
+  const navigateTaskPage = useCallback(
+    (id: number) => {
+      router.push(`/work-log/task/${id}`);
+    },
+    [router]
+  );
+  const navigateCategoryPage = useCallback(
+    (id: number) => {
+      router.push(`/work-log/category/?id=${id}`);
+    },
+    [router]
+  );
+
   return {
     /** 選択中のアイテムID(非選択時はnull) */
     selectedItemId,
@@ -102,5 +118,9 @@ export default function TaskListLogic({ taskList }: Props) {
      * アイテムを選択しているかどうかで選択/選択解除を行う
      */
     handleClickRow,
+    /** タスク詳細ページに飛ぶ */
+    navigateTaskPage,
+    /** カテゴリ詳細ページに飛ぶ */
+    navigateCategoryPage,
   };
 }
