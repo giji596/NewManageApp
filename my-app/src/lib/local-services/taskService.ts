@@ -8,7 +8,7 @@ import {
   TaskSummary,
   TaskSummaryRangeQuery,
 } from "@/type/Task";
-import { UpdateTaskBody } from "@/type/Request";
+import { CreateTaskBody, UpdateTaskBody } from "@/type/Request";
 
 /**
  * タスク選択賜一覧げっとする関数
@@ -214,11 +214,11 @@ export const getTaskDetail = async (id: number) => {
 /**
  * タスク作成する関数
  */
-export const createTask = async (
-  name: string,
-  categoryId: number,
-  isFavorite: boolean
-) => {
+export const createTask = async ({
+  name,
+  categoryId,
+  isFavorite,
+}: CreateTaskBody) => {
   // 重複チェック
   const categoryTaskList = await db.tasks.where({ categoryId }).toArray();
   const existing = categoryTaskList.find((v) => v.name === name);

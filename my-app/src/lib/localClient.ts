@@ -48,6 +48,7 @@ import {
 import { TaskSummaryRangeQuery } from "@/type/Task";
 import {
   CreateDailyDetailDataBody,
+  CreateTaskBody,
   UpdateTaskBody,
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
@@ -104,11 +105,7 @@ export const localClient = {
           },
         };
       },
-      post: ({
-        body,
-      }: {
-        body: { name: string; categoryId: number; isFavorite: boolean };
-      }) => createTask(body.name, body.categoryId, body.isFavorite),
+      post: ({ body }: { body: CreateTaskBody }) => createTask(body),
       options: {
         get:
           ({ query }: { query: { categoryId: number } }) =>

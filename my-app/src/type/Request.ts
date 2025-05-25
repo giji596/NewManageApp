@@ -25,3 +25,13 @@ export type UpdateTaskBody = {
   /** タスクの進捗 */
   progress?: number;
 };
+
+/** タスク作成時のリクエストボディ */
+export type CreateTaskBody = {
+  /** タスクの名前 */
+  name: string;
+  /** タスクの所属するカテゴリのid */
+  categoryId: number;
+  /** タスクがお気に入りか否か */
+  isFavorite: boolean;
+};
