@@ -1,3 +1,4 @@
+import { UpdateMemoBody } from "@/type/Request";
 import { db } from "../dexie";
 
 /**
@@ -31,9 +32,7 @@ export const createMemo = async (
  */
 export const updateMemo = async (
   id: number,
-  title?: string,
-  text?: string,
-  tagId?: number
+  { title, text, tagId }: UpdateMemoBody
 ) => {
   // tagIdが0の場合はnullに変換する(memoのtagIdはNull許容 かつtagId0の場合は未選択の場合なので)
   const nullableTagId = tagId === 0 ? undefined : tagId;

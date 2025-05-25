@@ -51,6 +51,7 @@ import {
   CreateCategoryBody,
   CreateDailyDetailDataBody,
   CreateTaskBody,
+  UpdateMemoBody,
   UpdateTaskBody,
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
@@ -159,11 +160,7 @@ export const localClient = {
     memos: {
       _id: (id: number) => {
         return {
-          patch: ({
-            body,
-          }: {
-            body: { title?: string; text?: string; tagId?: number };
-          }) => updateMemo(id, body.title, body.text, body.tagId),
+          patch: ({ body }: { body: UpdateMemoBody }) => updateMemo(id, body),
           body: { get: () => () => getMemoBody(id) },
           delete: () => deleteMemo(id),
         };

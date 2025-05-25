@@ -51,3 +51,13 @@ export type CreateCategoryBody = {
   /** カテゴリの名前 */
   name: string;
 };
+
+/** メモ更新時のリクエストボディ */
+export type UpdateMemoBody = {
+  /** メモの新しいタイトル */
+  title?: string;
+  /** メモの新しい本文 */
+  text?: string;
+  /** メモに設定するタグのid */
+  tagId?: number;
+};
