@@ -27,7 +27,6 @@ export default function DailyDetailPage() {
   const {
     isLoading,
     memoList,
-    circleDataList,
     selectedItemId,
     selectedItemTaskId,
     handleSelectItem,
@@ -47,7 +46,7 @@ export default function DailyDetailPage() {
       {/** 右半分(グラフ/メモ) */}
       <Stack width="50%" justifyContent={"space-between"}>
         {/** グラフ */}
-        <CircleGraph data={circleDataList} />
+        <CircleGraph />
         {/** メモ */}
         <MemoList
           memoItemList={memoList}

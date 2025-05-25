@@ -1,8 +1,7 @@
 import { ERROR_PAGE_ID } from "@/constant/errorPages";
 import { localClient } from "@/lib/localClient";
 import { ReplaceDateWithString } from "@/type/common";
-import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
-import { DailyDetailTaskTableType } from "@/type/Task";
+import { DateDetailPage } from "@/type/Date";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
@@ -29,53 +28,6 @@ export default function DailyDetailPageParams() {
 
   const taskList = rawData?.taskList;
   const memoList = rawData.memoList;
-  const circleDataList: DailyCategoryCircleGraph[] = useMemo(() => {
-    const data = rawData.taskList.filter((item) => item.dailyHours > 0);
-    const totalHours = data.reduce((sum, item) => sum + item.dailyHours, 0);
-    // 合計時間0の場合は空配列をreturn
-    if (totalHours === 0) return [];
-    // カテゴリごとにグループ化
-    const groupedByCategory = data.reduce((acc, item) => {
-      const key = item.category.name;
-      if (!acc[key]) acc[key] = [];
-      acc[key].push(item);
-      return acc;
-    }, {} as Record<string, DailyDetailTaskTableType[]>);
-
-    return Object.entries(groupedByCategory).map(([name, items]) => {
-      const categoryTotal = items.reduce(
-        (sum, item) => sum + item.dailyHours,
-        0
-      );
-
-      // タスクごとに集計（idとnameも残す）
-      const taskMap = items.reduce((acc, item) => {
-        const key = item.task.name; // nameでまとめる前提（idでまとめたければkey変えて）
-        if (!acc[key]) {
-          acc[key] = {
-            id: item.task.id,
-            name: item.task.name,
-            hours: 0,
-          };
-        }
-        acc[key].hours += item.dailyHours;
-        return acc;
-      }, {} as Record<string, { id: number; name: string; hours: number }>);
-
-      // パーセント変換
-      const task = Object.values(taskMap).map(({ id, name, hours }) => ({
-        id,
-        name,
-        percent: ((hours / categoryTotal) * 100).toFixed(0) + "%",
-      }));
-
-      return {
-        name,
-        value: Math.round((categoryTotal / totalHours) * 1000),
-        task,
-      };
-    });
-  }, [rawData.taskList]);
 
   // 状態管理
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -120,8 +72,6 @@ export default function DailyDetailPageParams() {
     isLoading,
     /** メモ一覧 */
     memoList,
-    /** 円グラフのデータ */
-    circleDataList,
     /** 選択中のアイテムID */
     selectedItemId,
     /** 選択中のタスクID(メモのハイライト用) */

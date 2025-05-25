@@ -6,16 +6,16 @@ import CustomToolTipContent from "@/component/graph/tool-chip/CustomToolTipConte
 import CircleGraphLogic from "./CircleGraphLogic";
 import NoDataPieGraph from "@/component/graph/NoDataPie";
 
-type Props = {
-  /** データ */
-  data: DailyCategoryCircleGraph[];
-};
-
 /**
  * 日付詳細 - 円グラフコンポーネント
  */
-export default function CircleGraph({ data }: Props) {
-  const { theme, isNoData, getLabel } = CircleGraphLogic({ data });
+export default function CircleGraph() {
+  const {
+    circleDataList: data,
+    theme,
+    isNoData,
+    getLabel,
+  } = CircleGraphLogic();
   return (
     <>
       {!isNoData && (
