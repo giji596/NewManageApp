@@ -12,7 +12,6 @@ import DailyTableHeader from "./header/DailyTableHeader";
 import { format } from "date-fns";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
-import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenuTitle";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
@@ -28,14 +27,12 @@ export default function DailyTable() {
     dateToId,
     dateToParam,
     isAsc,
-    taskFilterList,
-    categoryFilterList,
+    taskFilterChildProps,
+    categoryFilterChildProps,
     isSelected,
     handleClickSortLabel,
     doSort,
     getMemoTitleArrayById,
-    toggleCategoryFilterCheckBox,
-    toggleTaskFilterCheckBox,
     doFilterByFilterList,
     handleNavigateSelectedDay,
   } = DailyTableLogic();
@@ -48,9 +45,9 @@ export default function DailyTable() {
           <DailyTableHeader
             isAsc={isAsc}
             isSelected={isSelected}
+            taskFilterLogic={taskFilterChildProps}
+            categoryFilterLogic={categoryFilterChildProps}
             OnClickTitle={handleClickSortLabel}
-            onHoverTitle={handleMouseEnter}
-            onLeaveHoverTitle={handleMouseLeave}
           />
           <TableBody>
             {isLoading && <TableBodyLoading colCount={5} />}
@@ -170,20 +167,6 @@ export default function DailyTable() {
       <CustomMenuWrapper
         logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
       >
-        {/** カテゴリメニューの場合 */}
-        {openTargetIdRef.current === 10000 && (
-          <CustomMenuCheckBox
-            checkList={categoryFilterList}
-            onClickSelect={toggleCategoryFilterCheckBox}
-          />
-        )}
-        {/** タスクメニューの場合 */}
-        {openTargetIdRef.current === 10001 && (
-          <CustomMenuCheckBox
-            checkList={taskFilterList}
-            onClickSelect={toggleTaskFilterCheckBox}
-          />
-        )}
         {/** メモの場合 */}
         {![10000, 10001].includes(openTargetIdRef.current) && (
           <CustomMenuTitle
