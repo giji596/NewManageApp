@@ -7,7 +7,7 @@ const meta = {
   args: {
     open: true,
     onClose: () => {},
-    onImport: () => {},
+    onImport: async () => {},
   },
 } satisfies Meta<typeof ImportOverwriteDialog>;
 

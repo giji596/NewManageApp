@@ -15,7 +15,7 @@ type Props = {
   /** ダイアログ閉じる関数 */
   onClose: () => void;
   /** インポート時の関数 */
-  onImport: () => void;
+  onImport: () => Promise<void>;
 };
 
 /**
