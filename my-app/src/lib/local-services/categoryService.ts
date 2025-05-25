@@ -7,6 +7,7 @@ import { subMonths } from "date-fns";
 import { db } from "../dexie";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 import { CategoryActivityQuery } from "@/type/Query";
+import { CreateCategoryBody } from "@/type/Request";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -132,7 +133,7 @@ export const getCategorySummary = async (
 /**
  * 新規カテゴリの作成 (重複がある場合はnullを返す)
  */
-export const createCategory = async (name: string) => {
+export const createCategory = async ({ name }: CreateCategoryBody) => {
   // 重複チェック
   const existingCategory = await db.categories
     .where("name")

@@ -48,6 +48,7 @@ import {
 import { TaskSummaryRangeQuery } from "@/type/Task";
 import {
   BulkUpdateTaskBody,
+  CreateCategoryBody,
   CreateDailyDetailDataBody,
   CreateTaskBody,
   UpdateTaskBody,
@@ -147,7 +148,7 @@ export const localClient = {
           },
         };
       },
-      post: ({ body }: { body: { name: string } }) => createCategory(body.name),
+      post: ({ body }: { body: CreateCategoryBody }) => createCategory(body),
       options: {
         get:
           ({ query }: { query?: CategoryHeaderQuery }) =>

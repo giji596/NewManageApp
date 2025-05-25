@@ -45,3 +45,9 @@ export type BulkUpdateTaskBody = {
   /** 更新後のお気に入り */
   isFavorite?: boolean;
 }[];
+
+/** カテゴリ作成時のリクエストボディ */
+export type CreateCategoryBody = {
+  /** カテゴリの名前 */
+  name: string;
+};
