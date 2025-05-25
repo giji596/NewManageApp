@@ -19,7 +19,6 @@ const CircleGraph = dynamic(() => import("./circle-graph/CircleGraph"), {
 });
 import MemoList from "./memo-list/MemoList";
 import dynamic from "next/dynamic";
-import TaskListLogic from "./task-list/TaskListLogic";
 
 /**
  * 日付詳細ページ
@@ -33,8 +32,10 @@ export default function DailyDetailPage() {
     taskList,
     taskLogSummary,
     circleDataList,
+    selectedItemId,
+    selectedItemTaskId,
+    handleSelectItem,
   } = DailyDetailPageParams();
-  const { selectedItemTaskId, ...prev } = TaskListLogic({ taskList });
   return (
     <Stack direction="row" spacing={1} pt={3} px={2}>
       {/**　左半分(メニュー/タスク) */}
@@ -49,7 +50,8 @@ export default function DailyDetailPage() {
         <TaskList
           taskList={taskList}
           isLoading={isLoading}
-          taskListLogic={{ selectedItemTaskId, ...prev }}
+          selectedItemId={selectedItemId}
+          handleClickRow={handleSelectItem}
         />
       </Stack>
       {/** 右半分(グラフ/メモ) */}

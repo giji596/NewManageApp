@@ -13,8 +13,10 @@ type Props = {
   taskList: DailyDetailTaskTableType[];
   /** ロード中かどうか */
   isLoading: boolean;
-  /** タスクリストのロジック */
-  taskListLogic: ReturnType<typeof TaskListLogic>;
+  /** 選択中のアイテムID */
+  selectedItemId: number | null;
+  /** アイテム行をクリックした際のハンドラー */
+  handleClickRow: (id: number) => void;
 };
 
 /**
@@ -23,10 +25,10 @@ type Props = {
 export default function TaskList({
   taskList,
   isLoading,
-  taskListLogic,
+  selectedItemId,
+  handleClickRow,
 }: Props) {
   const {
-    selectedItemId,
     isItemSelected,
     selectedItemTaskId,
     selectedItemCategoryId,
@@ -34,10 +36,11 @@ export default function TaskList({
     isSelectedTaskCompleted,
     selectedTaskName,
     selectedCategoryName,
-    handleClickRow,
-  } = taskListLogic;
-  const { navigateTaskPage, navigateCategoryPage } = TaskListLogic({
+    navigateTaskPage,
+    navigateCategoryPage,
+  } = TaskListLogic({
     taskList,
+    selectedItemId,
   });
   const {
     open: openEdit,
