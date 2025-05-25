@@ -7,7 +7,6 @@ const meta = {
   args: {
     open: true,
     onClose: () => {},
-    navigatePage: () => {},
   },
 } satisfies Meta<typeof DateDialog>;
 
