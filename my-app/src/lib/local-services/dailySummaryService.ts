@@ -4,6 +4,7 @@ import { MemoSummary } from "@/type/Memo";
 import { TaskWithPercentage } from "@/type/Task";
 import { CategoryWithPercentage } from "@/type/Category";
 import { DailyWorkTime } from "@/type/Main";
+import { DateListQuery } from "@/type/Query";
 
 /**
  * DailySummaryPageの表示データをとってくる関数
@@ -11,7 +12,7 @@ import { DailyWorkTime } from "@/type/Main";
 export const getDailySummaryData = async ({
   query,
 }: {
-  query?: { year?: string; month?: string };
+  query?: DateListQuery;
 }): Promise<DateSummary[]> => {
   // 年月をNumber型に変換 (空なら現在の年月を取得)
   const year = query?.year ? Number(query.year) : new Date().getFullYear();

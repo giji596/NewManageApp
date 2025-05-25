@@ -50,6 +50,7 @@ import {
   CreateDailyDetailDataBody,
   UpdateUniqueTaskLogBody,
 } from "@/type/Request";
+import { DateListQuery } from "@/type/Query";
 
 export const localClient = {
   work_log: {
@@ -72,7 +73,7 @@ export const localClient = {
       },
       summary: {
         get:
-          ({ query }: { query?: { year?: string; month?: string } }) =>
+          ({ query }: { query?: DateListQuery }) =>
           () =>
             getDailySummaryData({ query }),
         detail: {
