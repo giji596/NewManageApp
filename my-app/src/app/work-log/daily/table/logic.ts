@@ -1,19 +1,35 @@
 import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
+import { getTodayMonth, getTodayYear } from "@/lib/date";
+import { localClient } from "@/lib/localClient";
 import { DateSummary } from "@/type/Date";
 import { TableSortTargetType } from "@/type/Table";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
-
-type Props = {
-  /** アイテム */
-  itemList: DateSummary[];
-};
+import useSWR from "swr";
 
 /**
  * 日ごとの一覧ページのテーブルコンポーネントのロジック部分
  */
-export default function DailyTableLogic({ itemList }: Props) {
+export default function DailyTableLogic() {
+  const searchParams = useSearchParams();
+  const year = searchParams.get("year") ?? undefined;
+  const month = searchParams.get("month") ?? undefined;
+
+  // key用のクエリの初期値(undefined時は現在の日付のデータを返すようになってるので)
+  const _year = year ?? getTodayYear();
+  const _month = month ?? getTodayMonth();
+
+  const { data, isLoading } = useSWR(
+    ["api/work-log/daily/summary", `year=${_year}&month=${_month}`],
+    localClient.work_log.daily.summary.get({ query: { year, month } })
+  );
+  const rawItemList = data ?? [];
+  const itemList: DateSummary[] = rawItemList.map((v) => {
+    return { ...v, date: new Date(v.date) };
+  });
+
   const dateToId = useCallback(
     (date: Date) => Number(format(date, "yyyyMMdd")),
     []
@@ -118,6 +134,10 @@ export default function DailyTableLogic({ itemList }: Props) {
   );
 
   return {
+    /** アイテム全体のリスト */
+    itemList,
+    /** アイテム全体(テーブルのやつ)のロード状態 */
+    isLoading,
     /** dateをホバー時のメモ開封用にid:number型に変換する関数 */
     dateToId,
     /** dateをナビゲーション用のパラメータstringに変換する関数 */
