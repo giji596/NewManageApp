@@ -13,28 +13,14 @@ import useDialog from "@/hook/useDialog";
  */
 export default function DailyPage() {
   const { itemList, isLoadingItemList } = DailyPageFetchLogic();
-  const {
-    displayYear,
-    displayMonth,
-    handlePrevMonth,
-    handleNextMonth,
-    handleChangeYear,
-    handleChangeMonth,
-    handleNavigateToday,
-    handleNavigateSelectedDay,
-  } = DailyPageNavigationLogic();
+  const { handleNavigateToday, handleNavigateSelectedDay } =
+    DailyPageNavigationLogic();
   const { open, onClose, onOpen } = useDialog();
   return (
     <>
       <Stack spacing={2}>
         <DailyHeader
-          displayYear={displayYear}
-          displayMonth={displayMonth}
           isLoading={isLoadingItemList}
-          handlePrev={handlePrevMonth}
-          handleNext={handleNextMonth}
-          handleYearChange={handleChangeYear}
-          handleMonthChange={handleChangeMonth}
           onClickEditToday={handleNavigateToday}
           onClickEditSelectDate={onOpen}
         />

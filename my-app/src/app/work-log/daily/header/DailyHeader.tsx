@@ -14,20 +14,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DailyHeaderLogic from "./DailyHeaderLogic";
 
 type Props = {
-  /** 表示する年 */
-  displayYear: string;
-  /** 表示する月 */
-  displayMonth: string;
   /** ロード中かどうか */
   isLoading: boolean;
-  /** 表示月を一つ戻す関数 */
-  handlePrev: () => void;
-  /** 表示月を一つ進める関数 */
-  handleNext: () => void;
-  /** 指定した年に飛ぶ関数 */
-  handleYearChange: (value: string) => void;
-  /** 指定した月に飛ぶ関数 */
-  handleMonthChange: (value: string) => void;
   /** 今日を編集押した際のハンドラー */
   onClickEditToday: () => void;
   /** 日付を選択して編集を押した際のハンドラー */
@@ -37,17 +25,17 @@ type Props = {
  * 日付ページのヘッダーコンポーネント
  */
 export default function DailyHeader({
-  displayYear,
-  displayMonth,
   isLoading,
-  handlePrev,
-  handleNext,
-  handleYearChange,
-  handleMonthChange,
   onClickEditToday,
   onClickEditSelectDate,
 }: Props) {
   const {
+    displayYear,
+    displayMonth,
+    handlePrevMonth,
+    handleNextMonth,
+    handleChangeYear,
+    handleChangeMonth,
     monthArray,
     yearArray,
     isLastRange,
@@ -56,7 +44,7 @@ export default function DailyHeader({
     open,
     handleClosePopover,
     handleOpenPopover,
-  } = DailyHeaderLogic({ displayYear, displayMonth });
+  } = DailyHeaderLogic();
   return (
     <>
       <Stack direction="row" justifyContent={"space-between"} p={2}>
@@ -88,7 +76,7 @@ export default function DailyHeader({
               "&:hover": { transform: "scale(1.2) translateX(-5px)" },
             }}
             disabled={isStartRange}
-            onClick={handlePrev}
+            onClick={handlePrevMonth}
             loading={isLoading}
           >
             <NavigateBeforeIcon />
@@ -106,7 +94,7 @@ export default function DailyHeader({
               "&:hover": { transform: "scale(1.2) translateX(5px)" },
             }}
             disabled={isLastRange}
-            onClick={handleNext}
+            onClick={handleNextMonth}
             loading={isLoading}
           >
             <NavigateNextIcon />
@@ -131,7 +119,7 @@ export default function DailyHeader({
             <Select
               name="year-select"
               value={displayYear}
-              onChange={(e) => handleYearChange(e.target.value)}
+              onChange={(e) => handleChangeYear(e.target.value)}
               sx={{ mb: 1 }}
             >
               {yearArray.map((year) => (
@@ -145,7 +133,7 @@ export default function DailyHeader({
             <Select
               name="month-select"
               value={displayMonth}
-              onChange={(e) => handleMonthChange(e.target.value)}
+              onChange={(e) => handleChangeMonth(e.target.value)}
               sx={{ mb: 1 }}
             >
               {monthArray.map((month) => (
