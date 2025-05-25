@@ -16,7 +16,7 @@ export default function DailyPage() {
   return (
     <>
       <Stack spacing={2}>
-        <DailyHeader isLoading={isLoadingItemList} />
+        <DailyHeader />
         <DailyTable
           itemList={itemList}
           onClickRow={handleNavigateSelectedDay}

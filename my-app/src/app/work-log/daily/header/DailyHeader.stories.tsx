@@ -4,10 +4,6 @@ import DailyHeader from "./DailyHeader";
 
 const meta = {
   component: DailyHeader,
-  args: {
-    isLoading: false,
-    onClickEditSelectDate: () => {},
-  },
 } satisfies Meta<typeof DailyHeader>;
 
 export default meta;
