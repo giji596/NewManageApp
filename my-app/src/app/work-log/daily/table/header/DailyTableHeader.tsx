@@ -18,7 +18,7 @@ type Props = {
   /** カテゴリのフィルターロジック */
   categoryFilterLogic: TableFilterChildProps;
   /** 表題をクリックした際のハンドラー */
-  OnClickTitle: (title: string) => void;
+  onClickTitle: (title: string) => void;
 };
 
 /** 日ごとの一覧ページのテーブルコンポーネントのヘッダー部分 */
@@ -27,7 +27,7 @@ export default function DailyTableHeader({
   isSelected,
   taskFilterLogic,
   categoryFilterLogic,
-  OnClickTitle,
+  onClickTitle,
 }: Props) {
   const { headerColumnDisplay, getPopperIdRef } = DailyTableHeaderLogic();
   const { openTargetIdRef, handleMouseEnter, handleMouseLeave, ...prev } =
@@ -53,7 +53,7 @@ export default function DailyTableHeader({
                   title={title}
                   isSelected={isSelected(title)}
                   isAsc={isAsc}
-                  onClickTitle={OnClickTitle}
+                  onClickTitle={onClickTitle}
                 />
               )}
               {/** チェックボックスメニューを表示する場合(カテゴリ・タスク) */}
@@ -63,7 +63,7 @@ export default function DailyTableHeader({
                   isSelected={isSelected(title)}
                   isAsc={isAsc}
                   refId={getPopperIdRef(title)}
-                  onClickTitle={OnClickTitle}
+                  onClickTitle={onClickTitle}
                   onHoverTitle={handleMouseEnter}
                   onLeaveTitle={handleMouseLeave}
                 />
