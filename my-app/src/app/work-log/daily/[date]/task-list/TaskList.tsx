@@ -51,10 +51,8 @@ export default function TaskList({ selectedItemId, handleClickRow }: Props) {
           onClickEdit={
             isSelectedTaskCompleted ? onOpenEditCompleted : onOpenEdit
           }
-          onClickNavigateTask={() => navigateTaskPage(selectedItemTaskId)}
-          onClickNavigateCategory={() =>
-            navigateCategoryPage(selectedItemCategoryId)
-          }
+          onClickNavigateTask={navigateTaskPage}
+          onClickNavigateCategory={navigateCategoryPage}
         />
         <TaskTable
           taskList={taskList}
