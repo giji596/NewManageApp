@@ -14,11 +14,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DailyHeaderLogic from "./DailyHeaderLogic";
 import useDialog from "@/hook/useDialog";
 import DateDialog from "../dialog/DateDialog";
+import { memo } from "react";
 
 /**
  * 日付ページのヘッダーコンポーネント
  */
-export default function DailyHeader() {
+const DailyHeader = memo(function DailyHeader() {
   const {
     open: openDialog,
     onClose: onCloseDialog,
@@ -134,4 +135,5 @@ export default function DailyHeader() {
       {openDialog && <DateDialog open={openDialog} onClose={onCloseDialog} />}
     </>
   );
-}
+});
+export default DailyHeader;

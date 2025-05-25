@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DataDialogLogic from "./DateDialogLogic";
+import { memo } from "react";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -25,7 +26,7 @@ type Props = {
 /**
  * 日付ページの日付を指定して移動するダイアログのコンポーネント
  */
-export default function DateDialog({ open, onClose }: Props) {
+const DateDialog = memo(function DateDialog({ open, onClose }: Props) {
   const {
     dateDetails,
     isLoading,
@@ -238,4 +239,5 @@ export default function DateDialog({ open, onClose }: Props) {
       </Stack>
     </Dialog>
   );
-}
+});
+export default DateDialog;
