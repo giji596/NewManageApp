@@ -43,7 +43,7 @@ const getAllTables = () => [
 /** エクスポート時のデータの型定義 */
 type ExportData = DailyData | TaskLog | Task | Category | Memo | MemoTag;
 /** インポート時のデータの型定義 */
-type ImportData = {
+export type ImportData = {
   dailyData: DailyData[];
   taskLogs: TaskLog[];
   tasks: Task[];

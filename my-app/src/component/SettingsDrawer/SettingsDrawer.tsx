@@ -17,6 +17,7 @@ import ContrastIcon from "@mui/icons-material/Contrast";
 import DataResetDialog from "./dialog/DataResetDialog/DataResetDialog";
 import useDialog from "@/hook/useDialog";
 import { SettingsDrawerLogic } from "./SettingsDrawerLogic";
+import ImportOverwriteDialog from "../dialog/ImportOverwriteDialog/ImportOverwriteDialog";
 
 type Props = {
   /** テーマ変更関数 */
@@ -32,15 +33,21 @@ const SettingsDrawer = memo(function SettingsDrawer({ onChangeTheme }: Props) {
     onClose: onCloseReset,
   } = useDialog();
   const {
+    open: openOverWrite,
+    onOpen: onOpenOverWrite,
+    onClose: onCloseOverWrite,
+  } = useDialog();
+  const {
     open,
     onOpen,
     onClose,
     fileInputRef,
+    onImport,
     onClickImport,
     handleFileChange,
     onClickExport,
     onClickTheme,
-  } = SettingsDrawerLogic({ onChangeTheme });
+  } = SettingsDrawerLogic({ onChangeTheme, onOpenOverWrite });
   return (
     <>
       {/** 開閉用のボタン */}
@@ -114,6 +121,13 @@ const SettingsDrawer = memo(function SettingsDrawer({ onChangeTheme }: Props) {
         </List>
       </Drawer>
       {openReset && <DataResetDialog open={openReset} onClose={onCloseReset} />}
+      {openOverWrite && (
+        <ImportOverwriteDialog
+          open={openOverWrite}
+          onClose={onCloseOverWrite}
+          onImport={onImport}
+        />
+      )}
     </>
   );
 });
