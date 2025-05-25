@@ -132,8 +132,6 @@ export default function DailyDetailPageParams() {
     date,
     /** 稼働時間 */
     dailyHours,
-    /** タスク一覧 */
-    taskList,
     /** タスク一覧(タイトルのみ) */
     taskLogSummary,
     /** メモ一覧 */

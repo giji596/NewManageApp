@@ -1,11 +1,12 @@
 import { ERROR_PAGE_ID } from "@/constant/errorPages";
-import { DailyDetailTaskTableType } from "@/type/Task";
-import { useRouter } from "next/navigation";
+import { localClient } from "@/lib/localClient";
+import { ReplaceDateWithString } from "@/type/common";
+import { DateDetailPage } from "@/type/Date";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import useSWR from "swr";
 
 type Props = {
-  /** タスクの一覧 */
-  taskList: DailyDetailTaskTableType[];
   /** 選択中のアイテムのid */
   selectedItemId: number | null;
 };
@@ -13,7 +14,25 @@ type Props = {
 /**
  * 日付詳細ページ - タスクリストのロジック部分
  */
-export default function TaskListLogic({ taskList, selectedItemId }: Props) {
+export default function TaskListLogic({ selectedItemId }: Props) {
+  // データフェッチ
+  const { date: dateParam } = useParams<{ date: string }>();
+  const { data, isLoading } = useSWR(
+    `api/work-log/daily/${dateParam}`,
+    localClient.work_log.daily._date(dateParam).get()
+  );
+  const rawData: ReplaceDateWithString<DateDetailPage> = useMemo(
+    () =>
+      data ?? {
+        // dataない時は空データ渡す(一応isLoadingで表示しないようにしてるはずなのでいらないと思うけど)
+        date: dateParam,
+        taskList: [],
+        memoList: [],
+      },
+    [data, dateParam]
+  );
+  const taskList = rawData?.taskList;
+
   const isItemSelected = !(selectedItemId == null);
 
   const selectedItemTaskId = useMemo(() => {
@@ -69,6 +88,10 @@ export default function TaskListLogic({ taskList, selectedItemId }: Props) {
   );
 
   return {
+    /** タスク一覧 */
+    taskList,
+    /** タスク一覧のローダー */
+    isLoading,
     /** 選択中のアイテムがあるか(selectedIdの値に依存) */
     isItemSelected,
     /** 選択中のアイテムのタスクid */
