@@ -44,3 +44,6 @@ export type CategorySummary = {
   totalHours: number;
   activeDate: string;
 };
+
+/** カテゴリページの稼働状況の範囲 */
+export type CategoryActivityRange = "last-month" | "all" | "select";

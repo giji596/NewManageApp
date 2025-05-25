@@ -1,3 +1,4 @@
+import { CreateMemoBody, UpdateMemoBody } from "@/type/Request";
 import { db } from "../dexie";
 
 /**
@@ -11,12 +12,12 @@ export const getMemoBody = async (id: number) => {
 /**
  * メモ追加するメソッド
  */
-export const createMemo = async (
-  title: string,
-  text: string,
-  taskLogId: number,
-  tagId?: number
-) => {
+export const createMemo = async ({
+  title,
+  text,
+  taskLogId,
+  tagId,
+}: CreateMemoBody) => {
   const id = await db.memos.add({
     title,
     text,
@@ -31,9 +32,7 @@ export const createMemo = async (
  */
 export const updateMemo = async (
   id: number,
-  title?: string,
-  text?: string,
-  tagId?: number
+  { title, text, tagId }: UpdateMemoBody
 ) => {
   // tagIdが0の場合はnullに変換する(memoのtagIdはNull許容 かつtagId0の場合は未選択の場合なので)
   const nullableTagId = tagId === 0 ? undefined : tagId;

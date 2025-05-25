@@ -5,6 +5,10 @@ import {
   updateTaskActivityDatesIfNeeded,
   adjustTaskActivityDatesIfRemoved,
 } from "./taskService";
+import {
+  CreateDailyDetailDataBody,
+  UpdateUniqueTaskLogBody,
+} from "@/type/Request";
 
 /**
  * 日付詳細ページのデータをDBから取得する関数
@@ -104,7 +108,10 @@ export const getDailyDetailData = async (date: string) => {
 /**
  * 日付詳細 - タスク追加ダイアログによる追加時のロジック
  */
-export const createDailyDetailData = async (date: string, taskId: number) => {
+export const createDailyDetailData = async (
+  date: string,
+  { taskId }: CreateDailyDetailDataBody
+) => {
   // すでに同じタスクidがある場合はnullを返す
   const existing = await db.taskLogs.where({ date, taskId }).first();
   if (existing) throw new Error("duplicate error");
@@ -127,9 +134,7 @@ export const createDailyDetailData = async (date: string, taskId: number) => {
  */
 export const updateTaskLog = async (
   id: number,
-  taskId?: number,
-  workTime?: number,
-  progress?: number
+  { taskId, workTime, progress }: UpdateUniqueTaskLogBody = {}
 ) => {
   // 更新前のデータを取得
   const previous = await db.taskLogs.get(id);

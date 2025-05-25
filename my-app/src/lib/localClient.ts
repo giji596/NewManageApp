@@ -46,6 +46,23 @@ import {
   getRecentWorkTime,
 } from "./local-services/dailySummaryService";
 import { TaskSummaryRangeQuery } from "@/type/Task";
+import {
+  BulkUpdateTaskBody,
+  CreateCategoryBody,
+  CreateDailyDetailDataBody,
+  CreateMemoBody,
+  CreateTagBody,
+  CreateTaskBody,
+  UpdateMemoBody,
+  UpdateTaskBody,
+  UpdateUniqueTaskLogBody,
+} from "@/type/Request";
+import {
+  CategoryActivityQuery,
+  DateListQuery,
+  DateSummaryDetailQuery,
+  TaskOptionQuery,
+} from "@/type/Query";
 
 export const localClient = {
   work_log: {
@@ -55,35 +72,27 @@ export const localClient = {
           task_logs: {
             _id: (id: number) => {
               return {
-                patch: ({
-                  body,
-                }: {
-                  body: {
-                    taskId?: number;
-                    workTime?: number;
-                    progress?: number;
-                  };
-                }) =>
-                  updateTaskLog(id, body.taskId, body.workTime, body.progress),
+                patch: ({ body }: { body: UpdateUniqueTaskLogBody }) =>
+                  updateTaskLog(id, body),
                 delete: () => deleteTaskLog(id),
               };
             },
-            post: ({ body }: { body: { taskId: number } }) =>
-              createDailyDetailData(date, body.taskId),
+            post: ({ body }: { body: CreateDailyDetailDataBody }) =>
+              createDailyDetailData(date, body),
           },
           get: () => () => getDailyDetailData(date),
         };
       },
       summary: {
         get:
-          ({ query }: { query?: { year?: string; month?: string } }) =>
+          ({ query }: { query?: DateListQuery }) =>
           () =>
             getDailySummaryData({ query }),
         detail: {
           get:
-            ({ query }: { query: { date: string } }) =>
+            ({ query }: { query: DateSummaryDetailQuery }) =>
             () =>
-              getDailySummaryDetailData(query.date),
+              getDailySummaryDetailData(query),
         },
       },
       recent_work_time: {
@@ -98,39 +107,20 @@ export const localClient = {
       _id: (id: number) => {
         return {
           get: () => () => getTaskDetail(id),
-          patch: ({
-            body,
-          }: {
-            body: {
-              taskName?: string;
-              categoryId?: number;
-              isFavorite?: boolean;
-              progress?: number;
-            };
-          }) =>
-            updateTaskDetail(
-              id,
-              body.taskName,
-              body.categoryId,
-              body.isFavorite,
-              body.progress
-            ),
+          patch: ({ body }: { body: UpdateTaskBody }) =>
+            updateTaskDetail(id, body),
           delete: () => deleteTask(id),
           progress: {
             get: () => () => getTaskProgress(id),
           },
         };
       },
-      post: ({
-        body,
-      }: {
-        body: { name: string; categoryId: number; isFavorite: boolean };
-      }) => createTask(body.name, body.categoryId, body.isFavorite),
+      post: ({ body }: { body: CreateTaskBody }) => createTask(body),
       options: {
         get:
-          ({ query }: { query: { categoryId: number } }) =>
+          ({ query }: { query: TaskOptionQuery }) =>
           () =>
-            getTaskOptions(query.categoryId),
+            getTaskOptions(query),
       }, //TODO
       activities: {
         last_month: {
@@ -139,11 +129,7 @@ export const localClient = {
       },
       progress: { last_month: { get: () => () => getLastMonthTaskProgress() } },
       bulk_update: {
-        patch: ({
-          body,
-        }: {
-          body: { id: number; progress?: number; isFavorite?: boolean }[];
-        }) => bulkUpdateTask(body),
+        patch: ({ body }: { body: BulkUpdateTaskBody }) => bulkUpdateTask(body),
       },
     },
     categories: {
@@ -156,24 +142,16 @@ export const localClient = {
           complete: { patch: () => updateCategoryCompleted(id) },
           activity: {
             get:
-              ({
-                query,
-              }: {
-                query: {
-                  range?: "last-month" | "all" | "select";
-                  start?: string;
-                  end?: string;
-                };
-              }) =>
+              ({ query }: { query: CategoryActivityQuery }) =>
               () =>
-                getCategoryActivity(id, query.range, query.start, query.end),
+                getCategoryActivity(id, query),
           },
           tasks: {
             get: () => () => getCategoryTasks(id),
           },
         };
       },
-      post: ({ body }: { body: { name: string } }) => createCategory(body.name),
+      post: ({ body }: { body: CreateCategoryBody }) => createCategory(body),
       options: {
         get:
           ({ query }: { query?: CategoryHeaderQuery }) =>
@@ -184,25 +162,12 @@ export const localClient = {
     memos: {
       _id: (id: number) => {
         return {
-          patch: ({
-            body,
-          }: {
-            body: { title?: string; text?: string; tagId?: number };
-          }) => updateMemo(id, body.title, body.text, body.tagId),
+          patch: ({ body }: { body: UpdateMemoBody }) => updateMemo(id, body),
           body: { get: () => () => getMemoBody(id) },
           delete: () => deleteMemo(id),
         };
       },
-      post: ({
-        body,
-      }: {
-        body: {
-          title: string;
-          text: string;
-          taskLogId: number;
-          tagId?: number;
-        };
-      }) => createMemo(body.title, body.text, body.taskLogId, body.tagId),
+      post: ({ body }: { body: CreateMemoBody }) => createMemo(body),
     },
     tags: {
       get: () => () => getMemoTags(),
@@ -210,8 +175,8 @@ export const localClient = {
         createTag(body.tagName),
       _id: (id: number) => {
         return {
-          patch: ({ body }: { body: { name: string } }) =>
-            updateTagName(body.name, Number(id)),
+          patch: ({ body }: { body: CreateTagBody }) =>
+            updateTagName(body, Number(id)),
           delete: () => deleteTag(id),
           usage: { get: () => () => getTagUsageMemoTitlesAndCount(id) },
         };

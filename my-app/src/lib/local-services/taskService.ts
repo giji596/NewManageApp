@@ -8,11 +8,17 @@ import {
   TaskSummary,
   TaskSummaryRangeQuery,
 } from "@/type/Task";
+import {
+  BulkUpdateTaskBody,
+  CreateTaskBody,
+  UpdateTaskBody,
+} from "@/type/Request";
+import { TaskOptionQuery } from "@/type/Query";
 
 /**
  * タスク選択賜一覧げっとする関数
  */
-export const getTaskOptions = async (categoryId: number) => {
+export const getTaskOptions = async ({ categoryId }: TaskOptionQuery) => {
   // カテゴリidが一致するデータを取得
   const data = await db.tasks.where("categoryId").equals(categoryId).toArray();
   const result: TaskOption[] = data
@@ -213,11 +219,11 @@ export const getTaskDetail = async (id: number) => {
 /**
  * タスク作成する関数
  */
-export const createTask = async (
-  name: string,
-  categoryId: number,
-  isFavorite: boolean
-) => {
+export const createTask = async ({
+  name,
+  categoryId,
+  isFavorite,
+}: CreateTaskBody) => {
   // 重複チェック
   const categoryTaskList = await db.tasks.where({ categoryId }).toArray();
   const existing = categoryTaskList.find((v) => v.name === name);
@@ -237,9 +243,7 @@ export const createTask = async (
 /**
  * タスクを一括更新するメソッド(一覧ページで利用)
  */
-export const bulkUpdateTask = async (
-  updateData: { id: number; progress?: number; isFavorite?: boolean }[]
-) => {
+export const bulkUpdateTask = async (updateData: BulkUpdateTaskBody) => {
   const updates = updateData.map(async (v) => {
     const updateFields: Partial<{ progress: number; isFavorite: boolean }> = {};
     if (v.progress !== undefined) {
@@ -261,10 +265,7 @@ export const bulkUpdateTask = async (
  */
 export const updateTaskDetail = async (
   id: number,
-  taskName?: string,
-  categoryId?: number,
-  isFavorite?: boolean,
-  progress?: number
+  { taskName, categoryId, isFavorite, progress }: UpdateTaskBody
 ) => {
   const updateData: Partial<{
     name: string;

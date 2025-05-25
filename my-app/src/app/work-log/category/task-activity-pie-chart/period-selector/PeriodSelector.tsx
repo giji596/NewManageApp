@@ -12,10 +12,11 @@ import {
 import PeriodSelectDialog from "@/component/dialog/PeriodSelectDialog/PeriodSelectDialog";
 import useDialog from "@/hook/useDialog";
 import PeriodSelectorLogic from "./PeriodSelectorLogic";
+import { CategoryActivityRange } from "@/type/Category";
 
 type Props = {
   /** 選択中の範囲 */
-  selectRange: "last-month" | "all" | "select";
+  selectRange: CategoryActivityRange;
   /** 選択中の範囲を変更するハンドラー */
   onChangeSelectRange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   /** selectRange:"select"時の開始範囲 */

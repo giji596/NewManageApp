@@ -1,10 +1,11 @@
+import { CategoryActivityRange } from "@/type/Category";
 import { CategoryTaskActivity } from "@/type/Task";
 import { DefineMethods } from "aspida";
 
 export type Methods = DefineMethods<{
   get: {
     query: {
-      range?: "last-month" | "all" | "select";
+      range?: CategoryActivityRange;
       start?: string;
       end?: string;
     };

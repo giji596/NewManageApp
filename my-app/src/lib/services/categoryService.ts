@@ -1,4 +1,5 @@
 import {
+  CategoryActivityRange,
   CategoryHeaderQuery,
   CategoryOption,
   CategorySummary,
@@ -109,7 +110,7 @@ export const createCategory = async (name: string) => {
  */
 export const getCategoryActivity = async (
   id: number,
-  range?: "last-month" | "all" | "select",
+  range?: CategoryActivityRange,
   start?: string,
   end?: string
 ) => {
