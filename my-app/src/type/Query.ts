@@ -3,9 +3,9 @@ import { CategoryActivityRange } from "./Category";
 /** 日付の一覧取得時のクエリ */
 export type DateListQuery = {
   /** 年 */
-  year?: number;
+  year?: string;
   /** 月 */
-  month?: number;
+  month?: string;
 };
 
 /** 日付の一覧ページ用の詳細データのクエリ */
