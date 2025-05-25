@@ -1,9 +1,10 @@
+import { ERROR_PAGE_ID } from "@/constant/errorPages";
 import { localClient } from "@/lib/localClient";
 import { ReplaceDateWithString } from "@/type/common";
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
 import { DailyDetailTaskTableType, TaskLogSummary } from "@/type/Task";
 import { useParams } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
 /**
@@ -85,6 +86,45 @@ export default function DailyDetailPageParams() {
       };
     });
   }, [rawData.taskList]);
+
+  // 状態管理
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const selectedItemTaskId = useMemo(() => {
+    const target = taskList.find((item) => item.id === selectedItemId);
+    if (target) return target.task.id;
+    return ERROR_PAGE_ID;
+  }, [selectedItemId, taskList]);
+  // タスクの一覧に変更があった場合(SWRで再フェッチが行われるタイミング)、選択を解除する
+  useEffect(() => {
+    setSelectedItemId(null);
+    // 長さが変わった場合のみ(create/delete)選択を解除させる
+  }, [taskList.length]);
+  // ローカル--------------------------------------------------
+  const doSelectItem = useCallback((id: number) => {
+    setSelectedItemId(id);
+  }, []);
+
+  const doDeselectItem = useCallback(() => {
+    setSelectedItemId(null);
+  }, []);
+
+  // -----------------------------------------------------------
+
+  const handleSelectItem = useCallback(
+    (id: number) => {
+      // アイテムが選択中のアイテムと一致する場合
+      // 選択の解除を行う
+      if (selectedItemId === id) {
+        doDeselectItem();
+      } else {
+        // 選択中のアイテムでない場合
+        // 選択中のアイテムを変更する
+        doSelectItem(id);
+      }
+    },
+    [doDeselectItem, doSelectItem, selectedItemId]
+  );
+
   return {
     /** ロード状態 */
     isLoading,
@@ -100,5 +140,11 @@ export default function DailyDetailPageParams() {
     memoList,
     /** 円グラフのデータ */
     circleDataList,
+    /** 選択中のアイテムID */
+    selectedItemId,
+    /** 選択中のタスクID(メモのハイライト用) */
+    selectedItemTaskId,
+    /** アイテムを選択するハンドラー */
+    handleSelectItem,
   };
 }
