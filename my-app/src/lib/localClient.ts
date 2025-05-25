@@ -50,6 +50,7 @@ import {
   BulkUpdateTaskBody,
   CreateCategoryBody,
   CreateDailyDetailDataBody,
+  CreateMemoBody,
   CreateTaskBody,
   UpdateMemoBody,
   UpdateTaskBody,
@@ -165,16 +166,7 @@ export const localClient = {
           delete: () => deleteMemo(id),
         };
       },
-      post: ({
-        body,
-      }: {
-        body: {
-          title: string;
-          text: string;
-          taskLogId: number;
-          tagId?: number;
-        };
-      }) => createMemo(body.title, body.text, body.taskLogId, body.tagId),
+      post: ({ body }: { body: CreateMemoBody }) => createMemo(body),
     },
     tags: {
       get: () => () => getMemoTags(),

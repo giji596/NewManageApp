@@ -1,4 +1,4 @@
-import { UpdateMemoBody } from "@/type/Request";
+import { CreateMemoBody, UpdateMemoBody } from "@/type/Request";
 import { db } from "../dexie";
 
 /**
@@ -12,12 +12,12 @@ export const getMemoBody = async (id: number) => {
 /**
  * メモ追加するメソッド
  */
-export const createMemo = async (
-  title: string,
-  text: string,
-  taskLogId: number,
-  tagId?: number
-) => {
+export const createMemo = async ({
+  title,
+  text,
+  taskLogId,
+  tagId,
+}: CreateMemoBody) => {
   const id = await db.memos.add({
     title,
     text,

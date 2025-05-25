@@ -61,3 +61,15 @@ export type UpdateMemoBody = {
   /** メモに設定するタグのid */
   tagId?: number;
 };
+
+/** メモ作成時のリクエストボディ */
+export type CreateMemoBody = {
+  /** メモのタイトル */
+  title: string;
+  /** メモの本文 */
+  text: string;
+  /** ログのID */
+  taskLogId: number;
+  /** メモに設定するタグのid */
+  tagId?: number;
+};
