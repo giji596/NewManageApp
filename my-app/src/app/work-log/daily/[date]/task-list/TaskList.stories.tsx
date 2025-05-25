@@ -8,8 +8,8 @@ const meta = {
   args: {
     taskList: DUMMY_TASK_TABLE_LIST,
     isLoading: false,
-    navigateTaskPage: () => {},
-    navigateCategoryPage: () => {},
+    selectedItemId: 1,
+    handleClickRow: () => {},
   },
 } satisfies Meta<typeof TaskList>;
 
