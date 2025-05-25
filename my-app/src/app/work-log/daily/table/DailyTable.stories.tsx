@@ -4,9 +4,6 @@ import DailyTable from "./DailyTable";
 
 const meta = {
   component: DailyTable,
-  args: {
-    onClickRow: () => {},
-  },
 } satisfies Meta<typeof DailyTable>;
 
 export default meta;
