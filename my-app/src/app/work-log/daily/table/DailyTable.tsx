@@ -161,11 +161,12 @@ const DailyTable = memo(function DailyTable() {
         logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
       >
         {/** メモの場合 */}
-        {![10000, 10001].includes(openTargetIdRef.current) && (
-          <CustomMenuTitle
-            titleList={getMemoTitleArrayById(openTargetIdRef.current)}
-          />
-        )}
+        {typeof openTargetIdRef.current === "number" &&
+          ![10000, 10001].includes(openTargetIdRef.current) && (
+            <CustomMenuTitle
+              titleList={getMemoTitleArrayById(openTargetIdRef.current)}
+            />
+          )}
       </CustomMenuWrapper>
     </>
   );

@@ -12,9 +12,12 @@ type Props = {
   /** 表題をクリックした際のハンドラー */
   OnClickTitle: (title: string) => void;
   /** セルにホバー時のハンドラー */
-  onHoverTitle: (id: number, event: React.MouseEvent<HTMLElement>) => void;
+  onHoverTitle: (
+    id: number | string,
+    event: React.MouseEvent<HTMLElement>
+  ) => void;
   /** セルにホバー解除時のハンドラー */
-  onLeaveHoverTitle: (id: number) => void;
+  onLeaveHoverTitle: (id: number | string) => void;
 };
 
 /**
