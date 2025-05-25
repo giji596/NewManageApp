@@ -2,17 +2,15 @@ import { localClient } from "@/lib/localClient";
 import { ReplaceDateWithString } from "@/type/common";
 import { DailyCategoryCircleGraph, DateDetailPage } from "@/type/Date";
 import { DailyDetailTaskTableType, TaskLogSummary } from "@/type/Task";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
 
-type Props = {
-  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  dateParam: string;
-};
 /**
  * 日付詳細ページのパラメータ関連
  */
-export default function DailyDetailPageParams({ dateParam }: Props) {
+export default function DailyDetailPageParams() {
+  const { date: dateParam } = useParams<{ date: string }>();
   const { data, isLoading } = useSWR(
     `api/work-log/daily/${dateParam}`,
     localClient.work_log.daily._date(dateParam).get()
