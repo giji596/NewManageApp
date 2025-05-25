@@ -2,17 +2,12 @@
 import { Stack } from "@mui/material";
 import TaskTable from "./table/TaskTable";
 import TaskMenu from "./task-menu/TaskMenu";
-import { DailyDetailTaskTableType } from "@/type/Task";
 import TaskListLogic from "./TaskListLogic";
 import TaskEditDialog from "./dialog/TaskEditDialog/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompletedTaskEditDialog from "./dialog/CompletedTaskEditDialog/CompletedTaskEditDialog";
 
 type Props = {
-  /** タスクの一覧 */
-  taskList: DailyDetailTaskTableType[];
-  /** ロード中かどうか */
-  isLoading: boolean;
   /** 選択中のアイテムID */
   selectedItemId: number | null;
   /** アイテム行をクリックした際のハンドラー */
@@ -22,13 +17,10 @@ type Props = {
 /**
  * 日付詳細ページのタスク表示部分
  */
-export default function TaskList({
-  taskList,
-  isLoading,
-  selectedItemId,
-  handleClickRow,
-}: Props) {
+export default function TaskList({ selectedItemId, handleClickRow }: Props) {
   const {
+    taskList,
+    isLoading,
     isItemSelected,
     selectedItemTaskId,
     selectedItemCategoryId,
@@ -39,7 +31,6 @@ export default function TaskList({
     navigateTaskPage,
     navigateCategoryPage,
   } = TaskListLogic({
-    taskList,
     selectedItemId,
   });
   const {

@@ -29,7 +29,6 @@ export default function DailyDetailPage() {
     date,
     dailyHours,
     memoList,
-    taskList,
     taskLogSummary,
     circleDataList,
     selectedItemId,
@@ -48,8 +47,6 @@ export default function DailyDetailPage() {
         />
         {/** タスク */}
         <TaskList
-          taskList={taskList}
-          isLoading={isLoading}
           selectedItemId={selectedItemId}
           handleClickRow={handleSelectItem}
         />
