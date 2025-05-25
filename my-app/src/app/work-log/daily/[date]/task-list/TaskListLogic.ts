@@ -1,7 +1,5 @@
 import { ERROR_PAGE_ID } from "@/constant/errorPages";
 import { localClient } from "@/lib/localClient";
-import { ReplaceDateWithString } from "@/type/common";
-import { DateDetailPage } from "@/type/Date";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import useSWR from "swr";
@@ -21,17 +19,8 @@ export default function TaskListLogic({ selectedItemId }: Props) {
     `api/work-log/daily/${dateParam}`,
     localClient.work_log.daily._date(dateParam).get()
   );
-  const rawData: ReplaceDateWithString<DateDetailPage> = useMemo(
-    () =>
-      data ?? {
-        // dataない時は空データ渡す(一応isLoadingで表示しないようにしてるはずなのでいらないと思うけど)
-        date: dateParam,
-        taskList: [],
-        memoList: [],
-      },
-    [data, dateParam]
-  );
-  const taskList = rawData?.taskList;
+
+  const taskList = useMemo(() => data?.taskList ?? [], [data]);
 
   const isItemSelected = !(selectedItemId == null);
 
