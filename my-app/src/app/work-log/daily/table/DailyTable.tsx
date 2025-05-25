@@ -27,14 +27,12 @@ export default function DailyTable() {
     dateToId,
     dateToParam,
     isAsc,
-    taskFilterList,
-    categoryFilterList,
+    taskFilterChildProps,
+    categoryFilterChildProps,
     isSelected,
     handleClickSortLabel,
     doSort,
     getMemoTitleArrayById,
-    toggleCategoryFilterCheckBox,
-    toggleTaskFilterCheckBox,
     doFilterByFilterList,
     handleNavigateSelectedDay,
   } = DailyTableLogic();
@@ -47,10 +45,8 @@ export default function DailyTable() {
           <DailyTableHeader
             isAsc={isAsc}
             isSelected={isSelected}
-            taskFilterList={taskFilterList}
-            toggleTaskFilterCheckBox={toggleTaskFilterCheckBox}
-            categoryFilterList={categoryFilterList}
-            toggleCategoryFilterCheckBox={toggleCategoryFilterCheckBox}
+            taskFilterLogic={taskFilterChildProps}
+            categoryFilterLogic={categoryFilterChildProps}
             OnClickTitle={handleClickSortLabel}
           />
           <TableBody>

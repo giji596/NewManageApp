@@ -97,14 +97,12 @@ export default function DailyTableLogic() {
     getSortTarget,
   });
   const {
-    filterList: taskFilterList,
-    toggleFilterCheckBox: toggleTaskFilterCheckBox,
     doFilterByFilterList: doFilterByTaskFilterList,
+    ...taskFilterChildProps
   } = useTableFilter({ initialFilterList: defaultTaskFilterList });
   const {
-    filterList: categoryFilterList,
-    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
     doFilterByFilterList: doFilterByCategoryFilterList,
+    ...categoryFilterChildProps
   } = useTableFilter({ initialFilterList: defaultCategoryFilterList });
 
   // idからメモのタイトル一覧を取得する関数
@@ -157,10 +155,10 @@ export default function DailyTableLogic() {
     dateToParam,
     /** 現在昇順かどうか */
     isAsc,
-    /** アイテムのタスク名とチェック状態のRecordオブジェクト */
-    taskFilterList,
-    /** アイテムのカテゴリ名とチェック状態のRecordオブジェクト */
-    categoryFilterList,
+    /** 子用のタスクのフィルター関連のプロパティ */
+    taskFilterChildProps,
+    /** 子用のカテゴリーのフィルター関連のプロパティ */
+    categoryFilterChildProps,
     /** 選択中かどうか調べる関数 */
     isSelected,
     /** ソートラベルをクリックした際のハンドラー */
@@ -169,10 +167,6 @@ export default function DailyTableLogic() {
     doSort,
     /** 該当するidのデータのメモのタイトルの配列を取得する関数 */
     getMemoTitleArrayById,
-    /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
-    toggleCategoryFilterCheckBox,
-    /** タスクのフィルターリストのチェックボックスを切り替える関数 */
-    toggleTaskFilterCheckBox,
     /** フィルターリストに応じてフィルターする関数 */
     doFilterByFilterList,
     /** 指定された詳細ページにナビゲートするハンドラー */

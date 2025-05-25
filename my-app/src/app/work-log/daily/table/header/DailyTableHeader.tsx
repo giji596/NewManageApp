@@ -6,20 +6,17 @@ import CustomHeaderSortCheckLabel from "@/component/table/header/CustomHeaderSor
 import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
+import { TableFilterChildProps } from "@/type/Table";
 
 type Props = {
   /** 昇順かどうか */
   isAsc: boolean;
   /** 項目が選択中かどうか */
   isSelected: (title: string) => boolean;
-  /** タスクのフィルターリスト */
-  taskFilterList: Record<string, boolean>;
-  /** タスクのフィルターリストの切り替え */
-  toggleTaskFilterCheckBox: (name: string) => void;
-  /** カテゴリのフィルターリスト */
-  categoryFilterList: Record<string, boolean>;
-  /** カテゴリのフィルターリストの切り替え */
-  toggleCategoryFilterCheckBox: (name: string) => void;
+  /** タスクのフィルターロジック */
+  taskFilterLogic: TableFilterChildProps;
+  /** カテゴリのフィルターロジック */
+  categoryFilterLogic: TableFilterChildProps;
   /** 表題をクリックした際のハンドラー */
   OnClickTitle: (title: string) => void;
 };
@@ -28,15 +25,21 @@ type Props = {
 export default function DailyTableHeader({
   isAsc,
   isSelected,
-  taskFilterList,
-  toggleTaskFilterCheckBox,
-  categoryFilterList,
-  toggleCategoryFilterCheckBox,
+  taskFilterLogic,
+  categoryFilterLogic,
   OnClickTitle,
 }: Props) {
   const { headerColumnDisplay, getPopperIdRef } = DailyTableHeaderLogic();
   const { openTargetIdRef, handleMouseEnter, handleMouseLeave, ...prev } =
     CustomMenuWrapperLogic();
+  const {
+    filterList: taskFilterList,
+    toggleFilterCheckBox: toggleTaskFilterCheckBox,
+  } = taskFilterLogic;
+  const {
+    filterList: categoryFilterList,
+    toggleFilterCheckBox: toggleCategoryFilterCheckBox,
+  } = categoryFilterLogic;
   return (
     <>
       <TableHead>
