@@ -7,7 +7,7 @@ import {
   Box,
   Collapse,
 } from "@mui/material";
-import { Fragment, memo } from "react";
+import { Fragment, memo, ReactNode } from "react";
 import CustomHeaderSortCheckLabel from "../header/CustomHeaderSortCheckLabel/CustomHeaderSortCheckLabel";
 import { useCustomTable } from "./useCustomTable";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
@@ -19,6 +19,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import TableBodyLoading from "../body/TableBodyLoading/TableBodyLoading";
 import TableBodyNoItem from "../body/TableBodyNoItem/TableBodyNoItem";
+import { getValueByNestedKey, NestedKeys } from "@/lib/table";
 
 /**
  * ラベルの選択賜
@@ -31,7 +32,7 @@ export type LabelProp = "sortable" | "sortableAndFilterable" | "favoriteToggle";
 /** 行の構成 */
 export type ColumnConfig<T> = {
   /** valueのキー(data.nameを表示したい場合 -> "name") */
-  key: keyof T;
+  key: NestedKeys<T>;
   /** タイトル名 */
   title: string;
   /** 固定幅 */
@@ -63,7 +64,7 @@ type CustomTableProps<T> = {
   /** デフォルトのソート対象 */
   initialTarget?: string;
   /** 選択中のid(rowのselectedでハイライト) */
-  selectedId?: number;
+  selectedId?: number | null;
   /** 行のクリック時のハンドラー */
   onClickRow?: (id: number) => void;
 };
@@ -166,23 +167,38 @@ function InnerTable<T extends { id: number }>({
                       cursor: onClickRow ? "pointer" : undefined,
                     }}
                   >
-                    {columns.map((col) => (
-                      /** データ内のprop数分のセルを展開 */
-                      <TableCell key={String(col.key)} sx={bodyStyle}>
-                        {/** お気に入りラベルの場合は星を表示 */}
-                        {col.labelProp === "favoriteToggle" &&
-                          (row[col.key] ? (
-                            <StarIcon color="primary" />
-                          ) : (
-                            <StarBorderIcon />
-                          ))}
-                        {/** レンダーセルであれば任意のコンポーネントを、そうでなければそのまま値を表示 */}
-                        {col.labelProp !== "favoriteToggle" &&
-                          (col.renderCell
-                            ? col.renderCell(row)
-                            : String(row[col.key] ?? ""))}
-                      </TableCell>
-                    ))}
+                    {columns.map((col) => {
+                      let children: ReactNode;
+                      // お気に入りラベルの場合は星を表示
+                      if (col.labelProp === "favoriteToggle") {
+                        const isFavorite = Boolean(
+                          getValueByNestedKey(row, col.key)
+                        );
+                        if (isFavorite) {
+                          // お気に入りなら塗りつぶし
+                          children = <StarIcon color="primary" />;
+                        } else {
+                          // そうでないならボーダーだけ
+                          children = <StarBorderIcon />;
+                        }
+                      }
+                      // お気に入りじゃない場合
+                      if (col.labelProp !== "favoriteToggle") {
+                        if (col.renderCell) {
+                          // レンダーセルに指定があれば設定された任意のコンポーネント
+                          children = col.renderCell(row);
+                        } else {
+                          // それ以外はその内容そのまま表示
+                          children = <>{getValueByNestedKey(row, col.key)}</>;
+                        }
+                      }
+                      return (
+                        /** データ内のprop数分のセルを展開 */
+                        <TableCell key={String(col.key)} sx={bodyStyle}>
+                          {children}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                   {/** 展開行(設定している場合) */}
                   {collapsibleItemKey && (
