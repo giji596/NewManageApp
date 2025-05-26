@@ -9,12 +9,18 @@ type Props = {
   selectedItemTaskId: number;
   /** ダイアログ(編集)開くよう */
   onOpen: () => void;
+  /** ダイアログ(編集)閉じるよう */
+  onClose: () => void;
 };
 
 /**
  * 日付詳細 - メモリストのロジック部分
  */
-export default function MemoListLogic({ selectedItemTaskId, onOpen }: Props) {
+export default function MemoListLogic({
+  selectedItemTaskId,
+  onOpen,
+  onClose,
+}: Props) {
   // データフェッチ
   const { date: dateParam } = useParams<{ date: string }>();
   const { data, isLoading } = useSWR(
@@ -46,6 +52,11 @@ export default function MemoListLogic({ selectedItemTaskId, onOpen }: Props) {
     [onOpen]
   );
 
+  const onCloseEdit = useCallback(() => {
+    editTarget.current = null;
+    onClose();
+  }, [onClose]);
+
   const backgroundColor = useCallback(
     // ハイライト時には薄い青色 (選択時はselectedによって上書きされるので注意)
     (row: MemoDailyTask) =>
@@ -70,5 +81,7 @@ export default function MemoListLogic({ selectedItemTaskId, onOpen }: Props) {
     editTarget,
     /** 編集のボタンを押した際のハンドラー(編集ターゲット指定 + ダイアログの開閉) */
     onClickEditButton,
+    /** 編集のダイアログを閉じる際のハンドラー(編集ターゲットnull化 + ダイアログ閉じる) */
+    onCloseEdit,
   };
 }

@@ -24,7 +24,8 @@ export default function MemoList({ selectedItemTaskId }: Props) {
     backgroundColor,
     editTarget,
     onClickEditButton,
-  } = MemoListLogic({ selectedItemTaskId, onOpen });
+    onCloseEdit,
+  } = MemoListLogic({ selectedItemTaskId, onOpen, onClose });
   const columnsConfig: ColumnConfig<MemoDailyTask>[] = [
     { key: "title", title: "タイトル", width: "45%", labelProp: "sortable" },
     {
@@ -75,7 +76,7 @@ export default function MemoList({ selectedItemTaskId }: Props) {
           title={editTarget.current.title}
           tagName={editTarget.current.tagName}
           open={open}
-          onClose={onClose}
+          onClose={onCloseEdit}
         />
       )}
     </>
