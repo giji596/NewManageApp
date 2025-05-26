@@ -118,6 +118,12 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     (id: number) => selectedItemTaskId === id,
     [selectedItemTaskId]
   );
+  const backgroundColor = useCallback(
+    // ハイライト時には薄い青色 (選択時はselectedによって上書きされるので注意)
+    (row: MemoDailyTask) =>
+      selectedItemTaskId === row.task.id ? "table.highlighted" : "",
+    [selectedItemTaskId]
+  );
   return {
     /** メモ一覧 */
     memoItemList,
@@ -125,6 +131,8 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     isLoading,
     /** 指定されたidの列がアクティブかどうかを求める */
     isActiveRow,
+    /** 選択中のid */
+    selectedRowId,
     /** 行をクリックした際のハンドラー
      * 指定した行をActiveにする
      * すでにActiveなら非Activeにする
@@ -150,5 +158,7 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     doFilterByFilterList,
     /** 選択中のタスクと関連する行か */
     isSelectedTaskRow,
+    /** 背景色 */
+    backgroundColor,
   };
 }

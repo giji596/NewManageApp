@@ -25,6 +25,7 @@ export default function MemoList({ selectedItemTaskId }: Props) {
     memoItemList,
     isLoading,
     isActiveRow,
+    selectedRowId,
     handleClickRow,
     isAsc,
     isSelected,
@@ -36,6 +37,7 @@ export default function MemoList({ selectedItemTaskId }: Props) {
     toggleTagFilterCheckBox,
     doFilterByFilterList,
     isSelectedTaskRow,
+    backgroundColor,
   } = MemoListLogic({ selectedItemTaskId });
 
   const columnsConfig: ColumnConfig<MemoDailyTask>[] = [
@@ -60,6 +62,11 @@ export default function MemoList({ selectedItemTaskId }: Props) {
         <CustomTable<MemoDailyTask>
           data={memoItemList}
           columns={columnsConfig}
+          loading={isLoading}
+          collapsibleItemKey={"summary"}
+          onClickRow={handleClickRow}
+          selectedId={selectedRowId}
+          rowColor={backgroundColor}
         />
         <Table sx={{ tableLayout: "fixed " }}>
           <CustomTableHeader
