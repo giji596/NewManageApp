@@ -7,7 +7,7 @@ import {
   Box,
   Collapse,
 } from "@mui/material";
-import { memo } from "react";
+import { Fragment, memo } from "react";
 import CustomHeaderSortCheckLabel from "../header/CustomHeaderSortCheckLabel/CustomHeaderSortCheckLabel";
 import { useCustomTable } from "./useCustomTable";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
@@ -153,11 +153,10 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
               .filter(doFilter)
               .sort(doSort)
               .map((row) => (
-                <>
+                <Fragment key={row.id}>
                   {/** データの分の行を展開 */}
                   <TableRow
                     hover={selectedId !== undefined} // 選択設定がある場合のみhover有効
-                    key={row.id}
                     onClick={onClickRow ? () => onClickRow(row.id) : undefined}
                     selected={selectedId === row.id}
                     sx={{
@@ -203,7 +202,7 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                       </TableCell>
                     </TableRow>
                   )}
-                </>
+                </Fragment>
               ))}
         </TableBody>
       </Table>
