@@ -36,7 +36,7 @@ export type ColumnConfig<T> = {
    * ラベルの選択賜 設定なし: 通常ラベル
    * - sortable: ソート可能
    * - sortableAndFilterable: ソートとフィルター可能
-   * - favoriteToggle: お気に入り切り替え
+   * - favoriteToggle: お気に入り切り替え(要key名:isFavorite)
    */
   labelProp?: LabelProp;
   /** 任意のコンポーネントをレンダーしたい場合 */
