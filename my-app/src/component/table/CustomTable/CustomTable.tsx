@@ -64,7 +64,7 @@ type CustomTableProps<T> = {
   /** デフォルトのソート対象 */
   initialTarget?: string;
   /** 選択中のid(rowのselectedでハイライト) */
-  selectedId?: number;
+  selectedId?: number | null;
   /** 行のクリック時のハンドラー */
   onClickRow?: (id: number) => void;
 };

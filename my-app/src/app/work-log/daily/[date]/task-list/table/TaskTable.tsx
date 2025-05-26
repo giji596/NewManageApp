@@ -47,6 +47,7 @@ export default function TaskTable({
       columns={columnsConfig}
       loading={isLoading}
       onClickRow={onClickRow}
+      selectedId={selectedItemId}
     />
   );
 }
