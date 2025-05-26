@@ -159,6 +159,11 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                     key={row.id}
                     onClick={onClickRow ? () => onClickRow(row.id) : undefined}
                     selected={selectedId === row.id}
+                    sx={{
+                      "& *": {
+                        borderBottom: collapsibleItemKey ? "none" : undefined,
+                      },
+                    }}
                   >
                     {columns.map((col) => (
                       /** データ内のprop数分のセルを展開 */
