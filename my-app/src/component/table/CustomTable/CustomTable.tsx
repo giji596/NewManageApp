@@ -13,6 +13,10 @@ import { useCustomTable } from "./useCustomTable";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
+import CustomHeaderSortLabel from "../header/CustomHeaderSortLabel/CustomHeaderSortLabel";
+import HeaderFavoriteLabel from "../header/HeaderFavoriteLabel/HeaderFavoriteLabel";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 /**
  * ラベルの選択賜
@@ -34,7 +38,7 @@ export type ColumnConfig<T> = {
    * ラベルの選択賜 設定なし: 通常ラベル
    * - sortable: ソート可能
    * - sortableAndFilterable: ソートとフィルター可能
-   * - favoriteToggle: お気に入り切り替え
+   * - favoriteToggle: お気に入り切り替え(要key名:isFavorite)
    */
   labelProp?: LabelProp;
   /** 任意のコンポーネントをレンダーしたい場合 */
@@ -50,6 +54,8 @@ type CustomTableProps<T> = {
    * - onClickイベントと同時にて併用すると機能しないため注意
    */
   collapsibleItemKey?: keyof T;
+  /** デフォルトのソート対象 */
+  initialTarget?: string;
   /** 選択中のid(rowのselectedでハイライト) */
   selectedId?: number;
   /** 行のクリック時のハンドラー */
@@ -63,12 +69,24 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
   data,
   columns,
   collapsibleItemKey,
+  initialTarget,
   selectedId,
   onClickRow,
 }: CustomTableProps<T>) {
-  const { filterList, toggleFilterCheckBox, doFilter } = useCustomTable({
+  const {
+    isAsc,
+    isSelected,
+    handleClickSortLabel,
+    doSort,
+    filterList,
+    toggleFilterCheckBox,
+    doFilter,
+    isFavoriteChecked,
+    toggleFavoriteCheck,
+  } = useCustomTable({
     data,
     columns,
+    initialTarget,
   });
   const { openTargetIdRef, handleMouseEnter, handleMouseLeave, ...logic } =
     CustomMenuWrapperLogic();
@@ -80,15 +98,32 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
           <TableRow>
             {columns.map((col) => (
               <TableCell key={String(col.key)} sx={{ width: col.width }}>
+                {/** ソートラベル */}
+                {col.labelProp === "sortable" && (
+                  <CustomHeaderSortLabel
+                    title={col.title}
+                    isSelected={isSelected(col.title)}
+                    isAsc={isAsc}
+                    onClickTitle={handleClickSortLabel}
+                  />
+                )}
+                {/** ソートフィルターラベル */}
                 {col.labelProp === "sortableAndFilterable" && (
                   <CustomHeaderSortCheckLabel
                     title={col.title}
-                    isSelected={false /** TODO */}
-                    isAsc={false /** TODO */}
+                    isSelected={isSelected(col.title)}
+                    isAsc={isAsc}
                     refId={String(col.key)}
-                    onClickTitle={() => {}} //TODO
+                    onClickTitle={handleClickSortLabel}
                     onHoverTitle={handleMouseEnter}
                     onLeaveTitle={handleMouseLeave}
+                  />
+                )}
+                {/** お気に入りラベル */}
+                {col.labelProp === "favoriteToggle" && (
+                  <HeaderFavoriteLabel
+                    isChecked={isFavoriteChecked}
+                    onClick={toggleFavoriteCheck}
                   />
                 )}
                 {col.labelProp === undefined && col.title}
@@ -98,45 +133,56 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
         </TableHead>
         {/** ボディ部分 */}
         <TableBody>
-          {data.filter(doFilter).map((row) => (
-            <>
-              {/** データの分の行を展開 */}
-              <TableRow
-                key={row.id}
-                onClick={onClickRow ? () => onClickRow(row.id) : undefined}
-                selected={selectedId === row.id}
-              >
-                {columns.map((col) => (
-                  /** データ内のprop数分のセルを展開 */
-                  <TableCell key={String(col.key)}>
-                    {/** レンダーセルであれば任意のコンポーネントを、そうでなければそのまま値を表示 */}
-                    {col.renderCell
-                      ? col.renderCell(row)
-                      : String(row[col.key] ?? "")}
-                  </TableCell>
-                ))}
-              </TableRow>
-              {/** 展開行(設定している場合) */}
-              {collapsibleItemKey && (
-                <TableRow>
-                  <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={columns.length}
-                  >
-                    <Collapse
-                      in={selectedId === row.id}
-                      timeout="auto"
-                      unmountOnExit
-                    >
-                      <Box margin={1}>
-                        {String(row[collapsibleItemKey] ?? "")}
-                      </Box>
-                    </Collapse>
-                  </TableCell>
+          {data
+            .filter(doFilter)
+            .sort(doSort)
+            .map((row) => (
+              <>
+                {/** データの分の行を展開 */}
+                <TableRow
+                  key={row.id}
+                  onClick={onClickRow ? () => onClickRow(row.id) : undefined}
+                  selected={selectedId === row.id}
+                >
+                  {columns.map((col) => (
+                    /** データ内のprop数分のセルを展開 */
+                    <TableCell key={String(col.key)}>
+                      {/** お気に入りラベルの場合は星を表示 */}
+                      {col.labelProp === "favoriteToggle" &&
+                        (row[col.key] ? (
+                          <StarIcon color="primary" />
+                        ) : (
+                          <StarBorderIcon />
+                        ))}
+                      {/** レンダーセルであれば任意のコンポーネントを、そうでなければそのまま値を表示 */}
+                      {col.labelProp !== "favoriteToggle" &&
+                        (col.renderCell
+                          ? col.renderCell(row)
+                          : String(row[col.key] ?? ""))}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </>
-          ))}
+                {/** 展開行(設定している場合) */}
+                {collapsibleItemKey && (
+                  <TableRow>
+                    <TableCell
+                      style={{ paddingBottom: 0, paddingTop: 0 }}
+                      colSpan={columns.length}
+                    >
+                      <Collapse
+                        in={selectedId === row.id}
+                        timeout="auto"
+                        unmountOnExit
+                      >
+                        <Box margin={1}>
+                          {String(row[collapsibleItemKey] ?? "")}
+                        </Box>
+                      </Collapse>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
+            ))}
         </TableBody>
       </Table>
       {Object.keys(filterList).map(
