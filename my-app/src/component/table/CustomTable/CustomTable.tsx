@@ -15,6 +15,8 @@ import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/Cust
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import CustomHeaderSortLabel from "../header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 import HeaderFavoriteLabel from "../header/HeaderFavoriteLabel/HeaderFavoriteLabel";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 /**
  * ラベルの選択賜
@@ -145,10 +147,18 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                   {columns.map((col) => (
                     /** データ内のprop数分のセルを展開 */
                     <TableCell key={String(col.key)}>
+                      {/** お気に入りラベルの場合は星を表示 */}
+                      {col.labelProp === "favoriteToggle" &&
+                        (row[col.key] ? (
+                          <StarIcon color="primary" />
+                        ) : (
+                          <StarBorderIcon />
+                        ))}
                       {/** レンダーセルであれば任意のコンポーネントを、そうでなければそのまま値を表示 */}
-                      {col.renderCell
-                        ? col.renderCell(row)
-                        : String(row[col.key] ?? "")}
+                      {col.labelProp !== "favoriteToggle" &&
+                        (col.renderCell
+                          ? col.renderCell(row)
+                          : String(row[col.key] ?? ""))}
                     </TableCell>
                   ))}
                 </TableRow>
