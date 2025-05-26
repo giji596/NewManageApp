@@ -53,12 +53,12 @@ export default function TaskTable({
     CustomMenuWrapperLogic();
   const columnsConfig: ColumnConfig<DailyDetailTaskTableType>[] = [
     {
-      key: "task",
+      key: "task.name",
       title: "タスク",
       labelProp: "sortableAndFilterable",
     },
     {
-      key: "category",
+      key: "category.name",
       title: "カテゴリ",
       labelProp: "sortableAndFilterable",
     },
