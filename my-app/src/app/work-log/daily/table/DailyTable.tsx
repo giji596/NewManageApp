@@ -9,6 +9,7 @@ import { memo } from "react";
 import CustomTable, {
   ColumnConfig,
 } from "@/component/table/CustomTable/CustomTable";
+import { DateSummary } from "@/type/Date";
 
 /**
  * 日付ページのテーブルコンポーネント
@@ -23,7 +24,7 @@ const DailyTable = memo(function DailyTable() {
   } = DailyTableLogic();
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
-  const columnsConfig: ColumnConfig<(typeof itemList)[0]>[] = [
+  const columnsConfig: ColumnConfig<DateSummary & { id: number }>[] = [
     { key: "date", title: "日付", labelProp: "sortable" },
     {
       key: "categoryName",
@@ -65,12 +66,11 @@ const DailyTable = memo(function DailyTable() {
         </Stack>
       ),
     },
-
     { key: "dailyHours", title: "合計稼働時間", labelProp: "sortable" },
   ];
   return (
     <>
-      <CustomTable
+      <CustomTable<DateSummary & { id: number }>
         data={itemList}
         columns={columnsConfig}
         stickyHeader
