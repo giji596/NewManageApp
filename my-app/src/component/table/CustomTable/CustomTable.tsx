@@ -54,6 +54,8 @@ type CustomTableProps<T> = {
    * - onClickイベントと同時にて併用すると機能しないため注意
    */
   collapsibleItemKey?: keyof T;
+  /** ヘッダーの固定の有無 */
+  stickyHeader?: boolean;
   /** デフォルトのソート対象 */
   initialTarget?: string;
   /** 選択中のid(rowのselectedでハイライト) */
@@ -69,11 +71,14 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
   data,
   columns,
   collapsibleItemKey,
+  stickyHeader,
   initialTarget,
   selectedId,
   onClickRow,
 }: CustomTableProps<T>) {
   const {
+    bodyStyle,
+    headerStyle,
     isAsc,
     isSelected,
     handleClickSortLabel,
@@ -92,12 +97,12 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
     CustomMenuWrapperLogic();
   return (
     <>
-      <Table>
+      <Table sx={{ tableLayout: "fixed" }} stickyHeader={stickyHeader}>
         {/** ヘッダー部分 */}
         <TableHead>
           <TableRow>
             {columns.map((col) => (
-              <TableCell key={String(col.key)} sx={{ width: col.width }}>
+              <TableCell key={String(col.key)} sx={headerStyle(col)}>
                 {/** ソートラベル */}
                 {col.labelProp === "sortable" && (
                   <CustomHeaderSortLabel
@@ -146,7 +151,7 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                 >
                   {columns.map((col) => (
                     /** データ内のprop数分のセルを展開 */
-                    <TableCell key={String(col.key)}>
+                    <TableCell key={String(col.key)} sx={bodyStyle}>
                       {/** お気に入りラベルの場合は星を表示 */}
                       {col.labelProp === "favoriteToggle" &&
                         (row[col.key] ? (

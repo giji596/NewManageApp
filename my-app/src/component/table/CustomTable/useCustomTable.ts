@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColumnConfig } from "./CustomTable";
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
+import { SxProps, Theme } from "@mui/material";
 
 type Props<T> = {
   /** データ一覧 */
@@ -19,6 +20,32 @@ export const useCustomTable = <T extends object>({
   columns,
   initialTarget,
 }: Props<T>) => {
+  // UI関連
+  const bodyStyle = useMemo(
+    () => ({
+      textAlign: "center",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+    }),
+    []
+  );
+  const headerStyle = useCallback((col: ColumnConfig<T>): SxProps<Theme> => {
+    const style: SxProps<Theme> = {
+      textAlign: "center",
+      pl:
+        col.labelProp === "sortable" ||
+        col.labelProp === "sortableAndFilterable"
+          ? 4
+          : 2,
+    };
+
+    if (col.width !== undefined) {
+      style.width = col.width;
+    }
+
+    return style;
+  }, []);
   const getSortTarget = useCallback(
     (
       a: T,
@@ -134,6 +161,10 @@ export const useCustomTable = <T extends object>({
   );
 
   return {
+    /** ボディ部分のスタイル */
+    bodyStyle,
+    /** ヘッダー部分のスタイル */
+    headerStyle,
     /** ソートが昇順か降順か */
     isAsc,
     /** ソート対象に選択されているかどうかを調べる */
