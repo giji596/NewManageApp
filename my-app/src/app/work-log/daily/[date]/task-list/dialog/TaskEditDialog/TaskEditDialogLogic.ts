@@ -31,11 +31,6 @@ export default function TaskEditDialogLogic({
   // ぱらめーた
   const { date } = useParams<{ date: string }>();
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
-  // 初期値保存(更新処理時に比較に仕様)
-  const initialValues = useRef<{ taskId: number; dailyHours: number }>({
-    taskId: initialTaskId,
-    dailyHours: initialHours,
-  });
   // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
   const [hasInitialized, setHasInitialized] = useState<boolean>(false);
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -146,10 +141,8 @@ export default function TaskEditDialogLogic({
   const handleSave = useCallback(async () => {
     // 各stateの値について、初期値と一緒なら処理に含めない
     const body: Record<string, number> = {};
-    if (initialValues.current.dailyHours !== dailyHours)
-      body.workTime = dailyHours;
-    if (initialValues.current.taskId !== taskId && taskId !== null)
-      body.taskId = taskId;
+    if (initialHours !== dailyHours) body.workTime = dailyHours;
+    if (initialTaskId !== taskId && taskId !== null) body.taskId = taskId;
     if (initProgress !== progress && progress !== null)
       body.progress = progress;
     // bodyで必要な値だけ渡す
@@ -168,7 +161,17 @@ export default function TaskEditDialogLogic({
         }
       }
     }
-  }, [dailyHours, date, initProgress, itemId, onClose, progress, taskId]);
+  }, [
+    dailyHours,
+    date,
+    initProgress,
+    initialHours,
+    initialTaskId,
+    itemId,
+    onClose,
+    progress,
+    taskId,
+  ]);
   const handleDelete = useCallback(async () => {
     await localClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
