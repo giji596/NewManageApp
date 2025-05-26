@@ -14,6 +14,7 @@ import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrap
 import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import CustomHeaderSortLabel from "../header/CustomHeaderSortLabel/CustomHeaderSortLabel";
+import HeaderFavoriteLabel from "../header/HeaderFavoriteLabel/HeaderFavoriteLabel";
 
 /**
  * ラベルの選択賜
@@ -78,6 +79,8 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
     filterList,
     toggleFilterCheckBox,
     doFilter,
+    isFavoriteChecked,
+    toggleFavoriteCheck,
   } = useCustomTable({
     data,
     columns,
@@ -112,6 +115,13 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                     onClickTitle={handleClickSortLabel}
                     onHoverTitle={handleMouseEnter}
                     onLeaveTitle={handleMouseLeave}
+                  />
+                )}
+                {/** お気に入りラベル */}
+                {col.labelProp === "favoriteToggle" && (
+                  <HeaderFavoriteLabel
+                    isChecked={isFavoriteChecked}
+                    onClick={toggleFavoriteCheck}
                   />
                 )}
                 {col.labelProp === undefined && col.title}

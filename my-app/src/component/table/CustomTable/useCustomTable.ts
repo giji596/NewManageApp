@@ -41,7 +41,14 @@ export const useCustomTable = <T extends object>({
     [columns]
   );
   // ソート関連
-  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+  const {
+    isAsc,
+    isSelected,
+    handleClickSortLabel,
+    doSort,
+    isFavoriteChecked,
+    toggleFavoriteCheck,
+  } = useTableSort({
     initialTarget: initialTarget ?? null,
     getSortTarget,
   });
@@ -141,5 +148,9 @@ export const useCustomTable = <T extends object>({
     toggleFilterCheckBox,
     /** フィルターする関数 */
     doFilter,
+    /** お気に入りのソートのチェック */
+    isFavoriteChecked,
+    /** お気に入りのソートを切り替えるハンドラー */
+    toggleFavoriteCheck,
   };
 };
