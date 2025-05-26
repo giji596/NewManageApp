@@ -13,6 +13,7 @@ import { useCustomTable } from "./useCustomTable";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuCheckBox from "@/component/menu/content/CustomMenuCheckBox/CustomMenuCheckBox";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
+import CustomHeaderSortLabel from "../header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 
 /**
  * ラベルの選択賜
@@ -92,13 +93,23 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
           <TableRow>
             {columns.map((col) => (
               <TableCell key={String(col.key)} sx={{ width: col.width }}>
+                {/** ソートラベル */}
+                {col.labelProp === "sortable" && (
+                  <CustomHeaderSortLabel
+                    title={col.title}
+                    isSelected={isSelected(col.title)}
+                    isAsc={isAsc}
+                    onClickTitle={handleClickSortLabel}
+                  />
+                )}
+                {/** ソートフィルターラベル */}
                 {col.labelProp === "sortableAndFilterable" && (
                   <CustomHeaderSortCheckLabel
                     title={col.title}
                     isSelected={isSelected(col.title)}
                     isAsc={isAsc}
                     refId={String(col.key)}
-                    onClickTitle={handleClickSortLabel} //TODO
+                    onClickTitle={handleClickSortLabel}
                     onHoverTitle={handleMouseEnter}
                     onLeaveTitle={handleMouseLeave}
                   />
