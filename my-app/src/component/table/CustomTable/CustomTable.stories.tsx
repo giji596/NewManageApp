@@ -8,6 +8,7 @@ type RowType = {
   isFavorite: boolean;
   workHours: number;
   city: string;
+  collapseText: string;
 };
 type CustomTableProps<T> = {
   /** 任意のデータ */
@@ -37,6 +38,7 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: true,
         workHours: 40,
         city: "New York",
+        collapseText: "This is collapse text",
       },
       {
         id: 2,
@@ -45,6 +47,7 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: false,
         workHours: 35,
         city: "Los Angeles",
+        collapseText: "This is collapse text",
       },
       {
         id: 3,
@@ -53,6 +56,7 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: true,
         workHours: 30,
         city: "Chicago",
+        collapseText: "This is collapse text",
       },
       {
         id: 4,
@@ -61,14 +65,16 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: false,
         workHours: 45,
         city: "San Francisco",
+        collapseText: "This is collapse text",
       },
       {
         id: 5,
-        name: "Mike",
-        age: 28,
+        name: "John",
+        age: 18,
         isFavorite: true,
-        workHours: 38,
-        city: "Seattle",
+        workHours: 40,
+        city: "New York",
+        collapseText: "This is collapse text",
       },
       {
         id: 6,
@@ -77,6 +83,7 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: false,
         workHours: 42,
         city: "Boston",
+        collapseText: "This is collapse text",
       },
       {
         id: 7,
@@ -85,6 +92,7 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: true,
         workHours: 48,
         city: "Washington D.C.",
+        collapseText: "This is collapse text",
       },
       {
         id: 8,
@@ -93,6 +101,7 @@ const meta: Meta<CustomTableProps<RowType>> = {
         isFavorite: false,
         workHours: 50,
         city: "Atlanta",
+        collapseText: "This is collapse text",
       },
     ],
     columns: [
@@ -114,3 +123,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Loading: Story = { args: { loading: true } };
 export const NoData: Story = { args: { data: [] } };
+export const Collapsable: Story = {
+  args: { collapsibleItemKey: "collapseText", selectedId: 8 },
+};

@@ -156,9 +156,15 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                 <>
                   {/** データの分の行を展開 */}
                   <TableRow
+                    hover={selectedId !== undefined} // 選択設定がある場合のみhover有効
                     key={row.id}
                     onClick={onClickRow ? () => onClickRow(row.id) : undefined}
                     selected={selectedId === row.id}
+                    sx={{
+                      "& *": {
+                        borderBottom: collapsibleItemKey ? "none" : undefined,
+                      },
+                    }}
                   >
                     {columns.map((col) => (
                       /** データ内のprop数分のセルを展開 */
