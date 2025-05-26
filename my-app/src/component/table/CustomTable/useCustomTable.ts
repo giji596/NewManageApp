@@ -52,6 +52,7 @@ export const useCustomTable = <T extends object>({
       b: T,
       target: string | null
     ): { c: TableSortTargetType; d: TableSortTargetType } => {
+      if (target === null) return { c: null, d: null };
       const key = columns.find((col) => col.title === target)?.key;
       if (key === undefined) {
         throw new Error(`target(${target}) is not found in columns`);
