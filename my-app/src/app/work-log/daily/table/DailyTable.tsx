@@ -1,22 +1,16 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import DailyTableLogic from "./logic";
-import DailyTableHeader from "./header/DailyTableHeader";
-import { format } from "date-fns";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import CustomMenuTitle from "@/component/menu/content/CustomMenuTitle/CustomMenuTitle";
-import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
-import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 import { memo } from "react";
+import CustomTable, {
+  ColumnConfig,
+} from "@/component/table/CustomTable/CustomTable";
+import { DateSummary } from "@/type/Date";
+import { format } from "date-fns";
 
 /**
  * 日付ページのテーブルコンポーネント
@@ -26,136 +20,71 @@ const DailyTable = memo(function DailyTable() {
     itemList,
     isLoading,
     dateToId,
-    dateToParam,
-    isAsc,
-    taskFilterChildProps,
-    categoryFilterChildProps,
-    isSelected,
-    handleClickSortLabel,
-    doSort,
     getMemoTitleArrayById,
-    doFilterByFilterList,
     handleNavigateSelectedDay,
   } = DailyTableLogic();
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
+  const columnsConfig: ColumnConfig<DateSummary & { id: number }>[] = [
+    {
+      key: "date",
+      title: "日付",
+      labelProp: "sortable",
+      renderCell: (item) => <>{format(item.date, "yyyy-MM-dd")}</>,
+    },
+    {
+      key: "categoryName",
+      title: "メインカテゴリ",
+      labelProp: "sortableAndFilterable",
+    },
+    {
+      key: "taskName",
+      title: "メインタスク",
+      labelProp: "sortableAndFilterable",
+    },
+    {
+      key: "memo",
+      title: "メモ",
+      renderCell: (item) => (
+        <Stack
+          onMouseEnter={(e) => handleMouseEnter(dateToId(item.date), e)}
+          onMouseLeave={() => handleMouseLeave(dateToId(item.date))}
+          alignItems="center"
+        >
+          {item.memo.length > 0 && (
+            <>
+              <Typography
+                sx={{
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {item.memo[0].title}
+              </Typography>
+              <KeyboardArrowDownIcon
+                sx={{
+                  opacity: 0.6,
+                  fontSize: 20,
+                }}
+              />
+            </>
+          )}
+        </Stack>
+      ),
+    },
+    { key: "dailyHours", title: "合計稼働時間", labelProp: "sortable" },
+  ];
   return (
     <>
-      <TableContainer>
-        <Table
-          sx={{ width: "100%", padding: "16px 24px", tableLayout: "fixed" }}
-        >
-          <DailyTableHeader
-            isAsc={isAsc}
-            isSelected={isSelected}
-            taskFilterLogic={taskFilterChildProps}
-            categoryFilterLogic={categoryFilterChildProps}
-            onClickTitle={handleClickSortLabel}
-          />
-          <TableBody>
-            {isLoading && <TableBodyLoading colCount={5} />}
-            {!isLoading && itemList.length === 0 && (
-              <TableBodyNoItem colCount={5} />
-            )}
-            {!isLoading &&
-              itemList.length > 0 &&
-              itemList
-                .filter((item) => doFilterByFilterList(item))
-                .sort(doSort)
-                .map((item) => (
-                  <TableRow
-                    key={item.date.toISOString()}
-                    hover
-                    onClick={() =>
-                      handleNavigateSelectedDay(dateToParam(item.date))
-                    }
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    {/** 日付 */}
-                    <TableCell
-                      sx={{
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      <Typography>{format(item.date, "yyyy-MM-dd")}</Typography>
-                    </TableCell>
-                    {/** メインカテゴリ */}
-                    <TableCell
-                      sx={{
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.categoryName}
-                    </TableCell>
-                    {/** メインタスク */}
-                    <TableCell
-                      sx={{
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.taskName}
-                    </TableCell>
-                    {/** メモ(0番目のめもを表示) */}
-                    <TableCell
-                      sx={{
-                        gap: 2,
-                        borderRadius: "4px",
-                        transition: "background 0.5s",
-                        "&:hover": {
-                          backgroundColor:
-                            item.memo.length > 0
-                              ? "rgba(31, 158, 255, 0.37)"
-                              : "",
-                        },
-                      }}
-                      onMouseEnter={(e) =>
-                        handleMouseEnter(dateToId(item.date), e)
-                      }
-                      onMouseLeave={() => handleMouseLeave(dateToId(item.date))}
-                    >
-                      {item.memo.length > 0 && (
-                        <>
-                          <Typography
-                            sx={{
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            {item.memo[0].title}
-                          </Typography>
-                          <KeyboardArrowDownIcon
-                            sx={{
-                              opacity: 0.6,
-                              fontSize: 20,
-                            }}
-                          />
-                        </>
-                      )}
-                    </TableCell>
-                    {/** 稼働合計 */}
-                    <TableCell
-                      sx={{
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      <Typography>{item.dailyHours}</Typography>
-                    </TableCell>
-                  </TableRow>
-                ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <CustomTable<DateSummary & { id: number }>
+        data={itemList}
+        columns={columnsConfig}
+        stickyHeader
+        loading={isLoading}
+        initialTarget={"日付"}
+        onClickRow={handleNavigateSelectedDay}
+      />
       {/** カスタムメニューの面々   */}
       <CustomMenuWrapper
         logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}

@@ -71,7 +71,7 @@ type CustomTableProps<T> = {
 /**
  * カスタムテーブル
  */
-const CustomTable = memo(function CustomTable<T extends { id: number }>({
+function InnerTable<T extends { id: number }>({
   data,
   columns,
   collapsibleItemKey,
@@ -228,5 +228,6 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
       )}
     </>
   );
-});
+}
+const CustomTable = memo(InnerTable) as typeof InnerTable;
 export default CustomTable;
