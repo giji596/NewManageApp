@@ -163,6 +163,7 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                       "& *": {
                         borderBottom: collapsibleItemKey ? "none" : undefined,
                       },
+                      cursor: onClickRow ? "pointer" : undefined,
                     }}
                   >
                     {columns.map((col) => (
