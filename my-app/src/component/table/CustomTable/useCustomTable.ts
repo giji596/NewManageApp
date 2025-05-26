@@ -3,6 +3,7 @@ import { ColumnConfig } from "./CustomTable";
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
 import { SxProps, Theme } from "@mui/material";
+import { getValueByNestedKey, NestedKeys } from "@/lib/table";
 
 type Props<T> = {
   /** データ一覧 */
@@ -57,12 +58,14 @@ export const useCustomTable = <T extends object>({
       if (key === undefined) {
         throw new Error(`target(${target}) is not found in columns`);
       }
+      const c = getValueByNestedKey(a, key);
+      const d = getValueByNestedKey(b, key);
       if (
-        (typeof a[key] === "string" && typeof b[key] === "string") ||
-        (typeof a[key] === "number" && typeof b[key] === "number") ||
-        (a[key] instanceof Date && b[key] instanceof Date)
+        (typeof c === "string" && typeof d === "string") ||
+        (typeof c === "number" && typeof d === "number") ||
+        (c instanceof Date && d instanceof Date)
       ) {
-        return { c: a[key], d: b[key] };
+        return { c, d };
       }
       throw new Error();
     },
@@ -90,7 +93,7 @@ export const useCustomTable = <T extends object>({
       if (col.labelProp === "sortableAndFilterable") {
         const key = col.key as string;
 
-        const values = data.map((row) => row[col.key]);
+        const values = data.map((row) => getValueByNestedKey(row, col.key));
         const uniqueValues = Array.from(new Set(values));
 
         filterList[key] = {};
@@ -148,7 +151,7 @@ export const useCustomTable = <T extends object>({
       // 各key(name,categoryなど)で検証
       Object.entries(filterList).forEach(([key]) => {
         // valueを取得(item.name など)
-        const value = item[key as keyof T];
+        const value = getValueByNestedKey(item, key as NestedKeys<T>);
         // nullチェック
         if (value !== undefined && value !== null) {
           const name = String(value);
