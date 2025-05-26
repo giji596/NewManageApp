@@ -17,6 +17,8 @@ import CustomHeaderSortLabel from "../header/CustomHeaderSortLabel/CustomHeaderS
 import HeaderFavoriteLabel from "../header/HeaderFavoriteLabel/HeaderFavoriteLabel";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
+import TableBodyLoading from "../body/TableBodyLoading/TableBodyLoading";
+import TableBodyNoItem from "../body/TableBodyNoItem/TableBodyNoItem";
 
 /**
  * ラベルの選択賜
@@ -56,6 +58,8 @@ type CustomTableProps<T> = {
   collapsibleItemKey?: keyof T;
   /** ヘッダーの固定の有無 */
   stickyHeader?: boolean;
+  /** ロード状態 */
+  loading?: boolean;
   /** デフォルトのソート対象 */
   initialTarget?: string;
   /** 選択中のid(rowのselectedでハイライト) */
@@ -72,6 +76,7 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
   columns,
   collapsibleItemKey,
   stickyHeader,
+  loading,
   initialTarget,
   selectedId,
   onClickRow,
@@ -138,56 +143,62 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
         </TableHead>
         {/** ボディ部分 */}
         <TableBody>
-          {data
-            .filter(doFilter)
-            .sort(doSort)
-            .map((row) => (
-              <>
-                {/** データの分の行を展開 */}
-                <TableRow
-                  key={row.id}
-                  onClick={onClickRow ? () => onClickRow(row.id) : undefined}
-                  selected={selectedId === row.id}
-                >
-                  {columns.map((col) => (
-                    /** データ内のprop数分のセルを展開 */
-                    <TableCell key={String(col.key)} sx={bodyStyle}>
-                      {/** お気に入りラベルの場合は星を表示 */}
-                      {col.labelProp === "favoriteToggle" &&
-                        (row[col.key] ? (
-                          <StarIcon color="primary" />
-                        ) : (
-                          <StarBorderIcon />
-                        ))}
-                      {/** レンダーセルであれば任意のコンポーネントを、そうでなければそのまま値を表示 */}
-                      {col.labelProp !== "favoriteToggle" &&
-                        (col.renderCell
-                          ? col.renderCell(row)
-                          : String(row[col.key] ?? ""))}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                {/** 展開行(設定している場合) */}
-                {collapsibleItemKey && (
-                  <TableRow>
-                    <TableCell
-                      style={{ paddingBottom: 0, paddingTop: 0 }}
-                      colSpan={columns.length}
-                    >
-                      <Collapse
-                        in={selectedId === row.id}
-                        timeout="auto"
-                        unmountOnExit
-                      >
-                        <Box margin={1}>
-                          {String(row[collapsibleItemKey] ?? "")}
-                        </Box>
-                      </Collapse>
-                    </TableCell>
+          {loading && <TableBodyLoading colCount={columns.length} />}
+          {!loading && data.length === 0 && (
+            <TableBodyNoItem colCount={columns.length} />
+          )}
+          {!loading &&
+            data.length > 0 &&
+            data
+              .filter(doFilter)
+              .sort(doSort)
+              .map((row) => (
+                <>
+                  {/** データの分の行を展開 */}
+                  <TableRow
+                    key={row.id}
+                    onClick={onClickRow ? () => onClickRow(row.id) : undefined}
+                    selected={selectedId === row.id}
+                  >
+                    {columns.map((col) => (
+                      /** データ内のprop数分のセルを展開 */
+                      <TableCell key={String(col.key)} sx={bodyStyle}>
+                        {/** お気に入りラベルの場合は星を表示 */}
+                        {col.labelProp === "favoriteToggle" &&
+                          (row[col.key] ? (
+                            <StarIcon color="primary" />
+                          ) : (
+                            <StarBorderIcon />
+                          ))}
+                        {/** レンダーセルであれば任意のコンポーネントを、そうでなければそのまま値を表示 */}
+                        {col.labelProp !== "favoriteToggle" &&
+                          (col.renderCell
+                            ? col.renderCell(row)
+                            : String(row[col.key] ?? ""))}
+                      </TableCell>
+                    ))}
                   </TableRow>
-                )}
-              </>
-            ))}
+                  {/** 展開行(設定している場合) */}
+                  {collapsibleItemKey && (
+                    <TableRow>
+                      <TableCell
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        colSpan={columns.length}
+                      >
+                        <Collapse
+                          in={selectedId === row.id}
+                          timeout="auto"
+                          unmountOnExit
+                        >
+                          <Box margin={1}>
+                            {String(row[collapsibleItemKey] ?? "")}
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
+              ))}
         </TableBody>
       </Table>
       {Object.keys(filterList).map(
