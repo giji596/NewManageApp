@@ -14,6 +14,9 @@ import TaskTableLogic from "./TaskTableLogic";
 import CustomMenuWrapperLogic from "@/component/menu/CustomMenuWrapper/CustomMenuWrapperLogic";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
+import CustomTable, {
+  ColumnConfig,
+} from "@/component/table/CustomTable/CustomTable";
 
 type Props = {
   /** タスク一覧 */
@@ -48,8 +51,31 @@ export default function TaskTable({
   } = TaskTableLogic({ taskList });
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
+  const columnsConfig: ColumnConfig<DailyDetailTaskTableType>[] = [
+    {
+      key: "task",
+      title: "タスク",
+      labelProp: "sortableAndFilterable",
+    },
+    {
+      key: "category",
+      title: "カテゴリ",
+      labelProp: "sortableAndFilterable",
+    },
+    {
+      key: "dailyHours",
+      title: "稼働時間",
+      labelProp: "sortable",
+    },
+  ];
   return (
     <>
+      <CustomTable<DailyDetailTaskTableType>
+        data={taskList}
+        columns={columnsConfig}
+        loading={isLoading}
+        onClickRow={onClickRow}
+      />
       <TableContainer>
         <Table
           sx={{ tableLayout: "fixed", width: "100%", padding: "16px 24px" }}
