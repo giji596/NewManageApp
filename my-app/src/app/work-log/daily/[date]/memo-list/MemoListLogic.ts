@@ -1,17 +1,20 @@
 import { localClient } from "@/lib/localClient";
+import { MemoDailyTask } from "@/type/Memo";
 import { useParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 
 type Props = {
   /** 選択中のタスクのid(ハイライトように) */
   selectedItemTaskId: number;
+  /** ダイアログ(編集)開くよう */
+  onOpen: () => void;
 };
 
 /**
  * 日付詳細 - メモリストのロジック部分
  */
-export default function MemoListLogic({ selectedItemTaskId }: Props) {
+export default function MemoListLogic({ selectedItemTaskId, onOpen }: Props) {
   // データフェッチ
   const { date: dateParam } = useParams<{ date: string }>();
   const { data, isLoading } = useSWR(
@@ -30,6 +33,17 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
       }
     },
     [selectedRowId]
+  );
+
+  // データ編集関連
+  // 対象を保持
+  const editTarget = useRef<MemoDailyTask | null>(null);
+  const onClickEditButton = useCallback(
+    (item: MemoDailyTask) => {
+      editTarget.current = item;
+      onOpen();
+    },
+    [onOpen]
   );
 
   const backgroundColor = useCallback(
@@ -52,5 +66,9 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     handleClickRow,
     /** 背景色 */
     backgroundColor,
+    /** 編集対象 */
+    editTarget,
+    /** 編集のボタンを押した際のハンドラー(編集ターゲット指定 + ダイアログの開閉) */
+    onClickEditButton,
   };
 }
