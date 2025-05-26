@@ -156,13 +156,14 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
                 <Fragment key={row.id}>
                   {/** データの分の行を展開 */}
                   <TableRow
-                    hover={selectedId !== undefined} // 選択設定がある場合のみhover有効
+                    hover={selectedId !== undefined || onClickRow !== undefined} // 選択設定がある場合のみhover有効
                     onClick={onClickRow ? () => onClickRow(row.id) : undefined}
                     selected={selectedId === row.id}
                     sx={{
                       "& *": {
                         borderBottom: collapsibleItemKey ? "none" : undefined,
                       },
+                      cursor: onClickRow ? "pointer" : undefined,
                     }}
                   >
                     {columns.map((col) => (

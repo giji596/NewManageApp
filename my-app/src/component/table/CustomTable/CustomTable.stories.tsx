@@ -121,8 +121,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const ClickEvent: Story = {
+  args: {
+    onClickRow: () => {},
+  },
+};
 export const Loading: Story = { args: { loading: true } };
 export const NoData: Story = { args: { data: [] } };
 export const Collapsable: Story = {
-  args: { collapsibleItemKey: "collapseText", selectedId: 8 },
+  args: {
+    collapsibleItemKey: "collapseText",
+    selectedId: 8,
+    onClickRow: () => {},
+  },
 };
