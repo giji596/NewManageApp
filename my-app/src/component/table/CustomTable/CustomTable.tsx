@@ -36,7 +36,7 @@ export type ColumnConfig<T> = {
   /** タイトル名 */
   title: string;
   /** 固定幅 */
-  width?: number;
+  width?: number | string;
   /**
    * ラベルの選択賜 設定なし: 通常ラベル
    * - sortable: ソート可能
