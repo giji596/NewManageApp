@@ -1,21 +1,26 @@
-import useTableFilter from "@/hook/useTableFilter";
-import useTableSort from "@/hook/useTableSort";
 import { localClient } from "@/lib/localClient";
 import { MemoDailyTask } from "@/type/Memo";
-import { TableSortTargetType } from "@/type/Table";
 import { useParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 
 type Props = {
   /** 選択中のタスクのid(ハイライトように) */
   selectedItemTaskId: number;
+  /** ダイアログ(編集)開くよう */
+  onOpen: () => void;
+  /** ダイアログ(編集)閉じるよう */
+  onClose: () => void;
 };
 
 /**
  * 日付詳細 - メモリストのロジック部分
  */
-export default function MemoListLogic({ selectedItemTaskId }: Props) {
+export default function MemoListLogic({
+  selectedItemTaskId,
+  onOpen,
+  onClose,
+}: Props) {
   // データフェッチ
   const { date: dateParam } = useParams<{ date: string }>();
   const { data, isLoading } = useSWR(
@@ -23,70 +28,7 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     localClient.work_log.daily._date(dateParam).get()
   );
   const memoItemList = useMemo(() => data?.memoList ?? [], [data]);
-  // itemリストに存在するタスク一覧
-  const defaultTaskFilterList = useMemo(
-    () =>
-      memoItemList.reduce((a: Record<string, boolean>, b) => {
-        const taskName = b.task.name;
-        if (!(taskName in a)) {
-          a[taskName] = false;
-        }
-        return a;
-      }, {}),
-    [memoItemList]
-  );
-  // タグ一覧
-  const defaultTagFilterList = useMemo(
-    () =>
-      memoItemList.reduce((a: Record<string, boolean>, b) => {
-        const tagName = b.tagName;
-        if (!(tagName in a)) {
-          a[tagName] = false;
-        }
-        return a;
-      }, {}),
-    [memoItemList]
-  );
-
-  // ソート関数
-  const getSortTarget = useCallback(
-    (
-      a: MemoDailyTask,
-      b: MemoDailyTask,
-      target: string | null
-    ): { c: TableSortTargetType; d: TableSortTargetType } => {
-      switch (target) {
-        case "タイトル":
-          return { c: a.title, d: b.title };
-        case "タスク名":
-          return { c: a.task.name, d: b.task.name };
-        default:
-          return { c: a.id, d: b.id };
-      }
-    },
-    []
-  );
-
-  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
-    initialTarget: null,
-    getSortTarget,
-  });
-  const {
-    filterList: taskFilterList,
-    toggleFilterCheckBox: toggleTaskFilterCheckBox,
-    doFilterByFilterList: doFilterByTaskFilterList,
-  } = useTableFilter({ initialFilterList: defaultTaskFilterList });
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
-
-  const {
-    filterList: tagFilterList,
-    toggleFilterCheckBox: toggleTagFilterCheckBox,
-    doFilterByFilterList: doFilterByTagFilterList,
-  } = useTableFilter({ initialFilterList: defaultTagFilterList });
-  const isActiveRow = useCallback(
-    (id: number) => selectedRowId === id,
-    [selectedRowId]
-  );
 
   const handleClickRow = useCallback(
     (id: number) => {
@@ -99,23 +41,26 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     [selectedRowId]
   );
 
-  const doFilterByFilterList = useCallback(
+  // データ編集関連
+  // 対象を保持
+  const editTarget = useRef<MemoDailyTask | null>(null);
+  const onClickEditButton = useCallback(
     (item: MemoDailyTask) => {
-      let result: boolean;
-      // タスク名でフィルターする
-      result = doFilterByTaskFilterList(item.task.name);
-      // フィルター対象外(true)の場合はタグでも検証
-      if (result) {
-        result = doFilterByTagFilterList(item.tagName);
-      }
-      // フィルター結果(false=フィルター対象)
-      return result;
+      editTarget.current = item;
+      onOpen();
     },
-    [doFilterByTagFilterList, doFilterByTaskFilterList]
+    [onOpen]
   );
 
-  const isSelectedTaskRow = useCallback(
-    (id: number) => selectedItemTaskId === id,
+  const onCloseEdit = useCallback(() => {
+    editTarget.current = null;
+    onClose();
+  }, [onClose]);
+
+  const backgroundColor = useCallback(
+    // ハイライト時には薄い青色 (選択時はselectedによって上書きされるので注意)
+    (row: MemoDailyTask) =>
+      selectedItemTaskId === row.task.id ? "table.highlighted" : "",
     [selectedItemTaskId]
   );
   return {
@@ -123,32 +68,20 @@ export default function MemoListLogic({ selectedItemTaskId }: Props) {
     memoItemList,
     /** メモのローディング状態 */
     isLoading,
-    /** 指定されたidの列がアクティブかどうかを求める */
-    isActiveRow,
+    /** 選択中のid */
+    selectedRowId,
     /** 行をクリックした際のハンドラー
      * 指定した行をActiveにする
      * すでにActiveなら非Activeにする
      */
     handleClickRow,
-    /** ソートが昇順か降順か */
-    isAsc,
-    /** ソート対象に選択されているかどうかを調べる */
-    isSelected,
-    /** ソート対象に選択するハンドラー */
-    handleClickSortLabel,
-    /** ソートする関数 */
-    doSort,
-    /** タスクのフィルター対象の一覧(key:value=string:booleanのオブジェクト) */
-    taskFilterList,
-    /** タスクのフィルターリストのチェックボックスを切り替える関数 */
-    toggleTaskFilterCheckBox,
-    /** タグのフィルター対象の一覧(key:value=string:booleanのオブジェクト) */
-    tagFilterList,
-    /** タグのフィルターリストのチェックボックスを切り替える関数 */
-    toggleTagFilterCheckBox,
-    /** フィルターリストに応じてフィルターする関数 */
-    doFilterByFilterList,
-    /** 選択中のタスクと関連する行か */
-    isSelectedTaskRow,
+    /** 背景色 */
+    backgroundColor,
+    /** 編集対象 */
+    editTarget,
+    /** 編集のボタンを押した際のハンドラー(編集ターゲット指定 + ダイアログの開閉) */
+    onClickEditButton,
+    /** 編集のダイアログを閉じる際のハンドラー(編集ターゲットnull化 + ダイアログ閉じる) */
+    onCloseEdit,
   };
 }

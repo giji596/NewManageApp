@@ -36,7 +36,7 @@ export type ColumnConfig<T> = {
   /** タイトル名 */
   title: string;
   /** 固定幅 */
-  width?: number;
+  width?: number | string;
   /**
    * ラベルの選択賜 設定なし: 通常ラベル
    * - sortable: ソート可能
@@ -67,6 +67,8 @@ type CustomTableProps<T> = {
   selectedId?: number | null;
   /** 行のクリック時のハンドラー */
   onClickRow?: (id: number) => void;
+  /** 行の色 */
+  rowColor?: string | ((row: T) => string);
 };
 
 /**
@@ -81,6 +83,7 @@ function InnerTable<T extends { id: number }>({
   initialTarget,
   selectedId,
   onClickRow,
+  rowColor,
 }: CustomTableProps<T>) {
   const {
     bodyStyle,
@@ -161,6 +164,10 @@ function InnerTable<T extends { id: number }>({
                     onClick={onClickRow ? () => onClickRow(row.id) : undefined}
                     selected={selectedId === row.id}
                     sx={{
+                      bgcolor:
+                        typeof rowColor === "string"
+                          ? rowColor
+                          : rowColor?.(row),
                       "& *": {
                         borderBottom: collapsibleItemKey ? "none" : undefined,
                       },
