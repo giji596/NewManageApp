@@ -142,10 +142,12 @@ export default function DailyTableLogic() {
   const router = useRouter();
 
   const handleNavigateSelectedDay = useCallback(
-    (dateParam: string) => {
+    (id: number) => {
+      const target = itemList.find((v) => v.id === id);
+      const dateParam = dateToParam(target?.date ?? new Date());
       router.push(`/work-log/daily/${dateParam}`);
     },
-    [router]
+    [dateToParam, itemList, router]
   );
 
   return {
