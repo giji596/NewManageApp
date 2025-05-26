@@ -27,8 +27,12 @@ export default function DailyTableLogic() {
   );
   const itemList = useMemo(
     () =>
-      (data ?? []).map((v) => {
-        return { ...v, date: new Date(v.date) };
+      (data ?? []).map((v, idx) => {
+        return {
+          ...v,
+          date: new Date(v.date),
+          id: idx,
+        };
       }),
     [data]
   );
