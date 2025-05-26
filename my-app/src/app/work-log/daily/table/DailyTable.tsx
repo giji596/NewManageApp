@@ -10,6 +10,7 @@ import CustomTable, {
   ColumnConfig,
 } from "@/component/table/CustomTable/CustomTable";
 import { DateSummary } from "@/type/Date";
+import { format } from "date-fns";
 
 /**
  * 日付ページのテーブルコンポーネント
@@ -25,7 +26,12 @@ const DailyTable = memo(function DailyTable() {
   const { handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev } =
     CustomMenuWrapperLogic();
   const columnsConfig: ColumnConfig<DateSummary & { id: number }>[] = [
-    { key: "date", title: "日付", labelProp: "sortable" },
+    {
+      key: "date",
+      title: "日付",
+      labelProp: "sortable",
+      renderCell: (item) => <>{format(item.date, "yyyy-MM-dd")}</>,
+    },
     {
       key: "categoryName",
       title: "メインカテゴリ",
@@ -43,6 +49,7 @@ const DailyTable = memo(function DailyTable() {
         <Stack
           onMouseEnter={(e) => handleMouseEnter(dateToId(item.date), e)}
           onMouseLeave={() => handleMouseLeave(dateToId(item.date))}
+          alignItems="center"
         >
           {item.memo.length > 0 && (
             <>
