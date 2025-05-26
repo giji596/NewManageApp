@@ -54,6 +54,8 @@ type CustomTableProps<T> = {
    * - onClickイベントと同時にて併用すると機能しないため注意
    */
   collapsibleItemKey?: keyof T;
+  /** ヘッダーの固定の有無 */
+  stickyHeader?: boolean;
   /** デフォルトのソート対象 */
   initialTarget?: string;
   /** 選択中のid(rowのselectedでハイライト) */
@@ -69,6 +71,7 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
   data,
   columns,
   collapsibleItemKey,
+  stickyHeader,
   initialTarget,
   selectedId,
   onClickRow,
@@ -92,7 +95,7 @@ const CustomTable = memo(function CustomTable<T extends { id: number }>({
     CustomMenuWrapperLogic();
   return (
     <>
-      <Table>
+      <Table sx={{ tableLayout: "fixed" }} stickyHeader={stickyHeader}>
         {/** ヘッダー部分 */}
         <TableHead>
           <TableRow>
