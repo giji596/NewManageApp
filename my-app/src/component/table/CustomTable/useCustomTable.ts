@@ -1,16 +1,50 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColumnConfig } from "./CustomTable";
+import useTableSort from "@/hook/useTableSort";
+import { TableSortTargetType } from "@/type/Table";
 
 type Props<T> = {
   /** データ一覧 */
   data: T[];
   /** 各行の構成 */
   columns: ColumnConfig<T>[];
+  /** デフォルトのソート対象 */
+  initialTarget?: string;
 };
 /**
  * カスタムテーブルのロジック
  */
-export const useCustomTable = <T>({ data, columns }: Props<T>) => {
+export const useCustomTable = <T extends object>({
+  data,
+  columns,
+  initialTarget,
+}: Props<T>) => {
+  const getSortTarget = useCallback(
+    (
+      a: T,
+      b: T,
+      target: string | null
+    ): { c: TableSortTargetType; d: TableSortTargetType } => {
+      const key = columns.find((col) => col.title === target)?.key;
+      if (key === undefined) {
+        throw new Error(`target(${target}) is not found in columns`);
+      }
+      if (
+        (typeof a[key] === "string" && typeof b[key] === "string") ||
+        (typeof a[key] === "number" && typeof b[key] === "number") ||
+        (a[key] instanceof Date && b[key] instanceof Date)
+      ) {
+        return { c: a[key], d: b[key] };
+      }
+      throw new Error();
+    },
+    [columns]
+  );
+  // ソート関連
+  const { isAsc, isSelected, handleClickSortLabel, doSort } = useTableSort({
+    initialTarget: initialTarget ?? null,
+    getSortTarget,
+  });
   /** フィルターリストの初期値
    * - filterList[key][value]=false
    */
@@ -93,6 +127,14 @@ export const useCustomTable = <T>({ data, columns }: Props<T>) => {
   );
 
   return {
+    /** ソートが昇順か降順か */
+    isAsc,
+    /** ソート対象に選択されているかどうかを調べる */
+    isSelected,
+    /** ソートラベルをクリックした際のハンドラー */
+    handleClickSortLabel,
+    /** ソートする関数 */
+    doSort,
     /** フィルターリスト */
     filterList,
     /** フィルターリストのチェックを切り替える関数 */
