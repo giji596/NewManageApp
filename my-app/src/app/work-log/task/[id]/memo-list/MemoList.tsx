@@ -20,11 +20,16 @@ type Props = {
  */
 export default function MemoList({ memoItemList }: Props) {
   const { open, onClose, onOpen } = useDialog();
-  const { handleClickRow, editTargetRef, onOpenEditDialog, onCloseEditDialog } =
-    MemoListLogic({
-      onOpen,
-      onClose,
-    });
+  const {
+    activeRowId,
+    handleClickRow,
+    editTargetRef,
+    onOpenEditDialog,
+    onCloseEditDialog,
+  } = MemoListLogic({
+    onOpen,
+    onClose,
+  });
   const columnConfig: ColumnConfig<MemoTaskDetail>[] = [
     {
       key: "date",
@@ -63,6 +68,8 @@ export default function MemoList({ memoItemList }: Props) {
           data={memoItemList}
           columns={columnConfig}
           onClickRow={handleClickRow}
+          selectedId={activeRowId}
+          collapsibleItemKey="summary"
           stickyHeader
         />
       </TableContainer>

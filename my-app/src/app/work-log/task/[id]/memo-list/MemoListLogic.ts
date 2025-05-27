@@ -38,6 +38,8 @@ export default function MemoList({ onOpen, onClose }: Props) {
   }, [onClose]);
 
   return {
+    /** 現在選択中の行id */
+    activeRowId,
     /** 行をクリックした際のハンドラー(アクティブな行の設定/解除) */
     handleClickRow,
     /** 編集対象のデータ */
