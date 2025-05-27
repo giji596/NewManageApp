@@ -2,17 +2,21 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { MemoTaskDetail } from "@/type/Memo";
 import { TableSortTargetType } from "@/type/Table";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 type Props = {
   /** メモアイテムリスト */
   memoItemList: MemoTaskDetail[];
+  /** 編集ダイアログを開くハンドラー */
+  onOpen: () => void;
+  /** 編集ダイアログを閉じるハンドラー */
+  onClose: () => void;
 };
 
 /**
  * タスク詳細　メモリストのコンポーネント
  */
-export default function MemoList({ memoItemList }: Props) {
+export default function MemoList({ memoItemList, onOpen, onClose }: Props) {
   const [activeRowId, setActiveRowId] = useState<number | null>(null);
   const handleClickRow = useCallback((id: number) => {
     setActiveRowId((prev) => {
@@ -59,6 +63,22 @@ export default function MemoList({ memoItemList }: Props) {
     getSortTarget,
   });
 
+  // 編集ダイアログ関連
+  // 編集対象のデータをrefで保持
+  const editTargetRef = useRef<MemoTaskDetail | null>(null);
+
+  const onOpenEditDialog = useCallback(
+    (data: MemoTaskDetail) => {
+      editTargetRef.current = data; // 編集対象のデータを保持
+      onOpen();
+    },
+    [onOpen]
+  );
+  const onCloseEditDialog = useCallback(() => {
+    editTargetRef.current = null; // 編集対象のデータをクリア
+    onClose();
+  }, [onClose]);
+
   return {
     /** 現在アクティブな行のid */
     activeRowId,
@@ -79,5 +99,11 @@ export default function MemoList({ memoItemList }: Props) {
     /** フィルターする関数 */
     doFilterByFilterList: (item: MemoTaskDetail) =>
       doFilterByFilterList(item.tag),
+    /** 編集対象のデータ */
+    editTargetRef,
+    /** 編集ダイアログを開くハンドラー */
+    onOpenEditDialog,
+    /** 編集ダイアログを閉じるハンドラー */
+    onCloseEditDialog,
   };
 }

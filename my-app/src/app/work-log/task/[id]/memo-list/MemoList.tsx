@@ -30,8 +30,13 @@ export default function MemoList({ memoItemList }: Props) {
     filterList,
     toggleFilterCheckBox,
     doFilterByFilterList,
+    editTargetRef,
+    onOpenEditDialog,
+    onCloseEditDialog,
   } = MemoListLogic({
     memoItemList,
+    onOpen,
+    onClose,
   });
   const columnConfig: ColumnConfig<MemoTaskDetail>[] = [
     {
@@ -52,11 +57,11 @@ export default function MemoList({ memoItemList }: Props) {
       key: "id",
       title: "",
       width: "10%",
-      renderCell: () => (
+      renderCell: (row) => (
         <IconButton
           onClick={(e) => {
             e.stopPropagation(); // rowのイベント(文章の頭を展開する)を行わせない
-            onOpen();
+            onOpenEditDialog(row);
           }}
         >
           <AspectRatioIcon />
@@ -74,13 +79,13 @@ export default function MemoList({ memoItemList }: Props) {
           stickyHeader
         />
       </TableContainer>
-      {open && (
+      {open && editTargetRef.current && (
         <MemoEditDialog
-          id={0} // TODO:
-          title={""} // TODO:
-          tagName={"memoItem.tag"} //TODO
+          id={editTargetRef.current.id}
+          title={editTargetRef.current.title}
+          tagName={editTargetRef.current.tag}
           open={open}
-          onClose={onClose}
+          onClose={onCloseEditDialog}
         />
       )}
     </>
