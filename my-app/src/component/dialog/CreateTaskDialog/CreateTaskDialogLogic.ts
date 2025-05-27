@@ -58,10 +58,12 @@ export default function CreateTaskDialogLogic({
             isFavorite: data.isFavorite,
           },
         });
-        mutate(`api/work-log/tasks/options?categoryId=${data.categoryId}`);
-        mutate(`api/work-log/categories/${categoryId}/tasks`); // 追加先のカテゴリのタスクも再検証する
+        await mutate(
+          `api/work-log/tasks/options?categoryId=${data.categoryId}`
+        );
+        await mutate(`api/work-log/categories/${categoryId}/tasks`); // 追加先のカテゴリのタスクも再検証する
         // 一覧データについて
-        mutate(
+        await mutate(
           (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
           undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
         );

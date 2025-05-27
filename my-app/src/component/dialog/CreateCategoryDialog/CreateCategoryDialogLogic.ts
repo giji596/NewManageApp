@@ -34,7 +34,7 @@ export default function CreateCategoryDialogLogic({
         const res = await localClient.work_log.categories.post({
           body: { name: data.name },
         });
-        mutate(
+        await mutate(
           (key) =>
             Array.isArray(key) && key[0] === "api/work-log/categories/options"
         );
