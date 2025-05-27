@@ -1,6 +1,7 @@
 "use client";
 import { ButtonBase, TableSortLabel } from "@mui/material";
 import HeaderDesign from "../useHeaderLabelDesign";
+import { memo } from "react";
 
 type Props = {
   /** タイトル */
@@ -25,7 +26,7 @@ type Props = {
 /**
  * ソート可能なホバー時にチェックボックスを表示させるヘッダーラベル
  */
-export default function CustomHeaderSortCheckLabel({
+const CustomHeaderSortCheckLabel = memo(function CustomHeaderSortCheckLabel({
   title,
   isSelected,
   isAsc,
@@ -50,4 +51,5 @@ export default function CustomHeaderSortCheckLabel({
       </TableSortLabel>
     </ButtonBase>
   );
-}
+});
+export default CustomHeaderSortCheckLabel;

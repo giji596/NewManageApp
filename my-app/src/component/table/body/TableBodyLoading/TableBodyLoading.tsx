@@ -1,4 +1,5 @@
 import { TableRow, TableCell, CircularProgress } from "@mui/material";
+import { memo } from "react";
 
 type Props = {
   /** 行数 */
@@ -8,7 +9,7 @@ type Props = {
 /**
  * ロード中に表示するテーブルボディコンポーネント
  */
-export default function TableBodyLoading({ colCount }: Props) {
+const TableBodyLoading = memo(function TableBodyLoading({ colCount }: Props) {
   return (
     <TableRow>
       <TableCell colSpan={colCount} sx={{ height: "200px" }} align="center">
@@ -16,4 +17,5 @@ export default function TableBodyLoading({ colCount }: Props) {
       </TableCell>
     </TableRow>
   );
-}
+});
+export default TableBodyLoading;

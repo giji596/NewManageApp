@@ -11,6 +11,7 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PeriodSelectMenuButtonLogic from "./PeriodSelectMenuButtonLogic";
 import { SelectRangeLogic } from "@/hook/useDateSelect";
+import { memo } from "react";
 
 type Props = {
   /** 日付選択のロジック */
@@ -22,7 +23,7 @@ type Props = {
 /**
  * 期間選択のメニューボタン
  */
-export default function PeriodSelectMenuButton({
+const PeriodSelectMenuButton = memo(function PeriodSelectMenuButton({
   selectRangeLogic,
   disabled,
 }: Props) {
@@ -127,4 +128,5 @@ export default function PeriodSelectMenuButton({
       </Menu>
     </>
   );
-}
+});
+export default PeriodSelectMenuButton;
