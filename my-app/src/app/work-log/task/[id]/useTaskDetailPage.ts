@@ -72,7 +72,15 @@ export default function useTaskDetailPage() {
       (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
       undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
     );
-  }, [id]);
+    // 選択賜についても再検証
+    mutate(
+      (key) =>
+        Array.isArray(key) &&
+        key[0] === "api/work-log/tasks/options/" &&
+        key[1] === `categoryId=${categoryId}`,
+      undefined // キャッシュ削除
+    );
+  }, [categoryId, id]);
   const handleDelete = useCallback(async () => {
     try {
       await localClient.work_log.tasks._id(Number(id)).delete();
