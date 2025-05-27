@@ -39,6 +39,7 @@ export const useCustomTable = <T extends object>({
         col.labelProp === "sortableAndFilterable"
           ? 4
           : 2,
+      py: 1.5,
     };
 
     if (col.width !== undefined) {
