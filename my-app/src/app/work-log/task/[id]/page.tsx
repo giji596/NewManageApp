@@ -15,17 +15,11 @@ import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompleteConfirmDialog from "../../../../component/dialog/complete-confirm/CompleteConfirmDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
-import { use } from "react";
 
-type Props = {
-  /** パスパラメータ(ページ呼び出し時に自動的に取得) */
-  params: Promise<{ id: string }>;
-};
 /**
  * タスク詳細ページ
  */
-export default function TaskDetailPage({ params }: Props) {
-  const { id } = use(params);
+export default function TaskDetailPage() {
   const {
     openError,
     onCloseError,
@@ -43,7 +37,7 @@ export default function TaskDetailPage({ params }: Props) {
     handleComplete,
     handleDelete,
     navigateCategoryPage,
-  } = useTaskDetailPage({ id });
+  } = useTaskDetailPage();
   const {
     open: openEdit,
     onClose: onCloseEdit,
