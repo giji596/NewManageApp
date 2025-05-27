@@ -81,10 +81,13 @@ export const getDailySummaryData = async ({
     )!.name; // findで必ず見つかるので!つける
 
     // メモ
-    const mainTaskMemos = memos.filter(
-      (v) =>
-        v.taskLogId === rawData.find((v) => v.taskId === mainTask.taskId)!.id
-    )!;
+    const mainTaskMemos = memos.filter((memo) => {
+      const memoTaskLogId = memo.taskLogId;
+      const dataLogId = rawData.find(
+        (data) => data.taskId === mainTask.taskId && data.date === daily.date
+      )!.id;
+      return memoTaskLogId === dataLogId;
+    })!;
     const memo: MemoSummary[] = mainTaskMemos.map((memo) => ({
       id: memo.id,
       title: memo.title,
