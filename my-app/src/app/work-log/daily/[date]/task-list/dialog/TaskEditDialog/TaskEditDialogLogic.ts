@@ -45,7 +45,9 @@ export default function TaskEditDialogLogic({
   );
   const categoryList = categoryData;
   const { data: taskData, isLoading: isLoadingTask } = useSWR(
-    categoryId ? `api/work-log/tasks/options?categoryId=${categoryId}` : null, // カテゴリフェッチ前はフェッチさせない
+    categoryId
+      ? ["api/work-log/tasks/options", `categoryId=${categoryId}`]
+      : null, // カテゴリフェッチ前はフェッチさせない
     localClient.work_log.tasks.options.get({
       query: { categoryId: categoryId ?? 0 },
     })
@@ -153,7 +155,12 @@ export default function TaskEditDialogLogic({
         .patch({ body: body });
       mutate(`api/work-log/daily/${date}`); // 再検証する
       if (progress === 100)
-        mutate(`api/work-log/tasks/options?categoryId=${categoryId}`); // 完了状態にする場合はタスクの一覧も再検証
+        mutate(
+          (key) =>
+            Array.isArray(key) &&
+            key[0] == "api/work-log/tasks/options" &&
+            key[1] == `categoryId=${categoryId}`
+        ); // 完了状態にする場合はタスクの一覧も再検証
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
