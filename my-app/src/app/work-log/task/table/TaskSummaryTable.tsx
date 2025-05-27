@@ -4,7 +4,7 @@ import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
 import TaskSummaryTableHeader from "./header/TaskSummaryTableHeader";
 import TaskSummaryTableBody from "./body/TaskSummaryTableBody";
 import TaskSummaryTableLogic from "./TaskSummaryTableLogic";
-import { RefObject } from "react";
+import { memo, RefObject } from "react";
 import { TaskSummaryTableBodyHandle } from "./body/TaskSummaryTableBodyLogic";
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
 /**
  * タスク一覧ページのテーブル
  */
-export default function TaskSummaryTable({
+const TaskSummaryTable = memo(function TaskSummaryTable({
   taskList,
   selectedItemId,
   onClickItemRow,
@@ -73,4 +73,5 @@ export default function TaskSummaryTable({
       </Table>
     </TableContainer>
   );
-}
+});
+export default TaskSummaryTable;
