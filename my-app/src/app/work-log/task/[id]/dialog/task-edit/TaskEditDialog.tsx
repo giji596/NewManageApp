@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import TaskEditDialogLogic from "./TaskEditDialogLogic";
 import { Controller } from "react-hook-form";
+import { memo } from "react";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -33,7 +34,7 @@ type Props = {
 /**
  * タスク詳細ページでタスクを編集するダイアログ
  */
-export default function TaskEditDialog({
+const TaskEditDialog = memo(function TaskEditDialog({
   open,
   onClose,
   initialTaskName,
@@ -127,4 +128,5 @@ export default function TaskEditDialog({
       </form>
     </Dialog>
   );
-}
+});
+export default TaskEditDialog;

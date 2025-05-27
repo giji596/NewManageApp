@@ -3,6 +3,7 @@ import { Button, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { memo } from "react";
 
 type Props = {
   /** 完了状態かどうか */
@@ -18,7 +19,7 @@ type Props = {
 /**
  * タスク詳細　右下のボタン群
  */
-export default function ActionButtons({
+const ActionButtons = memo(function ActionButtons({
   isCompleted,
   onClickEdit,
   onClickComplete,
@@ -52,4 +53,5 @@ export default function ActionButtons({
       </Button>
     </Stack>
   );
-}
+});
+export default ActionButtons;

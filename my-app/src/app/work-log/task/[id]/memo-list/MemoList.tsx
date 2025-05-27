@@ -9,6 +9,7 @@ import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import MemoEditDialog from "@/component/dialog/memo-edit-dialog/MemoEditDialog";
 import useDialog from "@/hook/useDialog";
 import { format } from "date-fns";
+import { memo } from "react";
 
 type Props = {
   /** メモアイテムリスト */
@@ -18,7 +19,7 @@ type Props = {
 /**
  * タスク詳細　メモリストのコンポーネント
  */
-export default function MemoList({ memoItemList }: Props) {
+const MemoList = memo(function MemoList({ memoItemList }: Props) {
   const { open, onClose, onOpen } = useDialog();
   const {
     activeRowId,
@@ -84,4 +85,5 @@ export default function MemoList({ memoItemList }: Props) {
       )}
     </>
   );
-}
+});
+export default MemoList;

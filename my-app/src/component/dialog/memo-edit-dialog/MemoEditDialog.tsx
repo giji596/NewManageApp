@@ -20,6 +20,7 @@ import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmD
 import useDialog from "@/hook/useDialog";
 import MemoEditDialogLogic from "./MemoEditDialogLogic";
 import TagEditDialog from "../TagEditDialog/TagEditDialog";
+import { memo } from "react";
 
 type Props = {
   /** メモid */
@@ -37,7 +38,7 @@ type Props = {
 /**
  * メモ編集のダイアログ
  */
-export default function MemoEditDialog({
+const MemoEditDialog = memo(function MemoEditDialog({
   id,
   title,
   tagName,
@@ -233,4 +234,5 @@ export default function MemoEditDialog({
       )}
     </>
   );
-}
+});
+export default MemoEditDialog;
