@@ -1,7 +1,7 @@
 "use client";
 import { Fade, Paper, Popper } from "@mui/material";
 import CustomMenuWrapperLogic from "./CustomMenuWrapperLogic";
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 
 type Props = {
   /** 選択肢の配列 */
@@ -13,7 +13,10 @@ type Props = {
 /**
  * ホバー時/クリック時などで表示する選択のポップアップコンポーネント
  */
-export default function CustomMenuWrapper({ children, logic }: Props) {
+const CustomMenuWrapper = memo(function CustomMenuWrapper({
+  children,
+  logic,
+}: Props) {
   const {
     open,
     anchorEl,
@@ -35,4 +38,5 @@ export default function CustomMenuWrapper({ children, logic }: Props) {
       </Fade>
     </Popper>
   );
-}
+});
+export default CustomMenuWrapper;

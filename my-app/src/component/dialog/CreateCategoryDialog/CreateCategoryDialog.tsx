@@ -11,6 +11,7 @@ import {
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CreateCategoryDialogLogic from "./CreateCategoryDialogLogic";
 import { Controller } from "react-hook-form";
+import { memo } from "react";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -24,7 +25,7 @@ type Props = {
 /**
  * 新規カテゴリを作成するダイアログ
  */
-export default function CreateCategoryDialog({
+const CreateCategoryDialog = memo(function CreateCategoryDialog({
   open,
   onClose,
   onCreateCategory,
@@ -71,4 +72,5 @@ export default function CreateCategoryDialog({
       </form>
     </Dialog>
   );
-}
+});
+export default CreateCategoryDialog;

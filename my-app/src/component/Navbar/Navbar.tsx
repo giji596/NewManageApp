@@ -2,6 +2,7 @@
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { NavBarLogic } from "./logic";
 import SettingsDrawer from "../SettingsDrawer/SettingsDrawer";
+import { memo } from "react";
 
 type Props = {
   /** テーマ変更関数 */
@@ -10,7 +11,7 @@ type Props = {
 /**
  *  ナビゲーションバーの共通コンポーネント
  */
-export default function Navbar({ onChangeTheme }: Props) {
+const Navbar = memo(function Navbar({ onChangeTheme }: Props) {
   const { navPages, isLastPageIndex, doNavigate } = NavBarLogic();
   return (
     <Box
@@ -98,4 +99,5 @@ export default function Navbar({ onChangeTheme }: Props) {
       />
     </Box>
   );
-}
+});
+export default Navbar;

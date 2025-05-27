@@ -23,6 +23,7 @@ type Props = {
  * タスク詳細　タスクを完了状態にするか確認するためのダイアログ
  */
 export default function CompleteConfirmDialog({
+  // メモ化不要(マウント後、アンマウントまで再レンダーされないので)
   target,
   open,
   onClose,

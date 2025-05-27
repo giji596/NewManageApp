@@ -1,5 +1,6 @@
 "use client";
 import { MenuItem } from "@mui/material";
+import { memo } from "react";
 
 type Props = {
   /** 選択肢の配列 */
@@ -11,7 +12,7 @@ type Props = {
 /**
  * チェックボックスを含むカスタムメニューコンポーネント
  */
-export default function CustomMenuCheckBox({
+const CustomMenuCheckBox = memo(function CustomMenuCheckBox({
   checkList,
   onClickSelect,
 }: Props) {
@@ -47,4 +48,5 @@ export default function CustomMenuCheckBox({
       </div>
     </MenuItem>
   ));
-}
+});
+export default CustomMenuCheckBox;

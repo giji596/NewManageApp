@@ -1,6 +1,7 @@
 "use client";
 import { ButtonBase, TableSortLabel } from "@mui/material";
 import HeaderDesign from "../useHeaderLabelDesign";
+import { memo } from "react";
 
 type Props = {
   /** タイトル */
@@ -15,7 +16,7 @@ type Props = {
 /**
  * ソート可能なテーブル用のヘッダーラベル
  */
-export default function CustomHeaderSortLabel({
+const CustomHeaderSortLabel = memo(function CustomHeaderSortLabel({
   title,
   isSelected,
   isAsc,
@@ -32,4 +33,5 @@ export default function CustomHeaderSortLabel({
       </TableSortLabel>
     </ButtonBase>
   );
-}
+});
+export default CustomHeaderSortLabel;

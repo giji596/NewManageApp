@@ -1,4 +1,5 @@
 import { TableRow, TableCell } from "@mui/material";
+import { memo } from "react";
 
 type Props = {
   /** 行数 */
@@ -8,7 +9,7 @@ type Props = {
 /**
  * アイテムがない時のテーブルボディコンポーネント
  */
-export default function TableBodyNoItem({ colCount }: Props) {
+const TableBodyNoItem = memo(function TableBodyNoItem({ colCount }: Props) {
   return (
     <TableRow>
       <TableCell colSpan={colCount} align="center" sx={{ height: "200px" }}>
@@ -16,4 +17,5 @@ export default function TableBodyNoItem({ colCount }: Props) {
       </TableCell>
     </TableRow>
   );
-}
+});
+export default TableBodyNoItem;

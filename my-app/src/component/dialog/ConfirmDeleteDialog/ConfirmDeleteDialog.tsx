@@ -20,6 +20,7 @@ type Props = {
  * 削除の確認用のダイアログ
  */
 export default function ConfirmDeleteDialog({
+  // メモ化不要(マウント後、アンマウントまで再レンダーされないので)
   open,
   onClose,
   onAccept,

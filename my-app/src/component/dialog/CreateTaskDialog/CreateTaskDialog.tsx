@@ -16,6 +16,7 @@ import {
 import { Controller } from "react-hook-form";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import CreateTaskDialogLogic from "./CreateTaskDialogLogic";
+import { memo } from "react";
 
 type Props = {
   /** カテゴリid(固定) */
@@ -31,7 +32,7 @@ type Props = {
 /**
  * タスクを新規作成するダイアログ
  */
-export default function CreateTaskDialog({
+const CreateTaskDialog = memo(function CreateTaskDialog({
   categoryId,
   open,
   onClose,
@@ -126,4 +127,5 @@ export default function CreateTaskDialog({
       </form>
     </Dialog>
   );
-}
+});
+export default CreateTaskDialog;

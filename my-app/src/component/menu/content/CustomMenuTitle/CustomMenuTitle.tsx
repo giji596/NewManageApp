@@ -1,6 +1,6 @@
 "use client";
 import { Divider, Typography } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 
 type Props = {
   /** タイトル名の配列 */
@@ -9,11 +9,12 @@ type Props = {
 /**
  * タイトルの表示のみをするカスタムメニューコンポーネントのコンテンツコンポーネント
  */
-export default function CustomMenuTitle({ titleList }: Props) {
+const CustomMenuTitle = memo(function CustomMenuTitle({ titleList }: Props) {
   return titleList.map((title, index) => (
     <React.Fragment key={title}>
       <Typography padding={1}>{title}</Typography>
       {index < titleList.length - 1 && <Divider />}
     </React.Fragment>
   ));
-}
+});
+export default CustomMenuTitle;
