@@ -19,10 +19,10 @@ const MainPagePieChart = memo(function MainPagePieChart() {
         過去一ヶ月のタスク稼働
       </Typography>
       {data.length === 0 && (
-        <NoDataPieGraph width={400} height={300} radius={150} />
+        <NoDataPieGraph width={400} height={250} radius={150} />
       )}
       {data.length !== 0 && (
-        <PieChart width={400} height={300}>
+        <PieChart width={400} height={250}>
           <Pie
             data={data}
             dataKey="value"
@@ -30,7 +30,7 @@ const MainPagePieChart = memo(function MainPagePieChart() {
             cy="50%"
             onClick={(data) => navigateCategoryPage(data.id)}
             cursor="pointer"
-            outerRadius={150}
+            outerRadius={125}
             fill={theme.palette.recharts?.pie?.defaultFill}
           />
           <Tooltip

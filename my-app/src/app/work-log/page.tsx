@@ -7,8 +7,8 @@ const MainPagePieChart = dynamic(
     ssr: false,
     loading: () => (
       <Stack
-        width={600}
-        height={400}
+        width={400}
+        height={250}
         alignItems={"center"}
         justifyContent={"center"}
       >
@@ -28,8 +28,8 @@ export default function MainPage() {
   return (
     <Stack direction="row" px={8} pt={6} spacing={15} height={650}>
       <NavMenu />
-      <Stack spacing={2}>
-        <Stack direction="row" alignItems={"center"} spacing={3}>
+      <Stack>
+        <Stack direction="row" alignItems={"center"} spacing={3} mb={2}>
           <RecentWorkHeatMap />
           <MainPagePieChart />
         </Stack>
