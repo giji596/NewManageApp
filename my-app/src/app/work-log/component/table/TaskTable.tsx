@@ -14,12 +14,37 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import TaskTableLogic from "./TaskTableLogic";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
+import { ColumnConfig } from "@/component/table/CustomTable/CustomTable";
+import { MainPageTaskTable } from "@/type/Task";
 
 /**
  * メインページのタスクテーブルコンポーネント
  */
 const TaskTable = memo(function TaskTable() {
   const { data, isLoading, navigateToDetail } = TaskTableLogic();
+
+  const columnsConfig: ColumnConfig<MainPageTaskTable>[] = [
+    {
+      key: "name",
+      title: "タスク名",
+      width: "60%",
+    },
+    {
+      key: "progress",
+      title: "進捗",
+      width: "30%",
+    },
+    {
+      key: "id",
+      title: "",
+      width: "10%",
+      renderCell: (item) => (
+        <IconButton onClick={() => navigateToDetail(item.id)}>
+          <DoubleArrowIcon />
+        </IconButton>
+      ),
+    },
+  ];
   return (
     <>
       <Typography textAlign={"center"} variant="h6" color="text.secondary">
