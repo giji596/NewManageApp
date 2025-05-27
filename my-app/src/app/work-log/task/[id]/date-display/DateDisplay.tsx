@@ -2,6 +2,7 @@
 import { Stack, Typography } from "@mui/material";
 import WorkCalendarPopoverButton from "./work-calendar-menu-button/WorkCalendarPopoverButton";
 import { DateDisplayLogic } from "./DateDisplayLogic";
+import { memo } from "react";
 
 type Props = {
   /** 開始日 */
@@ -13,7 +14,7 @@ type Props = {
 /**
  * タスク詳細　日付の表示部分
  */
-export default function DateDisplay({
+const DateDisplay = memo(function DateDisplay({
   firstActivityDate,
   lastActivityDate,
 }: Props) {
@@ -45,4 +46,5 @@ export default function DateDisplay({
       />
     </Stack>
   );
-}
+});
+export default DateDisplay;

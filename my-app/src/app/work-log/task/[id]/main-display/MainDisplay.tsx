@@ -4,6 +4,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import MainDisplayLogic from "./MainDisplayLogic";
+import { memo } from "react";
 
 type Props = {
   /** タスク名 */
@@ -23,7 +24,7 @@ type Props = {
 /**
  * タスク詳細ページのメイン部分の表示
  */
-export default function MainDisplay({
+const MainDisplay = memo(function MainDisplay({
   taskName,
   isFavorite,
   categoryName,
@@ -89,4 +90,5 @@ export default function MainDisplay({
       </Stack>
     </Stack>
   );
-}
+});
+export default MainDisplay;
