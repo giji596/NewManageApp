@@ -11,7 +11,7 @@ type Props<T> = TooltipProps<number, string> & {
  * @param {children} (dataItem:T)=>{dataItem.params.map((param)=>{children})}で値を渡す
  * dataItemは表示中のpayload(存在するかチェック済み)
  */
-const CustomToolTipWrapper = memo(function CustomToolTipWrapper<T>({
+function InnerToolTipWrapper<T>({
   active, // 引数はPieからToolChipで受け取る特有のもの
   payload, // active:boolean,payload:Array([0].payloadに対象のデータがある)
   children,
@@ -21,5 +21,8 @@ const CustomToolTipWrapper = memo(function CustomToolTipWrapper<T>({
     return <Paper sx={{ px: 5, py: 1 }}>{children(dataItem)}</Paper>;
   }
   return null;
-});
+}
+const CustomToolTipWrapper = memo(
+  InnerToolTipWrapper
+) as typeof InnerToolTipWrapper;
 export default CustomToolTipWrapper;
