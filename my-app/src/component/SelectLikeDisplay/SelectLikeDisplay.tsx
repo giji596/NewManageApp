@@ -26,6 +26,7 @@ const SelectLikeDisplay = memo(function SelectLikeDisplay({
         borderColor: "rgba(0, 0, 0, 0.23)", // outlinedと同じ色
         borderRadius: "4px",
         padding: "16px 8px 16px 14px",
+        position: "relative",
         display: "flex",
         width,
         alignItems: "center",
@@ -41,8 +42,8 @@ const SelectLikeDisplay = memo(function SelectLikeDisplay({
           fontSize: "0.719rem",
           position: "absolute", // 絶対位置で枠に被らせる
           px: 0.5, // 左右の空白部分
-          top: 7, // 位置
-          left: 25, // 位置
+          top: -8, // 位置
+          left: 10, // 位置
           backgroundColor: "#ffffff", // 背景を透過させない
         }}
       >
