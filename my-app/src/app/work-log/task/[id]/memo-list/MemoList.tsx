@@ -20,24 +20,11 @@ type Props = {
  */
 export default function MemoList({ memoItemList }: Props) {
   const { open, onClose, onOpen } = useDialog();
-  const {
-    activeRowId,
-    handleClickRow,
-    isAsc,
-    isSelected,
-    handleClickSortLabel,
-    doSort,
-    filterList,
-    toggleFilterCheckBox,
-    doFilterByFilterList,
-    editTargetRef,
-    onOpenEditDialog,
-    onCloseEditDialog,
-  } = MemoListLogic({
-    memoItemList,
-    onOpen,
-    onClose,
-  });
+  const { handleClickRow, editTargetRef, onOpenEditDialog, onCloseEditDialog } =
+    MemoListLogic({
+      onOpen,
+      onClose,
+    });
   const columnConfig: ColumnConfig<MemoTaskDetail>[] = [
     {
       key: "date",
