@@ -102,6 +102,14 @@ export default function useTaskSummaryPage({ onOpenComplete }: Props) {
       await localClient.work_log.tasks.bulk_update.patch({ body: data });
       // 再検証
       mutate((key) => Array.isArray(key) && key[0] === "api/work-log/tasks");
+      // 完了タスクが含まれる場合はタスク一覧も再検証
+      if (data.some((v) => v.progress === 100)) {
+        mutate(
+          (key) =>
+            Array.isArray(key) && key[0] === "api/work-log/tasks/options",
+          undefined // キャッシュ削除
+        );
+      }
     },
     []
   );
