@@ -1,18 +1,8 @@
 "use client";
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-} from "@mui/material";
+import { IconButton, TableContainer } from "@mui/material";
 import { memo } from "react";
-import CategoryTaskTableHeader from "./header/CategoryTaskTableHeader";
-import CategoryTaskTableBody from "./body/CategoryTaskTableBody";
 import { CategoryTaskList } from "@/type/Task";
 import CategoryTaskTableLogic from "./CategoryTaskTableLogic";
-import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
-import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
 import CustomTable, {
   ColumnConfig,
 } from "@/component/table/CustomTable/CustomTable";
@@ -32,15 +22,7 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
   taskItemList,
   isLoading,
 }: Props) {
-  const {
-    isAsc,
-    isSelected,
-    handleClickSortLabel,
-    doSort,
-    isFavoriteChecked,
-    toggleFavoriteCheck,
-    navigateToTaskDetail,
-  } = CategoryTaskTableLogic();
+  const { navigateToTaskDetail } = CategoryTaskTableLogic();
 
   const columnsConfig: ColumnConfig<CategoryTaskList>[] = [
     { key: "isFavorite", title: "", width: "10%", labelProp: "favoriteToggle" },
