@@ -21,9 +21,9 @@ export const db = new Dexie(dbName) as Dexie & {
 };
 
 // テーブルを定義
-db.version(1).stores({
+db.version(2).stores({
   dailyData: "date",
-  taskLogs: "++id, taskId, date",
+  taskLogs: "++id, taskId, date,[date+taskId]",
   tasks: "++id, categoryId",
   categories: "++id, name",
   memos: "++id, taskLogId, tagId",
