@@ -59,7 +59,10 @@ export default function CreateTaskDialogLogic({
           },
         });
         await mutate(
-          `api/work-log/tasks/options?categoryId=${data.categoryId}`
+          (key) =>
+            Array.isArray(key) &&
+            key[0] == "api/work-log/tasks/options" &&
+            key[1] == `categoryId=${data.categoryId}`
         );
         await mutate(`api/work-log/categories/${categoryId}/tasks`); // 追加先のカテゴリのタスクも再検証する
         // 一覧データについて

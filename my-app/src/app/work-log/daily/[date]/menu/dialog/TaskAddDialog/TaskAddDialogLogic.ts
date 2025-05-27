@@ -31,7 +31,7 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
   const categoryList = categoryData;
   const { data: taskData, isLoading: isLoadingTask } = useSWR(
     selectedCategoryId
-      ? `api/work-log/tasks/options?categoryId=${selectedCategoryId}`
+      ? ["api/work-log/tasks/options", `categoryId=${selectedCategoryId}`]
       : null, // カテゴリフェッチ前はフェッチさせない
     localClient.work_log.tasks.options.get({
       query: { categoryId: selectedCategoryId ?? 0 },
