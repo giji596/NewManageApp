@@ -1,16 +1,13 @@
 import { localClient } from "@/lib/localClient";
-import { notFound, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 
-type Props = {
-  /** パスパラメータのid(ページ呼び出し時に自動的に取得) */
-  id: string;
-};
 /**
  * タスク詳細ページのカスタムフック
  */
-export default function useTaskDetailPage({ id }: Props) {
+export default function useTaskDetailPage() {
+  const { id } = useParams<{ id: string }>();
   const [openError, setOpenError] = useState<boolean>(false);
   const onCloseError = useCallback(() => setOpenError(false), []);
   const router = useRouter();
