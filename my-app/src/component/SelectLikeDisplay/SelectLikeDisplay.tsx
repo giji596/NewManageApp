@@ -6,7 +6,7 @@ type Props = {
   /** 表示文言 */
   text: string;
   /** 全体の幅 */
-  width: number;
+  width?: number;
   /** タイトル */
   title: string;
 };

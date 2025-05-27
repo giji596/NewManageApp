@@ -19,6 +19,7 @@ import TaskAddDialogLogic from "./TaskAddDialogLogic";
 import useDialog from "@/hook/useDialog";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
+import SelectLikeDisplay from "@/component/SelectLikeDisplay/SelectLikeDisplay";
 
 type Props = {
   /** ダイアログの開閉状態 */
@@ -97,39 +98,51 @@ export default function TaskAddDialog({ open, onClose }: Props) {
           <Stack direction="row" spacing={1}>
             {/** セレクト */}
             <FormControl fullWidth>
-              <InputLabel id="task-select-label">タスク名</InputLabel>
               {isLoading && (
-                <Select
-                  disabled
-                  labelId="task-select-label"
-                  id="task-select-loading"
-                  name="task-select-loading"
-                  label="タスク名"
-                  value={0}
-                >
-                  <MenuItem value={0}>
-                    <CircularProgress size={22} />
-                  </MenuItem>
-                </Select>
-              )}
-              {!isLoading && taskList && selectedTaskId !== null && (
-                <Select
-                  labelId="task-select-label"
-                  id="task-select"
-                  name="task-select"
-                  label="タスク名"
-                  disabled={isNoTask}
-                  value={String(selectedTaskId)}
-                  onChange={onChangeSelectedTask}
-                >
-                  {taskList.map((task) => (
-                    <MenuItem key={task.id} value={task.id}>
-                      {task.name}
+                <>
+                  <InputLabel id="task-select-label">タスク名</InputLabel>
+                  <Select
+                    disabled
+                    labelId="task-select-label"
+                    id="task-select-loading"
+                    name="task-select-loading"
+                    label="タスク名"
+                    value={0}
+                  >
+                    <MenuItem value={0}>
+                      <CircularProgress size={22} />
                     </MenuItem>
-                  ))}
-                </Select>
+                  </Select>
+                </>
+              )}
+              {!isLoading &&
+                taskList &&
+                selectedTaskId !== null &&
+                selectedTaskId !== 0 && (
+                  <>
+                    <InputLabel id="task-select-label">タスク名</InputLabel>
+                    <Select
+                      labelId="task-select-label"
+                      id="task-select"
+                      name="task-select"
+                      label="タスク名"
+                      disabled={isNoTask}
+                      value={String(selectedTaskId)}
+                      onChange={onChangeSelectedTask}
+                    >
+                      {taskList.map((task) => (
+                        <MenuItem key={task.id} value={task.id}>
+                          {task.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </>
+                )}
+              {!isLoading && taskList && selectedTaskId === 0 && (
+                <SelectLikeDisplay text="タスクがありません" title="タスク名" />
               )}
             </FormControl>
+
             {/** アイコンボタン */}
             <IconButton
               disabled={isNoCategory}
