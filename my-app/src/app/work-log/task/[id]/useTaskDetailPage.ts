@@ -91,6 +91,14 @@ export default function useTaskDetailPage() {
         (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
         undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
       );
+      // 選択賜についても再検証
+      mutate(
+        (key) =>
+          Array.isArray(key) &&
+          key[0] === "api/work-log/tasks/options" &&
+          key[1] === `categoryId=${categoryId}`,
+        undefined // キャッシュを削除
+      );
       // 一覧ページへ移動
       router.push("/work-log/task");
     } catch (error) {
@@ -99,7 +107,7 @@ export default function useTaskDetailPage() {
         setOpenError(true);
       }
     }
-  }, [id, router]);
+  }, [categoryId, id, router]);
 
   const navigateCategoryPage = useCallback(() => {
     router.push(`/work-log/category?id=${categoryId}`);

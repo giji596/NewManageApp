@@ -182,7 +182,8 @@ export default function CategoryHeaderLogic() {
       // 一覧データを再検証
       await mutate(
         (key) =>
-          Array.isArray(key) && key[0] === "api/work-log/categories/options"
+          Array.isArray(key) && key[0] === "api/work-log/categories/options",
+        undefined
       );
       // 選択中のidを再検証後のデータの先頭に変更
       router.replace(`?id=${categoryOptions[0].id}`);
