@@ -152,6 +152,8 @@ export default function TaskEditDialogLogic({
         .task_logs._id(itemId)
         .patch({ body: body });
       mutate(`api/work-log/daily/${date}`); // 再検証する
+      if (progress === 100)
+        mutate(`api/work-log/tasks/options?categoryId=${categoryId}`); // 完了状態にする場合はタスクの一覧も再検証
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -162,6 +164,7 @@ export default function TaskEditDialogLogic({
       }
     }
   }, [
+    categoryId,
     dailyHours,
     date,
     initProgress,

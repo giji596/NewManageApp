@@ -1,7 +1,7 @@
 import { localClient } from "@/lib/localClient";
 import { SelectChangeEvent } from "@mui/material";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 
 type Props = {
@@ -46,10 +46,7 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
       setSelectedCategoryId((prev) => {
         // 初期化処理(null時)
         if (prev === null) return categoryList[0].id;
-        // 新規カテゴリ追加時
-        const newId = newCategoryIdRef.current;
-        if (newId !== null) return newId;
-        // 上記どちらでもない場合はprevを返して再レンダーしない
+        // それ以外はprevを返して再レンダーしない
         return prev;
       });
     }
@@ -60,11 +57,7 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
       setSelectedTaskId((prev) => {
         // 初期化処理(null時 -> 最初及びカテゴリ変更時)
         if (prev === null) return taskList[0].id;
-        // 新規カテゴリ追加時
-        const newId = newTaskIdRef.current;
-        if (newId !== null) return newId;
-
-        // 上記どちらでもない場合はprevを返して再レンダーしない
+        // それ以外はprevを返して再レンダーしない
         return prev;
       });
     }
@@ -109,13 +102,11 @@ export default function TaskAddDialogLogic({ onClose }: Props) {
       }
     }
   }, [date, onClose, selectedTaskId]);
-  const newTaskIdRef = useRef<number | null>(null);
-  const newCategoryIdRef = useRef<number | null>(null);
   const onCreateTask = useCallback((newTaskId: number) => {
-    newTaskIdRef.current = newTaskId;
+    setSelectedTaskId(newTaskId);
   }, []);
   const onCreateCategory = useCallback((newCategoryId: number) => {
-    newCategoryIdRef.current = newCategoryId;
+    setSelectedCategoryId(newCategoryId);
     setSelectedTaskId(null); // タスクidを初期化する(初期化後自動的にidはセットされる)
   }, []);
 
