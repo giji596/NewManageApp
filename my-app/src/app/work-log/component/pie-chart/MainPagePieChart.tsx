@@ -19,7 +19,7 @@ const MainPagePieChart = memo(function MainPagePieChart() {
         過去一ヶ月のタスク稼働
       </Typography>
       {data.length === 0 && (
-        <NoDataPieGraph width={400} height={250} radius={150} />
+        <NoDataPieGraph width={400} height={250} radius={125} />
       )}
       {data.length !== 0 && (
         <PieChart width={400} height={250}>
