@@ -13,7 +13,9 @@ import { CategoryTaskList } from "@/type/Task";
 import CategoryTaskTableLogic from "./CategoryTaskTableLogic";
 import TableBodyNoItem from "@/component/table/body/TableBodyNoItem/TableBodyNoItem";
 import TableBodyLoading from "@/component/table/body/TableBodyLoading/TableBodyLoading";
-import { ColumnConfig } from "@/component/table/CustomTable/CustomTable";
+import CustomTable, {
+  ColumnConfig,
+} from "@/component/table/CustomTable/CustomTable";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 type Props = {
@@ -63,34 +65,12 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
   ];
   return (
     <TableContainer>
-      <Table sx={{ tableLayout: "fixed" }} stickyHeader>
-        <TableHead>
-          <CategoryTaskTableHeader
-            isSortTarget={isSelected}
-            isAsc={isAsc}
-            onClickSortLabel={handleClickSortLabel}
-            isFavoriteChecked={isFavoriteChecked}
-            onClickFavoriteLabel={toggleFavoriteCheck}
-          />
-        </TableHead>
-        <TableBody>
-          {isLoading && <TableBodyLoading colCount={4} />}
-          {!isLoading && taskItemList.length === 0 && (
-            <TableBodyNoItem colCount={4} />
-          )}
-          {!isLoading &&
-            taskItemList.length !== 0 &&
-            taskItemList
-              .sort(doSort)
-              .map((item) => (
-                <CategoryTaskTableBody
-                  key={item.id}
-                  item={item}
-                  onClickNavigate={navigateToTaskDetail}
-                />
-              ))}
-        </TableBody>
-      </Table>
+      <CustomTable
+        data={taskItemList}
+        columns={columnsConfig}
+        loading={isLoading}
+        stickyHeader
+      />
     </TableContainer>
   );
 });
