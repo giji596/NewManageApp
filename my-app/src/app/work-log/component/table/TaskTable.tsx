@@ -23,12 +23,12 @@ const TaskTable = memo(function TaskTable() {
     {
       key: "progress",
       title: "進捗",
-      width: "30%",
+      width: "27%",
     },
     {
       key: "id",
       title: "",
-      width: "10%",
+      width: "13%",
       renderCell: (item) => (
         <IconButton onClick={() => navigateToDetail(item.id)}>
           <DoubleArrowIcon />
@@ -46,6 +46,7 @@ const TaskTable = memo(function TaskTable() {
           data={data}
           columns={columnsConfig}
           loading={isLoading}
+          stickyHeader
         />
       </TableContainer>
     </>
