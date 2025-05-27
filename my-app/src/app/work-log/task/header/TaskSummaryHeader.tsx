@@ -4,6 +4,7 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import TuneIcon from "@mui/icons-material/Tune";
+import { memo } from "react";
 
 type Props = {
   /** 変更の有無 */
@@ -23,7 +24,7 @@ type Props = {
 /**
  * タスク一覧ページのヘッダー
  */
-export default function TaskSummaryHeader({
+const TaskSummaryHeader = memo(function TaskSummaryHeader({
   isDirty,
   isSelected,
   onClickChangeDisplayRange,
@@ -76,4 +77,5 @@ export default function TaskSummaryHeader({
       </Stack>
     </Stack>
   );
-}
+});
+export default TaskSummaryHeader;

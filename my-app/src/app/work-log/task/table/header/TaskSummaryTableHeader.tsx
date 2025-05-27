@@ -6,6 +6,7 @@ import CustomHeaderSortCheckLabel from "@/component/table/header/CustomHeaderSor
 import CustomHeaderSortLabel from "@/component/table/header/CustomHeaderSortLabel/CustomHeaderSortLabel";
 import HeaderFavoriteLabel from "@/component/table/header/HeaderFavoriteLabel/HeaderFavoriteLabel";
 import { TableCell, TableRow } from "@mui/material";
+import { memo } from "react";
 
 type Props = {
   /** おきにのチェック状態 */
@@ -27,7 +28,7 @@ type Props = {
 /**
  * タスク一覧ページのテーブルヘッダー
  */
-export default function TaskSummaryTableHeader({
+const TaskSummaryTableHeader = memo(function TaskSummaryTableHeader({
   isFavoriteChecked,
   isAsc,
   categoryCheckList,
@@ -124,4 +125,5 @@ export default function TaskSummaryTableHeader({
       )}
     </>
   );
-}
+});
+export default TaskSummaryTableHeader;
