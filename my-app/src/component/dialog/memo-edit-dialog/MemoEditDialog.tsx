@@ -220,11 +220,13 @@ const MemoEditDialog = memo(function MemoEditDialog({
         </Stack>
       </Dialog>
       {/** ダイアログ群 */}
-      <ConfirmDeleteDialog
-        open={openDelete}
-        onClose={onCloseDelete}
-        onAccept={handleDelete}
-      />
+      {openDelete && (
+        <ConfirmDeleteDialog
+          open={openDelete}
+          onClose={onCloseDelete}
+          onAccept={handleDelete}
+        />
+      )}
       {openTag && (
         <TagEditDialog
           open={openTag}
