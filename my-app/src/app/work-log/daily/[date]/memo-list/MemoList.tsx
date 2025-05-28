@@ -8,6 +8,7 @@ import { MemoDailyTask } from "@/type/Memo";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import MemoEditDialog from "@/component/dialog/memo-edit-dialog/MemoEditDialog";
 import useDialog from "@/hook/useDialog";
+import { useMemo } from "react";
 
 type Props = {
   /** 選択中のタスクのid(ハイライトように) */
@@ -26,37 +27,40 @@ export default function MemoList({ selectedItemTaskId }: Props) {
     onClickEditButton,
     onCloseEdit,
   } = MemoListLogic({ selectedItemTaskId, onOpen, onClose });
-  const columnsConfig: ColumnConfig<MemoDailyTask>[] = [
-    { key: "title", title: "タイトル", width: "45%", labelProp: "sortable" },
-    {
-      key: "task.name",
-      title: "タスク名",
-      width: "30%",
-      labelProp: "sortableAndFilterable",
-    },
-    {
-      key: "tagName",
-      title: "タグ",
-      width: "15%",
-      labelProp: "sortableAndFilterable",
-    },
-    {
-      key: "id",
-      title: "",
-      width: "10%",
+  const columnsConfig: ColumnConfig<MemoDailyTask>[] = useMemo(
+    () => [
+      { key: "title", title: "タイトル", width: "45%", labelProp: "sortable" },
+      {
+        key: "task.name",
+        title: "タスク名",
+        width: "30%",
+        labelProp: "sortableAndFilterable",
+      },
+      {
+        key: "tagName",
+        title: "タグ",
+        width: "15%",
+        labelProp: "sortableAndFilterable",
+      },
+      {
+        key: "id",
+        title: "",
+        width: "10%",
 
-      renderCell: (row) => (
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation(); // rowのイベント(文章の頭を展開する)を行わせない
-            onClickEditButton(row);
-          }}
-        >
-          <AspectRatioIcon />
-        </IconButton>
-      ),
-    },
-  ];
+        renderCell: (row) => (
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation(); // rowのイベント(文章の頭を展開する)を行わせない
+              onClickEditButton(row);
+            }}
+          >
+            <AspectRatioIcon />
+          </IconButton>
+        ),
+      },
+    ],
+    [memoItemList]
+  );
   return (
     <>
       <TableContainer sx={{ height: 345 }}>

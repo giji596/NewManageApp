@@ -3,6 +3,7 @@ import { DailyDetailTaskTableType } from "@/type/Task";
 import CustomTable, {
   ColumnConfig,
 } from "@/component/table/CustomTable/CustomTable";
+import { useMemo } from "react";
 
 type Props = {
   /** タスク一覧 */
@@ -24,23 +25,26 @@ export default function TaskTable({
   onClickRow,
   selectedItemId,
 }: Props) {
-  const columnsConfig: ColumnConfig<DailyDetailTaskTableType>[] = [
-    {
-      key: "task.name",
-      title: "タスク",
-      labelProp: "sortableAndFilterable",
-    },
-    {
-      key: "category.name",
-      title: "カテゴリ",
-      labelProp: "sortableAndFilterable",
-    },
-    {
-      key: "dailyHours",
-      title: "稼働時間",
-      labelProp: "sortable",
-    },
-  ];
+  const columnsConfig: ColumnConfig<DailyDetailTaskTableType>[] = useMemo(
+    () => [
+      {
+        key: "task.name",
+        title: "タスク",
+        labelProp: "sortableAndFilterable",
+      },
+      {
+        key: "category.name",
+        title: "カテゴリ",
+        labelProp: "sortableAndFilterable",
+      },
+      {
+        key: "dailyHours",
+        title: "稼働時間",
+        labelProp: "sortable",
+      },
+    ],
+    []
+  );
   return (
     <CustomTable<DailyDetailTaskTableType>
       data={taskList}

@@ -1,6 +1,6 @@
 "use client";
 import { IconButton, TableContainer, Typography } from "@mui/material";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import TaskTableLogic from "./TaskTableLogic";
 import CustomTable, {
@@ -14,28 +14,31 @@ import { MainPageTaskTable } from "@/type/Task";
 const TaskTable = memo(function TaskTable() {
   const { data, isLoading, navigateToDetail } = TaskTableLogic();
 
-  const columnsConfig: ColumnConfig<MainPageTaskTable>[] = [
-    {
-      key: "name",
-      title: "タスク名",
-      width: "60%",
-    },
-    {
-      key: "progress",
-      title: "進捗",
-      width: "27%",
-    },
-    {
-      key: "id",
-      title: "",
-      width: "13%",
-      renderCell: (item) => (
-        <IconButton onClick={() => navigateToDetail(item.id)}>
-          <DoubleArrowIcon />
-        </IconButton>
-      ),
-    },
-  ];
+  const columnsConfig: ColumnConfig<MainPageTaskTable>[] = useMemo(
+    () => [
+      {
+        key: "name",
+        title: "タスク名",
+        width: "60%",
+      },
+      {
+        key: "progress",
+        title: "進捗",
+        width: "27%",
+      },
+      {
+        key: "id",
+        title: "",
+        width: "13%",
+        renderCell: (item) => (
+          <IconButton onClick={() => navigateToDetail(item.id)}>
+            <DoubleArrowIcon />
+          </IconButton>
+        ),
+      },
+    ],
+    [navigateToDetail]
+  );
   return (
     <>
       <Typography textAlign={"center"} variant="h6" color="text.secondary">
