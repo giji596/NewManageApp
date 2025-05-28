@@ -59,7 +59,7 @@ export default function MemoList({ selectedItemTaskId }: Props) {
         ),
       },
     ],
-    [memoItemList]
+    [onClickEditButton]
   );
   return (
     <>
