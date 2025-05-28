@@ -72,6 +72,7 @@ export default function MemoList({ selectedItemTaskId }: Props) {
           onClickRow={handleClickRow}
           selectedId={selectedRowId}
           rowColor={backgroundColor}
+          stickyHeader
         />
       </TableContainer>
       {open && editTarget.current && (

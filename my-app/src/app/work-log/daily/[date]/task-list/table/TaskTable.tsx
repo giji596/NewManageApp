@@ -54,6 +54,7 @@ export default function TaskTable({
         loading={isLoading}
         onClickRow={onClickRow}
         selectedId={selectedItemId}
+        stickyHeader
       />
     </TableContainer>
   );
