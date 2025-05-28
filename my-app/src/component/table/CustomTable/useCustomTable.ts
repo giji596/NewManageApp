@@ -89,6 +89,7 @@ export const useCustomTable = <T extends object>({
    */
   const initialFilterList = useMemo(() => {
     const filterList: Record<string, Record<string, boolean>> = {};
+    console.log("初期値メモ化");
 
     columns.forEach((col) => {
       if (col.labelProp === "sortableAndFilterable") {

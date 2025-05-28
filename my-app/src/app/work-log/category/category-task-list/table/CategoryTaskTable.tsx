@@ -1,6 +1,6 @@
 "use client";
 import { IconButton, TableContainer } from "@mui/material";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { CategoryTaskList } from "@/type/Task";
 import CategoryTaskTableLogic from "./CategoryTaskTableLogic";
 import CustomTable, {
@@ -24,27 +24,35 @@ const CategoryTaskTable = memo(function CategoryTaskTable({
 }: Props) {
   const { navigateToTaskDetail } = CategoryTaskTableLogic();
 
-  const columnsConfig: ColumnConfig<CategoryTaskList>[] = [
-    { key: "isFavorite", title: "", width: "10%", labelProp: "favoriteToggle" },
-    { key: "name", title: "タスク名", width: "60%", labelProp: "sortable" },
-    {
-      key: "progress",
-      title: "進捗",
-      width: "20%",
-      labelProp: "sortable",
-      renderCell: (item) => <>{item.progress}%</>,
-    },
-    {
-      key: "id",
-      title: "",
-      width: "10%",
-      renderCell: (item) => (
-        <IconButton onClick={() => navigateToTaskDetail(item.id)}>
-          <DoubleArrowIcon />
-        </IconButton>
-      ),
-    },
-  ];
+  const columnsConfig: ColumnConfig<CategoryTaskList>[] = useMemo(
+    () => [
+      {
+        key: "isFavorite",
+        title: "",
+        width: "10%",
+        labelProp: "favoriteToggle",
+      },
+      { key: "name", title: "タスク名", width: "60%", labelProp: "sortable" },
+      {
+        key: "progress",
+        title: "進捗",
+        width: "20%",
+        labelProp: "sortable",
+        renderCell: (item) => <>{item.progress}%</>,
+      },
+      {
+        key: "id",
+        title: "",
+        width: "10%",
+        renderCell: (item) => (
+          <IconButton onClick={() => navigateToTaskDetail(item.id)}>
+            <DoubleArrowIcon />
+          </IconButton>
+        ),
+      },
+    ],
+    [navigateToTaskDetail]
+  );
   return (
     <TableContainer>
       <CustomTable

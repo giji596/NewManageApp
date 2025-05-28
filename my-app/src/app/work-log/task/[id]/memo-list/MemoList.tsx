@@ -9,7 +9,7 @@ import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import MemoEditDialog from "@/component/dialog/memo-edit-dialog/MemoEditDialog";
 import useDialog from "@/hook/useDialog";
 import { format } from "date-fns";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 type Props = {
   /** メモアイテムリスト */
@@ -31,37 +31,40 @@ const MemoList = memo(function MemoList({ memoItemList }: Props) {
     onOpen,
     onClose,
   });
-  const columnConfig: ColumnConfig<MemoTaskDetail>[] = [
-    {
-      key: "date",
-      title: "日付",
-      width: "30%",
-      labelProp: "sortable",
-      renderCell: (row) => <>{format(row.date, "yyyy/MM/dd")}</>,
-    },
-    { key: "title", title: "タイトル", width: "40%", labelProp: "sortable" },
-    {
-      key: "tag",
-      title: "タグ",
-      width: "20%",
-      labelProp: "sortableAndFilterable",
-    },
-    {
-      key: "id",
-      title: "",
-      width: "10%",
-      renderCell: (row) => (
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation(); // rowのイベント(文章の頭を展開する)を行わせない
-            onOpenEditDialog(row);
-          }}
-        >
-          <AspectRatioIcon />
-        </IconButton>
-      ),
-    },
-  ];
+  const columnConfig: ColumnConfig<MemoTaskDetail>[] = useMemo(
+    () => [
+      {
+        key: "date",
+        title: "日付",
+        width: "30%",
+        labelProp: "sortable",
+        renderCell: (row) => <>{format(row.date, "yyyy/MM/dd")}</>,
+      },
+      { key: "title", title: "タイトル", width: "40%", labelProp: "sortable" },
+      {
+        key: "tag",
+        title: "タグ",
+        width: "20%",
+        labelProp: "sortableAndFilterable",
+      },
+      {
+        key: "id",
+        title: "",
+        width: "10%",
+        renderCell: (row) => (
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation(); // rowのイベント(文章の頭を展開する)を行わせない
+              onOpenEditDialog(row);
+            }}
+          >
+            <AspectRatioIcon />
+          </IconButton>
+        ),
+      },
+    ],
+    [onOpenEditDialog]
+  );
   return (
     <>
       <TableContainer>
