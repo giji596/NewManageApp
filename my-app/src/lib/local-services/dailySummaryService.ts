@@ -218,8 +218,18 @@ export const getDailySummaryDetailData = async ({
       percent: `${categoryPercent}%`,
     };
   });
+  // カテゴリのパーセントが高い順にソート
+  const sortedCategory = categoryList.sort(
+    (a, b) => parseFloat(b.percent) - parseFloat(a.percent)
+  );
 
-  dateSummaryDetail.categoryList = categoryList;
+  // taskListをパーセントが高い順にソート
+  sortedCategory.forEach((category) => {
+    category.taskList.sort(
+      (a, b) => parseFloat(b.percent) - parseFloat(a.percent)
+    );
+  });
+  dateSummaryDetail.categoryList = sortedCategory;
 
   // memoListを作成
   dateSummaryDetail.memoList = rawData.flatMap((log) =>
