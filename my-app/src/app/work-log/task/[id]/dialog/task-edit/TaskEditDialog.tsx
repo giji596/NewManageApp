@@ -13,6 +13,7 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import TaskEditDialogLogic from "./TaskEditDialogLogic";
 import { Controller } from "react-hook-form";
@@ -41,13 +42,19 @@ const TaskEditDialog = memo(function TaskEditDialog({
   initialCategoryId,
   initialIsFavorite,
 }: Props) {
-  const { categoryList, isLoading, control, isValid, onSubmit } =
-    TaskEditDialogLogic({
-      initialTaskName,
-      initialCategoryId,
-      initialIsFavorite,
-      onClose,
-    });
+  const {
+    categoryList,
+    isLoading,
+    duplicateError,
+    control,
+    isValid,
+    onSubmit,
+  } = TaskEditDialogLogic({
+    initialTaskName,
+    initialCategoryId,
+    initialIsFavorite,
+    onClose,
+  });
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <form onSubmit={onSubmit}>
@@ -101,6 +108,12 @@ const TaskEditDialog = memo(function TaskEditDialog({
                 )}
               />
             </FormControl>
+          )}
+          {/** エラーメッセージ */}
+          {duplicateError && (
+            <Typography variant="caption" color="error">
+              * すでに存在するタスクは追加できません。
+            </Typography>
           )}
           {/** お気に入り */}
           <FormControlLabel
