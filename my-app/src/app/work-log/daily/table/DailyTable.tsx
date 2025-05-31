@@ -1,5 +1,5 @@
 "use client";
-import { Stack, Typography } from "@mui/material";
+import { Stack, TableContainer, Typography } from "@mui/material";
 import DailyTableLogic from "./logic";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CustomMenuWrapper from "@/component/menu/CustomMenuWrapper/CustomMenuWrapper";
@@ -80,14 +80,16 @@ const DailyTable = memo(function DailyTable() {
   );
   return (
     <>
-      <CustomTable<DateSummary & { id: number }>
-        data={itemList}
-        columns={columnsConfig}
-        stickyHeader
-        loading={isLoading}
-        initialTarget={"日付"}
-        onClickRow={handleNavigateSelectedDay}
-      />
+      <TableContainer sx={{ height: "70vh" }}>
+        <CustomTable<DateSummary & { id: number }>
+          data={itemList}
+          columns={columnsConfig}
+          stickyHeader
+          loading={isLoading}
+          initialTarget={"日付"}
+          onClickRow={handleNavigateSelectedDay}
+        />
+      </TableContainer>
       {/** カスタムメニューの面々   */}
       <CustomMenuWrapper
         logic={{ handleMouseEnter, handleMouseLeave, openTargetIdRef, ...prev }}
