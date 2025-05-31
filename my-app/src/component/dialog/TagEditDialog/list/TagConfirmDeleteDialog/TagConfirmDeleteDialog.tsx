@@ -36,7 +36,7 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
   return (
     <Dialog open={open} onClose={onClose}>
       {/** データフェッチ完了するまでは非表示にする  */}
-      {memoTitleList && hideItemCount && (
+      {memoTitleList && hideItemCount !== undefined && (
         <>
           {/** タイトル */}
           <DialogTitle>
