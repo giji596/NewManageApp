@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
   Typography,
 } from "@mui/material";
 import { memo } from "react";
@@ -36,7 +37,7 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
   return (
     <Dialog open={open} onClose={onClose}>
       {/** データフェッチ完了するまでは非表示にする  */}
-      {memoTitleList && hideItemCount && (
+      {memoTitleList && hideItemCount !== undefined && (
         <>
           {/** タイトル */}
           <DialogTitle>
@@ -54,14 +55,16 @@ const TagConfirmDeleteDialog = memo(function TagConfirmDeleteDialog({
               タグを削除すると、該当メモのタグ情報はクリアされます。
             </Typography>
             {/** 関連メモを表示 */}
-            <ul>
-              {memoTitleList.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-              {hideItemCount > 0 && (
-                <Typography>...他{hideItemCount}件</Typography>
-              )}
-            </ul>
+            <Stack pl={5} py={1}>
+              <ul>
+                {memoTitleList.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+                {hideItemCount > 0 && (
+                  <Typography>...他{hideItemCount}件</Typography>
+                )}
+              </ul>
+            </Stack>
             {/** 本文下部 */}
             <Typography pl={1}>本当に削除してもよろしいですか？</Typography>
           </DialogContent>

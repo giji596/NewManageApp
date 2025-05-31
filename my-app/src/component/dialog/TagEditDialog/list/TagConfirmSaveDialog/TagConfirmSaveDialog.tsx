@@ -5,6 +5,7 @@ import {
   Typography,
   DialogActions,
   Button,
+  Stack,
 } from "@mui/material";
 import { memo } from "react";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
@@ -40,7 +41,7 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
   return (
     <Dialog open={open} onClose={onClose}>
       {/** データフェッチ完了するまでは非表示にする  */}
-      {memoTitleList && hideItemCount && (
+      {memoTitleList && hideItemCount !== undefined && (
         <>
           {/** タイトル */}
           <DialogTitle>
@@ -58,14 +59,16 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
               タグ名を変更すると、該当メモのタグ名も変更されます。
             </Typography>
             {/** 関連メモを表示 */}
-            <ul>
-              {memoTitleList.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-              {hideItemCount > 0 && (
-                <Typography>...他{hideItemCount}件</Typography>
-              )}
-            </ul>
+            <Stack pl={5} py={1}>
+              <ul>
+                {memoTitleList.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+                {hideItemCount > 0 && (
+                  <Typography>...他{hideItemCount}件</Typography>
+                )}
+              </ul>
+            </Stack>
             {/** 本文下部 */}
             <Typography pl={1}>本当に変更してもよろしいですか？</Typography>
           </DialogContent>
