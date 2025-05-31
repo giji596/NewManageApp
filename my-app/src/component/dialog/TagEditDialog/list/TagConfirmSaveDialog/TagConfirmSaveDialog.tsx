@@ -71,6 +71,7 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
           </DialogContent>
           {/** ボタン */}
           <DialogActions>
+            <Button onClick={onClose}>キャンセル</Button>
             <Button
               startIcon={<CheckCircleIcon />}
               color="success"
@@ -78,7 +79,6 @@ const TagConfirmSaveDialog = memo(function TagConfirmSaveDialog({
             >
               保存
             </Button>
-            <Button onClick={onClose}>キャンセル</Button>
           </DialogActions>
         </>
       )}
