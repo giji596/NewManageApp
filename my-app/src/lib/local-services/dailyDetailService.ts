@@ -100,8 +100,8 @@ export const getDailyDetailData = async (date: string) => {
   });
   return {
     date,
-    taskList: tasks,
-    memoList: memos,
+    taskList: tasks.reverse(), // 新しいものが先頭にくるように
+    memoList: memos.reverse(), // 新しいものが先頭に来るように
   };
 };
 
