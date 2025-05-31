@@ -57,6 +57,9 @@ const CreateCategoryDialog = memo(function CreateCategoryDialog({
         </DialogContent>
         {/** ロウワー ボタン */}
         <DialogActions>
+          <Button onClick={onClose} color="error">
+            キャンセル
+          </Button>
           <Button
             disabled={!isValid}
             type="submit"
@@ -64,9 +67,6 @@ const CreateCategoryDialog = memo(function CreateCategoryDialog({
             startIcon={<AddBoxIcon />}
           >
             作成
-          </Button>
-          <Button onClick={onClose} color="error">
-            キャンセル
           </Button>
         </DialogActions>
       </form>
