@@ -1,7 +1,7 @@
 import { localClient } from "@/lib/localClient";
 import { CategoryOption } from "@/type/Category";
 import { useParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 
@@ -34,6 +34,7 @@ export default function TaskEditDialogLogic({
   onClose,
 }: Props) {
   const { id } = useParams<{ id: string }>();
+  const [duplicateError, setDuplicateError] = useState<boolean>(false);
   const { data, isLoading } = useSWR(
     ["api/work-log/categories/options", "displayRange=all&hideCompleted=true"],
     localClient.work_log.categories.options.get({
@@ -62,18 +63,26 @@ export default function TaskEditDialogLogic({
         sendData.categoryId = data.categoryId;
       if (initialIsFavorite !== data.isFavorite)
         sendData.isFavorite = data.isFavorite;
-      await localClient.work_log.tasks._id(Number(id)).patch({
-        body: sendData,
-      });
-      // 再検証
-      // このページについて
-      mutate(`api/work-log/tasks/${id}`);
-      // 一覧データについて
-      mutate(
-        (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
-        undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
-      );
-      onClose();
+      try {
+        await localClient.work_log.tasks._id(Number(id)).patch({
+          body: sendData,
+        });
+        // 再検証
+        // このページについて
+        mutate(`api/work-log/tasks/${id}`);
+        // 一覧データについて
+        mutate(
+          (key) => Array.isArray(key) && key[0] === "api/work-log/tasks",
+          undefined // キャッシュを削除(一覧データではキャッシュがある場合利用する設定であるので)
+        );
+        onClose();
+      } catch (error) {
+        // 重複エラーであるかメッセージで判定
+        if (error instanceof Error && error.message === "duplicate error") {
+          // エラーメッセージ表示
+          setDuplicateError(true);
+        }
+      }
     },
     [id, initialCategoryId, initialIsFavorite, initialTaskName, onClose]
   );
@@ -82,6 +91,8 @@ export default function TaskEditDialogLogic({
     categoryList,
     /* カテゴリ一覧のロード状態 */
     isLoading,
+    /** 重複エラー */
+    duplicateError,
     /** RHFのコントロールオブジェクト(MUIのコンポーネントに必須) */
     control,
     /** バリデーションの可否 */
