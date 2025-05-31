@@ -6,6 +6,7 @@ import TaskSummaryTable from "./table/TaskSummaryTable";
 import useDialog from "@/hook/useDialog";
 import TaskDisplayRangeDialog from "./dialog/TaskDisplayRangeDialog";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
+import { CircularProgress, Stack } from "@mui/material";
 
 /**
  * タスク一覧ページ
@@ -51,6 +52,16 @@ export default function TaskSummaryPage() {
           onClickItemRow={handleSelectItem}
           onDirtyChange={onDirtyChange}
         />
+      )}
+      {(isLoading || isValidating) && (
+        <Stack
+          width="100%"
+          height="500px"
+          justifyContent="center"
+          alignItems={"center"}
+        >
+          <CircularProgress />
+        </Stack>
       )}
       {open && <TaskDisplayRangeDialog open={open} onClose={onClose} />}
       {openComplete && (
