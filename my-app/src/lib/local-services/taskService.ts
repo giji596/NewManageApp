@@ -267,6 +267,28 @@ export const updateTaskDetail = async (
   id: number,
   { taskName, categoryId, isFavorite, progress }: UpdateTaskBody
 ) => {
+  // 重複チェック
+  // 元データを取得
+  const targetData = await db.tasks.get(id);
+  if (targetData === undefined) throw new Error("not found error");
+
+  // カテゴリのタスク一覧を取得
+  const categoryTaskList = await db.tasks
+    .where({
+      categoryId: categoryId === undefined ? targetData.categoryId : categoryId, // 変更する場合はそれの、そうでなければtargetのIDから取得
+    })
+    .toArray();
+  // idが元データと異なり、同名のデータがある場合重複エラーを出す
+  const existing = categoryTaskList.find(
+    (v) =>
+      v.id !== id && // 元データを除外
+      v.name ===
+        (taskName !== undefined // 名前を変更する場合は変更後の、そうでなければ元データの名前を取得
+          ? taskName
+          : targetData.name)
+  );
+  if (existing !== undefined) throw new Error("duplicate error");
+
   const updateData: Partial<{
     name: string;
     categoryId: number;
