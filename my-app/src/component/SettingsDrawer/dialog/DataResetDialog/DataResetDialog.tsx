@@ -39,6 +39,7 @@ const DataResetDialog = memo(function DataResetDialog({
         </Typography>
       </DialogContent>
       <DialogActions>
+        <Button onClick={onClose}>キャンセル</Button>
         <Button
           color="error"
           startIcon={<DeleteForeverIcon />}
@@ -46,7 +47,6 @@ const DataResetDialog = memo(function DataResetDialog({
         >
           削除
         </Button>
-        <Button onClick={onClose}>キャンセル</Button>
       </DialogActions>
     </Dialog>
   );

@@ -50,11 +50,11 @@ const ImportOverwriteDialog = memo(function ImportOverwriteDialog({
       </Stack>
       {/** ボタン */}
       <DialogActions>
-        <Button startIcon={<SwapHorizIcon />} onClick={onClickImport}>
-          実行する
-        </Button>
         <Button color="error" onClick={onClose}>
           キャンセル
+        </Button>
+        <Button startIcon={<SwapHorizIcon />} onClick={onClickImport}>
+          実行する
         </Button>
       </DialogActions>
     </Dialog>
