@@ -4,6 +4,7 @@ import CustomTable, {
   ColumnConfig,
 } from "@/component/table/CustomTable/CustomTable";
 import { useMemo } from "react";
+import { TableContainer } from "@mui/material";
 
 type Props = {
   /** タスク一覧 */
@@ -46,12 +47,15 @@ export default function TaskTable({
     []
   );
   return (
-    <CustomTable<DailyDetailTaskTableType>
-      data={taskList}
-      columns={columnsConfig}
-      loading={isLoading}
-      onClickRow={onClickRow}
-      selectedId={selectedItemId}
-    />
+    <TableContainer sx={{ height: 345 }}>
+      <CustomTable<DailyDetailTaskTableType>
+        data={taskList}
+        columns={columnsConfig}
+        loading={isLoading}
+        onClickRow={onClickRow}
+        selectedId={selectedItemId}
+        stickyHeader
+      />
+    </TableContainer>
   );
 }
