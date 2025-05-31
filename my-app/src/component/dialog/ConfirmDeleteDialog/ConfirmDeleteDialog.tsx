@@ -30,6 +30,9 @@ export default function ConfirmDeleteDialog({
       <DialogContent>
         <DialogContentText>削除してもよろしいですか？</DialogContentText>
         <DialogActions>
+          <Button color="error" onClick={onClose}>
+            いいえ
+          </Button>
           <Button
             onClick={() => {
               onAccept();
@@ -37,9 +40,6 @@ export default function ConfirmDeleteDialog({
             }}
           >
             はい
-          </Button>
-          <Button color="error" onClick={onClose}>
-            いいえ
           </Button>
         </DialogActions>
       </DialogContent>

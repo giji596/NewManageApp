@@ -41,6 +41,9 @@ export default function CompleteConfirmDialog({
           </Typography>
         </DialogContentText>
         <DialogActions>
+          <Button color="error" onClick={onClose}>
+            いいえ
+          </Button>
           <Button
             onClick={() => {
               onAccept();
@@ -48,9 +51,6 @@ export default function CompleteConfirmDialog({
             }}
           >
             はい
-          </Button>
-          <Button color="error" onClick={onClose}>
-            いいえ
           </Button>
         </DialogActions>
       </DialogContent>

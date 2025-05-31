@@ -131,11 +131,11 @@ const TaskEditDialog = memo(function TaskEditDialog({
         </Stack>
         {/** ボタン */}
         <DialogActions>
-          <Button disabled={!isValid} type={"submit"}>
-            保存
-          </Button>
           <Button color="error" onClick={onClose}>
             キャンセル
+          </Button>
+          <Button disabled={!isValid} type={"submit"}>
+            保存
           </Button>
         </DialogActions>
       </form>
