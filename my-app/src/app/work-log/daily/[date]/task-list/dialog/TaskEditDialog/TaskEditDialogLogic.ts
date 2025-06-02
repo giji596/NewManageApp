@@ -16,6 +16,8 @@ type Props = {
   initialHours: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
+  /** 関連メモの削除確認ダイアログ */
+  onOpenDeleteMemo: () => void;
 };
 
 /**
@@ -27,6 +29,7 @@ export default function TaskEditDialogLogic({
   initialTaskId,
   initialHours,
   onClose,
+  onOpenDeleteMemo,
 }: Props) {
   // ぱらめーた
   const { date } = useParams<{ date: string }>();
@@ -198,9 +201,9 @@ export default function TaskEditDialogLogic({
       onClose();
     } else {
       // 関連メモがある場合
-      console.log("関連メモあり"); // TODO:
+      onOpenDeleteMemo();
     }
-  }, [date, itemId, onClose]);
+  }, [date, itemId, onClose, onOpenDeleteMemo]);
 
   const newTaskIdRef = useRef<number | null>(null);
   const newCategoryIdRef = useRef<number | null>(null);
