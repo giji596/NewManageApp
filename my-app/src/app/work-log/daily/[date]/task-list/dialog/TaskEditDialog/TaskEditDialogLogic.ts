@@ -186,6 +186,12 @@ export default function TaskEditDialogLogic({
     progress,
     taskId,
   ]);
+
+  const onDelete = useCallback(async () => {
+    await localClient.work_log.daily._date(date).task_logs._id(itemId).delete();
+    mutate(`api/work-log/daily/${date}`); // 再検証する
+    onClose();
+  }, [date, itemId, onClose]);
   const handleDelete = useCallback(async () => {
     // ログの関連メモを取得
     const logMemoTitles = await localClient.work_log.daily
@@ -194,18 +200,13 @@ export default function TaskEditDialogLogic({
       .memos.titles.get()();
     // 関連メモがなければ直接削除可能
     if (logMemoTitles === null) {
-      await localClient.work_log.daily
-        ._date(date)
-        .task_logs._id(itemId)
-        .delete();
-      mutate(`api/work-log/daily/${date}`); // 再検証する
-      onClose();
+      await onDelete();
     } else {
       // 関連メモがある場合
       setMemoTitles(logMemoTitles);
       onOpenDeleteMemo();
     }
-  }, [date, itemId, onClose, onOpenDeleteMemo]);
+  }, [date, itemId, onDelete, onOpenDeleteMemo]);
 
   const newTaskIdRef = useRef<number | null>(null);
   const newCategoryIdRef = useRef<number | null>(null);
@@ -253,6 +254,8 @@ export default function TaskEditDialogLogic({
     handleChangeProgress,
     /** 編集を保存するハンドラー */
     handleSave,
+    /** 削除の処理(delete -> mutate -> onClose) */
+    onDelete,
     /** デリートのイベント */
     handleDelete,
     /** タスク追加時の処理 */

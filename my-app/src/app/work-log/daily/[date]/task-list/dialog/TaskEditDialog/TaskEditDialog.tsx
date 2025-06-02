@@ -73,6 +73,7 @@ export default function TaskEditDialog({
     isBecomeComplete,
     handleChangeProgress,
     handleSave,
+    onDelete,
     handleDelete,
     onCreateTask,
     onCreateCategory,
@@ -347,7 +348,7 @@ export default function TaskEditDialog({
         <ConfirmDeleteIncludeMemosDialog
           open={openDeleteMemo}
           onClose={onCloseDeleteMemo}
-          onDelete={async () => {}} // TODO
+          onDelete={onDelete}
           memoTitles={memoTitles}
         />
       )}
