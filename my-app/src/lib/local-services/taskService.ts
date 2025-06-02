@@ -23,6 +23,11 @@ export const getTaskOptions = async ({ categoryId }: TaskOptionQuery) => {
   const data = await db.tasks.where("categoryId").equals(categoryId).toArray();
   const result: TaskOption[] = data
     .filter((v) => v.progress !== 100) // 完了済みを除外する
+    .sort((a, b) => {
+      const aDate = a?.lastActivityDate ?? "";
+      const bDate = b?.lastActivityDate ?? "";
+      return bDate.localeCompare(aDate);
+    })
     .map((v) => {
       return { id: v.id, name: v.name }; // 必要なパラメータだけ取得
     });
