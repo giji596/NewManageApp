@@ -23,8 +23,17 @@ export default function DailyDetailMenu() {
     onClose: onCloseMemo,
     onOpen: onOpenMemo,
   } = useDialog();
-  const { dailyHours, taskLogSummary, dateString, growAnimation, isNoTask } =
-    DailyDetailMenuLogic();
+  const {
+    dailyHours,
+    taskLogSummary,
+    dateString,
+    growAnimation,
+    isNoTask,
+    navigatePrevDay,
+    navigateNextDay,
+    isLastRange,
+    isStartRange,
+  } = DailyDetailMenuLogic();
   return (
     <>
       <Stack spacing={2}>
@@ -36,6 +45,8 @@ export default function DailyDetailMenu() {
                 transition: "transform 0.2s ease-in-out",
                 "&:hover": { transform: "scale(1.2) translateX(-5px)" },
               }}
+              disabled={isStartRange}
+              onClick={navigatePrevDay}
             >
               <NavigateBeforeIcon />
             </IconButton>
@@ -45,6 +56,8 @@ export default function DailyDetailMenu() {
                 transition: "transform 0.2s ease-in-out",
                 "&:hover": { transform: "scale(1.2) translateX(5px)" },
               }}
+              disabled={isLastRange}
+              onClick={navigateNextDay}
             >
               <NavigateNextIcon />
             </IconButton>
