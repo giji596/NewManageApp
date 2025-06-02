@@ -1,7 +1,7 @@
 import { localClient } from "@/lib/localClient";
 import { TaskLogSummary } from "@/type/Task";
 import { keyframes } from "@emotion/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
 
@@ -10,6 +10,8 @@ import useSWR from "swr";
  */
 export default function DailyDetailMenuLogic() {
   const { date: dateParam } = useParams<{ date: string }>();
+  // ナビゲーション関連
+  const router = useRouter();
   const { data } = useSWR(
     `api/work-log/daily/${dateParam}`,
     localClient.work_log.daily._date(dateParam).get()
@@ -49,6 +51,38 @@ export default function DailyDetailMenuLogic() {
     [taskLogSummary.length]
   );
 
+  // ナビゲーション関連
+  // 選択範囲関連
+  const today = useMemo(() => {
+    return new Date().toISOString().slice(0, 10);
+  }, []);
+  const tenYearsAgo = useMemo(() => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 10);
+    return date.toISOString().slice(0, 10);
+  }, []);
+  // 今日より後は選択不可
+  const isLastRange = useMemo(() => {
+    return dateParam === today;
+  }, [dateParam, today]);
+  // 10年前より前は選択不可
+  const isStartRange = useMemo(() => {
+    return dateParam === tenYearsAgo;
+  }, [dateParam, tenYearsAgo]);
+
+  const navigatePrevDay = () => {
+    const date = new Date(dateParam);
+    date.setDate(date.getDate() - 1);
+    const prevDate = date.toISOString().slice(0, 10);
+    router.replace(`${prevDate}`);
+  };
+  const navigateNextDay = () => {
+    const date = new Date(dateParam);
+    date.setDate(date.getDate() + 1);
+    const nextDate = date.toISOString().slice(0, 10);
+    router.replace(`${nextDate}`);
+  };
+
   return {
     /** 稼働時間 */
     dailyHours,
@@ -60,5 +94,13 @@ export default function DailyDetailMenuLogic() {
     growAnimation,
     /** タスクがないかどうか */
     isNoTask,
+    /** 前の日に移動 */
+    navigatePrevDay,
+    /** 次の日に移動 */
+    navigateNextDay,
+    /** 最後の日付の範囲かどうか */
+    isLastRange,
+    /** 開始の日付の範囲かどうか */
+    isStartRange,
   };
 }
