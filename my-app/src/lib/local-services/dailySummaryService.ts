@@ -113,8 +113,10 @@ export const getDailySummaryDetailData = async ({
 }: DateSummaryDetailQuery) => {
   // データをDexieから取得
   const rawData = await db.taskLogs.where("date").equals(date).toArray();
+  // workTimeが0のものを除外
+  const filteredData = rawData.filter((log) => log.workTime > 0);
   // なければnullを返す
-  if (rawData.length === 0) {
+  if (filteredData.length === 0) {
     return null;
   }
 
@@ -122,11 +124,11 @@ export const getDailySummaryDetailData = async ({
   // 必要なデータを取得
   const memos = await db.memos
     .where("taskLogId")
-    .anyOf(rawData.map((log) => log.id))
+    .anyOf(filteredData.map((log) => log.id))
     .toArray();
   const tasks = await db.tasks
     .where("id")
-    .anyOf(rawData.map((log) => log.taskId))
+    .anyOf(filteredData.map((log) => log.taskId))
     .toArray();
   const categories = await db.categories
     .where("id")
@@ -141,7 +143,10 @@ export const getDailySummaryDetailData = async ({
   };
 
   // logsのworkTimeを集計
-  const totalWorkTime = rawData.reduce((total, log) => total + log.workTime, 0);
+  const totalWorkTime = filteredData.reduce(
+    (total, log) => total + log.workTime,
+    0
+  );
 
   // categoryIDごとのworkTimeを集計
   const categoryWorkTime: Record<
@@ -155,7 +160,7 @@ export const getDailySummaryDetailData = async ({
   > = {};
 
   // カテゴリ/タスクごとの時間を集計する
-  rawData.forEach((log) => {
+  filteredData.forEach((log) => {
     const task = tasks.find((task) => task.id === log.taskId)!;
     const category = categories.find(
       (category) => category.id === task.categoryId
