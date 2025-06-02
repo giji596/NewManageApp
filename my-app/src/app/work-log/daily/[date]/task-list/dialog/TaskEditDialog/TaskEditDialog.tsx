@@ -57,6 +57,7 @@ export default function TaskEditDialog({
   const {
     categoryId,
     taskId,
+    memoTitles,
     dailyHours,
     unSelected,
     taskList,
@@ -342,12 +343,12 @@ export default function TaskEditDialog({
           isTaskSelected={true}
         />
       )}
-      {openDeleteMemo && (
+      {openDeleteMemo && memoTitles && (
         <ConfirmDeleteIncludeMemosDialog
           open={openDeleteMemo}
           onClose={onCloseDeleteMemo}
           onDelete={async () => {}} // TODO
-          memoTitles={[]} // TODO
+          memoTitles={memoTitles}
         />
       )}
     </>

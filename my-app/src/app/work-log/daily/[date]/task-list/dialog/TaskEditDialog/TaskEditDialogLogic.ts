@@ -36,6 +36,7 @@ export default function TaskEditDialogLogic({
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
   // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
   const [hasInitialized, setHasInitialized] = useState<boolean>(false);
+  const [memoTitles, setMemoTitles] = useState<string[] | null>(null);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
@@ -187,12 +188,12 @@ export default function TaskEditDialogLogic({
   ]);
   const handleDelete = useCallback(async () => {
     // ログの関連メモを取得
-    const memoTitles = await localClient.work_log.daily
+    const logMemoTitles = await localClient.work_log.daily
       ._date(date)
       .task_logs._id(itemId)
       .memos.titles.get()();
     // 関連メモがなければ直接削除可能
-    if (memoTitles === null) {
+    if (logMemoTitles === null) {
       await localClient.work_log.daily
         ._date(date)
         .task_logs._id(itemId)
@@ -201,6 +202,7 @@ export default function TaskEditDialogLogic({
       onClose();
     } else {
       // 関連メモがある場合
+      setMemoTitles(logMemoTitles);
       onOpenDeleteMemo();
     }
   }, [date, itemId, onClose, onOpenDeleteMemo]);
@@ -223,6 +225,8 @@ export default function TaskEditDialogLogic({
     dailyHours,
     /** 対象を選択していない状態 */
     unSelected,
+    /** メモのタイトル一覧(削除時に表示) */
+    memoTitles,
     /** カテゴリ一覧 */
     categoryList,
     /** タスク一覧(カテゴリを変更時には再度取得する必要あり) */
