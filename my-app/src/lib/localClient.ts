@@ -37,6 +37,7 @@ import {
 import {
   createMemo,
   deleteMemo,
+  getLogMemoTitleList,
   getMemoBody,
   updateMemo,
 } from "./local-services/memoService";
@@ -75,6 +76,11 @@ export const localClient = {
                 patch: ({ body }: { body: UpdateUniqueTaskLogBody }) =>
                   updateTaskLog(id, body),
                 delete: () => deleteTaskLog(id),
+                memos: {
+                  titles: {
+                    get: () => () => getLogMemoTitleList(id),
+                  },
+                },
               };
             },
             post: ({ body }: { body: CreateDailyDetailDataBody }) =>

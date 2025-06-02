@@ -16,6 +16,8 @@ type Props = {
   initialHours: number;
   /** ダイアログ閉じるイベント */
   onClose: () => void;
+  /** 関連メモの削除確認ダイアログ */
+  onOpenDeleteMemo: () => void;
 };
 
 /**
@@ -27,12 +29,14 @@ export default function TaskEditDialogLogic({
   initialTaskId,
   initialHours,
   onClose,
+  onOpenDeleteMemo,
 }: Props) {
   // ぱらめーた
   const { date } = useParams<{ date: string }>();
   const [duplicateError, setDuplicateError] = useState<boolean>(false);
   // 初期レンダーのフラグ(初期時にuseEffectで値を変更させない)
   const [hasInitialized, setHasInitialized] = useState<boolean>(false);
+  const [memoTitles, setMemoTitles] = useState<string[] | null>(null);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [taskId, setTaskId] = useState<number | null>(null);
   const [dailyHours, setDailyHours] = useState<number>(initialHours);
@@ -182,11 +186,27 @@ export default function TaskEditDialogLogic({
     progress,
     taskId,
   ]);
-  const handleDelete = useCallback(async () => {
+
+  const onDelete = useCallback(async () => {
     await localClient.work_log.daily._date(date).task_logs._id(itemId).delete();
     mutate(`api/work-log/daily/${date}`); // 再検証する
     onClose();
   }, [date, itemId, onClose]);
+  const handleDelete = useCallback(async () => {
+    // ログの関連メモを取得
+    const logMemoTitles = await localClient.work_log.daily
+      ._date(date)
+      .task_logs._id(itemId)
+      .memos.titles.get()();
+    // 関連メモがなければ直接削除可能
+    if (logMemoTitles === null) {
+      await onDelete();
+    } else {
+      // 関連メモがある場合
+      setMemoTitles(logMemoTitles);
+      onOpenDeleteMemo();
+    }
+  }, [date, itemId, onDelete, onOpenDeleteMemo]);
 
   const newTaskIdRef = useRef<number | null>(null);
   const newCategoryIdRef = useRef<number | null>(null);
@@ -206,6 +226,8 @@ export default function TaskEditDialogLogic({
     dailyHours,
     /** 対象を選択していない状態 */
     unSelected,
+    /** メモのタイトル一覧(削除時に表示) */
+    memoTitles,
     /** カテゴリ一覧 */
     categoryList,
     /** タスク一覧(カテゴリを変更時には再度取得する必要あり) */
@@ -232,6 +254,8 @@ export default function TaskEditDialogLogic({
     handleChangeProgress,
     /** 編集を保存するハンドラー */
     handleSave,
+    /** 削除の処理(delete -> mutate -> onClose) */
+    onDelete,
     /** デリートのイベント */
     handleDelete,
     /** タスク追加時の処理 */

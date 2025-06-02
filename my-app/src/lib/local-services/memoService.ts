@@ -57,3 +57,14 @@ export const deleteMemo = async (id: number) => {
   await db.memos.delete(id);
   return id;
 };
+
+/**
+ * ログのメモのタイトル一覧を取得するメソッド
+ */
+export const getLogMemoTitleList = async (logId: number) => {
+  const list = await db.memos.where("taskLogId").equals(logId).toArray();
+  // メモがない場合はnullをreturn
+  if (list.length === 0) return null;
+  const titleList = list.map((v) => v.title);
+  return titleList;
+};

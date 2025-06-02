@@ -24,6 +24,7 @@ import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/Create
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
 import MemoAddDialog from "../../../menu/dialog/MemoAddDialog/MemoAddDialog";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
+import ConfirmDeleteIncludeMemosDialog from "./ConfirmDeleteIncludeMemosDialog/ConfirmDeleteIncludeMemosDialog";
 
 type Props = {
   /** 今開いてる対象のデータのid */
@@ -49,8 +50,14 @@ export default function TaskEditDialog({
   onClose,
 }: Props) {
   const {
+    open: openDeleteMemo,
+    onOpen: onOpenDeleteMemo,
+    onClose: onCloseDeleteMemo,
+  } = useDialog();
+  const {
     categoryId,
     taskId,
+    memoTitles,
     dailyHours,
     unSelected,
     taskList,
@@ -66,6 +73,7 @@ export default function TaskEditDialog({
     isBecomeComplete,
     handleChangeProgress,
     handleSave,
+    onDelete,
     handleDelete,
     onCreateTask,
     onCreateCategory,
@@ -75,6 +83,7 @@ export default function TaskEditDialog({
     initialTaskId,
     initialHours,
     onClose,
+    onOpenDeleteMemo,
   });
   const {
     open: openDelete,
@@ -333,6 +342,14 @@ export default function TaskEditDialog({
           open={openMemo}
           onClose={onCloseMemo}
           isTaskSelected={true}
+        />
+      )}
+      {openDeleteMemo && memoTitles && (
+        <ConfirmDeleteIncludeMemosDialog
+          open={openDeleteMemo}
+          onClose={onCloseDeleteMemo}
+          onDelete={onDelete}
+          memoTitles={memoTitles}
         />
       )}
     </>
