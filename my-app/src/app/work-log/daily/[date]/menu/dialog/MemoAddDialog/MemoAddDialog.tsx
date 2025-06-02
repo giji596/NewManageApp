@@ -41,15 +41,21 @@ export default function MemoAddDialog({
   isTaskSelected,
   onClose,
 }: Props) {
-  const { tagList, onSubmit, control, isValid, tagEditorActions } =
-    MemoAddDialogLogic({
-      onClose,
-      taskList,
-    });
+  const {
+    tagList,
+    handleCloseIfInvalidAllowed,
+    onSubmit,
+    control,
+    isValid,
+    tagEditorActions,
+  } = MemoAddDialogLogic({
+    onClose,
+    taskList,
+  });
   const { open: openTag, onOpen: onOpenTag, onClose: onCloseTag } = useDialog();
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth>
+      <Dialog open={open} onClose={handleCloseIfInvalidAllowed} fullWidth>
         <DialogTitle>メモを追加</DialogTitle>
         {/** タスクの選択フォーム */}
         <form onSubmit={onSubmit}>
