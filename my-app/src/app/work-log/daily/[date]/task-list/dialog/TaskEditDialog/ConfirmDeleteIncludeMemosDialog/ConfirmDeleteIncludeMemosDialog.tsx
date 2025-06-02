@@ -8,12 +8,32 @@ import {
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { memo } from "react";
+import { ConfirmDeleteIncludeMemosDialogLogic } from "./ConfirmDeleteIncludeMemosDialogLogic";
+
+type Props = {
+  /** ダイアログ開閉状態 */
+  open: boolean;
+  /** ダイアログを閉じるハンドラー */
+  onClose: () => void;
+  /** 削除ハンドラー */
+  onDelete: () => Promise<void>;
+  /** メモタイトル一覧 */
+  memoTitles: string[];
+};
 
 const ConfirmDeleteIncludeMemosDialog = memo(
-  function ConfirmDeleteIncludeMemosDialog() {
-    const memoTitles = ["メモ1", "メモ2", "メモ3"];
+  function ConfirmDeleteIncludeMemosDialog({
+    open,
+    onClose,
+    onDelete,
+    memoTitles,
+  }: Props) {
+    const { onClickDelete } = ConfirmDeleteIncludeMemosDialogLogic({
+      onClose,
+      onDelete,
+    });
     return (
-      <Dialog open={true} onClose={() => {}}>
+      <Dialog open={open} onClose={onClose}>
         <DialogTitle>
           <WarningAmberIcon color="warning" sx={{ pr: 1 }} />
           ログに関連したメモが存在します
@@ -28,8 +48,12 @@ const ConfirmDeleteIncludeMemosDialog = memo(
           本当に削除しますか?
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {}}>キャンセル</Button>
-          <Button onClick={() => {}} color="error" startIcon={<DeleteIcon />}>
+          <Button onClick={onClose}>キャンセル</Button>
+          <Button
+            onClick={onClickDelete}
+            color="error"
+            startIcon={<DeleteIcon />}
+          >
             削除
           </Button>
         </DialogActions>
