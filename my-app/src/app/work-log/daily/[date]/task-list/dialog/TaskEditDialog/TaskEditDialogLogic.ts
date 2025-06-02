@@ -183,9 +183,23 @@ export default function TaskEditDialogLogic({
     taskId,
   ]);
   const handleDelete = useCallback(async () => {
-    await localClient.work_log.daily._date(date).task_logs._id(itemId).delete();
-    mutate(`api/work-log/daily/${date}`); // 再検証する
-    onClose();
+    // ログの関連メモを取得
+    const memoTitles = await localClient.work_log.daily
+      ._date(date)
+      .task_logs._id(itemId)
+      .memos.titles.get()();
+    // 関連メモがなければ直接削除可能
+    if (memoTitles === null) {
+      await localClient.work_log.daily
+        ._date(date)
+        .task_logs._id(itemId)
+        .delete();
+      mutate(`api/work-log/daily/${date}`); // 再検証する
+      onClose();
+    } else {
+      // 関連メモがある場合
+      console.log("関連メモあり"); // TODO:
+    }
   }, [date, itemId, onClose]);
 
   const newTaskIdRef = useRef<number | null>(null);
