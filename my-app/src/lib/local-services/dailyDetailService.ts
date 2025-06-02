@@ -184,6 +184,8 @@ export const deleteTaskLog = async (id: number) => {
   // データを削除
   await db.taskLogs.delete(id);
 
+  // 関連するメモも削除
+  await db.memos.where("taskLogId").equals(id).delete();
   // 必要に応じて元タスクの最終更新日を引き下げる
   await adjustTaskActivityDatesIfRemoved(data.date, data.taskId);
 
