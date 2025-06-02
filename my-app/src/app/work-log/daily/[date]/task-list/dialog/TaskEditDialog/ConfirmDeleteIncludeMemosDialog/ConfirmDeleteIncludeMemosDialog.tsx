@@ -5,6 +5,8 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { memo } from "react";
 
 const ConfirmDeleteIncludeMemosDialog = memo(
@@ -12,7 +14,10 @@ const ConfirmDeleteIncludeMemosDialog = memo(
     const memoTitles = ["メモ1", "メモ2", "メモ3"];
     return (
       <Dialog open={true} onClose={() => {}}>
-        <DialogTitle>ログに関連したメモが存在します</DialogTitle>
+        <DialogTitle>
+          <WarningAmberIcon color="warning" sx={{ pr: 1 }} />
+          ログに関連したメモが存在します
+        </DialogTitle>
         <DialogContent>
           ログを削除すると以下のメモも削除されます
           <ul>
@@ -24,7 +29,7 @@ const ConfirmDeleteIncludeMemosDialog = memo(
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {}}>キャンセル</Button>
-          <Button onClick={() => {}} color="error">
+          <Button onClick={() => {}} color="error" startIcon={<DeleteIcon />}>
             削除
           </Button>
         </DialogActions>
