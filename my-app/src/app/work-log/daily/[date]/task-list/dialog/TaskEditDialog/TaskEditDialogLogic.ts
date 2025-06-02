@@ -47,6 +47,14 @@ export default function TaskEditDialogLogic({
       query: { displayRange: "all", hideCompleted: "true" },
     })
   );
+  // ログからタスク一覧を取得
+  const { data: logData } = useSWR(
+    `api/work-log/daily/${date}`,
+    localClient.work_log.daily._date(date).get()
+  );
+  const usedTaskIdList = logData?.taskList
+    .filter((v) => v.id !== itemId) // ここで自身を除外して同じタスクなら変更先に含める
+    .map((v) => v.task.id);
   const categoryList = categoryData;
   const { data: taskData, isLoading: isLoadingTask } = useSWR(
     categoryId
@@ -57,7 +65,12 @@ export default function TaskEditDialogLogic({
     })
   );
 
-  const taskList = taskData;
+  const taskList = useMemo(() => {
+    const data = taskData?.filter((v) => !usedTaskIdList?.includes(v.id));
+    if (data && data.length === 0)
+      return [{ id: 0, name: "タスクがありません" }];
+    return data;
+  }, [taskData, usedTaskIdList]);
   const isLoading = useMemo(
     () =>
       // SWRのロード状態
