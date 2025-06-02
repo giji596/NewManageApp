@@ -19,6 +19,7 @@ import { Controller } from "react-hook-form";
 import { TaskLogSummary } from "@/type/Task";
 import useDialog from "@/hook/useDialog";
 import TagEditDialog from "@/component/dialog/TagEditDialog/TagEditDialog";
+import CancelButtonAndPop from "./CancelButtonAndPop/CancelButtonAndPop";
 
 type Props = {
   /** タスクの一覧 */
@@ -40,15 +41,21 @@ export default function MemoAddDialog({
   isTaskSelected,
   onClose,
 }: Props) {
-  const { tagList, onSubmit, control, isValid, tagEditorActions } =
-    MemoAddDialogLogic({
-      onClose,
-      taskList,
-    });
+  const {
+    tagList,
+    handleCloseIfInvalidAllowed,
+    onSubmit,
+    control,
+    isValid,
+    tagEditorActions,
+  } = MemoAddDialogLogic({
+    onClose,
+    taskList,
+  });
   const { open: openTag, onOpen: onOpenTag, onClose: onCloseTag } = useDialog();
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth>
+      <Dialog open={open} onClose={handleCloseIfInvalidAllowed} fullWidth>
         <DialogTitle>メモを追加</DialogTitle>
         {/** タスクの選択フォーム */}
         <form onSubmit={onSubmit}>
@@ -158,9 +165,8 @@ export default function MemoAddDialog({
             />
           </Stack>
           <DialogActions>
-            <Button onClick={onClose} color="error">
-              キャンセル
-            </Button>
+            {/** キャンセルボタン */}
+            <CancelButtonAndPop isInput={isValid} onCancel={onClose} />
             <Button
               disabled={!isValid}
               type="submit"

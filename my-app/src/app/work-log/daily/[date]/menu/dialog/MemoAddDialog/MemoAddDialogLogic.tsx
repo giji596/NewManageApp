@@ -46,6 +46,11 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     },
   });
 
+  const handleCloseIfInvalidAllowed = useCallback(
+    () => (isValid ? undefined : onClose()),
+    [isValid, onClose]
+  );
+
   const onSubmit = useCallback(
     async (data: SubmitData) => {
       let newData;
@@ -88,6 +93,8 @@ export default function MemoAddDialogLogic({ taskList, onClose }: Props) {
     taskList,
     /** タグの一覧 */
     tagList,
+    /** バリデーションが無効な場合のみダイアログを閉じる関数(内容を入力中に誤って外部をクリックして閉じる防止用) */
+    handleCloseIfInvalidAllowed,
     /** データ送信する関数 */
     onSubmit: handleSubmit(onSubmit),
     /** RHFのコントロールオブジェクト(MUIのコンポーネント制御のため必須) */
