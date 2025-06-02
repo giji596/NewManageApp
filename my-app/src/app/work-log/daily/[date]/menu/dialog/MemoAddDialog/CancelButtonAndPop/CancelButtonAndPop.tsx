@@ -20,11 +20,30 @@ const CancelButtonAndPop = memo(function CancelButtonAndPop({
     CancelButtonAndPopLogic({ isInput, onCancel });
   return (
     <>
-      <Button onClick={handleClick}>キャンセル</Button>
-      <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}>
-        <Stack justifyContent={"flex-end"} spacing={1} sx={{ p: 2 }}>
-          <Typography>入力内容は破棄されます。続けますか？</Typography>
-          <Button onClick={onAccept}>破棄</Button>
+      <Button onClick={handleClick} color="error">
+        キャンセル
+      </Button>
+      <Popover
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+      >
+        <Stack justifyContent={"flex-end"} sx={{ p: 2 }}>
+          <Typography variant={"subtitle2"}>
+            入力内容は破棄されます。続けますか？
+          </Typography>
+          <Button onClick={onAccept} sx={{ typography: "subtitle2" }}>
+            破棄
+          </Button>
         </Stack>
       </Popover>
     </>
