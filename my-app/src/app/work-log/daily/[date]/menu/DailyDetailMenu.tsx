@@ -31,11 +31,21 @@ export default function DailyDetailMenu() {
         {/** 日付と時間 */}
         <Stack spacing={1}>
           <Stack direction="row" alignItems={"center"}>
-            <IconButton>
+            <IconButton
+              sx={{
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": { transform: "scale(1.2) translateX(-5px)" },
+              }}
+            >
               <NavigateBeforeIcon />
             </IconButton>
             <Typography color="text.primary">{dateString}</Typography>
-            <IconButton>
+            <IconButton
+              sx={{
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": { transform: "scale(1.2) translateX(5px)" },
+              }}
+            >
               <NavigateNextIcon />
             </IconButton>
           </Stack>
