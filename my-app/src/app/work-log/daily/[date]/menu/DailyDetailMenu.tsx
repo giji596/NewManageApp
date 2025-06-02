@@ -1,11 +1,13 @@
 "use client";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, IconButton, Stack, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import useDialog from "@/hook/useDialog";
 import TaskAddDialog from "./dialog/TaskAddDialog/TaskAddDialog";
 import MemoAddDialog from "./dialog/MemoAddDialog/MemoAddDialog";
 import DailyDetailMenuLogic from "./DailyDetailMenuLogic";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 /**
  * 日付詳細　ナビゲーションやらのメニューのコンポーネント
@@ -28,7 +30,15 @@ export default function DailyDetailMenu() {
       <Stack spacing={2}>
         {/** 日付と時間 */}
         <Stack spacing={1}>
-          <Typography color="text.primary">{dateString}</Typography>
+          <Stack direction="row" alignItems={"center"}>
+            <IconButton>
+              <NavigateBeforeIcon />
+            </IconButton>
+            <Typography color="text.primary">{dateString}</Typography>
+            <IconButton>
+              <NavigateNextIcon />
+            </IconButton>
+          </Stack>
           <Stack direction="row">
             <Typography color="text.primary">
               稼働時間： {dailyHours}(h)
