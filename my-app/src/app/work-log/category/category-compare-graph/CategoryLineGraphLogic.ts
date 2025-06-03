@@ -1,10 +1,14 @@
+import {
+  CategoryLineGraphDisplay,
+  CategoryLineGraphRange,
+} from "@/type/Category";
 import { useMemo } from "react";
 
 type Props = {
   /** 表示期間 */
-  range: "day" | "week" | "month";
+  range: CategoryLineGraphRange;
   /** 表示する内容 */
-  displayData: "totalHours" | "taskCount";
+  displayData: CategoryLineGraphDisplay;
 };
 
 /**

@@ -8,23 +8,22 @@ import {
   Tooltip,
 } from "recharts";
 import { CategoryLineGraphLogic } from "../CategoryLineGraphLogic";
+import {
+  CategoryLineGraphData,
+  CategoryLineGraphDataInfo,
+  CategoryLineGraphDisplay,
+  CategoryLineGraphRange,
+} from "@/type/Category";
 
 type Props = {
   /** 表示データ */
-  data: ({ date: string } & { [id: number]: number })[];
+  data: CategoryLineGraphData[];
   /** 表示データの情報 */
-  dataInfo: {
-    /** データキー名 */
-    key: string;
-    /** ツールチップで表示するデータ名 */
-    name: string;
-    /** 線の色 */
-    color: string;
-  }[];
+  dataInfo: CategoryLineGraphDataInfo[];
   /** 表示期間 */
-  range: "day" | "week" | "month";
+  range: CategoryLineGraphRange;
   /** 表示する内容 */
-  displayData: "totalHours" | "taskCount";
+  displayData: CategoryLineGraphDisplay;
 };
 /**
  * カテゴリのタスク稼働率を折れ線グラフで表現するコンポーネント

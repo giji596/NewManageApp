@@ -47,3 +47,31 @@ export type CategorySummary = {
 
 /** カテゴリページの稼働状況の範囲 */
 export type CategoryActivityRange = "last-month" | "all" | "select";
+
+/** カテゴリの線グラフの表示期間 */
+export type CategoryLineGraphRange = "day" | "week" | "month";
+
+/** カテゴリの線グラフの表示内容 */
+export type CategoryLineGraphDisplay = "totalHours" | "taskCount";
+
+/** カテゴリの線グラフのデータ型 */
+export type CategoryLineGraphData = {
+  /** 日付 */
+  date: string;
+} & {
+  /**
+   * - key:カテゴリid
+   * - value:時間/タスク数
+   */
+  [id: number]: number;
+};
+
+/** カテゴリの線グラフのデータ情報 */
+export type CategoryLineGraphDataInfo = {
+  /** データキー名 */
+  key: string;
+  /** ツールチップで表示するデータ名 */
+  name: string;
+  /** 線の色 */
+  color: string;
+};
