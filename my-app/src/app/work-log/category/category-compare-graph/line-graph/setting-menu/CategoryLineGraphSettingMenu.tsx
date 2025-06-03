@@ -57,49 +57,54 @@ const CategoryLineGraphSettingMenu = memo(
       <>
         <Stack direction="row" width="100vh">
           {/** 左部分(リスト) */}
-          <Stack width="30%" height="50vh" border="1px solid">
+          <Stack width="30%" height="50vh" border="1px solid" overflow="auto">
             <List>
-              {Object.entries(categoryFilterList).map(([name, value]) => (
-                <ListItem key={name}>
-                  <ListItemButton
-                    sx={{ padding: 0 }}
-                    onClick={() => toggleCategoryFilter(name)}
-                  >
-                    {/** チェックのボタンっぽいところ */}
-                    <div
-                      style={{
-                        width: 12,
-                        height: 12,
-                        border: "1px solid rgba(26, 26, 26, 0.14)",
-                        borderRadius: "50%", // 丸くする
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginLeft: 8,
-                        marginRight: 8,
-                        backgroundColor: "transparent", // 選択された場合の背景色
-                        transition: "all 0.3s ease", // アニメーションのスムーズさ
-                        boxShadow: value.checked
-                          ? "0 0 10px rgba(25, 118, 210, 0.6)"
-                          : "none", // 選択時にグラデーションっぽく外側に広がる影
-                      }}
+              {Object.entries(categoryFilterList)
+                .sort(
+                  ([, a], [, b]) =>
+                    a.checked === b.checked ? 0 : a.checked ? -1 : 1 // チェック対象を優先
+                )
+                .map(([name, value]) => (
+                  <ListItem key={name}>
+                    <ListItemButton
+                      sx={{ padding: 0 }}
+                      onClick={() => toggleCategoryFilter(name)}
                     >
-                      {value.checked && (
-                        <div
-                          style={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: "50%", // 中も丸く
-                            backgroundColor: value.color, // チェック部分の色
-                          }}
-                        />
-                      )}
-                    </div>
-                    {/** カテゴリ名 */}
-                    {name}
-                  </ListItemButton>
-                </ListItem>
-              ))}
+                      {/** チェックのボタンっぽいところ */}
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          border: "1px solid rgba(26, 26, 26, 0.14)",
+                          borderRadius: "50%", // 丸くする
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginLeft: 8,
+                          marginRight: 8,
+                          backgroundColor: "transparent", // 選択された場合の背景色
+                          transition: "all 0.3s ease", // アニメーションのスムーズさ
+                          boxShadow: value.checked
+                            ? "0 0 10px rgba(25, 118, 210, 0.6)"
+                            : "none", // 選択時にグラデーションっぽく外側に広がる影
+                        }}
+                      >
+                        {value.checked && (
+                          <div
+                            style={{
+                              width: 10,
+                              height: 10,
+                              borderRadius: "50%", // 中も丸く
+                              backgroundColor: value.color, // チェック部分の色
+                            }}
+                          />
+                        )}
+                      </div>
+                      {/** カテゴリ名 */}
+                      {name}
+                    </ListItemButton>
+                  </ListItem>
+                ))}
             </List>
           </Stack>
           {/** 右部分(表示範囲) */}
