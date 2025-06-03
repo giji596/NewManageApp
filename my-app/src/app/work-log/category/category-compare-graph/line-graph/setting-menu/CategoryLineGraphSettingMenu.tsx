@@ -1,3 +1,4 @@
+import { CategoryLineGraphDisplay } from "@/type/Category";
 import {
   Button,
   FormControl,
@@ -11,12 +12,26 @@ import {
   Stack,
 } from "@mui/material";
 import { memo } from "react";
+import { CategoryLineGraphSettingMenuLogic } from "./CategoryLineGraphSettingMenuLogic";
+
+type Props = {
+  /** 表示対象 */
+  displayTarget: CategoryLineGraphDisplay;
+  /** 表示対象変更時のハンドラー */
+  onChangeDisplayTarget: (target: CategoryLineGraphDisplay) => void;
+};
 
 /**
  * カテゴリ比較グラフの設定メニュー
  */
 const CategoryLineGraphSettingMenu = memo(
-  function CategoryLineGraphSettingMenu() {
+  function CategoryLineGraphSettingMenu({
+    displayTarget,
+    onChangeDisplayTarget,
+  }: Props) {
+    const { handleChangeDisplayTarget } = CategoryLineGraphSettingMenuLogic({
+      onChangeDisplayTarget,
+    });
     return (
       <Stack direction="row" width="100vh">
         {/** 左部分(リスト) */}
@@ -65,14 +80,18 @@ const CategoryLineGraphSettingMenu = memo(
           {/** Y軸(カウント対象) */}
           <FormControl>
             <FormLabel>表示対象</FormLabel>
-            <RadioGroup row>
+            <RadioGroup
+              value={displayTarget}
+              onChange={handleChangeDisplayTarget}
+              row
+            >
               <FormControlLabel
-                value="hour"
+                value="totalHours"
                 control={<Radio />}
                 label="稼働時間"
               />
               <FormControlLabel
-                value="task"
+                value="taskCount"
                 control={<Radio />}
                 label="タスク数"
               />
