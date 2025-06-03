@@ -25,7 +25,11 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
   range,
   displayData,
 }: Props) {
-  const { xLabel, yLabel } = CategoryLineGraphLogic({ range, displayData });
+  const { xLabel, yLabel, keyList } = CategoryLineGraphLogic({
+    data,
+    range,
+    displayData,
+  });
   return (
     <LineChart width={500} height={350} data={data}>
       <CartesianGrid stroke="#ccc" />
@@ -34,13 +38,16 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
         label={{ value: xLabel, position: "insideBottomRight", offset: 0 }}
       />
       <YAxis label={{ value: yLabel, angle: -90, position: "insideLeft" }} />
-      <Line
-        dataKey="value"
-        stroke="#8884d8"
-        strokeWidth={5}
-        style={{ cursor: "pointer" }}
-        onClick={() => console.log("aaa")}
-      />
+      {keyList.map((key) => (
+        <Line
+          key={key}
+          dataKey={key}
+          stroke="#8884d8"
+          strokeWidth={5}
+          style={{ cursor: "pointer" }}
+          onClick={() => console.log("aaa")}
+        />
+      ))}
       <Tooltip />
     </LineChart>
   );
