@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import { CategoryLineGraphSettingMenuLogic } from "./CategoryLineGraphSettingMenuLogic";
+import PeriodSelectDialog from "@/component/dialog/PeriodSelectDialog/PeriodSelectDialog";
+import useDialog from "@/hook/useDialog";
 
 type Props = {
   /** 表示対象 */
@@ -32,6 +34,7 @@ const CategoryLineGraphSettingMenu = memo(
     const { handleChangeDisplayTarget } = CategoryLineGraphSettingMenuLogic({
       onChangeDisplayTarget,
     });
+    const { open, onClose, onOpen } = useDialog();
     return (
       <>
         <Stack direction="row" width="100vh">
@@ -100,9 +103,18 @@ const CategoryLineGraphSettingMenu = memo(
             </FormControl>
             {/** X軸(日付範囲) */}
             <FormLabel>表示範囲</FormLabel>
-            <Button>日付を指定</Button>
+            <Button onClick={onOpen}>日付を指定</Button>
           </Stack>
         </Stack>
+        {open && (
+          <PeriodSelectDialog
+            open={open}
+            onClose={onClose}
+            initialStartDate={new Date()}
+            initialEndDate={new Date()}
+            getDataSelectRange={() => {}}
+          />
+        )}
       </>
     );
   }
