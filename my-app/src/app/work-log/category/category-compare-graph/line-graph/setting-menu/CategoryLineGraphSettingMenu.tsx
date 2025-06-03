@@ -18,9 +18,9 @@ import { memo } from "react";
 const CategoryLineGraphSettingMenu = memo(
   function CategoryLineGraphSettingMenu() {
     return (
-      <Stack direction="row">
+      <Stack direction="row" width="100vh">
         {/** 左部分(リスト) */}
-        <Stack width="15vh" height="50vh" border="1px solid">
+        <Stack width="30%" height="50vh" border="1px solid">
           <List>
             <ListItem>
               <ListItemButton>aaa</ListItemButton>
@@ -28,13 +28,21 @@ const CategoryLineGraphSettingMenu = memo(
           </List>
         </Stack>
         {/** 右部分(表示範囲) */}
-        <Stack width="35vh" height="18vh" border="1px solid">
+        <Stack width="70%" height="18vh" border="1px solid" pl={3} pt={1}>
           {/** Y軸(カウント対象) */}
           <FormControl>
             <FormLabel>表示対象</FormLabel>
             <RadioGroup row>
-              <FormControlLabel value="" control={<Radio />} label="稼働時間" />
-              <FormControlLabel value="" control={<Radio />} label="タスク数" />
+              <FormControlLabel
+                value="hour"
+                control={<Radio />}
+                label="稼働時間"
+              />
+              <FormControlLabel
+                value="task"
+                control={<Radio />}
+                label="タスク数"
+              />
             </RadioGroup>
           </FormControl>
           {/** X軸(日付範囲) */}
