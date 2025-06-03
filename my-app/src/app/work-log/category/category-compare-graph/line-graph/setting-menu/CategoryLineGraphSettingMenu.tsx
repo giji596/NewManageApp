@@ -21,6 +21,12 @@ type Props = {
   displayTarget: CategoryLineGraphDisplay;
   /** 表示対象変更時のハンドラー */
   onChangeDisplayTarget: (target: CategoryLineGraphDisplay) => void;
+  /** 表示範囲の開始日 */
+  startDate: Date;
+  /** 表示範囲の終了日 */
+  endDate: Date;
+  /** 表示範囲を反映する関数 */
+  getDataSelectRange: (start: Date, end: Date) => void;
 };
 
 /**
@@ -30,10 +36,16 @@ const CategoryLineGraphSettingMenu = memo(
   function CategoryLineGraphSettingMenu({
     displayTarget,
     onChangeDisplayTarget,
+    startDate,
+    endDate,
+    getDataSelectRange,
   }: Props) {
-    const { handleChangeDisplayTarget } = CategoryLineGraphSettingMenuLogic({
-      onChangeDisplayTarget,
-    });
+    const { handleChangeDisplayTarget, startDateString, endDateString } =
+      CategoryLineGraphSettingMenuLogic({
+        onChangeDisplayTarget,
+        startDate,
+        endDate,
+      });
     const { open, onClose, onOpen } = useDialog();
     return (
       <>
@@ -103,16 +115,18 @@ const CategoryLineGraphSettingMenu = memo(
             </FormControl>
             {/** X軸(日付範囲) */}
             <FormLabel>表示範囲</FormLabel>
-            <Button onClick={onOpen}>日付を指定</Button>
+            <Button onClick={onOpen}>
+              {startDateString} ~ {endDateString}
+            </Button>
           </Stack>
         </Stack>
         {open && (
           <PeriodSelectDialog
             open={open}
             onClose={onClose}
-            initialStartDate={new Date()}
-            initialEndDate={new Date()}
-            getDataSelectRange={() => {}}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            getDataSelectRange={getDataSelectRange}
           />
         )}
       </>

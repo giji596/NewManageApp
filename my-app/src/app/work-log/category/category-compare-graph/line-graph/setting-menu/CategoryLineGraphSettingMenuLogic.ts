@@ -1,9 +1,14 @@
 import { CategoryLineGraphDisplay } from "@/type/Category";
-import { useCallback } from "react";
+import { format } from "date-fns";
+import { useCallback, useMemo } from "react";
 
 type Props = {
   /** 表示対象変更時のハンドラー */
   onChangeDisplayTarget: (target: CategoryLineGraphDisplay) => void;
+  /** 表示範囲の開始日 */
+  startDate: Date;
+  /** 表示範囲の終了日 */
+  endDate: Date;
 };
 
 /**
@@ -11,6 +16,8 @@ type Props = {
  */
 export const CategoryLineGraphSettingMenuLogic = ({
   onChangeDisplayTarget,
+  startDate,
+  endDate,
 }: Props) => {
   const handleChangeDisplayTarget = useCallback(
     (_: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -21,8 +28,18 @@ export const CategoryLineGraphSettingMenuLogic = ({
     },
     [onChangeDisplayTarget]
   );
+
+  const startDateString = useMemo(
+    () => format(startDate, "yyyy/MM/dd"),
+    [startDate]
+  );
+  const endDateString = useMemo(() => format(endDate, "yyyy/MM/dd"), [endDate]);
   return {
     /** 表示対象変更時のハンドラー(メモ化済み) */
     handleChangeDisplayTarget,
+    /** 開始日のstring */
+    startDateString,
+    /** 終了日のstring */
+    endDateString,
   };
 };
