@@ -27,6 +27,13 @@ const meta = {
         1: 10,
       },
     ],
+    dataInfo: [
+      {
+        key: "1",
+        name: "カテゴリ1",
+        color: "red",
+      },
+    ],
     range: "day",
     displayData: "totalHours",
   },

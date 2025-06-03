@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 
 type Props = {
-  /** 表示データ */
-  data: ({ date: string } & { [id: number]: number })[];
   /** 表示期間 */
   range: "day" | "week" | "month";
   /** 表示する内容 */
@@ -12,7 +10,7 @@ type Props = {
 /**
  * カテゴリ比較グラフのロジック
  */
-export const CategoryLineGraphLogic = ({ data, range, displayData }: Props) => {
+export const CategoryLineGraphLogic = ({ range, displayData }: Props) => {
   const xLabel = useMemo(() => {
     switch (range) {
       case "day":
@@ -32,15 +30,10 @@ export const CategoryLineGraphLogic = ({ data, range, displayData }: Props) => {
     }
   }, [displayData]);
 
-  const keyList = useMemo(() => {
-    return Object.keys(data[0]).filter((key) => key !== "date");
-  }, [data]);
   return {
     /** x軸ラベル */
     xLabel,
     /** y軸ラベル */
     yLabel,
-    /** アイテムのキーリスト */
-    keyList,
   };
 };

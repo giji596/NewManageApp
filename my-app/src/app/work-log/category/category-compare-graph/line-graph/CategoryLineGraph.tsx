@@ -12,6 +12,15 @@ import { CategoryLineGraphLogic } from "../CategoryLineGraphLogic";
 type Props = {
   /** 表示データ */
   data: ({ date: string } & { [id: number]: number })[];
+  /** 表示データの情報 */
+  dataInfo: {
+    /** データキー名 */
+    key: string;
+    /** ツールチップで表示するデータ名 */
+    name: string;
+    /** 線の色 */
+    color: string;
+  }[];
   /** 表示期間 */
   range: "day" | "week" | "month";
   /** 表示する内容 */
@@ -22,11 +31,11 @@ type Props = {
  */
 const CategoryLineGraph = memo(function CategoryLineGraph({
   data,
+  dataInfo,
   range,
   displayData,
 }: Props) {
-  const { xLabel, yLabel, keyList } = CategoryLineGraphLogic({
-    data,
+  const { xLabel, yLabel } = CategoryLineGraphLogic({
     range,
     displayData,
   });
@@ -38,11 +47,12 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
         label={{ value: xLabel, position: "insideBottomRight", offset: 0 }}
       />
       <YAxis label={{ value: yLabel, angle: -90, position: "insideLeft" }} />
-      {keyList.map((key) => (
+      {dataInfo.map((info) => (
         <Line
-          key={key}
-          dataKey={key}
-          stroke="#8884d8"
+          key={info.key}
+          dataKey={info.key}
+          name={info.name}
+          stroke={info.color}
           strokeWidth={5}
           style={{ cursor: "pointer" }}
           onClick={() => console.log("aaa")}
