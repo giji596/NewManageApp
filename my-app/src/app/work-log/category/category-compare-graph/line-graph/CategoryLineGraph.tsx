@@ -24,6 +24,8 @@ type Props = {
   range: CategoryLineGraphRange;
   /** 表示する内容 */
   displayData: CategoryLineGraphDisplay;
+  /** 線のクリック時のイベント */
+  onClickLine: (id: number) => void;
 };
 /**
  * カテゴリのタスク稼働率を折れ線グラフで表現するコンポーネント
@@ -33,6 +35,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
   dataInfo,
   range,
   displayData,
+  onClickLine,
 }: Props) {
   const { xLabel, yLabel } = CategoryLineGraphLogic({
     range,
@@ -54,7 +57,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
           stroke={info.color}
           strokeWidth={5}
           style={{ cursor: "pointer" }}
-          onClick={() => console.log("aaa")}
+          onClick={() => onClickLine(info.key)}
         />
       ))}
       <Tooltip />

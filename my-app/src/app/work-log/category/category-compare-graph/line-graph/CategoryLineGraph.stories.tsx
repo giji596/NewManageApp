@@ -36,6 +36,7 @@ const meta = {
     ],
     range: "day",
     displayData: "totalHours",
+    onClickLine: () => {},
   },
 } satisfies Meta<typeof CategoryLineGraph>;
 
