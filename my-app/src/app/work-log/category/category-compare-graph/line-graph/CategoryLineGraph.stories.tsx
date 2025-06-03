@@ -29,7 +29,7 @@ const meta = {
     ],
     dataInfo: [
       {
-        key: "1",
+        key: 1,
         name: "カテゴリ1",
         color: "red",
       },

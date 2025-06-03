@@ -69,7 +69,7 @@ export type CategoryLineGraphData = {
 /** カテゴリの線グラフのデータ情報 */
 export type CategoryLineGraphDataInfo = {
   /** データキー名 */
-  key: string;
+  key: number;
   /** ツールチップで表示するデータ名 */
   name: string;
   /** 線の色 */
