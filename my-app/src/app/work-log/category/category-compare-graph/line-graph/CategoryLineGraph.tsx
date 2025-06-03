@@ -39,7 +39,13 @@ const CategoryLineGraph = memo(function CategoryLineGraph() {
       <CartesianGrid stroke="#ccc" />
       <XAxis dataKey="date" />
       <YAxis />
-      <Line type="monotone" dataKey="value" stroke="#8884d8" />
+      <Line
+        dataKey="value"
+        stroke="#8884d8"
+        strokeWidth={5}
+        style={{ cursor: "pointer" }}
+        onClick={() => console.log("aaa")}
+      />
       <Tooltip />
     </LineChart>
   );
