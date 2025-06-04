@@ -14,6 +14,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
     startDate,
     endDate,
     setDateRange,
+    timeUnit,
   } = CategoryCompareGraphLogic();
   const width = 500;
   return (
@@ -41,7 +42,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
           { date: "2022-01-20", 1: 10 },
         ]}
         dataInfo={[{ key: 1, name: " ", color: "red" }]}
-        range="day"
+        range={timeUnit}
         displayData={displayTarget}
         onClickLine={() => {}}
       />

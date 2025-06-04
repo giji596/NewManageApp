@@ -1,6 +1,9 @@
-import { CategoryLineGraphDisplay } from "@/type/Category";
-import { subWeeks } from "date-fns";
-import { useCallback, useState } from "react";
+import {
+  CategoryLineGraphDisplay,
+  CategoryLineGraphRange,
+} from "@/type/Category";
+import { differenceInCalendarDays, subWeeks } from "date-fns";
+import { useCallback, useMemo, useState } from "react";
 
 /**
  * カテゴリ比較グラフのロジック
@@ -27,6 +30,13 @@ export const CategoryCompareGraphLogic = () => {
     setStartDate(start);
     setEndDate(end);
   }, []);
+
+  const timeUnit = useMemo((): CategoryLineGraphRange => {
+    const dayCount = differenceInCalendarDays(endDate, startDate);
+    if (dayCount <= 12) return "day";
+    if (dayCount <= 84) return "week";
+    return "month";
+  }, [endDate, startDate]);
   return {
     /** 表示対象 */
     displayTarget,
@@ -38,5 +48,7 @@ export const CategoryCompareGraphLogic = () => {
     endDate,
     /** 表示範囲変更時のハンドラー */
     setDateRange,
+    /** 表示範囲の単位 */
+    timeUnit,
   };
 };
