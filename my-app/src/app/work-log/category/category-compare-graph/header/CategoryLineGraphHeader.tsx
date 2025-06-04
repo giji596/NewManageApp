@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
-import CategoryLineGraphSettingMenu from "../setting-menu/CategoryLineGraphSettingMenu";
+import CategoryLineGraphSettingMenu from "./setting-menu/CategoryLineGraphSettingMenu";
 import { CategoryLineGraphHeaderLogic } from "./CategoryLineGraphHeaderLogic";
 
 /**
