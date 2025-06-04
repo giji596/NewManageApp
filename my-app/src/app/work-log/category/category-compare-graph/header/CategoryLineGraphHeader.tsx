@@ -44,13 +44,16 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
   categoryFilterList,
   toggleCategoryFilter,
 }: Props) {
-  const { expanded, handleToggle } = CategoryLineGraphHeaderLogic();
+  const { expanded, handleToggle, dateRangeText, displayTargetText } =
+    CategoryLineGraphHeaderLogic({ displayTarget, startDate, endDate });
 
   return (
     <>
       <Paper sx={{ position: "relative", width: width }}>
         <Stack p={2} spacing={0.5} alignItems={"center"}>
-          <Typography>期間中の稼働時間orタスクの多い順</Typography>
+          <Typography>
+            {dateRangeText} の {displayTargetText}
+          </Typography>
           <Divider flexItem />
           <Typography pt={1}>1位 カテゴリ1 x時間</Typography>
           <Typography>2位 カテゴリ2 x時間</Typography>
