@@ -10,7 +10,10 @@ import { memo } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CategoryLineGraphSettingMenu from "./setting-menu/CategoryLineGraphSettingMenu";
 import { CategoryLineGraphHeaderLogic } from "./CategoryLineGraphHeaderLogic";
-import { CategoryLineGraphDisplay } from "@/type/Category";
+import {
+  CategoryCompareGraphData,
+  CategoryLineGraphDisplay,
+} from "@/type/Category";
 
 type Props = {
   /** 幅 */
@@ -29,6 +32,8 @@ type Props = {
   categoryFilterList: Record<string, { checked: boolean; color: string }>;
   /** カテゴリのフィルターを切り替える */
   toggleCategoryFilter: (name: string) => void;
+  /** カテゴリの一覧 */
+  categoryList: CategoryCompareGraphData[];
 };
 
 /**
@@ -43,9 +48,21 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
   getDataSelectRange,
   categoryFilterList,
   toggleCategoryFilter,
+  categoryList,
 }: Props) {
-  const { expanded, handleToggle, dateRangeText, displayTargetText } =
-    CategoryLineGraphHeaderLogic({ displayTarget, startDate, endDate });
+  const {
+    expanded,
+    handleToggle,
+    dateRangeText,
+    displayTargetText,
+    top3Categories,
+    getCategoryText,
+  } = CategoryLineGraphHeaderLogic({
+    displayTarget,
+    startDate,
+    endDate,
+    categoryList,
+  });
 
   return (
     <>
@@ -54,10 +71,10 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
           <Typography>
             {dateRangeText} の {displayTargetText}
           </Typography>
-          <Divider flexItem />
-          <Typography pt={1}>1位 カテゴリ1 x時間</Typography>
-          <Typography>2位 カテゴリ2 x時間</Typography>
-          <Typography>3位 カテゴリ3 x時間</Typography>
+          <Divider sx={{ pb: 1 }} flexItem />
+          {top3Categories.map((v, idx) => (
+            <Typography key={v.id}>{getCategoryText(v, idx + 1)}</Typography>
+          ))}
         </Stack>
         <IconButton
           sx={{
