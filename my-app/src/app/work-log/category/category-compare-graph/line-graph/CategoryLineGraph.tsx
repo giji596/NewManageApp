@@ -16,6 +16,8 @@ import {
 } from "@/type/Category";
 
 type Props = {
+  /** 幅 */
+  width: number;
   /** 表示データ */
   data: CategoryLineGraphData[];
   /** 表示データの情報 */
@@ -31,6 +33,7 @@ type Props = {
  * カテゴリのタスク稼働率を折れ線グラフで表現するコンポーネント
  */
 const CategoryLineGraph = memo(function CategoryLineGraph({
+  width,
   data,
   dataInfo,
   range,
@@ -42,7 +45,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
     displayData,
   });
   return (
-    <LineChart width={500} height={350} data={data}>
+    <LineChart width={width} height={350} data={data}>
       <CartesianGrid stroke="#ccc" />
       <XAxis
         dataKey="date"
