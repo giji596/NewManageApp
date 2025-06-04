@@ -1,3 +1,4 @@
+import { DUMMY_CATEGORY_COMPARE_GRAPH_DATA } from "@/dummy/category-page";
 import {
   CategoryLineGraphDisplay,
   CategoryLineGraphRange,
@@ -37,6 +38,11 @@ export const CategoryCompareGraphLogic = () => {
     if (dayCount <= 84) return "week";
     return "month";
   }, [endDate, startDate]);
+
+  // データ関連
+  // TODO: フェッチさせる
+  const data = useMemo(() => DUMMY_CATEGORY_COMPARE_GRAPH_DATA, []);
+
   return {
     /** 表示対象 */
     displayTarget,
