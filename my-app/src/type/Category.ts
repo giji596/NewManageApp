@@ -75,3 +75,15 @@ export type CategoryLineGraphDataInfo = {
   /** 線の色 */
   color: string;
 };
+
+/** カテゴリ比較グラフのデータ型 */
+export type CategoryCompareGraphData = {
+  /** カテゴリid */
+  id: number;
+  /** カテゴリ名 */
+  name: string;
+  /** カテゴリのグラフの色 */
+  color: string;
+  /** 値(稼働時間 or タスク数) */
+  value: number;
+};

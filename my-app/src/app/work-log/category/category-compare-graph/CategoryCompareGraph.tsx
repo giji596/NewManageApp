@@ -10,7 +10,19 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
   const width = 500;
   return (
     <Stack spacing={2}>
-      <CategoryLineGraphHeader width={width} />
+      <CategoryLineGraphHeader
+        width={width}
+        displayTarget="totalHours"
+        onChangeDisplayTarget={() => {}}
+        startDate={new Date("2022-01-01")}
+        endDate={new Date("2022-01-31")}
+        getDataSelectRange={() => {}}
+        categoryFilterList={{ カテゴリ1: { checked: true, color: "red" } }}
+        toggleCategoryFilter={() => {}}
+        top3Categories={[
+          { id: 1, name: "カテゴリ1", color: "red", value: 100 },
+        ]}
+      />
       <CategoryLineGraph
         width={width}
         data={[

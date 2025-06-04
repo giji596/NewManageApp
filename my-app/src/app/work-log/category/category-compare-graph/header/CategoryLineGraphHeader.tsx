@@ -10,10 +10,30 @@ import { memo } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CategoryLineGraphSettingMenu from "./setting-menu/CategoryLineGraphSettingMenu";
 import { CategoryLineGraphHeaderLogic } from "./CategoryLineGraphHeaderLogic";
+import {
+  CategoryCompareGraphData,
+  CategoryLineGraphDisplay,
+} from "@/type/Category";
 
 type Props = {
   /** 幅 */
   width: number;
+  /** 表示対象 */
+  displayTarget: CategoryLineGraphDisplay;
+  /** 表示対象変更時のハンドラー */
+  onChangeDisplayTarget: (target: CategoryLineGraphDisplay) => void;
+  /** 開始日 */
+  startDate: Date;
+  /** 終了日 */
+  endDate: Date;
+  /** 期間選択のハンドラー */
+  getDataSelectRange: (start: Date, end: Date) => void;
+  /** カテゴリのフィルター */
+  categoryFilterList: Record<string, { checked: boolean; color: string }>;
+  /** カテゴリのフィルターを切り替える */
+  toggleCategoryFilter: (name: string) => void;
+  /** トップ3のカテゴリ */
+  top3Categories: CategoryCompareGraphData[];
 };
 
 /**
@@ -21,18 +41,55 @@ type Props = {
  */
 const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
   width,
+  displayTarget,
+  onChangeDisplayTarget,
+  startDate,
+  endDate,
+  getDataSelectRange,
+  categoryFilterList,
+  toggleCategoryFilter,
+  top3Categories,
 }: Props) {
-  const { expanded, handleToggle } = CategoryLineGraphHeaderLogic();
+  const {
+    expanded,
+    handleToggle,
+    dateRangeText,
+    displayTargetText,
+    getCategoryText,
+  } = CategoryLineGraphHeaderLogic({
+    displayTarget,
+    startDate,
+    endDate,
+  });
 
   return (
     <>
       <Paper sx={{ position: "relative", width: width }}>
         <Stack p={2} spacing={0.5} alignItems={"center"}>
-          <Typography>期間中の稼働時間orタスクの多い順</Typography>
+          <Typography>
+            {dateRangeText} の {displayTargetText}
+          </Typography>
           <Divider flexItem />
-          <Typography pt={1}>1位 カテゴリ1 x時間</Typography>
-          <Typography>2位 カテゴリ2 x時間</Typography>
-          <Typography>3位 カテゴリ3 x時間</Typography>
+          <Stack pt={1}>
+            {top3Categories.map((v, idx) => (
+              <Stack
+                key={v.id}
+                alignItems={"center"}
+                spacing={3}
+                direction="row"
+              >
+                <div
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%", // 中も丸く
+                    backgroundColor: v.color, // チェック部分の色
+                  }}
+                />
+                <Typography>{getCategoryText(v, idx + 1)}</Typography>
+              </Stack>
+            ))}
+          </Stack>
         </Stack>
         <IconButton
           sx={{
@@ -50,13 +107,13 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
         >
           <Stack width={width}>
             <CategoryLineGraphSettingMenu
-              displayTarget="totalHours"
-              onChangeDisplayTarget={() => {}}
-              startDate={new Date()}
-              endDate={new Date()}
-              getDataSelectRange={() => {}}
-              categoryFilterList={{}}
-              toggleCategoryFilter={() => {}}
+              displayTarget={displayTarget}
+              onChangeDisplayTarget={onChangeDisplayTarget}
+              startDate={startDate}
+              endDate={endDate}
+              getDataSelectRange={getDataSelectRange}
+              categoryFilterList={categoryFilterList}
+              toggleCategoryFilter={toggleCategoryFilter}
             />
           </Stack>
         </Collapse>
