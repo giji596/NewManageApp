@@ -72,9 +72,27 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
             {dateRangeText} の {displayTargetText}
           </Typography>
           <Divider sx={{ pb: 1 }} flexItem />
-          {top3Categories.map((v, idx) => (
-            <Typography key={v.id}>{getCategoryText(v, idx + 1)}</Typography>
-          ))}
+          <Stack>
+            {top3Categories.map((v, idx) => (
+              <Stack
+                key={v.id}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                direction="row"
+              >
+                <div
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%", // 中も丸く
+                    backgroundColor: v.color, // チェック部分の色
+                  }}
+                />
+                <Typography>{getCategoryText(v, idx + 1)}</Typography>
+              </Stack>
+            ))}
+          </Stack>
         </Stack>
         <IconButton
           sx={{
