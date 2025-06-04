@@ -44,7 +44,7 @@ export const CategoryCompareGraphLogic = () => {
 
   // データ関連
   // TODO: フェッチさせる
-  const data = useMemo(
+  const rawData = useMemo(
     () =>
       DUMMY_CATEGORY_COMPARE_GRAPH_DATA.sort(
         (a, b) =>
@@ -64,14 +64,14 @@ export const CategoryCompareGraphLogic = () => {
     }
   > = useMemo(() => {
     const record: Record<string, { checked: boolean; color: string }> = {};
-    data.forEach((d, idx) => {
+    rawData.forEach((d, idx) => {
       record[d.name] = {
         checked: idx < 10 ? true : false, // 最大10項目までは初期から表示
         color: d.color,
       };
     });
     return record;
-  }, [data]);
+  }, [rawData]);
 
   const [categoryFilterList, setCategoryFilterList] = useState<Record<
     string,
@@ -99,8 +99,17 @@ export const CategoryCompareGraphLogic = () => {
       return { ...prev };
     });
   }, []);
+
+  const data = useMemo(
+    () =>
+      // フィルターリストに含まれてる値だけ表示
+      rawData.filter(
+        (v) => categoryFilterList && categoryFilterList[v.name].checked
+      ),
+    [categoryFilterList, rawData]
+  );
   const top3Categories: CategoryCompareGraphData[] = useMemo(() => {
-    const rawTop3Data = data.slice(0, 3);
+    const rawTop3Data = rawData.slice(0, 3);
     return rawTop3Data.map((v) => ({
       id: v.id,
       name: v.name,
@@ -108,7 +117,7 @@ export const CategoryCompareGraphLogic = () => {
       value: v.values.reduce((a, b) => a + b.value, 0),
     }));
     //
-  }, [data]);
+  }, [rawData]);
   // グラフ表示用
   const graphData = useMemo(() => {
     // [日付][id]=valueの形式でオブジェクト化
