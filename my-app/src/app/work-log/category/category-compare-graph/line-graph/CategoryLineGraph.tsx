@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { CategoryLineGraphLogic } from "../CategoryLineGraphLogic";
+import { CategoryLineGraphLogic } from "./CategoryLineGraphLogic";
 import {
   CategoryLineGraphData,
   CategoryLineGraphDataInfo,
