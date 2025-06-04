@@ -55,7 +55,7 @@ const CategoryLineGraphSettingMenu = memo(
     const { open, onClose, onOpen } = useDialog();
     return (
       <>
-        <Stack direction="row" width="100vh">
+        <Stack direction="row">
           {/** 左部分(リスト) */}
           <Stack width="30%" height="50vh" border="1px solid" overflow="auto">
             <List>
