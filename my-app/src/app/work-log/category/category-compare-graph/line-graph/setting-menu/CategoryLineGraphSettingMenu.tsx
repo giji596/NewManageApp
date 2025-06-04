@@ -57,7 +57,7 @@ const CategoryLineGraphSettingMenu = memo(
       <>
         <Stack direction="row">
           {/** 左部分(リスト) */}
-          <Stack width="30%" height="50vh" border="1px solid" overflow="auto">
+          <Stack width="30%" height="50vh" boxShadow={2} overflow="auto">
             <List>
               {Object.entries(categoryFilterList)
                 .sort(
@@ -108,7 +108,7 @@ const CategoryLineGraphSettingMenu = memo(
             </List>
           </Stack>
           {/** 右部分(表示範囲) */}
-          <Stack width="70%" height="18vh" border="1px solid" pl={3} pt={1}>
+          <Stack width="70%" height="18vh" boxShadow={2} pl={3} pt={1}>
             {/** Y軸(カウント対象) */}
             <FormControl>
               <FormLabel>表示対象</FormLabel>
