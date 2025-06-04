@@ -10,10 +10,25 @@ import { memo } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CategoryLineGraphSettingMenu from "./setting-menu/CategoryLineGraphSettingMenu";
 import { CategoryLineGraphHeaderLogic } from "./CategoryLineGraphHeaderLogic";
+import { CategoryLineGraphDisplay } from "@/type/Category";
 
 type Props = {
   /** 幅 */
   width: number;
+  /** 表示対象 */
+  displayTarget: CategoryLineGraphDisplay;
+  /** 表示対象変更時のハンドラー */
+  onChangeDisplayTarget: (target: CategoryLineGraphDisplay) => void;
+  /** 開始日 */
+  startDate: Date;
+  /** 終了日 */
+  endDate: Date;
+  /** 期間選択のハンドラー */
+  getDataSelectRange: (start: Date, end: Date) => void;
+  /** カテゴリのフィルター */
+  categoryFilterList: Record<string, { checked: boolean; color: string }>;
+  /** カテゴリのフィルターを切り替える */
+  toggleCategoryFilter: (name: string) => void;
 };
 
 /**
@@ -21,6 +36,13 @@ type Props = {
  */
 const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
   width,
+  displayTarget,
+  onChangeDisplayTarget,
+  startDate,
+  endDate,
+  getDataSelectRange,
+  categoryFilterList,
+  toggleCategoryFilter,
 }: Props) {
   const { expanded, handleToggle } = CategoryLineGraphHeaderLogic();
 
@@ -50,13 +72,13 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
         >
           <Stack width={width}>
             <CategoryLineGraphSettingMenu
-              displayTarget="totalHours"
-              onChangeDisplayTarget={() => {}}
-              startDate={new Date()}
-              endDate={new Date()}
-              getDataSelectRange={() => {}}
-              categoryFilterList={{}}
-              toggleCategoryFilter={() => {}}
+              displayTarget={displayTarget}
+              onChangeDisplayTarget={onChangeDisplayTarget}
+              startDate={startDate}
+              endDate={endDate}
+              getDataSelectRange={getDataSelectRange}
+              categoryFilterList={categoryFilterList}
+              toggleCategoryFilter={toggleCategoryFilter}
             />
           </Stack>
         </Collapse>
