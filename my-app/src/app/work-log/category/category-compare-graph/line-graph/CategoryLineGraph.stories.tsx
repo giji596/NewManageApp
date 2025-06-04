@@ -5,6 +5,7 @@ import CategoryLineGraph from "./CategoryLineGraph";
 const meta = {
   component: CategoryLineGraph,
   args: {
+    width: 500,
     data: [
       {
         date: "2022-01-01",

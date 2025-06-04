@@ -11,15 +11,22 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import CategoryLineGraphSettingMenu from "./setting-menu/CategoryLineGraphSettingMenu";
 import { CategoryLineGraphHeaderLogic } from "./CategoryLineGraphHeaderLogic";
 
+type Props = {
+  /** 幅 */
+  width: number;
+};
+
 /**
  * カテゴリ比較グラフの設定メニューのヘッダー
  */
-const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader() {
-  const { expanded, handleToggle, paperWidth } = CategoryLineGraphHeaderLogic();
+const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
+  width,
+}: Props) {
+  const { expanded, handleToggle } = CategoryLineGraphHeaderLogic();
 
   return (
     <>
-      <Paper sx={{ position: "relative", width: paperWidth }}>
+      <Paper sx={{ position: "relative", width: width }}>
         <Stack p={2} spacing={0.5} alignItems={"center"}>
           <Typography>期間中の稼働時間orタスクの多い順</Typography>
           <Divider flexItem />
@@ -39,9 +46,9 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader() {
         </IconButton>
         <Collapse
           in={expanded}
-          sx={{ position: "absolute", width: paperWidth, zIndex: 10 }}
+          sx={{ position: "absolute", width: width, zIndex: 10 }}
         >
-          <Stack width={paperWidth}>
+          <Stack width={width}>
             <CategoryLineGraphSettingMenu
               displayTarget="totalHours"
               onChangeDisplayTarget={() => {}}
