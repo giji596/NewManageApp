@@ -1,5 +1,8 @@
+import { LINE_GRAPH_COLOR_LIST } from "@/constant/categoryPage";
 import { DUMMY_CATEGORY_COMPARE_GRAPH_DATA } from "@/dummy/category-page";
 import {
+  CategoryLineGraphData,
+  CategoryLineGraphDataInfo,
   CategoryLineGraphDisplay,
   CategoryLineGraphRange,
 } from "@/type/Category";
@@ -43,6 +46,38 @@ export const CategoryCompareGraphLogic = () => {
   // TODO: フェッチさせる
   const data = useMemo(() => DUMMY_CATEGORY_COMPARE_GRAPH_DATA, []);
 
+  const graphData = useMemo(() => {
+    // [日付][id]=valueの形式でオブジェクト化
+    const record: Record<string, Record<number, number>> = {};
+    // 各カテゴリについて
+    data.forEach((d) => {
+      // 各日付について
+      d.values.forEach((v) => {
+        // 日付データがなければ作成
+        if (!record[v.date]) record[v.date] = {};
+        // 日付データのバリューにセットする
+        record[v.date][d.id] = v.value;
+      });
+    });
+    // オブジェクトを展開してlineChart用に変換
+    const result: CategoryLineGraphData[] = Object.entries(record).map(
+      ([date, values]) => {
+        return {
+          date,
+          ...values,
+        };
+      }
+    );
+    return result;
+  }, [data]);
+
+  const graphDataInfo: CategoryLineGraphDataInfo[] = useMemo(() => {
+    return data.map((v, idx) => ({
+      key: v.id,
+      name: v.name,
+      color: LINE_GRAPH_COLOR_LIST[idx % 20], // 20色を超える場合は初期にローテーション
+    }));
+  }, [data]);
   return {
     /** 表示対象 */
     displayTarget,
@@ -56,5 +91,9 @@ export const CategoryCompareGraphLogic = () => {
     setDateRange,
     /** 表示範囲の単位 */
     timeUnit,
+    /** グラフ表示用のデータ */
+    graphData,
+    /** グラフ表示用のデータの情報 */
+    graphDataInfo,
   };
 };
