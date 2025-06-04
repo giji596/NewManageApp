@@ -7,6 +7,7 @@ import {
   CategoryLineGraphRange,
 } from "@/type/Category";
 import { differenceInCalendarDays, subWeeks } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
@@ -151,6 +152,20 @@ export const CategoryCompareGraphLogic = () => {
       color: v.color,
     }));
   }, [data]);
+
+  // ナビゲーション関連
+  const router = useRouter();
+  const setCategoryQuery = useCallback(
+    (id: number) => {
+      // idからクエリ作成
+      const params = new URLSearchParams();
+      params.set("categoryId", id.toString());
+      console.log("ぱらめーた", params.toString());
+      // クエリを置き換え(詳細表示の方を切り替える)
+      router.replace(params.toString());
+    },
+    [router]
+  );
   return {
     /** 表示対象 */
     displayTarget,
@@ -174,5 +189,7 @@ export const CategoryCompareGraphLogic = () => {
     graphData,
     /** グラフ表示用のデータの情報 */
     graphDataInfo,
+    /** クエリパラメータにセットする関数 */
+    setCategoryQuery,
   };
 };

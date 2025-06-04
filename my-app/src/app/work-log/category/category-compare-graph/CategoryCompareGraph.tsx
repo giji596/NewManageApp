@@ -20,6 +20,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
     top3Categories,
     graphData,
     graphDataInfo,
+    setCategoryQuery,
   } = CategoryCompareGraphLogic();
   const width = 500;
   return (
@@ -41,7 +42,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
         dataInfo={graphDataInfo}
         range={timeUnit}
         displayData={displayTarget}
-        onClickLine={() => {}}
+        onClickLine={setCategoryQuery}
       />
     </Stack>
   );
