@@ -29,17 +29,10 @@ const meta = {
       カテゴリ15: { checked: false, color: "lightgrey" },
     },
     toggleCategoryFilter: () => {},
-    categoryList: [
+    top3Categories: [
       { id: 1, name: "カテゴリ1", color: "red", value: 100 },
       { id: 2, name: "カテゴリ2", color: "green", value: 90 },
       { id: 3, name: "カテゴリ3", color: "blue", value: 80 },
-      { id: 4, name: "カテゴリ4", color: "yellow", value: 70 },
-      { id: 5, name: "カテゴリ5", color: "orange", value: 60 },
-      { id: 6, name: "カテゴリ6", color: "purple", value: 50 },
-      { id: 7, name: "カテゴリ7", color: "pink", value: 40 },
-      { id: 8, name: "カテゴリ8", color: "brown", value: 30 },
-      { id: 9, name: "カテゴリ9", color: "grey", value: 20 },
-      { id: 10, name: "カテゴリ10", color: "black", value: 10 },
     ],
   },
 } satisfies Meta<typeof CategoryLineGraphHeader>;

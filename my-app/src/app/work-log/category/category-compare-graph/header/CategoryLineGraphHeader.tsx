@@ -32,8 +32,8 @@ type Props = {
   categoryFilterList: Record<string, { checked: boolean; color: string }>;
   /** カテゴリのフィルターを切り替える */
   toggleCategoryFilter: (name: string) => void;
-  /** カテゴリの一覧 */
-  categoryList: CategoryCompareGraphData[];
+  /** トップ3のカテゴリ */
+  top3Categories: CategoryCompareGraphData[];
 };
 
 /**
@@ -48,20 +48,18 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
   getDataSelectRange,
   categoryFilterList,
   toggleCategoryFilter,
-  categoryList,
+  top3Categories,
 }: Props) {
   const {
     expanded,
     handleToggle,
     dateRangeText,
     displayTargetText,
-    top3Categories,
     getCategoryText,
   } = CategoryLineGraphHeaderLogic({
     displayTarget,
     startDate,
     endDate,
-    categoryList,
   });
 
   return (
@@ -71,14 +69,13 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
           <Typography>
             {dateRangeText} の {displayTargetText}
           </Typography>
-          <Divider sx={{ pb: 1 }} flexItem />
-          <Stack>
+          <Divider flexItem />
+          <Stack pt={1}>
             {top3Categories.map((v, idx) => (
               <Stack
                 key={v.id}
                 alignItems={"center"}
-                justifyContent={"space-between"}
-                spacing={2}
+                spacing={3}
                 direction="row"
               >
                 <div

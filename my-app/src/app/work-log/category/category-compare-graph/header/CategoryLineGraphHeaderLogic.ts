@@ -12,8 +12,6 @@ type Props = {
   startDate: Date;
   /** 終了日 */
   endDate: Date;
-  /** カテゴリの一覧 */
-  categoryList: CategoryCompareGraphData[];
 };
 
 /**
@@ -23,7 +21,6 @@ export const CategoryLineGraphHeaderLogic = ({
   displayTarget,
   startDate,
   endDate,
-  categoryList,
 }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -42,7 +39,6 @@ export const CategoryLineGraphHeaderLogic = ({
     [displayTarget]
   );
 
-  const top3Categories = categoryList.slice(0, 3);
   const getCategoryText = useCallback(
     (data: CategoryCompareGraphData, rank: number) => {
       const prefix = displayTarget === "totalHours" ? "時間" : "個";
@@ -60,8 +56,6 @@ export const CategoryLineGraphHeaderLogic = ({
     dateRangeText,
     /** 表示対象のテキスト */
     displayTargetText,
-    /** 上位3位内のカテゴリー */
-    top3Categories,
     /** カテゴリーの表示テキストを取得する関数 */
     getCategoryText,
   };
