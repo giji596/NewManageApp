@@ -87,3 +87,20 @@ export type CategoryCompareGraphData = {
   /** 値(稼働時間 or タスク数) */
   value: number;
 };
+
+/** カテゴリの比較グラフの生データ型 */
+export type CategoryCompareGraphRawData = {
+  /** カテゴリのid */
+  id: number;
+  /** カテゴリ名 */
+  name: string;
+  /** カラー */
+  color: string;
+  /** 日毎の値 */
+  values: {
+    /** 日付 */
+    date: string;
+    /** 値 */
+    value: number;
+  }[];
+};

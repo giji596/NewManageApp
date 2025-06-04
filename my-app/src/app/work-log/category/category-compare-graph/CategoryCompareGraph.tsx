@@ -2,40 +2,47 @@ import { memo } from "react";
 import CategoryLineGraphHeader from "./header/CategoryLineGraphHeader";
 import CategoryLineGraph from "./line-graph/CategoryLineGraph";
 import { Stack } from "@mui/material";
+import { CategoryCompareGraphLogic } from "./CategoryCompareGraphLogic";
 
 /**
  * カテゴリ比較グラフのコンポーネント
  */
 const CategoryCompareGraph = memo(function CategoryCompareGraph() {
+  const {
+    displayTarget,
+    onChangeDisplayTarget,
+    startDate,
+    endDate,
+    setDateRange,
+    timeUnit,
+    categoryFilterList,
+    toggleCategoryFilter,
+    top3Categories,
+    graphData,
+    graphDataInfo,
+    setCategoryQuery,
+  } = CategoryCompareGraphLogic();
   const width = 500;
   return (
     <Stack spacing={2}>
       <CategoryLineGraphHeader
         width={width}
-        displayTarget="totalHours"
-        onChangeDisplayTarget={() => {}}
-        startDate={new Date("2022-01-01")}
-        endDate={new Date("2022-01-31")}
-        getDataSelectRange={() => {}}
-        categoryFilterList={{ カテゴリ1: { checked: true, color: "red" } }}
-        toggleCategoryFilter={() => {}}
-        top3Categories={[
-          { id: 1, name: "カテゴリ1", color: "red", value: 100 },
-        ]}
+        displayTarget={displayTarget}
+        onChangeDisplayTarget={onChangeDisplayTarget}
+        startDate={startDate}
+        endDate={endDate}
+        getDataSelectRange={setDateRange}
+        categoryFilterList={categoryFilterList ?? {}} // TODO:　とりあえずnull時に{}を与える形式で(実際どうするか考える)
+        toggleCategoryFilter={toggleCategoryFilter}
+        top3Categories={top3Categories}
       />
       <CategoryLineGraph
         width={width}
-        data={[
-          { date: "2022-01-01", 1: 50 },
-          { date: "2022-01-05", 1: 40 },
-          { date: "2022-01-10", 1: 30 },
-          { date: "2022-01-15", 1: 20 },
-          { date: "2022-01-20", 1: 10 },
-        ]}
-        dataInfo={[{ key: 1, name: " ", color: "red" }]}
-        range="day"
-        displayData="totalHours"
-        onClickLine={() => {}}
+        data={graphData}
+        dataInfo={graphDataInfo}
+        range={timeUnit}
+        displayData={displayTarget}
+        onClickLine={setCategoryQuery}
       />
     </Stack>
   );
