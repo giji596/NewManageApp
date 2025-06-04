@@ -2,18 +2,20 @@ import { memo } from "react";
 import CategoryLineGraphHeader from "./header/CategoryLineGraphHeader";
 import CategoryLineGraph from "./line-graph/CategoryLineGraph";
 import { Stack } from "@mui/material";
+import { CategoryCompareGraphLogic } from "./CategoryCompareGraphLogic";
 
 /**
  * カテゴリ比較グラフのコンポーネント
  */
 const CategoryCompareGraph = memo(function CategoryCompareGraph() {
+  const { displayTarget, onChangeDisplayTarget } = CategoryCompareGraphLogic();
   const width = 500;
   return (
     <Stack spacing={2}>
       <CategoryLineGraphHeader
         width={width}
-        displayTarget="totalHours"
-        onChangeDisplayTarget={() => {}}
+        displayTarget={displayTarget}
+        onChangeDisplayTarget={onChangeDisplayTarget}
         startDate={new Date("2022-01-01")}
         endDate={new Date("2022-01-31")}
         getDataSelectRange={() => {}}
@@ -34,7 +36,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
         ]}
         dataInfo={[{ key: 1, name: " ", color: "red" }]}
         range="day"
-        displayData="totalHours"
+        displayData={displayTarget}
         onClickLine={() => {}}
       />
     </Stack>
