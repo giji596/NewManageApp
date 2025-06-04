@@ -15,6 +15,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
     endDate,
     setDateRange,
     timeUnit,
+    top3Categories,
     graphData,
     graphDataInfo,
   } = CategoryCompareGraphLogic();
@@ -30,9 +31,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
         getDataSelectRange={setDateRange}
         categoryFilterList={{ カテゴリ1: { checked: true, color: "red" } }}
         toggleCategoryFilter={() => {}}
-        top3Categories={[
-          { id: 1, name: "カテゴリ1", color: "red", value: 100 },
-        ]}
+        top3Categories={top3Categories}
       />
       <CategoryLineGraph
         width={width}

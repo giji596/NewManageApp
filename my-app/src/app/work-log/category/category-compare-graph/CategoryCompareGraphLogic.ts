@@ -1,6 +1,7 @@
 import { LINE_GRAPH_COLOR_LIST } from "@/constant/categoryPage";
 import { DUMMY_CATEGORY_COMPARE_GRAPH_DATA } from "@/dummy/category-page";
 import {
+  CategoryCompareGraphData,
   CategoryLineGraphData,
   CategoryLineGraphDataInfo,
   CategoryLineGraphDisplay,
@@ -44,8 +45,29 @@ export const CategoryCompareGraphLogic = () => {
 
   // データ関連
   // TODO: フェッチさせる
-  const data = useMemo(() => DUMMY_CATEGORY_COMPARE_GRAPH_DATA, []);
+  const data = useMemo(
+    () =>
+      DUMMY_CATEGORY_COMPARE_GRAPH_DATA.sort(
+        (a, b) =>
+          // TODO:ソートは実際はリクエスト先で行う
+          b.values.reduce((c, d) => c + d.value, 0) -
+          a.values.reduce((c, d) => c + d.value, 0)
+      ),
+    []
+  );
 
+  // ヘッダー用
+  const top3Categories: CategoryCompareGraphData[] = useMemo(() => {
+    const rawTop3Data = data.slice(0, 3);
+    return rawTop3Data.map((v, idx) => ({
+      id: v.id,
+      name: v.name,
+      color: LINE_GRAPH_COLOR_LIST[idx],
+      value: v.values.reduce((a, b) => a + b.value, 0),
+    }));
+    //
+  }, [data]);
+  // グラフ表示用
   const graphData = useMemo(() => {
     // [日付][id]=valueの形式でオブジェクト化
     const record: Record<string, Record<number, number>> = {};
@@ -91,6 +113,8 @@ export const CategoryCompareGraphLogic = () => {
     setDateRange,
     /** 表示範囲の単位 */
     timeUnit,
+    /** ヘッダーのトップ３のカテゴリデータ */
+    top3Categories,
     /** グラフ表示用のデータ */
     graphData,
     /** グラフ表示用のデータの情報 */
