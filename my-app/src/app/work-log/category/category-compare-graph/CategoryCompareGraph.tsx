@@ -8,7 +8,13 @@ import { CategoryCompareGraphLogic } from "./CategoryCompareGraphLogic";
  * カテゴリ比較グラフのコンポーネント
  */
 const CategoryCompareGraph = memo(function CategoryCompareGraph() {
-  const { displayTarget, onChangeDisplayTarget } = CategoryCompareGraphLogic();
+  const {
+    displayTarget,
+    onChangeDisplayTarget,
+    startDate,
+    endDate,
+    setDateRange,
+  } = CategoryCompareGraphLogic();
   const width = 500;
   return (
     <Stack spacing={2}>
@@ -16,9 +22,9 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
         width={width}
         displayTarget={displayTarget}
         onChangeDisplayTarget={onChangeDisplayTarget}
-        startDate={new Date("2022-01-01")}
-        endDate={new Date("2022-01-31")}
-        getDataSelectRange={() => {}}
+        startDate={startDate}
+        endDate={endDate}
+        getDataSelectRange={setDateRange}
         categoryFilterList={{ カテゴリ1: { checked: true, color: "red" } }}
         toggleCategoryFilter={() => {}}
         top3Categories={[
