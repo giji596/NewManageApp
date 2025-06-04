@@ -7,7 +7,7 @@ import {
   CategoryLineGraphRange,
 } from "@/type/Category";
 import { differenceInCalendarDays, subWeeks } from "date-fns";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * カテゴリ比較グラフのロジック
@@ -56,6 +56,49 @@ export const CategoryCompareGraphLogic = () => {
   );
 
   // ヘッダー用
+  const initialCategoryFilterList: Record<
+    string,
+    {
+      checked: boolean;
+      color: string;
+    }
+  > = useMemo(() => {
+    const record: Record<string, { checked: boolean; color: string }> = {};
+    data.forEach((d, idx) => {
+      record[d.name] = {
+        checked: idx < 10 ? true : false, // 最大10項目までは初期から表示
+        color: d.color,
+      };
+    });
+    return record;
+  }, [data]);
+
+  const [categoryFilterList, setCategoryFilterList] = useState<Record<
+    string,
+    {
+      checked: boolean;
+      color: string;
+    }
+  > | null>(null);
+
+  // データフェッチ後の初期化処理
+  useEffect(() => {
+    if (initialCategoryFilterList) {
+      // 一応nullの場合のみセット処理
+      setCategoryFilterList((prev) =>
+        prev === null ? initialCategoryFilterList : prev
+      );
+    }
+  }, [initialCategoryFilterList]);
+
+  const toggleCategoryFilter = useCallback((name: string) => {
+    setCategoryFilterList((prev) => {
+      if (prev && prev[name]) {
+        prev[name].checked = !prev[name].checked;
+      }
+      return { ...prev };
+    });
+  }, []);
   const top3Categories: CategoryCompareGraphData[] = useMemo(() => {
     const rawTop3Data = data.slice(0, 3);
     return rawTop3Data.map((v) => ({
@@ -112,6 +155,10 @@ export const CategoryCompareGraphLogic = () => {
     setDateRange,
     /** 表示範囲の単位 */
     timeUnit,
+    /** カテゴリのフィルターリスト(trueで表示) */
+    categoryFilterList,
+    /** カテゴリのフィルターの切り替え関数 */
+    toggleCategoryFilter,
     /** ヘッダーのトップ３のカテゴリデータ */
     top3Categories,
     /** グラフ表示用のデータ */
