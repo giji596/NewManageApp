@@ -94,6 +94,8 @@ export type CategoryCompareGraphRawData = {
   id: number;
   /** カテゴリ名 */
   name: string;
+  /** カラー */
+  color: string;
   /** 日毎の値 */
   values: {
     /** 日付 */

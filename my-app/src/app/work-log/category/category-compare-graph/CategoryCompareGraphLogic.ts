@@ -1,4 +1,3 @@
-import { LINE_GRAPH_COLOR_LIST } from "@/constant/categoryPage";
 import { DUMMY_CATEGORY_COMPARE_GRAPH_DATA } from "@/dummy/category-page";
 import {
   CategoryCompareGraphData,
@@ -59,10 +58,10 @@ export const CategoryCompareGraphLogic = () => {
   // ヘッダー用
   const top3Categories: CategoryCompareGraphData[] = useMemo(() => {
     const rawTop3Data = data.slice(0, 3);
-    return rawTop3Data.map((v, idx) => ({
+    return rawTop3Data.map((v) => ({
       id: v.id,
       name: v.name,
-      color: LINE_GRAPH_COLOR_LIST[idx],
+      color: v.color,
       value: v.values.reduce((a, b) => a + b.value, 0),
     }));
     //
@@ -94,10 +93,10 @@ export const CategoryCompareGraphLogic = () => {
   }, [data]);
 
   const graphDataInfo: CategoryLineGraphDataInfo[] = useMemo(() => {
-    return data.map((v, idx) => ({
+    return data.map((v) => ({
       key: v.id,
       name: v.name,
-      color: LINE_GRAPH_COLOR_LIST[idx % 20], // 20色を超える場合は初期にローテーション
+      color: v.color,
     }));
   }, [data]);
   return {
