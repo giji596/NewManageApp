@@ -19,7 +19,6 @@ import { db } from "../dexie";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 import { CategoryActivityQuery } from "@/type/Query";
 import { CreateCategoryBody } from "@/type/Request";
-import { LINE_GRAPH_COLOR_LIST } from "@/constant/categoryPage";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -358,7 +357,7 @@ export const getCategoryCompareGraphData = async (
       // id,name,colorはそのまま取得
       const id = category.id;
       const name = category.name;
-      const color = LINE_GRAPH_COLOR_LIST[idx % 20]; // カラーリストは20色周期でリストから取得
+      const color = String(idx % 20); // カラーリストはMUIのテーマから取得
 
       // valuesについて dayList分取得
       const values = dayList.map((day) => {
