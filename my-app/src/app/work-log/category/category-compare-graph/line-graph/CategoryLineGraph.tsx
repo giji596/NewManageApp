@@ -14,6 +14,7 @@ import {
   CategoryLineGraphDisplay,
   CategoryLineGraphRange,
 } from "@/type/Category";
+import { useThemeColor } from "@/hook/useThemeColor";
 
 type Props = {
   /** 幅 */
@@ -47,27 +48,52 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
     range,
     displayData,
   });
+  const {
+    getLineGraphThemeColor,
+    lineGraphAxisTextColor,
+    tooltipBackGroundColor,
+    tooltipTextColor,
+  } = useThemeColor();
   return (
     <LineChart width={width} height={350} data={data}>
       <CartesianGrid stroke="#ccc" />
       <XAxis
         dataKey="date"
-        label={{ value: xLabel, position: "insideBottomRight", offset: 0 }}
+        label={{
+          value: xLabel,
+          position: "insideBottomRight",
+          offset: 0,
+          style: { fill: lineGraphAxisTextColor },
+        }}
+        tick={{ fill: lineGraphAxisTextColor }}
       />
-      <YAxis label={{ value: yLabel, angle: -90, position: "insideLeft" }} />
+      <YAxis
+        label={{
+          value: yLabel,
+          angle: -90,
+          position: "insideLeft",
+          style: { fill: lineGraphAxisTextColor },
+        }}
+        tick={{ fill: lineGraphAxisTextColor }}
+      />
       {dataInfo.map((info) => (
         <Line
           key={info.key}
           dataKey={info.key}
           name={info.name}
-          stroke={info.color}
+          stroke={getLineGraphThemeColor(info.color)}
           strokeWidth={5}
           style={{ cursor: "pointer" }}
           onClick={() => onClickLine(info.key)}
           hide={!visibleKeys[info.name]}
         />
       ))}
-      <Tooltip />
+      <Tooltip
+        contentStyle={{
+          backgroundColor: tooltipBackGroundColor,
+          color: tooltipTextColor,
+        }}
+      />
     </LineChart>
   );
 });

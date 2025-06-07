@@ -2,6 +2,7 @@ import {
   CategoryCompareGraphData,
   CategoryLineGraphDisplay,
 } from "@/type/Category";
+import { useTheme } from "@mui/material";
 import { format } from "date-fns";
 import { useCallback, useMemo, useState } from "react";
 

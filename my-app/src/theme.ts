@@ -1,4 +1,8 @@
 import { createTheme } from "@mui/material/styles";
+import {
+  LINE_GRAPH_COLOR_LIST,
+  LINE_GRAPH_COLOR_LIST_DARK,
+} from "./constant/categoryPage";
 
 // MUIのテーマを拡張するための型定義
 declare module "@mui/material/styles" {
@@ -32,6 +36,12 @@ declare module "@mui/material/styles" {
     recharts: {
       /** 円グラフ */
       pie: { defaultFill?: string };
+      /** 線グラフ */
+      line: {
+        default:
+          | typeof LINE_GRAPH_COLOR_LIST
+          | typeof LINE_GRAPH_COLOR_LIST_DARK;
+      };
     };
     /** テーブル */
     table: {
@@ -79,6 +89,12 @@ declare module "@mui/material/styles" {
     recharts?: {
       /** 円グラフ */
       pie?: { defaultFill?: string };
+      /** 線グラフ */
+      line: {
+        default?:
+          | typeof LINE_GRAPH_COLOR_LIST
+          | typeof LINE_GRAPH_COLOR_LIST_DARK;
+      };
     };
     /** テーブル */
     table?: {
@@ -115,6 +131,7 @@ export const lightTheme = createTheme({
     },
     recharts: {
       pie: { defaultFill: "#8884d8" },
+      line: { default: LINE_GRAPH_COLOR_LIST },
     },
     table: {
       highlighted: "#f5fbff",
@@ -147,6 +164,7 @@ export const darkTheme = createTheme({
     },
     recharts: {
       pie: { defaultFill: "#5a54b2" },
+      line: { default: LINE_GRAPH_COLOR_LIST_DARK },
     },
     table: {
       highlighted: "#23272b",

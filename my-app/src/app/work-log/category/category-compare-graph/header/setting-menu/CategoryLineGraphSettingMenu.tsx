@@ -16,6 +16,7 @@ import { memo } from "react";
 import { CategoryLineGraphSettingMenuLogic } from "./CategoryLineGraphSettingMenuLogic";
 import PeriodSelectDialog from "@/component/dialog/PeriodSelectDialog/PeriodSelectDialog";
 import useDialog from "@/hook/useDialog";
+import { useThemeColor } from "@/hook/useThemeColor";
 
 type Props = {
   /** 表示対象 */
@@ -61,6 +62,7 @@ const CategoryLineGraphSettingMenu = memo(
       categoryFilterList,
     });
     const { open, onClose, onOpen } = useDialog();
+    const { getLineGraphThemeColor } = useThemeColor();
     return (
       <>
         <Stack direction="row">
@@ -70,7 +72,7 @@ const CategoryLineGraphSettingMenu = memo(
             height="50vh"
             boxShadow={2}
             sx={{
-              bgcolor: "white",
+              bgcolor: "background.paper",
               opacity: 0.8,
             }}
           >
@@ -120,7 +122,9 @@ const CategoryLineGraphSettingMenu = memo(
                               width: 10,
                               height: 10,
                               borderRadius: "50%", // 中も丸く
-                              backgroundColor: value.color, // チェック部分の色
+                              backgroundColor: getLineGraphThemeColor(
+                                value.color
+                              ), // チェック部分の色
                             }}
                           />
                         )}
@@ -140,7 +144,7 @@ const CategoryLineGraphSettingMenu = memo(
             pl={3}
             pt={1}
             sx={{
-              bgcolor: "white",
+              bgcolor: "background.paper",
               opacity: 0.8,
             }}
           >

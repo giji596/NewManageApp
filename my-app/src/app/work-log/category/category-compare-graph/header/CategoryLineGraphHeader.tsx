@@ -14,6 +14,7 @@ import {
   CategoryCompareGraphData,
   CategoryLineGraphDisplay,
 } from "@/type/Category";
+import { useThemeColor } from "@/hook/useThemeColor";
 
 type Props = {
   /** 幅 */
@@ -61,6 +62,7 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
     startDate,
     endDate,
   });
+  const { getLineGraphThemeColor } = useThemeColor();
 
   return (
     <>
@@ -83,7 +85,7 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
                     width: 12,
                     height: 12,
                     borderRadius: "50%", // 中も丸く
-                    backgroundColor: v.color, // チェック部分の色
+                    backgroundColor: getLineGraphThemeColor(v.color), // チェック部分の色
                   }}
                 />
                 <Typography>{getCategoryText(v, idx + 1)}</Typography>
