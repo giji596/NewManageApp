@@ -30,8 +30,8 @@ const TaskActivityPieChart = memo(function TaskActivityPieChart() {
       />
       {isLoading && (
         <Stack
-          width={400}
-          height={350}
+          width={300}
+          height={300}
           alignItems={"center"}
           justifyContent={"center"}
         >
@@ -39,7 +39,7 @@ const TaskActivityPieChart = memo(function TaskActivityPieChart() {
         </Stack>
       )}
       {!isLoading && data.length === 0 && (
-        <NoDataPieGraph width={400} height={350} radius={150} />
+        <NoDataPieGraph width={300} height={300} radius={125} />
       )}
       {!isLoading && data.length !== 0 && <TaskActivityGraph data={data} />}
     </Stack>

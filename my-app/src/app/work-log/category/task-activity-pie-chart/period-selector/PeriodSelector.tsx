@@ -48,7 +48,6 @@ export default function PeriodSelector({
             aria-labelledby="display-range-label"
             name="display-range"
             row
-            sx={{ gap: 0.5 }}
             value={selectRange}
             onChange={onChangeSelectRange}
           >
@@ -94,7 +93,7 @@ export default function PeriodSelector({
               }
               label={
                 <Stack direction={"row"} alignItems={"center"} spacing={0.5}>
-                  <Typography color="text.primary">期間を選択する</Typography>
+                  <Typography color="text.primary">選択</Typography>
                   <Button
                     variant="contained"
                     color={"secondary"}

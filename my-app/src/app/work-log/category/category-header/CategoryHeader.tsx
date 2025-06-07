@@ -36,11 +36,11 @@ export default function CategoryHeader() {
     isLoadingOptions,
     selectedCategoryId,
     isSelectedIdAvailable,
-    selectedCategoryName,
     isLoadingCategorySummary,
     isCompleted,
     totalHours,
-    activeDate,
+    startDate,
+    lastDate,
     onChangeCategoryId,
     handleComplete,
     handleDelete,
@@ -74,105 +74,9 @@ export default function CategoryHeader() {
   } = useDialog();
   return (
     <>
-      <Stack direction="row" px={4} py={2} justifyContent={"space-between"}>
-        {/** 左部分(カテゴリ情報) */}
-        {isLoadingCategorySummary && (
-          <Stack
-            width="550px"
-            height="100px"
-            alignItems="center"
-            justifySelf={"center"}
-          >
-            <CircularProgress />
-          </Stack>
-        )}
-        {/** データなしの場合 空白のStackを配置 */}
-        {!isLoadingCategorySummary && isNoCategory && (
-          <Stack
-            width="550px"
-            height="100px"
-            alignItems="center"
-            justifySelf={"center"}
-          />
-        )}
-        {!isLoadingCategorySummary && !isNoCategory && (
-          <Stack spacing={0.5} width="700px">
-            {/** カテゴリ名 + Completed? */}
-            <Stack direction="row" spacing={1}>
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                カテゴリ名:
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {selectedCategoryName}
-              </Typography>
-              {isCompleted && (
-                <>
-                  <CheckCircleIcon color="success" />
-                  <Typography
-                    color="success"
-                    variant="subtitle1"
-                    fontWeight={700}
-                  >
-                    完了済み
-                  </Typography>
-                </>
-              )}
-            </Stack>
-            {/** 合計稼働時間 */}
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                総稼働時間:
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {totalHours}(h)
-              </Typography>
-              <Stack
-                direction="row-reverse"
-                sx={(theme) => ({
-                  width: "70%",
-                  height: 20,
-                  background: theme.palette.gradient.achievement,
-                  borderRadius: 1,
-                })}
-              >
-                <Stack
-                  sx={{
-                    height: "100%",
-                    width: "0%",
-                    backgroundColor: "gray.normal",
-                    animation: `${growAnimation} 1s ease-out forwards`,
-                  }}
-                />
-              </Stack>
-            </Stack>
-            {/**  */}
-            <Stack direction="row" spacing={1}>
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                稼働期間:
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {activeDate}
-              </Typography>
-            </Stack>
-          </Stack>
-        )}
-        {/** 右部分(カテゴリ選択/完了ボタン) */}
-        <Stack direction="row">
+      <Stack width="300px" height="40vh" justifyContent="space-between" pl={2}>
+        {/** 上部分(カテゴリ選択/完了ボタン) */}
+        <Stack direction="row" py={2}>
           {(isLoadingOptions || !isSelectedIdAvailable) && (
             <Stack
               width={113}
@@ -218,6 +122,73 @@ export default function CategoryHeader() {
             onClickDelete={onOpenDelete}
           />
         </Stack>
+        {/** 下部分(カテゴリ情報) */}
+        {isLoadingCategorySummary && (
+          <Stack
+            width="550px"
+            height="100px"
+            alignItems="center"
+            justifySelf={"center"}
+          >
+            <CircularProgress />
+          </Stack>
+        )}
+        {/** データなしの場合 空白のStackを配置 */}
+        {!isLoadingCategorySummary && isNoCategory && (
+          <Stack
+            width="550px"
+            height="100px"
+            alignItems="center"
+            justifySelf={"center"}
+          />
+        )}
+        {!isLoadingCategorySummary && !isNoCategory && (
+          <Stack>
+            {/** Completed?  */}
+            {isCompleted && (
+              <Stack direction="row">
+                <CheckCircleIcon color="success" />
+                <Typography
+                  color="success"
+                  variant="subtitle1"
+                  fontWeight={700}
+                >
+                  完了済み
+                </Typography>
+              </Stack>
+            )}
+            {/** 合計稼働時間 */}
+            <Typography color="text.primary" variant="h6">
+              総稼働時間: {totalHours}(h)
+            </Typography>
+            <Stack
+              direction="row-reverse"
+              sx={(theme) => ({
+                width: "70%",
+                height: 20,
+                background: theme.palette.gradient.achievement,
+                borderRadius: 1,
+              })}
+            >
+              <Stack
+                sx={{
+                  height: "100%",
+                  width: "0%",
+                  backgroundColor: "gray.normal",
+                  animation: `${growAnimation} 1s ease-out forwards`,
+                }}
+              />
+            </Stack>
+            {/** 稼働開始 */}
+            <Typography pt={1} color="text.primary" variant="h6">
+              稼働開始:
+              <br /> {startDate}
+            </Typography>
+            <Typography pt={1} color="text.primary" variant="h6">
+              最終稼働: <br /> {lastDate}
+            </Typography>
+          </Stack>
+        )}
       </Stack>
       {/** ダイアログ群 */}
       {openPeriod && (

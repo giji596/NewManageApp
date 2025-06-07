@@ -17,13 +17,13 @@ const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
     data,
   });
   return (
-    <PieChart width={400} height={350}>
+    <PieChart width={300} height={300}>
       <Pie
         data={pieData}
         dataKey="value"
         cx="50%"
         cy="50%"
-        outerRadius={150}
+        outerRadius={125}
         fill={theme.palette.recharts.pie.defaultFill}
       />
       <Tooltip formatter={toolChipFormatter} />

@@ -135,12 +135,10 @@ export default function CategoryHeaderLogic() {
     activeDate: "",
   };
 
-  const {
-    name: selectedCategoryName,
-    isCompleted,
-    totalHours,
-    activeDate,
-  } = categorySummaryData;
+  const { isCompleted, totalHours, activeDate } = categorySummaryData;
+
+  const startDate = activeDate.split("~")[0];
+  const lastDate = activeDate.split("~")[1];
 
   const onChangeCategoryId = useCallback(
     (e: SelectChangeEvent) => {
@@ -232,14 +230,14 @@ export default function CategoryHeaderLogic() {
     isSelectedIdAvailable,
     /** カテゴリの概要のロード状態 */
     isLoadingCategorySummary,
-    /** 選択中のカテゴリ名 */
-    selectedCategoryName,
     /** 完了状態 */
     isCompleted,
     /** 総稼働時間 */
     totalHours,
-    /** 稼働の"開始~終了"の日付string */
-    activeDate,
+    /** 稼働の開始の日付string */
+    startDate,
+    /** 最終稼働の日付string */
+    lastDate,
     /** 選択中のカテゴリを変更する関数 */
     onChangeCategoryId,
     /** 完了状態に移行するハンドラー */
