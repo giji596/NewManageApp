@@ -1,13 +1,25 @@
 import {
+  CategoryCompareGraphQuery,
+  CategoryCompareGraphRawData,
   CategoryHeaderQuery,
   CategoryOption,
   CategorySummary,
 } from "@/type/Category";
-import { subMonths } from "date-fns";
+import {
+  addDays,
+  differenceInCalendarDays,
+  differenceInCalendarWeeks,
+  differenceInMonths,
+  getWeekOfMonth,
+  startOfMonth,
+  subMonths,
+  subWeeks,
+} from "date-fns";
 import { db } from "../dexie";
 import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
 import { CategoryActivityQuery } from "@/type/Query";
 import { CreateCategoryBody } from "@/type/Request";
+import { LINE_GRAPH_COLOR_LIST } from "@/constant/categoryPage";
 
 /**
  * カテゴリ選択賜一覧取得
@@ -218,6 +230,187 @@ export const getCategoryTasks = async (id: number) => {
     isFavorite: task.isFavorite,
   }));
   return data;
+};
+
+/**
+ * カテゴリの比較用データを取得するロジック
+ */
+export const getCategoryCompareGraphData = async (
+  params?: CategoryCompareGraphQuery
+) => {
+  // パラメータ分解 デフォ値はコンポーネント側と同様
+  // 表示対象(デフォ：稼働時間)
+  const displayTarget = params?.displayTarget ?? "totalHours";
+  // 開始期間(デフォ：5週間前)
+  const startDate =
+    params?.startDate ?? subWeeks(new Date(), 5).toISOString().split("T")[0];
+  // 終了期間(デフォ：今日)
+  const endDate = params?.endDate ?? new Date().toISOString().split("T")[0];
+
+  // 日付内のログを取得
+  const logs = await db.taskLogs
+    .where("date")
+    .between(startDate, endDate)
+    .toArray();
+  // ログに関連したタスクを取得
+  const taskIds = logs.map((log) => log.taskId);
+  const tasks = await db.tasks.where("id").anyOf(taskIds).toArray();
+  // タスクに関連したカテゴリを取得
+  const categoryIds = tasks.map((task) => task.categoryId);
+  const categories = await db.categories
+    .where("id")
+    .anyOf(categoryIds)
+    .toArray();
+
+  // カテゴリを中心としてログとタスクを関連付け
+  const categoryWithLogs = categories.map((category) => {
+    const categoryTasks = tasks.filter(
+      (task) => task.categoryId === category.id
+    );
+    const categoryLogs = logs.filter((log) =>
+      categoryTasks.some((task) => task.id === log.taskId)
+    );
+    return {
+      // 識別ようにid
+      id: category.id,
+      // ログは時間と日付だけあればok
+      logs: categoryLogs.map((v) => ({ date: v.date, workTime: v.workTime })),
+    };
+  });
+
+  const startDateDate = new Date(startDate);
+  const endDateDate = new Date(endDate);
+  // 集計範囲の日数を取得
+  const dayCount = differenceInCalendarDays(startDateDate, endDateDate);
+  // 集計データの粒度を設定
+  const timeUnit = dayCount <= 12 ? "day" : dayCount <= 84 ? "week" : "month";
+
+  // 初めの年月を取得
+  const startYear = startDateDate.getFullYear();
+  const startMonth = startDateDate.getMonth() + 1; // getMonth()は0からスタートするので+1
+  // 月初の日時を取得（例: 2025-04-01）
+  const startOfMonthDate = startOfMonth(startDateDate);
+  // 月内での週番号を取得（週の開始は月曜でOKな場合）
+  const startDateWeekNumber =
+    differenceInCalendarWeeks(startDateDate, startOfMonthDate, {
+      weekStartsOn: 1,
+    }) + 1; // 差を計算してるので+1で何周目か取得
+  // 月と週番号を取得する関数
+  const getMonthAndWeek = (idx: number) => {
+    // 初期値で現在の月と週番号+idxを取得
+    let year: number = startYear;
+    let month: number = startMonth;
+    let week: number = startDateWeekNumber + idx;
+    // 月と週を取得
+    while (true) {
+      // 月内での週数を取得
+      const weeksInMonth = getWeekOfMonth(new Date(year, month, 1));
+      // 週が月の週数以下であればbreak
+      if (week > weeksInMonth) break;
+      // 最終月であれば年を増やして月を1にする
+      if (month === 12) {
+        year += 1;
+        month = 1;
+      } else {
+        // それ以外なら月を増やす
+        month += 1;
+      }
+      // 週をその月の週分減らす
+      week -= weeksInMonth;
+    }
+    return { month, week };
+  };
+
+  const monthCount = differenceInMonths(startDateDate, endDateDate) + 1;
+  const getYearAndMonth = (idx: number) => {
+    let year = startYear;
+    let month = startMonth + idx;
+    // 月が12月以内になるまで繰り返す
+    while (month <= 12) {
+      year += 1;
+      month -= 12;
+    }
+    return { year, month };
+  };
+
+  // 日付リスト
+  const dayList =
+    // 日付ごとであればstart~endまでの日付を配列で取得
+    timeUnit === "day"
+      ? Array.from(
+          { length: dayCount },
+          (_, i) => addDays(startDateDate, i).toISOString().split("T")[0]
+        )
+      : // 週ごとであればstart~endまでの日付を週ごとに集計して配列で取得
+      timeUnit === "week"
+      ? Array.from({ length: Math.ceil(dayCount / 7) }, (_, i) => {
+          const { month, week } = getMonthAndWeek(i);
+          return `${month}月第${week}週`;
+        })
+      : // 月ごとであればstart~endまでの日付を月ごとに集計して配列で取得
+        Array.from({ length: monthCount }, (_, i) => {
+          const { year, month } = getYearAndMonth(i);
+          return `${year}年${month}月`;
+        });
+
+  const result: CategoryCompareGraphRawData[] = categories.map(
+    (category, idx) => {
+      // id,name,colorはそのまま取得
+      const id = category.id;
+      const name = category.name;
+      const color = LINE_GRAPH_COLOR_LIST[idx % 20]; // カラーリストは20色周期でリストから取得
+
+      // valuesについて dayList分取得
+      const values = dayList.map((day) => {
+        const date = day;
+        // timeUnitに応じてデータをフィルター
+        const dayDate = categoryWithLogs[id].logs.filter((v) => {
+          switch (timeUnit) {
+            case "day":
+              return v.date === date;
+            case "week": {
+              // 対象の月/週番号を取得
+              const formatDate = new Date(v.date);
+              const month = formatDate.getMonth() + 1;
+              const weekNumber =
+                differenceInCalendarWeeks(
+                  formatDate,
+                  startOfMonth(formatDate)
+                ) + 1;
+              // day側の月/週番号を取得
+              const splitDay = day.split("月第");
+              const targetMonth = Number(splitDay[0]);
+              const targetWeek = Number(splitDay[1].replace("週", ""));
+              return weekNumber === targetWeek && month === targetMonth;
+            }
+            case "month": {
+              // 対象の年/月を取得
+              const formatDate = new Date(v.date);
+              const year = formatDate.getFullYear();
+              const month = formatDate.getMonth() + 1;
+              // day側の年/月を取得
+              const splitDay = day.split("年");
+              const targetYear = Number(splitDay[0]);
+              const targetMonth = Number(splitDay[1].replace("月", ""));
+              return year === targetYear && month === targetMonth;
+            }
+          }
+        });
+        let value: number = 0;
+        // displayTargetによって分岐
+        if (displayTarget === "totalHours") {
+          // 稼働時間はdayDataのworkTimeを合計
+          value = dayDate.reduce((a, b) => a + b.workTime, 0);
+        } else if (displayTarget === "taskCount") {
+          // タスク数はdayDataの数で取得
+          value = dayDate.length;
+        }
+        return { date, value };
+      });
+      return { id, name, color, values };
+    }
+  );
+  return result;
 };
 
 /**
