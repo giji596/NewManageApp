@@ -17,7 +17,7 @@ const TaskActivityGraph = memo(function TaskActivityGraph({ data }: Props) {
     data,
   });
   return (
-    <PieChart width={400} height={350}>
+    <PieChart width={350} height={350}>
       <Pie
         data={pieData}
         dataKey="value"

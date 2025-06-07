@@ -8,8 +8,8 @@ const TaskActivityPieChart = dynamic(
     ssr: false,
     loading: () => (
       <Stack
-        width={577.5}
-        height={397.5}
+        width={350}
+        height={350}
         alignItems={"center"}
         justifyContent={"center"}
       >
@@ -42,7 +42,7 @@ export default function CategoryPage() {
         {/** 左部(基本情報) */}
         <CategoryHeader />
         {/** 右部(期間グラフ) */}
-        <Stack justifyContent={"space-between"} height="70vh" pt={2}>
+        <Stack justifyContent={"space-between"} pt={2}>
           <TaskActivityPieChart />
         </Stack>
       </Stack>
