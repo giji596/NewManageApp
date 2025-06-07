@@ -62,7 +62,6 @@ const CategoryLineGraphSettingMenu = memo(
             width="30%"
             height="50vh"
             boxShadow={2}
-            overflow="auto"
             sx={{
               bgcolor: "white",
               opacity: 0.8,
@@ -76,7 +75,7 @@ const CategoryLineGraphSettingMenu = memo(
             >
               表示数 x/10
             </Typography>
-            <List>
+            <List sx={{ overflow: "auto" }}>
               {Object.entries(categoryFilterList)
                 .sort(
                   ([, a], [, b]) =>
