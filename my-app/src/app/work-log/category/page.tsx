@@ -37,13 +37,13 @@ export default function CategoryPage() {
       <Divider sx={{ width: "95%", alignSelf: "center" }} />
       {/** 下部 */}
       <Stack direction="row" px={4}>
-        {/** 下左側(期間グラフ) */}
-        <Stack width="50%" justifyContent={"space-around"}>
-          <TaskActivityPieChart />
-        </Stack>
-        {/** 下右側(カテゴリ内タスクリスト) */}
+        {/** 下左側(カテゴリ比較) */}
         <Stack width="50%" height={500} pt={10}>
           <CategoryCompareGraph />
+        </Stack>
+        {/** 下右側(期間グラフ) */}
+        <Stack width="50%" justifyContent={"space-around"}>
+          <TaskActivityPieChart />
         </Stack>
       </Stack>
     </Stack>
