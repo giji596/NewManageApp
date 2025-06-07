@@ -1,8 +1,12 @@
-import { CategoryHeaderQuery } from "@/type/Category";
+import {
+  CategoryCompareGraphQuery,
+  CategoryHeaderQuery,
+} from "@/type/Category";
 import {
   createCategory,
   deleteCategory,
   getCategoryActivity,
+  getCategoryCompareGraphData,
   getCategoryOptions,
   getCategorySummary,
   getCategoryTasks,
@@ -163,6 +167,12 @@ export const localClient = {
           ({ query }: { query?: CategoryHeaderQuery }) =>
           () =>
             getCategoryOptions(query),
+      },
+      comparison: {
+        get:
+          ({ query }: { query?: CategoryCompareGraphQuery }) =>
+          () =>
+            getCategoryCompareGraphData(query),
       },
     },
     memos: {

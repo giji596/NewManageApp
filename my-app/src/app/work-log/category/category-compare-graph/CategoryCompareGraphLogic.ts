@@ -1,4 +1,4 @@
-import { DUMMY_CATEGORY_COMPARE_GRAPH_DATA } from "@/dummy/category-page";
+import { localClient } from "@/lib/localClient";
 import {
   CategoryCompareGraphData,
   CategoryLineGraphData,
@@ -9,6 +9,7 @@ import {
 import { differenceInCalendarDays, subWeeks } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 
 /**
  * カテゴリ比較グラフのロジック
@@ -44,17 +45,22 @@ export const CategoryCompareGraphLogic = () => {
   }, [endDate, startDate]);
 
   // データ関連
-  // TODO: フェッチさせる
-  const rawData = useMemo(
-    () =>
-      DUMMY_CATEGORY_COMPARE_GRAPH_DATA.sort(
-        (a, b) =>
-          // TODO:ソートは実際はリクエスト先で行う
-          b.values.reduce((c, d) => c + d.value, 0) -
-          a.values.reduce((c, d) => c + d.value, 0)
-      ),
-    []
+  const query = new URLSearchParams({
+    displayTarget: displayTarget,
+    startDate: startDate.toISOString().split("T")[0],
+    endDate: endDate.toISOString().split("T")[0],
+  });
+  const { data } = useSWR(
+    ["api/work-log/categories/comparison", query.toString()],
+    localClient.work_log.categories.comparison.get({
+      query: {
+        displayTarget: displayTarget,
+        startDate: startDate.toISOString().split("T")[0],
+        endDate: endDate.toISOString().split("T")[0],
+      },
+    })
   );
+  const rawData = useMemo(() => data ?? [], [data]);
 
   // ヘッダー用
   const initialCategoryFilterList: Record<
