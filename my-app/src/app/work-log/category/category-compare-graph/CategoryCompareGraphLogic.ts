@@ -111,9 +111,12 @@ export const CategoryCompareGraphLogic = () => {
   const toggleCategoryFilter = useCallback((name: string) => {
     setCategoryFilterList((prev) => {
       if (prev && prev[name]) {
-        prev[name].checked = !prev[name].checked;
+        return {
+          ...prev,
+          [name]: { ...prev[name], checked: !prev[name].checked },
+        };
       }
-      return { ...prev };
+      return prev;
     });
   }, []);
 
