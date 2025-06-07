@@ -45,6 +45,7 @@ export const CategoryLineGraphSettingMenuLogic = ({
     [categoryFilterList]
   );
   const maxVisibleCount = 10;
+  const isMaxVisible = visibleCount === maxVisibleCount;
 
   return {
     /** 表示対象変更時のハンドラー(メモ化済み) */
@@ -57,5 +58,7 @@ export const CategoryLineGraphSettingMenuLogic = ({
     visibleCount,
     /** 表示可能な最大カテゴリー数 */
     maxVisibleCount,
+    /** 表示可能なカテゴリーの数を超えているか */
+    isMaxVisible,
   };
 };

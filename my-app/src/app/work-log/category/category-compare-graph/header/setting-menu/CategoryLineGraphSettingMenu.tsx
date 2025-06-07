@@ -53,6 +53,7 @@ const CategoryLineGraphSettingMenu = memo(
       endDateString,
       visibleCount,
       maxVisibleCount,
+      isMaxVisible,
     } = CategoryLineGraphSettingMenuLogic({
       onChangeDisplayTarget,
       startDate,
@@ -92,6 +93,7 @@ const CategoryLineGraphSettingMenu = memo(
                     <ListItemButton
                       sx={{ padding: 0 }}
                       onClick={() => toggleCategoryFilter(name)}
+                      disabled={isMaxVisible && !value.checked}
                     >
                       {/** チェックのボタンっぽいところ */}
                       <div
