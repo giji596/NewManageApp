@@ -1,5 +1,5 @@
 import { getCategoryOptions } from "@/lib/services/categoryService";
-import { CategoryHeaderQuery, CategoryOption } from "@/type/Category";
+import { CategoryPanelQuery, CategoryOption } from "@/type/Category";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,7 +10,7 @@ export async function GET(
   // 全てのクエリをオブジェクト化
   const queryObj = Object.fromEntries(
     searchParams.entries()
-  ) as CategoryHeaderQuery; // aspidaでクエリの型定義は合わせてるのでasで
+  ) as CategoryPanelQuery; // aspidaでクエリの型定義は合わせてるのでasで
   const data = await getCategoryOptions(queryObj);
   if (data.length === 0)
     return NextResponse.json([{ id: 0, name: "カテゴリがありません" }]);

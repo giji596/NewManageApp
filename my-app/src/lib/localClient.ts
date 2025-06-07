@@ -1,7 +1,4 @@
-import {
-  CategoryCompareGraphQuery,
-  CategoryHeaderQuery,
-} from "@/type/Category";
+import { CategoryCompareGraphQuery, CategoryPanelQuery } from "@/type/Category";
 import {
   createCategory,
   deleteCategory,
@@ -164,7 +161,7 @@ export const localClient = {
       post: ({ body }: { body: CreateCategoryBody }) => createCategory(body),
       options: {
         get:
-          ({ query }: { query?: CategoryHeaderQuery }) =>
+          ({ query }: { query?: CategoryPanelQuery }) =>
           () =>
             getCategoryOptions(query),
       },

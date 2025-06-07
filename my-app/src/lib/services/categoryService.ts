@@ -1,6 +1,6 @@
 import {
   CategoryActivityRange,
-  CategoryHeaderQuery,
+  CategoryPanelQuery,
   CategoryOption,
   CategorySummary,
 } from "@/type/Category";
@@ -12,7 +12,7 @@ import { CategoryTaskActivity, CategoryTaskList } from "@/type/Task";
  * カテゴリ選択賜一覧取得
  */
 export const getCategoryOptions = async (
-  query?: CategoryHeaderQuery
+  query?: CategoryPanelQuery
 ): Promise<CategoryOption[]> => {
   const hideCompleted = query?.hideCompleted;
   // 最終更新日関連
