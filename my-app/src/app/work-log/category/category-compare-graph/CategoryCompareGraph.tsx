@@ -1,7 +1,7 @@
 import { memo } from "react";
 import CategoryLineGraphHeader from "./header/CategoryLineGraphHeader";
 import CategoryLineGraph from "./line-graph/CategoryLineGraph";
-import { Stack, Typography } from "@mui/material";
+import { CircularProgress, Paper, Stack, Typography } from "@mui/material";
 import { CategoryCompareGraphLogic } from "./CategoryCompareGraphLogic";
 
 /**
@@ -22,6 +22,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
     graphData,
     graphDataInfo,
     setCategoryQuery,
+    isLoading,
   } = CategoryCompareGraphLogic();
   const width = 500;
   return (
@@ -29,17 +30,32 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
       <Typography variant="h6" color="text.secondary">
         カテゴリ間の比較
       </Typography>
-      <CategoryLineGraphHeader
-        width={width}
-        displayTarget={displayTarget}
-        onChangeDisplayTarget={onChangeDisplayTarget}
-        startDate={startDate}
-        endDate={endDate}
-        getDataSelectRange={setDateRange}
-        categoryFilterList={categoryFilterList ?? {}}
-        toggleCategoryFilter={toggleCategoryFilter}
-        top3Categories={top3Categories}
-      />
+      {!isLoading && (
+        <CategoryLineGraphHeader
+          width={width}
+          displayTarget={displayTarget}
+          onChangeDisplayTarget={onChangeDisplayTarget}
+          startDate={startDate}
+          endDate={endDate}
+          getDataSelectRange={setDateRange}
+          categoryFilterList={categoryFilterList ?? {}}
+          toggleCategoryFilter={toggleCategoryFilter}
+          top3Categories={top3Categories}
+        />
+      )}
+      {isLoading && (
+        <Paper
+          sx={{
+            width: width,
+            height: 145,
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <CircularProgress />
+        </Paper>
+      )}
       <CategoryLineGraph
         width={width}
         data={graphData}

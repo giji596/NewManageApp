@@ -50,7 +50,7 @@ export const CategoryCompareGraphLogic = () => {
     startDate: startDate.toISOString().split("T")[0],
     endDate: endDate.toISOString().split("T")[0],
   });
-  const { data } = useSWR(
+  const { data, isLoading } = useSWR(
     ["api/work-log/categories/comparison", query.toString()],
     localClient.work_log.categories.comparison.get({
       query: {
@@ -203,5 +203,7 @@ export const CategoryCompareGraphLogic = () => {
     graphDataInfo,
     /** クエリパラメータにセットする関数 */
     setCategoryQuery,
+    /** SWRのロード状態 */
+    isLoading,
   };
 };
