@@ -10,7 +10,7 @@ import {
   differenceInCalendarDays,
   differenceInCalendarWeeks,
   differenceInMonths,
-  getWeekOfMonth,
+  getWeeksInMonth,
   startOfMonth,
   subMonths,
   subWeeks,
@@ -281,7 +281,7 @@ export const getCategoryCompareGraphData = async (
   const startDateDate = new Date(startDate);
   const endDateDate = new Date(endDate);
   // 集計範囲の日数を取得
-  const dayCount = differenceInCalendarDays(startDateDate, endDateDate);
+  const dayCount = differenceInCalendarDays(endDateDate, startDateDate);
   // 集計データの粒度を設定
   const timeUnit = dayCount <= 12 ? "day" : dayCount <= 84 ? "week" : "month";
 
@@ -304,9 +304,9 @@ export const getCategoryCompareGraphData = async (
     // 月と週を取得
     while (true) {
       // 月内での週数を取得
-      const weeksInMonth = getWeekOfMonth(new Date(year, month, 1));
+      const weeksInMonth = getWeeksInMonth(new Date(year, month, 1));
       // 週が月の週数以下であればbreak
-      if (week > weeksInMonth) break;
+      if (week <= weeksInMonth) break;
       // 最終月であれば年を増やして月を1にする
       if (month === 12) {
         year += 1;
