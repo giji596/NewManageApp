@@ -92,6 +92,19 @@ export const CategoryCompareGraphLogic = () => {
     }
   }, [initialCategoryFilterList]);
 
+  const visibleKeys = useMemo(
+    () =>
+      categoryFilterList
+        ? Object.fromEntries(
+            Object.entries(categoryFilterList).map(([key, { checked }]) => [
+              key,
+              checked,
+            ])
+          )
+        : {},
+    [categoryFilterList]
+  );
+
   const toggleCategoryFilter = useCallback((name: string) => {
     setCategoryFilterList((prev) => {
       if (prev && prev[name]) {
@@ -175,6 +188,8 @@ export const CategoryCompareGraphLogic = () => {
     categoryFilterList,
     /** カテゴリのフィルターの切り替え関数 */
     toggleCategoryFilter,
+    /** key:カテゴリ名,value:表示/非表示 のオブジェクト */
+    visibleKeys,
     /** ヘッダーのトップ３のカテゴリデータ */
     top3Categories,
     /** グラフ表示用のデータ */

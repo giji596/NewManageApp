@@ -16,6 +16,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
     setDateRange,
     timeUnit,
     categoryFilterList,
+    visibleKeys,
     toggleCategoryFilter,
     top3Categories,
     graphData,
@@ -43,6 +44,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
         range={timeUnit}
         displayData={displayTarget}
         onClickLine={setCategoryQuery}
+        visibleKeys={visibleKeys}
       />
     </Stack>
   );
