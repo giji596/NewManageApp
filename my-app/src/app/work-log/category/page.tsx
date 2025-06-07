@@ -31,19 +31,19 @@ import dynamic from "next/dynamic";
  */
 export default function CategoryPage() {
   return (
-    <Stack direction="row">
+    <Stack direction="row" px={5} spacing={2}>
       {/** 左側(カテゴリ間) */}
-      <Stack width="50%" height={500} pt={10}>
+      <Stack width="40%" pt={10}>
         <CategoryCompareGraph />
       </Stack>
       <Divider orientation="vertical" flexItem />
       {/** 右側(カテゴリ詳細) */}
-      <Stack>
+      <Stack alignItems={"center"} width="60%">
         {/** 上部 */}
         <CategoryHeader />
         <Divider sx={{ width: "95%", alignSelf: "center" }} />
         {/** 下部(期間グラフ) */}
-        <Stack width="50%" justifyContent={"space-around"}>
+        <Stack justifyContent={"space-between"} height="70vh" pt={2}>
           <TaskActivityPieChart />
         </Stack>
       </Stack>
