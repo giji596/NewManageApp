@@ -76,7 +76,7 @@ export default function CategoryHeader() {
     <>
       <Stack>
         {/** 上部分(カテゴリ選択/完了ボタン) */}
-        <Stack direction="row">
+        <Stack direction="row" pb={2}>
           {(isLoadingOptions || !isSelectedIdAvailable) && (
             <Stack
               width={113}
@@ -143,7 +143,7 @@ export default function CategoryHeader() {
           />
         )}
         {!isLoadingCategorySummary && !isNoCategory && (
-          <Stack spacing={0.5}>
+          <Stack>
             {/** Completed?  */}
             {isCompleted && (
               <Stack direction="row">
@@ -180,17 +180,12 @@ export default function CategoryHeader() {
               />
             </Stack>
             {/** 稼働開始 */}
-            <Typography color="text.primary" variant="h6">
+            <Typography pt={1} color="text.primary" variant="h6">
               稼働開始:
+              <br /> {startDate}
             </Typography>
-            <Typography color="text.primary" variant="h6">
-              {startDate}
-            </Typography>
-            <Typography color="text.primary" variant="h6">
-              最終稼働:
-            </Typography>
-            <Typography color="text.primary" variant="h6">
-              {lastDate}
+            <Typography pt={1} color="text.primary" variant="h6">
+              最終稼働: <br /> {lastDate}
             </Typography>
           </Stack>
         )}
