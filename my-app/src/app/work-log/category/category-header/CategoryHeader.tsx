@@ -74,9 +74,9 @@ export default function CategoryHeader() {
   } = useDialog();
   return (
     <>
-      <Stack>
+      <Stack width="300px" height="50vh" justifyContent="space-between" pl={2}>
         {/** 上部分(カテゴリ選択/完了ボタン) */}
-        <Stack direction="row" pb={2}>
+        <Stack direction="row" py={2}>
           {(isLoadingOptions || !isSelectedIdAvailable) && (
             <Stack
               width={113}
