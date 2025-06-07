@@ -10,6 +10,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Typography,
 } from "@mui/material";
 import { memo } from "react";
 import { CategoryLineGraphSettingMenuLogic } from "./CategoryLineGraphSettingMenuLogic";
@@ -46,12 +47,19 @@ const CategoryLineGraphSettingMenu = memo(
     categoryFilterList,
     toggleCategoryFilter,
   }: Props) {
-    const { handleChangeDisplayTarget, startDateString, endDateString } =
-      CategoryLineGraphSettingMenuLogic({
-        onChangeDisplayTarget,
-        startDate,
-        endDate,
-      });
+    const {
+      handleChangeDisplayTarget,
+      startDateString,
+      endDateString,
+      visibleCount,
+      maxVisibleCount,
+      isMaxVisible,
+    } = CategoryLineGraphSettingMenuLogic({
+      onChangeDisplayTarget,
+      startDate,
+      endDate,
+      categoryFilterList,
+    });
     const { open, onClose, onOpen } = useDialog();
     return (
       <>
@@ -61,13 +69,20 @@ const CategoryLineGraphSettingMenu = memo(
             width="30%"
             height="50vh"
             boxShadow={2}
-            overflow="auto"
             sx={{
               bgcolor: "white",
               opacity: 0.8,
             }}
           >
-            <List>
+            <Typography
+              color={isMaxVisible ? "error" : "text.secondary"}
+              pt={2}
+              pl={4}
+              sx={{ cursor: "default" }}
+            >
+              表示数 {visibleCount}/{maxVisibleCount}
+            </Typography>
+            <List sx={{ overflow: "auto" }}>
               {Object.entries(categoryFilterList)
                 .sort(
                   ([, a], [, b]) =>
@@ -78,6 +93,7 @@ const CategoryLineGraphSettingMenu = memo(
                     <ListItemButton
                       sx={{ padding: 0 }}
                       onClick={() => toggleCategoryFilter(name)}
+                      disabled={isMaxVisible && !value.checked}
                     >
                       {/** チェックのボタンっぽいところ */}
                       <div

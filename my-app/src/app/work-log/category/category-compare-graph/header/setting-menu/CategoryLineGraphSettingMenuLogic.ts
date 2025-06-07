@@ -9,6 +9,8 @@ type Props = {
   startDate: Date;
   /** 表示範囲の終了日 */
   endDate: Date;
+  /** カテゴリのフィルターリスト */
+  categoryFilterList: Record<string, { checked: boolean; color: string }>;
 };
 
 /**
@@ -18,6 +20,7 @@ export const CategoryLineGraphSettingMenuLogic = ({
   onChangeDisplayTarget,
   startDate,
   endDate,
+  categoryFilterList,
 }: Props) => {
   const handleChangeDisplayTarget = useCallback(
     (_: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -34,6 +37,16 @@ export const CategoryLineGraphSettingMenuLogic = ({
     [startDate]
   );
   const endDateString = useMemo(() => format(endDate, "yyyy/MM/dd"), [endDate]);
+
+  // フィルター関連
+  const visibleCount = useMemo(
+    () =>
+      Object.values(categoryFilterList).filter(({ checked }) => checked).length,
+    [categoryFilterList]
+  );
+  const maxVisibleCount = 10;
+  const isMaxVisible = visibleCount === maxVisibleCount;
+
   return {
     /** 表示対象変更時のハンドラー(メモ化済み) */
     handleChangeDisplayTarget,
@@ -41,5 +54,11 @@ export const CategoryLineGraphSettingMenuLogic = ({
     startDateString,
     /** 終了日のstring */
     endDateString,
+    /** 表示中のカテゴリーの数 */
+    visibleCount,
+    /** 表示可能な最大カテゴリー数 */
+    maxVisibleCount,
+    /** 表示可能なカテゴリーの数を超えているか */
+    isMaxVisible,
   };
 };
