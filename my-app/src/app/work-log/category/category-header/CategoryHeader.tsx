@@ -143,81 +143,55 @@ export default function CategoryHeader() {
           />
         )}
         {!isLoadingCategorySummary && !isNoCategory && (
-          <Stack spacing={0.5} width="50%">
+          <Stack spacing={0.5}>
             {/** Completed?  */}
-            <Stack direction="row">
-              {isCompleted && (
-                <>
-                  <CheckCircleIcon color="success" />
-                  <Typography
-                    color="success"
-                    variant="subtitle1"
-                    fontWeight={700}
-                  >
-                    完了済み
-                  </Typography>
-                </>
-              )}
-            </Stack>
-            {/** 合計稼働時間 */}
-            <Stack spacing={1} alignItems="center">
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                総稼働時間:
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {totalHours}(h)
-              </Typography>
-              <Stack
-                direction="row-reverse"
-                sx={(theme) => ({
-                  width: "70%",
-                  height: 20,
-                  background: theme.palette.gradient.achievement,
-                  borderRadius: 1,
-                })}
-              >
-                <Stack
-                  sx={{
-                    height: "100%",
-                    width: "0%",
-                    backgroundColor: "gray.normal",
-                    animation: `${growAnimation} 1s ease-out forwards`,
-                  }}
-                />
+            {isCompleted && (
+              <Stack direction="row">
+                <CheckCircleIcon color="success" />
+                <Typography
+                  color="success"
+                  variant="subtitle1"
+                  fontWeight={700}
+                >
+                  完了済み
+                </Typography>
               </Stack>
+            )}
+            {/** 合計稼働時間 */}
+            <Typography color="text.primary" variant="h6">
+              総稼働時間: {totalHours}(h)
+            </Typography>
+            <Stack
+              direction="row-reverse"
+              sx={(theme) => ({
+                width: "70%",
+                height: 20,
+                background: theme.palette.gradient.achievement,
+                borderRadius: 1,
+              })}
+            >
+              <Stack
+                sx={{
+                  height: "100%",
+                  width: "0%",
+                  backgroundColor: "gray.normal",
+                  animation: `${growAnimation} 1s ease-out forwards`,
+                }}
+              />
             </Stack>
             {/** 稼働開始 */}
-            <Stack spacing={1}>
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                稼働開始:
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {startDate}
-              </Typography>
-            </Stack>
-            <Stack spacing={1}>
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                最終稼働:
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {lastDate}
-              </Typography>
-            </Stack>
+            <Typography color="text.primary" variant="h6">
+              稼働開始:
+            </Typography>
+            <Typography color="text.primary" variant="h6">
+              {startDate}
+            </Typography>
+            <Typography color="text.primary" variant="h6">
+              最終稼働:
+            </Typography>
+            <Typography color="text.primary" variant="h6">
+              {lastDate}
+            </Typography>
           </Stack>
         )}
       </Stack>
