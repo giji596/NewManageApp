@@ -1,6 +1,6 @@
 import {
-  CategoryHeaderQuery,
-  CategoryHeaderQueryParams,
+  CategoryPanelQuery,
+  CategoryPanelQueryParams,
   CategoryOption,
 } from "@/type/Category";
 import { keyframes, SelectChangeEvent } from "@mui/material";
@@ -29,7 +29,7 @@ const queryDateToQueryParam = (dateString?: string) => {
 /**
  * カテゴリページのヘッダー部分のロジック
  */
-export default function CategoryHeaderLogic() {
+export default function CategoryPanelLogic() {
   const [optionsQuery, setOptionsQuery] = useState<URLSearchParams | null>(
     null
   );
@@ -38,10 +38,10 @@ export default function CategoryHeaderLogic() {
 
   const queryValues = useMemo(() => {
     if (optionsQuery)
-      return Object.fromEntries(optionsQuery.entries()) as CategoryHeaderQuery;
+      return Object.fromEntries(optionsQuery.entries()) as CategoryPanelQuery;
   }, [optionsQuery]);
 
-  const queryParams: CategoryHeaderQueryParams = useMemo(() => {
+  const queryParams: CategoryPanelQueryParams = useMemo(() => {
     // 初期値
     if (queryValues === undefined)
       return {

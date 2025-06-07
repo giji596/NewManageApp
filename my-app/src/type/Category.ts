@@ -1,4 +1,4 @@
-import { DisplayRange } from "@/app/work-log/category/category-header/component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
+import { DisplayRange } from "@/app/work-log/category/category-panel/component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { TaskWithPercentage } from "./Task";
 import { DateSelectInitValues } from "./common";
 
@@ -17,8 +17,8 @@ export type CategoryWithPercentage = {
   percent: string;
 };
 
-/** カテゴリページのヘッダーのクエリの一覧 */
-export type CategoryHeaderQuery = {
+/** カテゴリページのパネルのクエリの一覧 */
+export type CategoryPanelQuery = {
   /** last-3-months | "all" | "custom" */
   displayRange: string;
   /** yyyy-MM-dd形式(更新日の開始範囲) */
@@ -29,8 +29,8 @@ export type CategoryHeaderQuery = {
   hideCompleted?: string;
 };
 
-/** カテゴリページのヘッダーのクエリのオブジェクト型 */
-export type CategoryHeaderQueryParams = {
+/** カテゴリページのパネルのクエリのオブジェクト型 */
+export type CategoryPanelQueryParams = {
   displayRange: DisplayRange;
   startDate: DateSelectInitValues;
   endDate: DateSelectInitValues;

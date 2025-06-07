@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CategoryHeaderLogic from "./CategoryHeaderLogic";
+import CategoryPanelLogic from "./CategoryPanelLogic";
 import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";
@@ -25,7 +25,7 @@ import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/Create
 /**
  * カテゴリページのヘッダー部分
  */
-export default function CategoryHeader() {
+export default function CategoryPanel() {
   const {
     openError,
     onCloseError,
@@ -45,7 +45,7 @@ export default function CategoryHeader() {
     handleComplete,
     handleDelete,
     isNoCategory,
-  } = CategoryHeaderLogic();
+  } = CategoryPanelLogic();
 
   const {
     open: openPeriod,

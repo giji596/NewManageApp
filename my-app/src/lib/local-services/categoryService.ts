@@ -1,7 +1,7 @@
 import {
   CategoryCompareGraphQuery,
   CategoryCompareGraphRawData,
-  CategoryHeaderQuery,
+  CategoryPanelQuery,
   CategoryOption,
   CategorySummary,
 } from "@/type/Category";
@@ -25,7 +25,7 @@ import { LINE_GRAPH_COLOR_LIST } from "@/constant/categoryPage";
  * カテゴリ選択賜一覧取得
  */
 export const getCategoryOptions = async (
-  query?: CategoryHeaderQuery
+  query?: CategoryPanelQuery
 ): Promise<CategoryOption[]> => {
   const hideCompleted = query?.hideCompleted;
   const startDate =
