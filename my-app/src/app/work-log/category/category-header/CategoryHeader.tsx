@@ -143,9 +143,9 @@ export default function CategoryHeader() {
           />
         )}
         {!isLoadingCategorySummary && !isNoCategory && (
-          <Stack spacing={0.5} width="700px">
+          <Stack spacing={0.5} width="50%">
             {/** カテゴリ名 + Completed? */}
-            <Stack direction="row" spacing={1}>
+            <Stack spacing={1}>
               <Typography
                 color="text.primary"
                 width="120px"
@@ -154,24 +154,27 @@ export default function CategoryHeader() {
               >
                 カテゴリ名:
               </Typography>
-              <Typography color="text.primary" variant="h6">
-                {selectedCategoryName}
-              </Typography>
-              {isCompleted && (
-                <>
-                  <CheckCircleIcon color="success" />
-                  <Typography
-                    color="success"
-                    variant="subtitle1"
-                    fontWeight={700}
-                  >
-                    完了済み
-                  </Typography>
-                </>
-              )}
+              {/** Completed?  */}
+              <Stack direction="row">
+                <Typography color="text.primary" variant="h6">
+                  {selectedCategoryName}
+                </Typography>
+                {isCompleted && (
+                  <>
+                    <CheckCircleIcon color="success" />
+                    <Typography
+                      color="success"
+                      variant="subtitle1"
+                      fontWeight={700}
+                    >
+                      完了済み
+                    </Typography>
+                  </>
+                )}
+              </Stack>
             </Stack>
             {/** 合計稼働時間 */}
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack spacing={1} alignItems="center">
               <Typography
                 color="text.primary"
                 width="120px"
@@ -202,18 +205,35 @@ export default function CategoryHeader() {
                 />
               </Stack>
             </Stack>
-            {/**  */}
-            <Stack direction="row" spacing={1}>
+            {/** 稼働開始 */}
+            <Stack spacing={1}>
               <Typography
                 color="text.primary"
                 width="120px"
                 textAlign={"end"}
                 variant="h6"
               >
-                稼働期間:
+                稼働開始:
               </Typography>
               <Typography color="text.primary" variant="h6">
-                {activeDate}
+                {
+                  activeDate // TODO:修正
+                }
+              </Typography>
+            </Stack>
+            <Stack spacing={1}>
+              <Typography
+                color="text.primary"
+                width="120px"
+                textAlign={"end"}
+                variant="h6"
+              >
+                最終稼働:
+              </Typography>
+              <Typography color="text.primary" variant="h6">
+                {
+                  activeDate // TODO:修正
+                }
               </Typography>
             </Stack>
           </Stack>
