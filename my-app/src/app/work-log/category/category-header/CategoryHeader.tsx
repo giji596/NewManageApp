@@ -36,11 +36,11 @@ export default function CategoryHeader() {
     isLoadingOptions,
     selectedCategoryId,
     isSelectedIdAvailable,
-    selectedCategoryName,
     isLoadingCategorySummary,
     isCompleted,
     totalHours,
-    activeDate,
+    startDate,
+    lastDate,
     onChangeCategoryId,
     handleComplete,
     handleDelete,
@@ -144,34 +144,20 @@ export default function CategoryHeader() {
         )}
         {!isLoadingCategorySummary && !isNoCategory && (
           <Stack spacing={0.5} width="50%">
-            {/** カテゴリ名 + Completed? */}
-            <Stack spacing={1}>
-              <Typography
-                color="text.primary"
-                width="120px"
-                textAlign={"end"}
-                variant="h6"
-              >
-                カテゴリ名:
-              </Typography>
-              {/** Completed?  */}
-              <Stack direction="row">
-                <Typography color="text.primary" variant="h6">
-                  {selectedCategoryName}
-                </Typography>
-                {isCompleted && (
-                  <>
-                    <CheckCircleIcon color="success" />
-                    <Typography
-                      color="success"
-                      variant="subtitle1"
-                      fontWeight={700}
-                    >
-                      完了済み
-                    </Typography>
-                  </>
-                )}
-              </Stack>
+            {/** Completed?  */}
+            <Stack direction="row">
+              {isCompleted && (
+                <>
+                  <CheckCircleIcon color="success" />
+                  <Typography
+                    color="success"
+                    variant="subtitle1"
+                    fontWeight={700}
+                  >
+                    完了済み
+                  </Typography>
+                </>
+              )}
             </Stack>
             {/** 合計稼働時間 */}
             <Stack spacing={1} alignItems="center">
@@ -216,9 +202,7 @@ export default function CategoryHeader() {
                 稼働開始:
               </Typography>
               <Typography color="text.primary" variant="h6">
-                {
-                  activeDate // TODO:修正
-                }
+                {startDate}
               </Typography>
             </Stack>
             <Stack spacing={1}>
@@ -231,9 +215,7 @@ export default function CategoryHeader() {
                 最終稼働:
               </Typography>
               <Typography color="text.primary" variant="h6">
-                {
-                  activeDate // TODO:修正
-                }
+                {lastDate}
               </Typography>
             </Stack>
           </Stack>
