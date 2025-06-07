@@ -74,8 +74,55 @@ export default function CategoryHeader() {
   } = useDialog();
   return (
     <>
-      <Stack direction="row" px={4} py={2} justifyContent={"space-between"}>
-        {/** 左部分(カテゴリ情報) */}
+      <Stack>
+        {/** 上部分(カテゴリ選択/完了ボタン) */}
+        <Stack direction="row">
+          {(isLoadingOptions || !isSelectedIdAvailable) && (
+            <Stack
+              width={113}
+              height={104}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <CircularProgress size={30} />
+            </Stack>
+          )}
+          {!isLoadingOptions && isSelectedIdAvailable && (
+            <FormControl>
+              <FormLabel>カテゴリを選択</FormLabel>
+              <Select
+                labelId="category-select-label"
+                id="category-select"
+                name="category-select"
+                variant="standard"
+                value={String(selectedCategoryId)}
+                onChange={onChangeCategoryId}
+                disabled={isNoCategory} // カテゴリ選択賜がない場合はdisabled
+              >
+                {categoryOptions.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+          <IconButton
+            sx={{ width: 40, height: 40, alignSelf: "center", ml: 0.5 }}
+            onClick={onOpenCategory}
+          >
+            <AddCircleOutlineIcon />
+          </IconButton>
+          <CategoryActionMenuButton
+            isCompleted={isCompleted}
+            isNoCategory={isNoCategory}
+            onClickDisplayRange={onOpenPeriod}
+            onClickComplete={onOpenComplete}
+            onClickAddTask={onOpenTask}
+            onClickDelete={onOpenDelete}
+          />
+        </Stack>
+        {/** 下部分(カテゴリ情報) */}
         {isLoadingCategorySummary && (
           <Stack
             width="550px"
@@ -171,53 +218,6 @@ export default function CategoryHeader() {
             </Stack>
           </Stack>
         )}
-        {/** 右部分(カテゴリ選択/完了ボタン) */}
-        <Stack direction="row">
-          {(isLoadingOptions || !isSelectedIdAvailable) && (
-            <Stack
-              width={113}
-              height={104}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <CircularProgress size={30} />
-            </Stack>
-          )}
-          {!isLoadingOptions && isSelectedIdAvailable && (
-            <FormControl>
-              <FormLabel>カテゴリを選択</FormLabel>
-              <Select
-                labelId="category-select-label"
-                id="category-select"
-                name="category-select"
-                variant="standard"
-                value={String(selectedCategoryId)}
-                onChange={onChangeCategoryId}
-                disabled={isNoCategory} // カテゴリ選択賜がない場合はdisabled
-              >
-                {categoryOptions.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-          <IconButton
-            sx={{ width: 40, height: 40, alignSelf: "center", ml: 0.5 }}
-            onClick={onOpenCategory}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
-          <CategoryActionMenuButton
-            isCompleted={isCompleted}
-            isNoCategory={isNoCategory}
-            onClickDisplayRange={onOpenPeriod}
-            onClickComplete={onOpenComplete}
-            onClickAddTask={onOpenTask}
-            onClickDelete={onOpenDelete}
-          />
-        </Stack>
       </Stack>
       {/** ダイアログ群 */}
       {openPeriod && (
