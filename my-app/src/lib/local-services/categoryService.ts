@@ -407,11 +407,14 @@ export const getCategoryCompareGraphData = async (
         }
         return { date, value };
       });
-      const sortedValues = values.sort((a, b) => a.value - b.value);
-      return { id, name, color, values: sortedValues };
+      return { id, name, color, values };
     }
   );
-  return result;
+  return result.sort(
+    (a, b) =>
+      b.values.reduce((c, d) => c + d.value, 0) -
+      a.values.reduce((c, d) => c + d.value, 0)
+  );
 };
 
 /**
