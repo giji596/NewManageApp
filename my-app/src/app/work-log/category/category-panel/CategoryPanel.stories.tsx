@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import CategoryHeader from "./CategoryHeader";
+import CategoryHeader from "./CategoryPanel";
 
 const meta = {
   component: CategoryHeader,

@@ -1,7 +1,7 @@
 "use client";
 
 import { CircularProgress, Divider, Stack } from "@mui/material";
-import CategoryHeader from "./category-header/CategoryHeader";
+import CategoryHeader from "./category-panel/CategoryPanel";
 const TaskActivityPieChart = dynamic(
   () => import("./task-activity-pie-chart/TaskActivityPieChart"),
   {

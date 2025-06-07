@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CategoryHeaderLogic from "./CategoryHeaderLogic";
+import CategoryHeaderLogic from "./CategoryPanelLogic";
 import CategoryActionMenuButton from "./component/CategoryActionMenuButton/CategoryActionMenuButton";
 import CompleteConfirmDialog from "@/component/dialog/complete-confirm/CompleteConfirmDialog";
 import CreateTaskDialog from "@/component/dialog/CreateTaskDialog/CreateTaskDialog";

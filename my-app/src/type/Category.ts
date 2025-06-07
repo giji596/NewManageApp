@@ -1,4 +1,4 @@
-import { DisplayRange } from "@/app/work-log/category/category-header/component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
+import { DisplayRange } from "@/app/work-log/category/category-panel/component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialogLogic";
 import { TaskWithPercentage } from "./Task";
 import { DateSelectInitValues } from "./common";
 
