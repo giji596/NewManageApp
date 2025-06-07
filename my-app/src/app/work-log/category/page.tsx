@@ -8,8 +8,8 @@ const TaskActivityPieChart = dynamic(
     ssr: false,
     loading: () => (
       <Stack
-        width={350}
-        height={350}
+        width={300}
+        height={300}
         alignItems={"center"}
         justifyContent={"center"}
       >
