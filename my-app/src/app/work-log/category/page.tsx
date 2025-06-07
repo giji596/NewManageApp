@@ -38,11 +38,10 @@ export default function CategoryPage() {
       </Stack>
       <Divider orientation="vertical" flexItem />
       {/** 右側(カテゴリ詳細) */}
-      <Stack alignItems={"center"} width="60%">
-        {/** 上部 */}
+      <Stack alignItems={"center"} width="60%" direction="row">
+        {/** 左部(基本情報) */}
         <CategoryHeader />
-        <Divider sx={{ width: "95%", alignSelf: "center" }} />
-        {/** 下部(期間グラフ) */}
+        {/** 右部(期間グラフ) */}
         <Stack justifyContent={"space-between"} height="70vh" pt={2}>
           <TaskActivityPieChart />
         </Stack>
