@@ -10,6 +10,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Typography,
 } from "@mui/material";
 import { memo } from "react";
 import { CategoryLineGraphSettingMenuLogic } from "./CategoryLineGraphSettingMenuLogic";
@@ -67,6 +68,14 @@ const CategoryLineGraphSettingMenu = memo(
               opacity: 0.8,
             }}
           >
+            <Typography
+              color="text.secondary"
+              pt={2}
+              pl={4}
+              sx={{ cursor: "default" }}
+            >
+              表示数 x/10
+            </Typography>
             <List>
               {Object.entries(categoryFilterList)
                 .sort(
