@@ -18,7 +18,12 @@ const TaskActivityPieChart = dynamic(
     ),
   }
 );
-import CategoryTaskList from "./category-task-list/CategoryTaskList";
+const CategoryCompareGraph = dynamic(
+  () => import("./category-compare-graph/CategoryCompareGraph"),
+  {
+    ssr: false,
+  }
+);
 import dynamic from "next/dynamic";
 
 /**
@@ -38,7 +43,7 @@ export default function CategoryPage() {
         </Stack>
         {/** 下右側(カテゴリ内タスクリスト) */}
         <Stack width="50%" height={500} pt={10}>
-          <CategoryTaskList />
+          <CategoryCompareGraph />
         </Stack>
       </Stack>
     </Stack>
