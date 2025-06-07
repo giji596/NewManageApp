@@ -170,10 +170,9 @@ export const CategoryCompareGraphLogic = () => {
     (id: number) => {
       // idからクエリ作成
       const params = new URLSearchParams();
-      params.set("categoryId", id.toString());
-      console.log("ぱらめーた", params.toString());
+      params.set("id", id.toString());
       // クエリを置き換え(詳細表示の方を切り替える)
-      router.replace(params.toString());
+      router.replace(`?${params.toString()}`);
     },
     [router]
   );
