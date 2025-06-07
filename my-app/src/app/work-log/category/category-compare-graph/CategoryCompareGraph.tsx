@@ -1,7 +1,7 @@
 import { memo } from "react";
 import CategoryLineGraphHeader from "./header/CategoryLineGraphHeader";
 import CategoryLineGraph from "./line-graph/CategoryLineGraph";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { CategoryCompareGraphLogic } from "./CategoryCompareGraphLogic";
 
 /**
@@ -25,7 +25,10 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
   } = CategoryCompareGraphLogic();
   const width = 500;
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} alignItems={"center"} pt={4}>
+      <Typography variant="h6" color="text.secondary">
+        カテゴリ間の比較
+      </Typography>
       <CategoryLineGraphHeader
         width={width}
         displayTarget={displayTarget}
