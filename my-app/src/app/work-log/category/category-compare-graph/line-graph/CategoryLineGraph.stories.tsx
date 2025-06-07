@@ -38,6 +38,7 @@ const meta = {
     range: "day",
     displayData: "totalHours",
     onClickLine: () => {},
+    visibleKeys: { カテゴリ1: true },
   },
 } satisfies Meta<typeof CategoryLineGraph>;
 

@@ -92,6 +92,19 @@ export const CategoryCompareGraphLogic = () => {
     }
   }, [initialCategoryFilterList]);
 
+  const visibleKeys = useMemo(
+    () =>
+      categoryFilterList
+        ? Object.fromEntries(
+            Object.entries(categoryFilterList).map(([key, { checked }]) => [
+              key,
+              checked,
+            ])
+          )
+        : {},
+    [categoryFilterList]
+  );
+
   const toggleCategoryFilter = useCallback((name: string) => {
     setCategoryFilterList((prev) => {
       if (prev && prev[name]) {
@@ -101,14 +114,6 @@ export const CategoryCompareGraphLogic = () => {
     });
   }, []);
 
-  const data = useMemo(
-    () =>
-      // フィルターリストに含まれてる値だけ表示
-      rawData.filter(
-        (v) => categoryFilterList && categoryFilterList[v.name].checked
-      ),
-    [categoryFilterList, rawData]
-  );
   const top3Categories: CategoryCompareGraphData[] = useMemo(() => {
     const rawTop3Data = rawData.slice(0, 3);
     return rawTop3Data.map((v) => ({
@@ -124,7 +129,7 @@ export const CategoryCompareGraphLogic = () => {
     // [日付][id]=valueの形式でオブジェクト化
     const record: Record<string, Record<number, number>> = {};
     // 各カテゴリについて
-    data.forEach((d) => {
+    rawData.forEach((d) => {
       // 各日付について
       d.values.forEach((v) => {
         // 日付データがなければ作成
@@ -143,15 +148,15 @@ export const CategoryCompareGraphLogic = () => {
       }
     );
     return result;
-  }, [data]);
+  }, [rawData]);
 
   const graphDataInfo: CategoryLineGraphDataInfo[] = useMemo(() => {
-    return data.map((v) => ({
+    return rawData.map((v) => ({
       key: v.id,
       name: v.name,
       color: v.color,
     }));
-  }, [data]);
+  }, [rawData]);
 
   // ナビゲーション関連
   const router = useRouter();
@@ -183,6 +188,8 @@ export const CategoryCompareGraphLogic = () => {
     categoryFilterList,
     /** カテゴリのフィルターの切り替え関数 */
     toggleCategoryFilter,
+    /** key:カテゴリ名,value:表示/非表示 のオブジェクト */
+    visibleKeys,
     /** ヘッダーのトップ３のカテゴリデータ */
     top3Categories,
     /** グラフ表示用のデータ */
