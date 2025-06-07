@@ -263,19 +263,19 @@ export const getCategoryCompareGraphData = async (
     .toArray();
 
   // カテゴリを中心としてログとタスクを関連付け
-  const categoryWithLogs = categories.map((category) => {
+  const categoryWithLogs: Record<number, { date: string; workTime: number }[]> =
+    {};
+  categories.forEach((category) => {
     const categoryTasks = tasks.filter(
       (task) => task.categoryId === category.id
     );
     const categoryLogs = logs.filter((log) =>
       categoryTasks.some((task) => task.id === log.taskId)
     );
-    return {
-      // 識別ようにid
-      id: category.id,
-      // ログは時間と日付だけあればok
-      logs: categoryLogs.map((v) => ({ date: v.date, workTime: v.workTime })),
-    };
+    categoryWithLogs[category.id] = categoryLogs.map((v) => ({
+      date: v.date,
+      workTime: v.workTime,
+    }));
   });
 
   const startDateDate = new Date(startDate);
@@ -364,8 +364,7 @@ export const getCategoryCompareGraphData = async (
       const values = dayList.map((day) => {
         const date = day;
         // timeUnitに応じてデータをフィルター
-        const target = categoryWithLogs.find((v) => v.id === id)!;
-        const dayDate = target.logs.filter((v) => {
+        const dayDate = categoryWithLogs[id].filter((v) => {
           switch (timeUnit) {
             case "day":
               return v.date === date;
