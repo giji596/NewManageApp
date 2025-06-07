@@ -90,11 +90,8 @@ export const CategoryCompareGraphLogic = () => {
 
   // データフェッチ後の初期化処理
   useEffect(() => {
-    if (data && initialCategoryFilterList) {
-      // 一応nullの場合のみセット処理
-      setCategoryFilterList((prev) =>
-        prev === null ? initialCategoryFilterList : prev
-      );
+    if (data) {
+      setCategoryFilterList(initialCategoryFilterList);
     }
   }, [initialCategoryFilterList, data]);
 
