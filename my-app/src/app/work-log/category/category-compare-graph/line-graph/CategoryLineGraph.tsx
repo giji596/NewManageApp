@@ -26,6 +26,8 @@ type Props = {
   range: CategoryLineGraphRange;
   /** 表示する内容 */
   displayData: CategoryLineGraphDisplay;
+  /** 表示するかどうかのキー(key:カテゴリ名 value:表示するか) */
+  visibleKeys: Record<string, boolean>;
   /** 線のクリック時のイベント */
   onClickLine: (id: number) => void;
 };
@@ -38,6 +40,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
   dataInfo,
   range,
   displayData,
+  visibleKeys,
   onClickLine,
 }: Props) {
   const { xLabel, yLabel } = CategoryLineGraphLogic({
@@ -61,6 +64,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
           strokeWidth={5}
           style={{ cursor: "pointer" }}
           onClick={() => onClickLine(info.key)}
+          hide={!visibleKeys[info.name]}
         />
       ))}
       <Tooltip />
