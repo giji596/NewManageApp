@@ -104,3 +104,13 @@ export type CategoryCompareGraphRawData = {
     value: number;
   }[];
 };
+
+/** カテゴリの比較グラフデータ取得時のクエリ */
+export type CategoryCompareGraphQuery = {
+  /** 表示対象(稼働時間 or タスク数) */
+  displayTarget?: CategoryLineGraphDisplay;
+  /** yyyy-MM-dd形式(更新日の開始範囲) */
+  startDate?: string;
+  /** yyyy-MM-dd形式(更新日の終了範囲) */
+  endDate?: string;
+};
