@@ -407,7 +407,8 @@ export const getCategoryCompareGraphData = async (
         }
         return { date, value };
       });
-      return { id, name, color, values };
+      const sortedValues = values.sort((a, b) => a.value - b.value);
+      return { id, name, color, values: sortedValues };
     }
   );
   return result;
