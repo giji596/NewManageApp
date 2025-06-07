@@ -72,7 +72,7 @@ const CategoryLineGraphSettingMenu = memo(
             height="50vh"
             boxShadow={2}
             sx={{
-              bgcolor: "white",
+              bgcolor: "background.paper",
               opacity: 0.8,
             }}
           >
@@ -144,7 +144,7 @@ const CategoryLineGraphSettingMenu = memo(
             pl={3}
             pt={1}
             sx={{
-              bgcolor: "white",
+              bgcolor: "background.paper",
               opacity: 0.8,
             }}
           >
