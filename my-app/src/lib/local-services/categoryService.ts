@@ -364,7 +364,8 @@ export const getCategoryCompareGraphData = async (
       const values = dayList.map((day) => {
         const date = day;
         // timeUnitに応じてデータをフィルター
-        const dayDate = categoryWithLogs[id].logs.filter((v) => {
+        const target = categoryWithLogs.find((v) => v.id === id)!;
+        const dayDate = target.logs.filter((v) => {
           switch (timeUnit) {
             case "day":
               return v.date === date;
