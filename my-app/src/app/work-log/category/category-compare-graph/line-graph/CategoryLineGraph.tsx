@@ -48,15 +48,34 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
     range,
     displayData,
   });
-  const { getLineGraphThemeColor } = useThemeColor();
+  const {
+    getLineGraphThemeColor,
+    lineGraphAxisTextColor,
+    tooltipBackGroundColor,
+    tooltipTextColor,
+  } = useThemeColor();
   return (
     <LineChart width={width} height={350} data={data}>
       <CartesianGrid stroke="#ccc" />
       <XAxis
         dataKey="date"
-        label={{ value: xLabel, position: "insideBottomRight", offset: 0 }}
+        label={{
+          value: xLabel,
+          position: "insideBottomRight",
+          offset: 0,
+          style: { fill: lineGraphAxisTextColor },
+        }}
+        tick={{ fill: lineGraphAxisTextColor }}
       />
-      <YAxis label={{ value: yLabel, angle: -90, position: "insideLeft" }} />
+      <YAxis
+        label={{
+          value: yLabel,
+          angle: -90,
+          position: "insideLeft",
+          style: { fill: lineGraphAxisTextColor },
+        }}
+        tick={{ fill: lineGraphAxisTextColor }}
+      />
       {dataInfo.map((info) => (
         <Line
           key={info.key}
@@ -69,7 +88,12 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
           hide={!visibleKeys[info.name]}
         />
       ))}
-      <Tooltip />
+      <Tooltip
+        contentStyle={{
+          backgroundColor: tooltipBackGroundColor,
+          color: tooltipTextColor,
+        }}
+      />
     </LineChart>
   );
 });
