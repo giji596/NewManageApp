@@ -75,7 +75,7 @@ const CategoryLineGraphSettingMenu = memo(
             }}
           >
             <Typography
-              color="text.secondary"
+              color={isMaxVisible ? "error" : "text.secondary"}
               pt={2}
               pl={4}
               sx={{ cursor: "default" }}
