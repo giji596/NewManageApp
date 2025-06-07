@@ -14,6 +14,7 @@ import {
   CategoryLineGraphDisplay,
   CategoryLineGraphRange,
 } from "@/type/Category";
+import { useThemeColor } from "@/hook/useThemeColor";
 
 type Props = {
   /** 幅 */
@@ -47,6 +48,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
     range,
     displayData,
   });
+  const { getLineGraphThemeColor } = useThemeColor();
   return (
     <LineChart width={width} height={350} data={data}>
       <CartesianGrid stroke="#ccc" />
@@ -60,7 +62,7 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
           key={info.key}
           dataKey={info.key}
           name={info.name}
-          stroke={info.color}
+          stroke={getLineGraphThemeColor(info.color)}
           strokeWidth={5}
           style={{ cursor: "pointer" }}
           onClick={() => onClickLine(info.key)}
