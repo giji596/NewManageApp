@@ -47,12 +47,18 @@ const CategoryLineGraphSettingMenu = memo(
     categoryFilterList,
     toggleCategoryFilter,
   }: Props) {
-    const { handleChangeDisplayTarget, startDateString, endDateString } =
-      CategoryLineGraphSettingMenuLogic({
-        onChangeDisplayTarget,
-        startDate,
-        endDate,
-      });
+    const {
+      handleChangeDisplayTarget,
+      startDateString,
+      endDateString,
+      visibleCount,
+      maxVisibleCount,
+    } = CategoryLineGraphSettingMenuLogic({
+      onChangeDisplayTarget,
+      startDate,
+      endDate,
+      categoryFilterList,
+    });
     const { open, onClose, onOpen } = useDialog();
     return (
       <>
@@ -73,7 +79,7 @@ const CategoryLineGraphSettingMenu = memo(
               pl={4}
               sx={{ cursor: "default" }}
             >
-              表示数 x/10
+              表示数 {visibleCount}/{maxVisibleCount}
             </Typography>
             <List sx={{ overflow: "auto" }}>
               {Object.entries(categoryFilterList)
