@@ -18,7 +18,12 @@ const TaskActivityPieChart = dynamic(
     ),
   }
 );
-import CategoryTaskList from "./category-task-list/CategoryTaskList";
+const CategoryCompareGraph = dynamic(
+  () => import("./category-compare-graph/CategoryCompareGraph"),
+  {
+    ssr: false,
+  }
+);
 import dynamic from "next/dynamic";
 
 /**
@@ -26,19 +31,20 @@ import dynamic from "next/dynamic";
  */
 export default function CategoryPage() {
   return (
-    <Stack>
-      {/** 上部 */}
-      <CategoryHeader />
-      <Divider sx={{ width: "95%", alignSelf: "center" }} />
-      {/** 下部 */}
-      <Stack direction="row" px={4}>
-        {/** 下左側(期間グラフ) */}
-        <Stack width="50%" justifyContent={"space-around"}>
+    <Stack direction="row" px={5} spacing={2}>
+      {/** 左側(カテゴリ間) */}
+      <Stack width="40%" pt={10}>
+        <CategoryCompareGraph />
+      </Stack>
+      <Divider orientation="vertical" flexItem />
+      {/** 右側(カテゴリ詳細) */}
+      <Stack alignItems={"center"} width="60%">
+        {/** 上部 */}
+        <CategoryHeader />
+        <Divider sx={{ width: "95%", alignSelf: "center" }} />
+        {/** 下部(期間グラフ) */}
+        <Stack justifyContent={"space-between"} height="70vh" pt={2}>
           <TaskActivityPieChart />
-        </Stack>
-        {/** 下右側(カテゴリ内タスクリスト) */}
-        <Stack width="50%" height={500} pt={10}>
-          <CategoryTaskList />
         </Stack>
       </Stack>
     </Stack>

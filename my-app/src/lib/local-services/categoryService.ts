@@ -10,7 +10,7 @@ import {
   differenceInCalendarDays,
   differenceInCalendarWeeks,
   differenceInMonths,
-  getWeekOfMonth,
+  getWeeksInMonth,
   startOfMonth,
   subMonths,
   subWeeks,
@@ -263,25 +263,25 @@ export const getCategoryCompareGraphData = async (
     .toArray();
 
   // カテゴリを中心としてログとタスクを関連付け
-  const categoryWithLogs = categories.map((category) => {
+  const categoryWithLogs: Record<number, { date: string; workTime: number }[]> =
+    {};
+  categories.forEach((category) => {
     const categoryTasks = tasks.filter(
       (task) => task.categoryId === category.id
     );
     const categoryLogs = logs.filter((log) =>
       categoryTasks.some((task) => task.id === log.taskId)
     );
-    return {
-      // 識別ようにid
-      id: category.id,
-      // ログは時間と日付だけあればok
-      logs: categoryLogs.map((v) => ({ date: v.date, workTime: v.workTime })),
-    };
+    categoryWithLogs[category.id] = categoryLogs.map((v) => ({
+      date: v.date,
+      workTime: v.workTime,
+    }));
   });
 
   const startDateDate = new Date(startDate);
   const endDateDate = new Date(endDate);
   // 集計範囲の日数を取得
-  const dayCount = differenceInCalendarDays(startDateDate, endDateDate);
+  const dayCount = differenceInCalendarDays(endDateDate, startDateDate);
   // 集計データの粒度を設定
   const timeUnit = dayCount <= 12 ? "day" : dayCount <= 84 ? "week" : "month";
 
@@ -304,9 +304,9 @@ export const getCategoryCompareGraphData = async (
     // 月と週を取得
     while (true) {
       // 月内での週数を取得
-      const weeksInMonth = getWeekOfMonth(new Date(year, month, 1));
+      const weeksInMonth = getWeeksInMonth(new Date(year, month, 1));
       // 週が月の週数以下であればbreak
-      if (week > weeksInMonth) break;
+      if (week <= weeksInMonth) break;
       // 最終月であれば年を増やして月を1にする
       if (month === 12) {
         year += 1;
@@ -364,7 +364,7 @@ export const getCategoryCompareGraphData = async (
       const values = dayList.map((day) => {
         const date = day;
         // timeUnitに応じてデータをフィルター
-        const dayDate = categoryWithLogs[id].logs.filter((v) => {
+        const dayDate = categoryWithLogs[id].filter((v) => {
           switch (timeUnit) {
             case "day":
               return v.date === date;
@@ -407,11 +407,14 @@ export const getCategoryCompareGraphData = async (
         }
         return { date, value };
       });
-      const sortedValues = values.sort((a, b) => a.value - b.value);
-      return { id, name, color, values: sortedValues };
+      return { id, name, color, values };
     }
   );
-  return result;
+  return result.sort(
+    (a, b) =>
+      b.values.reduce((c, d) => c + d.value, 0) -
+      a.values.reduce((c, d) => c + d.value, 0)
+  );
 };
 
 /**

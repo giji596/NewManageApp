@@ -90,13 +90,10 @@ export const CategoryCompareGraphLogic = () => {
 
   // データフェッチ後の初期化処理
   useEffect(() => {
-    if (initialCategoryFilterList) {
-      // 一応nullの場合のみセット処理
-      setCategoryFilterList((prev) =>
-        prev === null ? initialCategoryFilterList : prev
-      );
+    if (data) {
+      setCategoryFilterList(initialCategoryFilterList);
     }
-  }, [initialCategoryFilterList]);
+  }, [initialCategoryFilterList, data]);
 
   const visibleKeys = useMemo(
     () =>
