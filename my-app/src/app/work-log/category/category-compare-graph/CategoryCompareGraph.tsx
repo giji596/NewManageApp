@@ -36,7 +36,7 @@ const CategoryCompareGraph = memo(function CategoryCompareGraph() {
         startDate={startDate}
         endDate={endDate}
         getDataSelectRange={setDateRange}
-        categoryFilterList={categoryFilterList ?? {}} // TODO:　とりあえずnull時に{}を与える形式で(実際どうするか考える)
+        categoryFilterList={categoryFilterList ?? {}}
         toggleCategoryFilter={toggleCategoryFilter}
         top3Categories={top3Categories}
       />
