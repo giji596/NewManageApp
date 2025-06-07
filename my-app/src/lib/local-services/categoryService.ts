@@ -321,12 +321,12 @@ export const getCategoryCompareGraphData = async (
     return { month, week };
   };
 
-  const monthCount = differenceInMonths(startDateDate, endDateDate) + 1;
+  const monthCount = differenceInMonths(endDateDate, startDateDate) + 1;
   const getYearAndMonth = (idx: number) => {
     let year = startYear;
     let month = startMonth + idx;
     // 月が12月以内になるまで繰り返す
-    while (month <= 12) {
+    while (month > 12) {
       year += 1;
       month -= 12;
     }
