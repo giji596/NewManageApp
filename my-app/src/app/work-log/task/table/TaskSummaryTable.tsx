@@ -1,6 +1,12 @@
 "use client";
 import { TaskSummary } from "@/type/Task";
-import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TablePagination,
+} from "@mui/material";
 import TaskSummaryTableHeader from "./header/TaskSummaryTableHeader";
 import TaskSummaryTableBody from "./body/TaskSummaryTableBody";
 import TaskSummaryTableLogic from "./TaskSummaryTableLogic";
@@ -40,6 +46,13 @@ const TaskSummaryTable = memo(function TaskSummaryTable({
     doSort,
     toggleCategoryFilterCheckBox,
     doFilterByFilterList,
+    page,
+    rowsPerPage,
+    startOfPage,
+    endOfPage,
+    handleChangePage,
+    rows,
+    rowCount,
   } = TaskSummaryTableLogic({ taskList });
   return (
     <>
@@ -57,22 +70,27 @@ const TaskSummaryTable = memo(function TaskSummaryTable({
             />
           </TableHead>
           <TableBody>
-            {taskList
-              .filter(doFilterByFilterList)
-              .sort(doSort)
-              .map((taskItem) => (
-                <TaskSummaryTableBody
-                  key={taskItem.id}
-                  taskItem={taskItem}
-                  ref={ref[taskItem.id]}
-                  isSelected={selectedItemId === taskItem.id}
-                  onClickRow={onClickItemRow}
-                  onDirtyChange={onDirtyChange}
-                />
-              ))}
+            {rows.slice(startOfPage, endOfPage).map((taskItem) => (
+              <TaskSummaryTableBody
+                key={taskItem.id}
+                taskItem={taskItem}
+                ref={ref[taskItem.id]}
+                isSelected={selectedItemId === taskItem.id}
+                onClickRow={onClickItemRow}
+                onDirtyChange={onDirtyChange}
+              />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        component="div"
+        count={rowCount}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[20]} // 固定で20件のみ
+      />
     </>
   );
 });
