@@ -406,6 +406,11 @@ export const getLastMonthTaskActivities = async () => {
           (hours) => hours.id === item.id
         )!.hours;
         return { name: taskName, hours: `${hours}(h)` };
+      })
+      .sort((a, b) => {
+        const aHours = parseFloat(a.hours.split("(")[0]);
+        const bHours = parseFloat(b.hours.split("(")[0]);
+        return bHours - aHours;
       });
     return {
       id,
