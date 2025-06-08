@@ -83,6 +83,8 @@ export default function TaskSummaryTableBodyLogic({
   // (onDirtyChangeでset関数を使う場合はprevを必ず使うこと(レンダー時に再生成すると不都合なので))
   useEffect(() => {
     onDirtyChange(taskItem.id, isDirty);
+    // アンマウント時にはisDirtyをfalseにする
+    return () => (isDirty ? onDirtyChange(taskItem.id, false) : undefined);
   }, [isDirty, onDirtyChange, taskItem.id]);
 
   return {

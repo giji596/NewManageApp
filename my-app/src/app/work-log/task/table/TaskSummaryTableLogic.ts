@@ -2,7 +2,7 @@ import useTableFilter from "@/hook/useTableFilter";
 import useTableSort from "@/hook/useTableSort";
 import { TableSortTargetType } from "@/type/Table";
 import { TaskSummary } from "@/type/Task";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 type Props = {
   /** タスク一覧データ */
@@ -77,6 +77,21 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     },
     [doFilterByCategoryFilterList]
   );
+
+  // てーぶるのページねーしょん
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 20;
+  const handleChangePage = useCallback((_event: unknown, newPage: number) => {
+    setPage(newPage);
+  }, []);
+  const startOfPage = page * rowsPerPage;
+  const endOfPage = startOfPage + rowsPerPage;
+  const rows = useMemo(
+    () => taskList.filter(doFilterByFilterList).sort(doSort),
+    [taskList, doFilterByFilterList, doSort]
+  );
+  const rowCount = rows.length;
+
   return {
     /** ソートの昇順/降順 */
     isAsc,
@@ -90,11 +105,21 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     isSelected,
     /** ソートラベルをクリックした際のハンドラー(ソート対象の切り替え) */
     handleClickSortLabel,
-    /** ソートする関数 */
-    doSort,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
-    /** フィルターリストに応じてフィルターする関数 */
-    doFilterByFilterList,
+    /** ページ番号 */
+    page,
+    /** ページあたりの件数 */
+    rowsPerPage,
+    /** 表示する行の開始番号 */
+    startOfPage,
+    /** 表示する行の終了番号 */
+    endOfPage,
+    /** ページ変更時のハンドラー */
+    handleChangePage,
+    /** 行データ */
+    rows,
+    /** 行データの個数 */
+    rowCount,
   };
 }

@@ -1,6 +1,12 @@
 "use client";
 import { TaskSummary } from "@/type/Task";
-import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TablePagination,
+} from "@mui/material";
 import TaskSummaryTableHeader from "./header/TaskSummaryTableHeader";
 import TaskSummaryTableBody from "./body/TaskSummaryTableBody";
 import TaskSummaryTableLogic from "./TaskSummaryTableLogic";
@@ -37,29 +43,32 @@ const TaskSummaryTable = memo(function TaskSummaryTable({
     toggleFavoriteCheck,
     isSelected,
     handleClickSortLabel,
-    doSort,
     toggleCategoryFilterCheckBox,
-    doFilterByFilterList,
+    page,
+    rowsPerPage,
+    startOfPage,
+    endOfPage,
+    handleChangePage,
+    rows,
+    rowCount,
   } = TaskSummaryTableLogic({ taskList });
   return (
-    <TableContainer sx={{ height: `calc(100vh - 180px)` }}>
-      <Table sx={{ tableLayout: "fixed" }} stickyHeader>
-        <TableHead>
-          <TaskSummaryTableHeader
-            isFavoriteChecked={isFavoriteChecked}
-            isAsc={isAsc}
-            categoryCheckList={categoryFilterList}
-            onClickFavorite={toggleFavoriteCheck}
-            isSelected={isSelected}
-            onClickTitle={handleClickSortLabel}
-            onClickSelectCategory={toggleCategoryFilterCheckBox}
-          />
-        </TableHead>
-        <TableBody>
-          {taskList
-            .filter(doFilterByFilterList)
-            .sort(doSort)
-            .map((taskItem) => (
+    <>
+      <TableContainer sx={{ height: `calc(100vh - 250px)` }}>
+        <Table sx={{ tableLayout: "fixed" }} stickyHeader>
+          <TableHead>
+            <TaskSummaryTableHeader
+              isFavoriteChecked={isFavoriteChecked}
+              isAsc={isAsc}
+              categoryCheckList={categoryFilterList}
+              onClickFavorite={toggleFavoriteCheck}
+              isSelected={isSelected}
+              onClickTitle={handleClickSortLabel}
+              onClickSelectCategory={toggleCategoryFilterCheckBox}
+            />
+          </TableHead>
+          <TableBody>
+            {rows.slice(startOfPage, endOfPage).map((taskItem) => (
               <TaskSummaryTableBody
                 key={taskItem.id}
                 taskItem={taskItem}
@@ -69,9 +78,18 @@ const TaskSummaryTable = memo(function TaskSummaryTable({
                 onDirtyChange={onDirtyChange}
               />
             ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={rowCount}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[20]} // 固定で20件のみ
+      />
+    </>
   );
 });
 export default TaskSummaryTable;
