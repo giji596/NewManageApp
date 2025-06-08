@@ -86,6 +86,11 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
   }, []);
   const startOfPage = page * rowsPerPage;
   const endOfPage = startOfPage + rowsPerPage;
+  const rows = useMemo(
+    () => taskList.filter(doFilterByFilterList).sort(doSort),
+    [taskList, doFilterByFilterList, doSort]
+  );
+  const rowCount = rows.length;
 
   return {
     /** ソートの昇順/降順 */
@@ -116,5 +121,9 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     endOfPage,
     /** ページ変更時のハンドラー */
     handleChangePage,
+    /** 行データ */
+    rows,
+    /** 行データの個数 */
+    rowCount,
   };
 }

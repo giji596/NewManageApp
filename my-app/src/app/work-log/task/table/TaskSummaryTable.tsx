@@ -42,36 +42,38 @@ const TaskSummaryTable = memo(function TaskSummaryTable({
     doFilterByFilterList,
   } = TaskSummaryTableLogic({ taskList });
   return (
-    <TableContainer sx={{ height: `calc(100vh - 180px)` }}>
-      <Table sx={{ tableLayout: "fixed" }} stickyHeader>
-        <TableHead>
-          <TaskSummaryTableHeader
-            isFavoriteChecked={isFavoriteChecked}
-            isAsc={isAsc}
-            categoryCheckList={categoryFilterList}
-            onClickFavorite={toggleFavoriteCheck}
-            isSelected={isSelected}
-            onClickTitle={handleClickSortLabel}
-            onClickSelectCategory={toggleCategoryFilterCheckBox}
-          />
-        </TableHead>
-        <TableBody>
-          {taskList
-            .filter(doFilterByFilterList)
-            .sort(doSort)
-            .map((taskItem) => (
-              <TaskSummaryTableBody
-                key={taskItem.id}
-                taskItem={taskItem}
-                ref={ref[taskItem.id]}
-                isSelected={selectedItemId === taskItem.id}
-                onClickRow={onClickItemRow}
-                onDirtyChange={onDirtyChange}
-              />
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer sx={{ height: `calc(100vh - 180px)` }}>
+        <Table sx={{ tableLayout: "fixed" }} stickyHeader>
+          <TableHead>
+            <TaskSummaryTableHeader
+              isFavoriteChecked={isFavoriteChecked}
+              isAsc={isAsc}
+              categoryCheckList={categoryFilterList}
+              onClickFavorite={toggleFavoriteCheck}
+              isSelected={isSelected}
+              onClickTitle={handleClickSortLabel}
+              onClickSelectCategory={toggleCategoryFilterCheckBox}
+            />
+          </TableHead>
+          <TableBody>
+            {taskList
+              .filter(doFilterByFilterList)
+              .sort(doSort)
+              .map((taskItem) => (
+                <TaskSummaryTableBody
+                  key={taskItem.id}
+                  taskItem={taskItem}
+                  ref={ref[taskItem.id]}
+                  isSelected={selectedItemId === taskItem.id}
+                  onClickRow={onClickItemRow}
+                  onDirtyChange={onDirtyChange}
+                />
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 });
 export default TaskSummaryTable;
