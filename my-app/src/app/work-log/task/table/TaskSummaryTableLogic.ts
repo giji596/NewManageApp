@@ -105,12 +105,8 @@ export default function TaskSummaryTableLogic({ taskList }: Props) {
     isSelected,
     /** ソートラベルをクリックした際のハンドラー(ソート対象の切り替え) */
     handleClickSortLabel,
-    /** ソートする関数 */
-    doSort,
     /** カテゴリのフィルターリストのチェックボックスを切り替える関数 */
     toggleCategoryFilterCheckBox,
-    /** フィルターリストに応じてフィルターする関数 */
-    doFilterByFilterList,
     /** ページ番号 */
     page,
     /** ページあたりの件数 */
