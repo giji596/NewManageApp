@@ -54,7 +54,7 @@ const TaskSummaryTable = memo(function TaskSummaryTable({
   } = TaskSummaryTableLogic({ taskList });
   return (
     <>
-      <TableContainer sx={{ height: `calc(100vh - 180px)` }}>
+      <TableContainer sx={{ height: `calc(100vh - 250px)` }}>
         <Table sx={{ tableLayout: "fixed" }} stickyHeader>
           <TableHead>
             <TaskSummaryTableHeader
