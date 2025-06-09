@@ -15,6 +15,7 @@ import {
   CategoryLineGraphRange,
 } from "@/type/Category";
 import { useThemeColor } from "@/hook/useThemeColor";
+import { Stack, Typography } from "@mui/material";
 
 type Props = {
   /** 幅 */
@@ -55,46 +56,61 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
     tooltipTextColor,
   } = useThemeColor();
   return (
-    <LineChart width={width} height={350} data={data}>
-      <CartesianGrid stroke="#ccc" />
-      <XAxis
-        dataKey="date"
-        label={{
-          value: xLabel,
-          position: "insideBottomRight",
-          offset: 0,
-          style: { fill: lineGraphAxisTextColor },
-        }}
-        tick={{ fill: lineGraphAxisTextColor }}
-      />
-      <YAxis
-        label={{
-          value: yLabel,
-          angle: -90,
-          position: "insideLeft",
-          style: { fill: lineGraphAxisTextColor },
-        }}
-        tick={{ fill: lineGraphAxisTextColor }}
-      />
-      {dataInfo.map((info) => (
-        <Line
-          key={info.key}
-          dataKey={info.key}
-          name={info.name}
-          stroke={getLineGraphThemeColor(info.color)}
-          strokeWidth={5}
-          style={{ cursor: "pointer" }}
-          onClick={() => onClickLine(info.key)}
-          hide={!visibleKeys[info.name]}
-        />
-      ))}
-      <Tooltip
-        contentStyle={{
-          backgroundColor: tooltipBackGroundColor,
-          color: tooltipTextColor,
-        }}
-      />
-    </LineChart>
+    <>
+      {data.length === 0 && (
+        <Stack
+          width={450}
+          height={310}
+          border="1px solid"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <Typography color="text.secondary">データがありません</Typography>
+        </Stack>
+      )}
+      {data.length > 0 && (
+        <LineChart width={width} height={350} data={data}>
+          <CartesianGrid stroke="#ccc" />
+          <XAxis
+            dataKey="date"
+            label={{
+              value: xLabel,
+              position: "insideBottomRight",
+              offset: 0,
+              style: { fill: lineGraphAxisTextColor },
+            }}
+            tick={{ fill: lineGraphAxisTextColor }}
+          />
+          <YAxis
+            label={{
+              value: yLabel,
+              angle: -90,
+              position: "insideLeft",
+              style: { fill: lineGraphAxisTextColor },
+            }}
+            tick={{ fill: lineGraphAxisTextColor }}
+          />
+          {dataInfo.map((info) => (
+            <Line
+              key={info.key}
+              dataKey={info.key}
+              name={info.name}
+              stroke={getLineGraphThemeColor(info.color)}
+              strokeWidth={5}
+              style={{ cursor: "pointer" }}
+              onClick={() => onClickLine(info.key)}
+              hide={!visibleKeys[info.name]}
+            />
+          ))}
+          <Tooltip
+            contentStyle={{
+              backgroundColor: tooltipBackGroundColor,
+              color: tooltipTextColor,
+            }}
+          />
+        </LineChart>
+      )}
+    </>
   );
 });
 export default CategoryLineGraph;
