@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Collapse,
   Divider,
   IconButton,
@@ -17,6 +18,8 @@ import {
 import { useThemeColor } from "@/hook/useThemeColor";
 
 type Props = {
+  /** ロード状態 */
+  isLoading: boolean;
   /** 幅 */
   width: number;
   /** 表示対象 */
@@ -41,6 +44,7 @@ type Props = {
  * カテゴリ比較グラフの設定メニューのヘッダー
  */
 const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
+  isLoading,
   width,
   displayTarget,
   onChangeDisplayTarget,
@@ -66,60 +70,75 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
 
   return (
     <>
-      <Paper sx={{ position: "relative", width: width }}>
-        <Stack p={2} spacing={0.5} alignItems={"center"}>
-          <Typography>
-            {dateRangeText} の {displayTargetText}
-          </Typography>
-          <Divider flexItem />
-          <Stack pt={1}>
-            {top3Categories.map((v, idx) => (
-              <Stack
-                key={v.id}
-                alignItems={"center"}
-                spacing={3}
-                direction="row"
-              >
-                <div
-                  style={{
-                    width: 12,
-                    height: 12,
-                    borderRadius: "50%", // 中も丸く
-                    backgroundColor: getLineGraphThemeColor(v.color), // チェック部分の色
-                  }}
-                />
-                <Typography>{getCategoryText(v, idx + 1)}</Typography>
-              </Stack>
-            ))}
-          </Stack>
-        </Stack>
-        <IconButton
+      {isLoading && (
+        <Paper
           sx={{
-            position: "absolute",
-            right: 8,
-            bottom: 5,
+            width: width,
+            height: 145,
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
           }}
-          onClick={handleToggle}
         >
-          <SettingsIcon />
-        </IconButton>
-        <Collapse
-          in={expanded}
-          sx={{ position: "absolute", width: width, zIndex: 10 }}
-        >
-          <Stack width={width}>
-            <CategoryLineGraphSettingMenu
-              displayTarget={displayTarget}
-              onChangeDisplayTarget={onChangeDisplayTarget}
-              startDate={startDate}
-              endDate={endDate}
-              getDataSelectRange={getDataSelectRange}
-              categoryFilterList={categoryFilterList}
-              toggleCategoryFilter={toggleCategoryFilter}
-            />
+          <CircularProgress />
+        </Paper>
+      )}
+      {!isLoading && (
+        <Paper sx={{ position: "relative", width: width }}>
+          <Stack p={2} spacing={0.5} alignItems={"center"}>
+            <Typography>
+              {dateRangeText} の {displayTargetText}
+            </Typography>
+            <Divider flexItem />
+            <Stack pt={1}>
+              {top3Categories.map((v, idx) => (
+                <Stack
+                  key={v.id}
+                  alignItems={"center"}
+                  spacing={3}
+                  direction="row"
+                >
+                  <div
+                    style={{
+                      width: 12,
+                      height: 12,
+                      borderRadius: "50%", // 中も丸く
+                      backgroundColor: getLineGraphThemeColor(v.color), // チェック部分の色
+                    }}
+                  />
+                  <Typography>{getCategoryText(v, idx + 1)}</Typography>
+                </Stack>
+              ))}
+            </Stack>
           </Stack>
-        </Collapse>
-      </Paper>
+          <IconButton
+            sx={{
+              position: "absolute",
+              right: 8,
+              bottom: 5,
+            }}
+            onClick={handleToggle}
+          >
+            <SettingsIcon />
+          </IconButton>
+          <Collapse
+            in={expanded}
+            sx={{ position: "absolute", width: width, zIndex: 10 }}
+          >
+            <Stack width={width}>
+              <CategoryLineGraphSettingMenu
+                displayTarget={displayTarget}
+                onChangeDisplayTarget={onChangeDisplayTarget}
+                startDate={startDate}
+                endDate={endDate}
+                getDataSelectRange={getDataSelectRange}
+                categoryFilterList={categoryFilterList}
+                toggleCategoryFilter={toggleCategoryFilter}
+              />
+            </Stack>
+          </Collapse>
+        </Paper>
+      )}
     </>
   );
 });
