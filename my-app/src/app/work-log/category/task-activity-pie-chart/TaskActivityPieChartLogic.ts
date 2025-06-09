@@ -58,7 +58,6 @@ export default function TaskActivityPieChartLogic() {
       .activity.get({ query: fetchQuery })
   );
   const data = rawData ?? [];
-  console.log("data", data);
 
   return {
     /** 選択中の範囲("last-month" | "all" | "select"のいずれか) */
