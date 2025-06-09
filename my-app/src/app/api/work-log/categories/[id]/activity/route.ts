@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   // パラメータ
-  const { id: idParam } = await params;
+  const { id: idParam } = await context.params;
   const id = Number(idParam);
   // クエリ
   const { searchParams } = new URL(req.url);
