@@ -93,7 +93,11 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
             {/** とっぷ3のカテゴリ*/}
             <Stack pt={1} height={80}>
               {top3Categories.length === 0 && (
-                <Typography height="100%" alignContent={"center"}>
+                <Typography
+                  height="100%"
+                  alignContent={"center"}
+                  color="text.secondary"
+                >
                   カテゴリがありません
                 </Typography>
               )}
