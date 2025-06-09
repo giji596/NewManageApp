@@ -20,21 +20,24 @@ const MainPagePieChart = dynamic(
 import TaskTable from "./component/table/TaskTable";
 import dynamic from "next/dynamic";
 import RecentWorkHeatMap from "./component/work-time-heat-graph/RecentWorkHeatMap";
+import { Suspense } from "react";
 
 /**
  * メインページ
  */
 export default function MainPage() {
   return (
-    <Stack direction="row" px={8} pt={6} spacing={15} height={650}>
-      <NavMenu />
-      <Stack>
-        <Stack direction="row" alignItems={"center"} spacing={3} mb={2}>
-          <RecentWorkHeatMap />
-          <MainPagePieChart />
+    <Suspense>
+      <Stack direction="row" px={8} pt={6} spacing={15} height={650}>
+        <NavMenu />
+        <Stack>
+          <Stack direction="row" alignItems={"center"} spacing={3} mb={2}>
+            <RecentWorkHeatMap />
+            <MainPagePieChart />
+          </Stack>
+          <TaskTable />
         </Stack>
-        <TaskTable />
       </Stack>
-    </Stack>
+    </Suspense>
   );
 }

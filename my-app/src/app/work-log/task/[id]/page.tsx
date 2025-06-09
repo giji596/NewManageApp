@@ -15,6 +15,7 @@ import TaskEditDialog from "./dialog/task-edit/TaskEditDialog";
 import useDialog from "@/hook/useDialog";
 import CompleteConfirmDialog from "../../../../component/dialog/complete-confirm/CompleteConfirmDialog";
 import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmDeleteDialog";
+import { Suspense } from "react";
 
 /**
  * タスク詳細ページ
@@ -54,7 +55,7 @@ export default function TaskDetailPage() {
     onOpen: onOpenDelete,
   } = useDialog();
   return (
-    <>
+    <Suspense>
       {isLoading && (
         <Stack
           width={1187}
@@ -138,6 +139,6 @@ export default function TaskDetailPage() {
           <Alert severity="error">参照されているタスクは削除できません。</Alert>
         </Snackbar>
       )}
-    </>
+    </Suspense>
   );
 }
