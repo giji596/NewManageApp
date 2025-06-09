@@ -55,46 +55,48 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
     tooltipTextColor,
   } = useThemeColor();
   return (
-    <LineChart width={width} height={350} data={data}>
-      <CartesianGrid stroke="#ccc" />
-      <XAxis
-        dataKey="date"
-        label={{
-          value: xLabel,
-          position: "insideBottomRight",
-          offset: 0,
-          style: { fill: lineGraphAxisTextColor },
-        }}
-        tick={{ fill: lineGraphAxisTextColor }}
-      />
-      <YAxis
-        label={{
-          value: yLabel,
-          angle: -90,
-          position: "insideLeft",
-          style: { fill: lineGraphAxisTextColor },
-        }}
-        tick={{ fill: lineGraphAxisTextColor }}
-      />
-      {dataInfo.map((info) => (
-        <Line
-          key={info.key}
-          dataKey={info.key}
-          name={info.name}
-          stroke={getLineGraphThemeColor(info.color)}
-          strokeWidth={5}
-          style={{ cursor: "pointer" }}
-          onClick={() => onClickLine(info.key)}
-          hide={!visibleKeys[info.name]}
+    <>
+      <LineChart width={width} height={350} data={data}>
+        <CartesianGrid stroke="#ccc" />
+        <XAxis
+          dataKey="date"
+          label={{
+            value: xLabel,
+            position: "insideBottomRight",
+            offset: 0,
+            style: { fill: lineGraphAxisTextColor },
+          }}
+          tick={{ fill: lineGraphAxisTextColor }}
         />
-      ))}
-      <Tooltip
-        contentStyle={{
-          backgroundColor: tooltipBackGroundColor,
-          color: tooltipTextColor,
-        }}
-      />
-    </LineChart>
+        <YAxis
+          label={{
+            value: yLabel,
+            angle: -90,
+            position: "insideLeft",
+            style: { fill: lineGraphAxisTextColor },
+          }}
+          tick={{ fill: lineGraphAxisTextColor }}
+        />
+        {dataInfo.map((info) => (
+          <Line
+            key={info.key}
+            dataKey={info.key}
+            name={info.name}
+            stroke={getLineGraphThemeColor(info.color)}
+            strokeWidth={5}
+            style={{ cursor: "pointer" }}
+            onClick={() => onClickLine(info.key)}
+            hide={!visibleKeys[info.name]}
+          />
+        ))}
+        <Tooltip
+          contentStyle={{
+            backgroundColor: tooltipBackGroundColor,
+            color: tooltipTextColor,
+          }}
+        />
+      </LineChart>
+    </>
   );
 });
 export default CategoryLineGraph;
