@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // リクエストボディ
   const { name } = (await req.json()) as { name: string }; // aspidaで型安全にしてるのでasで宣言
@@ -17,7 +17,7 @@ export async function PATCH(
 
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // パラメータ
   const { id: idParam } = await params;
