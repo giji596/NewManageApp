@@ -90,25 +90,30 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
               {dateRangeText} の {displayTargetText}
             </Typography>
             <Divider flexItem />
+            {/** とっぷ3のカテゴリ*/}
             <Stack pt={1}>
-              {top3Categories.map((v, idx) => (
-                <Stack
-                  key={v.id}
-                  alignItems={"center"}
-                  spacing={3}
-                  direction="row"
-                >
-                  <div
-                    style={{
-                      width: 12,
-                      height: 12,
-                      borderRadius: "50%", // 中も丸く
-                      backgroundColor: getLineGraphThemeColor(v.color), // チェック部分の色
-                    }}
-                  />
-                  <Typography>{getCategoryText(v, idx + 1)}</Typography>
-                </Stack>
-              ))}
+              {top3Categories.length === 0 && (
+                <Typography>カテゴリがありません</Typography>
+              )}
+              {top3Categories.length > 0 &&
+                top3Categories.map((v, idx) => (
+                  <Stack
+                    key={v.id}
+                    alignItems={"center"}
+                    spacing={3}
+                    direction="row"
+                  >
+                    <div
+                      style={{
+                        width: 12,
+                        height: 12,
+                        borderRadius: "50%", // 中も丸く
+                        backgroundColor: getLineGraphThemeColor(v.color), // チェック部分の色
+                      }}
+                    />
+                    <Typography>{getCategoryText(v, idx + 1)}</Typography>
+                  </Stack>
+                ))}
             </Stack>
           </Stack>
           <IconButton
