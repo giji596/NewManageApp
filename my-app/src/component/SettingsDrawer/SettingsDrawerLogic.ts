@@ -3,6 +3,7 @@ import {
   ImportData,
   importDatabase,
   isDatabaseExist,
+  isImportData,
 } from "@/lib/dexie";
 import { useCallback, useRef, useState } from "react";
 import { mutate } from "swr";
@@ -60,29 +61,6 @@ export const SettingsDrawerLogic = ({
     // ファイルの内容を読み込む
     const text = await file.text();
     const json = JSON.parse(text);
-    const isImportData = (
-      json:
-        | ImportData
-        | {
-            dailyData: unknown;
-            taskLogs: unknown;
-            tasks: unknown;
-            categories: unknown;
-            memos: unknown;
-            memoTags: unknown;
-          }
-    ): json is ImportData => {
-      return (
-        typeof json === "object" &&
-        json !== null &&
-        "dailyData" in json &&
-        "taskLogs" in json &&
-        "tasks" in json &&
-        "categories" in json &&
-        "memos" in json &&
-        "memoTags" in json
-      );
-    };
     if (isImportData(json)) {
       // インポートデータとして保持
       importData.current = json;
