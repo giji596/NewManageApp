@@ -109,6 +109,31 @@ export async function importDatabase(json: ImportData) {
   });
 }
 
+/** インポート対象かどうかのチェック関数 */
+export const isImportData = (
+  json:
+    | ImportData
+    | {
+        dailyData: unknown;
+        taskLogs: unknown;
+        tasks: unknown;
+        categories: unknown;
+        memos: unknown;
+        memoTags: unknown;
+      }
+): json is ImportData => {
+  return (
+    typeof json === "object" &&
+    json !== null &&
+    "dailyData" in json &&
+    "taskLogs" in json &&
+    "tasks" in json &&
+    "categories" in json &&
+    "memos" in json &&
+    "memoTags" in json
+  );
+};
+
 /** データベースの全テーブルをクリアする関数(スキーマは保持してデータだけ消す) */
 export async function clearAllTables() {
   const tables = getAllTables();

@@ -3,7 +3,9 @@ import {
   ImportData,
   importDatabase,
   isDatabaseExist,
+  isImportData,
 } from "@/lib/dexie";
+import Dexie from "dexie";
 import { useCallback, useRef, useState } from "react";
 import { mutate } from "swr";
 
@@ -41,14 +43,22 @@ export const SettingsDrawerLogic = ({
   // インポート関数
   const onImport = useCallback(async () => {
     if (importData.current !== null) {
-      // インポート処理
-      await importDatabase(importData.current);
-      // 全てのキャッシュをundefinedにする(再取得させる)
-      await mutate(() => true, undefined);
-      // importDataをnullにする
-      importData.current = null;
-      // 処理後、ドロワーを閉じる
-      onClose();
+      try {
+        // インポート処理
+        await importDatabase(importData.current);
+        // 全てのキャッシュをundefinedにする(再取得させる)
+        await mutate(() => true, undefined);
+        // importDataをnullにする
+        importData.current = null;
+        // 処理後、ドロワーを閉じる
+        onClose();
+      } catch (error) {
+        if (error instanceof Dexie.DexieError) {
+          alert(error.message);
+        } else {
+          alert("原因不明のインポートエラー");
+        }
+      }
     }
   }, [onClose]);
 
@@ -59,7 +69,15 @@ export const SettingsDrawerLogic = ({
     if (!file) return;
     // ファイルの内容を読み込む
     const text = await file.text();
-    const json = JSON.parse(text) as ImportData; // dbから取るので型は同定可能
+    const json = JSON.parse(text);
+    if (isImportData(json)) {
+      // インポートデータとして保持
+      importData.current = json;
+    } else {
+      // jsonがImportDataを満たす形でない場合はalertを出す
+      alert("インポートするデータが正しい形式ではありません");
+      return;
+    }
     // インポートデータとして保持
     importData.current = json;
     // dbにデータがあるかチェック
