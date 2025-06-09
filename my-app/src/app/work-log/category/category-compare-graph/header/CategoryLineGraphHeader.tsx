@@ -91,9 +91,11 @@ const CategoryLineGraphHeader = memo(function CategoryLineGraphHeader({
             </Typography>
             <Divider flexItem />
             {/** とっぷ3のカテゴリ*/}
-            <Stack pt={1}>
+            <Stack pt={1} height={80}>
               {top3Categories.length === 0 && (
-                <Typography>カテゴリがありません</Typography>
+                <Typography height="100%" alignContent={"center"}>
+                  カテゴリがありません
+                </Typography>
               )}
               {top3Categories.length > 0 &&
                 top3Categories.map((v, idx) => (
