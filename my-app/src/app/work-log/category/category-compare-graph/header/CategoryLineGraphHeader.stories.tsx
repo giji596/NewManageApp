@@ -5,6 +5,7 @@ import CategoryLineGraphHeader from "./CategoryLineGraphHeader";
 const meta = {
   component: CategoryLineGraphHeader,
   args: {
+    isLoading: false,
     width: 500,
     displayTarget: "totalHours",
     onChangeDisplayTarget: () => {},
