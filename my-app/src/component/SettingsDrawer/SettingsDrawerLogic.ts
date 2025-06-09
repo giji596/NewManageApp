@@ -59,7 +59,38 @@ export const SettingsDrawerLogic = ({
     if (!file) return;
     // ファイルの内容を読み込む
     const text = await file.text();
-    const json = JSON.parse(text) as ImportData; // dbから取るので型は同定可能
+    const json = JSON.parse(text);
+    const isImportData = (
+      json:
+        | ImportData
+        | {
+            dailyData: unknown;
+            taskLogs: unknown;
+            tasks: unknown;
+            categories: unknown;
+            memos: unknown;
+            memoTags: unknown;
+          }
+    ): json is ImportData => {
+      return (
+        typeof json === "object" &&
+        json !== null &&
+        "dailyData" in json &&
+        "taskLogs" in json &&
+        "tasks" in json &&
+        "categories" in json &&
+        "memos" in json &&
+        "memoTags" in json
+      );
+    };
+    if (isImportData(json)) {
+      // インポートデータとして保持
+      importData.current = json;
+    } else {
+      // jsonがImportDataを満たす形でない場合はalertを出す
+      alert("インポートするデータが正しい形式ではありません");
+      return;
+    }
     // インポートデータとして保持
     importData.current = json;
     // dbにデータがあるかチェック
