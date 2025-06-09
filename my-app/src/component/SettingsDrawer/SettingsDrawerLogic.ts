@@ -5,6 +5,7 @@ import {
   isDatabaseExist,
   isImportData,
 } from "@/lib/dexie";
+import Dexie from "dexie";
 import { useCallback, useRef, useState } from "react";
 import { mutate } from "swr";
 
@@ -42,14 +43,22 @@ export const SettingsDrawerLogic = ({
   // インポート関数
   const onImport = useCallback(async () => {
     if (importData.current !== null) {
-      // インポート処理
-      await importDatabase(importData.current);
-      // 全てのキャッシュをundefinedにする(再取得させる)
-      await mutate(() => true, undefined);
-      // importDataをnullにする
-      importData.current = null;
-      // 処理後、ドロワーを閉じる
-      onClose();
+      try {
+        // インポート処理
+        await importDatabase(importData.current);
+        // 全てのキャッシュをundefinedにする(再取得させる)
+        await mutate(() => true, undefined);
+        // importDataをnullにする
+        importData.current = null;
+        // 処理後、ドロワーを閉じる
+        onClose();
+      } catch (error) {
+        if (error instanceof Dexie.DexieError) {
+          alert(error.message);
+        } else {
+          alert("原因不明のインポートエラー");
+        }
+      }
     }
   }, [onClose]);
 
