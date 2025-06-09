@@ -58,8 +58,14 @@ const CategoryLineGraph = memo(function CategoryLineGraph({
   return (
     <>
       {data.length === 0 && (
-        <Stack width={450} height={310} border="1px solid">
-          <Typography>データがありません</Typography>
+        <Stack
+          width={450}
+          height={310}
+          border="1px solid"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <Typography color="text.secondary">データがありません</Typography>
         </Stack>
       )}
       {data.length > 0 && (
