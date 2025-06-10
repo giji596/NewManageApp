@@ -11,6 +11,7 @@ import { memo } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { CategoryOption } from "@/type/Category";
 import { CategoryNameEditDialogLogic } from "./CategoryNameEditDialogLogic";
+import { Controller } from "react-hook-form";
 
 type Props = {
   /** ダイアログ開閉状態 */
@@ -29,7 +30,7 @@ const CategoryNameEditDialog = memo(function CategoryNameEditDialog({
   onClose,
   category,
 }: Props) {
-  const { onSubmit } = CategoryNameEditDialogLogic({
+  const { onSubmit, control, isValid } = CategoryNameEditDialogLogic({
     onClose,
     category,
   });
@@ -39,13 +40,24 @@ const CategoryNameEditDialog = memo(function CategoryNameEditDialog({
         <DialogTitle>カテゴリ名を編集</DialogTitle>
         <Stack py={0.5} px={6} spacing={1}>
           <Typography>変更前の名称:{category.name}</Typography>
-          <TextField id="category-name" label="変更後の名称" />
+          <Controller
+            control={control}
+            name="name"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField {...field} id="category-name" label="変更後の名称" />
+            )}
+          />
         </Stack>
         <DialogActions>
           <Button color="error" onClick={onClose}>
             キャンセル
           </Button>
-          <Button startIcon={<CheckCircleIcon />} type="submit">
+          <Button
+            startIcon={<CheckCircleIcon />}
+            type="submit"
+            disabled={!isValid}
+          >
             保存
           </Button>
         </DialogActions>
