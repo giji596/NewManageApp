@@ -11,6 +11,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import DoneIcon from "@mui/icons-material/Done";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { CategoryActionMenuButtonLogic } from "./CategoryActionMenuButtonLogic";
 
 type Props = {
@@ -22,6 +23,8 @@ type Props = {
   onClickDisplayRange: () => void;
   /** カテゴリ完了クリックした際のハンドラー */
   onClickComplete: () => void;
+  /** カテゴリ名編集をクリックした際のハンドラー */
+  onClickEditName: () => void;
   /** タスク追加クリックした際のハンドラー */
   onClickAddTask: () => void;
   /** 削除するクリックした際のハンドラー */
@@ -35,6 +38,7 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
   isNoCategory,
   onClickDisplayRange,
   onClickComplete,
+  onClickEditName,
   onClickAddTask,
   onClickDelete,
 }: Props) {
@@ -80,6 +84,15 @@ const CategoryActionMenuButton = memo(function CategoryActionMenuButton({
             </Typography>
           </MenuItem>
         )}
+        {/** タスク名編集 */}
+        <MenuItem onClick={onClickEditName} disabled={isNoCategory}>
+          <ListItemIcon>
+            <EditIcon color="primary" />
+          </ListItemIcon>
+          <Typography variant="body2" color="primary">
+            カテゴリ名を編集
+          </Typography>
+        </MenuItem>
         {/** 削除 */}
         <MenuItem disabled={isNoCategory} onClick={onClickDelete}>
           <ListItemIcon>
