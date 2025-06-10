@@ -21,6 +21,7 @@ import ConfirmDeleteDialog from "@/component/dialog/ConfirmDeleteDialog/ConfirmD
 import useDialog from "@/hook/useDialog";
 import CategoryDisplayRangeDialog from "./component/CategoryDisplayRangeDialog/CategoryDisplayRangeDialog";
 import CreateCategoryDialog from "@/component/dialog/CreateCategoryDialog/CreateCategoryDialog";
+import CategoryNameEditDialog from "./component/CategoryNameEditDialog/CategoryNameEditDialog";
 
 /**
  * カテゴリページのヘッダー部分
@@ -35,6 +36,7 @@ export default function CategoryPanel() {
     categoryOptions,
     isLoadingOptions,
     selectedCategoryId,
+    getSelectedCategoryOption,
     isSelectedIdAvailable,
     isLoadingCategorySummary,
     isCompleted,
@@ -61,6 +63,11 @@ export default function CategoryPanel() {
     open: openTask,
     onOpen: onOpenTask,
     onClose: onCloseTask,
+  } = useDialog();
+  const {
+    open: openCategoryEditName,
+    onOpen: onOpenCategoryEditName,
+    onClose: onCloseCategoryEditName,
   } = useDialog();
   const {
     open: openDelete,
@@ -119,6 +126,7 @@ export default function CategoryPanel() {
             onClickDisplayRange={onOpenPeriod}
             onClickComplete={onOpenComplete}
             onClickAddTask={onOpenTask}
+            onClickEditName={onOpenCategoryEditName}
             onClickDelete={onOpenDelete}
           />
         </Stack>
@@ -208,6 +216,13 @@ export default function CategoryPanel() {
           open={openComplete}
           onClose={onCloseComplete}
           onAccept={handleComplete}
+        />
+      )}
+      {openCategoryEditName && (
+        <CategoryNameEditDialog
+          open={openCategoryEditName}
+          onClose={onCloseCategoryEditName}
+          category={getSelectedCategoryOption()}
         />
       )}
       {openTask && (

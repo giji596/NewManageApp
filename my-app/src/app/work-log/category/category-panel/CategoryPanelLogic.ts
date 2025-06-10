@@ -88,6 +88,12 @@ export default function CategoryPanelLogic() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const selectedCategoryId = Number(searchParams.get("id") ?? 0);
+  const getSelectedCategoryOption = useCallback((): CategoryOption => {
+    const id = selectedCategoryId;
+    const name = categoryOptions.find((v) => v.id === id)?.name;
+    if (name === undefined) throw new Error("カテゴリ名が取得できません");
+    return { id, name };
+  }, [categoryOptions, selectedCategoryId]);
 
   // パラメータの有無をbooleanで関数化することでuseEffectの依存値から除く
   const isNoParam = useMemo(
@@ -226,6 +232,8 @@ export default function CategoryPanelLogic() {
     isLoadingOptions,
     /** 選択中のカテゴリid */
     selectedCategoryId,
+    /** 選択中のカテゴリ情報を取得する関数 */
+    getSelectedCategoryOption,
     /** 選択中のカテゴリidが存在するか */
     isSelectedIdAvailable,
     /** カテゴリの概要のロード状態 */
