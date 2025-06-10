@@ -16,7 +16,7 @@ const CategoryNameEditDialog = memo(function CategoryNameEditDialog() {
   return (
     <Dialog open={true /** TODO: */} fullWidth>
       <DialogTitle>カテゴリ名を編集</DialogTitle>
-      <Stack>
+      <Stack py={0.5} px={6} spacing={1}>
         <Typography>変更前の名称:{/** TODO: */}</Typography>
         <TextField />
       </Stack>
