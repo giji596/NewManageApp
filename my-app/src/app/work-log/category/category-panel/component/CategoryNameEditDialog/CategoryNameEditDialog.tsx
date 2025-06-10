@@ -9,20 +9,36 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { CategoryOption } from "@/type/Category";
+
+type Props = {
+  /** ダイアログ開閉状態 */
+  open: boolean;
+  /** 閉じるイベント */
+  onClose: () => void;
+  /** 変更前のカテゴリ */
+  category: CategoryOption;
+};
 
 /**
  * カテゴリ名を編集するダイアログ
  */
-const CategoryNameEditDialog = memo(function CategoryNameEditDialog() {
+const CategoryNameEditDialog = memo(function CategoryNameEditDialog({
+  open,
+  onClose,
+  category,
+}: Props) {
   return (
-    <Dialog open={true /** TODO: */} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>カテゴリ名を編集</DialogTitle>
       <Stack py={0.5} px={6} spacing={1}>
-        <Typography>変更前の名称:{/** TODO: */}</Typography>
+        <Typography>変更前の名称:{category.name}</Typography>
         <TextField id="category-name" label="変更後の名称" />
       </Stack>
       <DialogActions>
-        <Button color="error">キャンセル</Button>
+        <Button color="error" onClick={onClose}>
+          キャンセル
+        </Button>
         <Button startIcon={<CheckCircleIcon />}>保存</Button>
       </DialogActions>
     </Dialog>
