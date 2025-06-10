@@ -1,5 +1,5 @@
 import { CategoryOption } from "@/type/Category";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
@@ -17,6 +17,7 @@ type SubmitData = {
  * カテゴリ名を編集するダイアログロジック
  */
 export const CategoryNameEditDialogLogic = ({ onClose, category }: Props) => {
+  const [duplicateError, setDuplicateError] = useState(false);
   const {
     control,
     handleSubmit,
@@ -25,12 +26,20 @@ export const CategoryNameEditDialogLogic = ({ onClose, category }: Props) => {
     defaultValues: { name: category.name },
   });
   const onSubmit = useCallback(async () => {
-    // TODO:ここでリクエスト
-    console.log("保存対象", category.id);
-    onClose();
+    try {
+      // TODO:ここでリクエスト
+      console.log("保存対象", category.id);
+      onClose();
+    } catch (e) {
+      console.log(e);
+      // TODO: ここでエラーを同定して処理
+      if (true) setDuplicateError(true);
+    }
   }, [category.id, onClose]);
 
   return {
+    /** 重複エラー状態 */
+    duplicateError,
     /** 保存時のハンドラー(カテゴリ名を変更する) */
     onSubmit: handleSubmit(onSubmit),
     /** フォームコントロール */

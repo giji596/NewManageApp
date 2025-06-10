@@ -30,10 +30,11 @@ const CategoryNameEditDialog = memo(function CategoryNameEditDialog({
   onClose,
   category,
 }: Props) {
-  const { onSubmit, control, isValid } = CategoryNameEditDialogLogic({
-    onClose,
-    category,
-  });
+  const { duplicateError, onSubmit, control, isValid } =
+    CategoryNameEditDialogLogic({
+      onClose,
+      category,
+    });
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <form onSubmit={onSubmit}>
@@ -48,6 +49,13 @@ const CategoryNameEditDialog = memo(function CategoryNameEditDialog({
               <TextField {...field} id="category-name" label="変更後の名称" />
             )}
           />
+          <Typography
+            color="error"
+            variant="caption"
+            visibility={duplicateError ? undefined : "hidden"}
+          >
+            * すでに存在するカテゴリ名と重複しています
+          </Typography>
         </Stack>
         <DialogActions>
           <Button color="error" onClick={onClose}>
