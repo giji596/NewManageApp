@@ -36,6 +36,7 @@ export default function CategoryPanel() {
     categoryOptions,
     isLoadingOptions,
     selectedCategoryId,
+    getSelectedCategoryOption,
     isSelectedIdAvailable,
     isLoadingCategorySummary,
     isCompleted,
@@ -221,7 +222,7 @@ export default function CategoryPanel() {
         <CategoryNameEditDialog
           open={openCategoryEditName}
           onClose={onCloseCategoryEditName}
-          category={{ /** TODO */ id: 2, name: "aaa" }}
+          category={getSelectedCategoryOption()}
         />
       )}
       {openTask && (
