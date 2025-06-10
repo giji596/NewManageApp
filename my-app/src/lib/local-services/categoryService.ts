@@ -432,6 +432,24 @@ export const updateCategoryCompleted = async (id: number) => {
 };
 
 /**
+ * カテゴリ名を更新するロジック
+ */
+export const updateCategoryName = async (id: number, name: string) => {
+  const categoryList = await db.categories.toArray();
+  // 重複チェック
+  const exist = categoryList.some(
+    (v) =>
+      // 元データは除外
+      v.id !== id &&
+      // 名前が同一のもの
+      v.name === name
+  );
+  if (exist) throw new Error("duplicate error");
+  await db.categories.update(id, { name });
+  return id;
+};
+
+/**
  * カテゴリ削除するロジック
  */
 export const deleteCategory = async (id: number) => {
