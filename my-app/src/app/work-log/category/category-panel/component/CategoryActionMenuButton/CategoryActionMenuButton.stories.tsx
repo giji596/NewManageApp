@@ -11,6 +11,7 @@ const meta = {
     onClickComplete: () => {},
     onClickAddTask: () => {},
     onClickDelete: () => {},
+    onClickEditName: () => {},
   },
 } satisfies Meta<typeof CategoryActionMenuButton>;
 

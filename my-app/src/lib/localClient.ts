@@ -8,6 +8,7 @@ import {
   getCategorySummary,
   getCategoryTasks,
   updateCategoryCompleted,
+  updateCategoryName,
 } from "./local-services/categoryService";
 import {
   createDailyDetailData,
@@ -155,6 +156,10 @@ export const localClient = {
           },
           tasks: {
             get: () => () => getCategoryTasks(id),
+          },
+          name: {
+            patch: ({ body }: { body: { name: string } }) =>
+              updateCategoryName(id, body.name),
           },
         };
       },
