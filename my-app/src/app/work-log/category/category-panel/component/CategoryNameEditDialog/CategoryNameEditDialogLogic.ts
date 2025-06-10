@@ -2,6 +2,7 @@ import { localClient } from "@/lib/localClient";
 import { CategoryOption } from "@/type/Category";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 type Props = {
   /** 閉じるイベント */
@@ -34,6 +35,18 @@ export const CategoryNameEditDialogLogic = ({ onClose, category }: Props) => {
         await localClient.work_log.categories
           ._id(category.id)
           .name.patch({ body });
+        // 再検証
+        // 選択賜データ
+        await mutate(
+          (key) =>
+            Array.isArray(key) && key[0] === "api/work-log/categories/options"
+        );
+        // 比較データ
+        await mutate(
+          (key) =>
+            Array.isArray(key) &&
+            key[0] === "api/work-log/categories/comparison"
+        );
         onClose();
       } catch (e) {
         if (e instanceof Error && e.message === "duplicate error")
